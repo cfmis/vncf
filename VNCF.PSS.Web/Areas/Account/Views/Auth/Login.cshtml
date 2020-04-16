@@ -1,0 +1,47 @@
+﻿@*@{
+        ViewBag.Title = "Login";
+    }
+
+    <h2>Login</h2>*@
+
+@using CF.Web
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <title>用户登录 - @CF.Core.Config.CachedConfigContext.Current.SettingConfig.WebSiteTitle</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+</head>
+
+<body class="login" style="background-image:url(/Images/light.png)">
+@using (Html.BeginForm())
+{
+    <div class="form-actions">
+        <span>Login User：</span>@Html.TextBox("username", "admin", new { @class = "m-wrap placeholder-no-fix", placeholder = "用户名", data_val_required = "用户名不能为空", data_val = "true" })
+        <br />
+        &nbsp;&nbsp;&nbsp;<span>Password：</span>@Html.Password("password", "123456", new { @class = "m-wrap placeholder-no-fix", placeholder = "密码", data_val_required = "密码不能为空", data_val = "true" })
+        <br />
+        &nbsp;&nbsp;<span>Language：</span>@Html.TextBox("languageid", "0", new { @class = "m-wrap placeholder-no-fix", placeholder = "語言", data_val_required = "語言不能为空", data_val = "true" })
+    </div>
+    <div class="form-actions">
+        帐号：admin 密码：123456 語言：0--繁體；1--簡體；2--English
+        <br />
+        <button type="submit" class="btn green pull-right">
+            登录 <i class="m-icon-swapright m-icon-white"></i>
+        </button>
+        <div>@Html.ValidationMessage("error") </div>
+    </div>
+}
+
+</body>
+</html>
