@@ -1,10 +1,27 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "";
     Layout = null;
 }
-<link href="~/Content/bootstrap.css" rel="stylesheet" />
-<script type="text/javascript" src="~/Scripts/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="~/Scripts/bootstrap.js"></script>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        function hideShowFrame() {
+            if (document.getElementById("middenFram").cols == "193,*") {
+                document.getElementById("middenFram").cols = "0,*";
+            }
+            else {
+                document.getElementById("middenFram").cols = "193,*"
+            }
+        }
+    </script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.js"></script>
+</head>
+
 <ul class="nav nav-tabs">
     <li class="active">
         <a href="#">Home</a>
@@ -43,3 +60,17 @@
         <a href="#">PHP</a>
     </li>
 </ul>
+
+<frameset rows="146,*,30" cols="*" frameborder="no" border="1" framespacing="0">
+    <frame src="Home/Top" name="topFrame" scrolling="No" noresize="noresize" id="topFrame" title="topFrame" />
+    @*<frameset cols="193,*" frameborder="no" border="0" framespacing="0" id="middenFram">
+        <frame src="Home/Left" name="leftFrame" scrolling="No" noresize="noresize" id="leftFrame" title="leftFrame" />
+        <frame src="Home/Right" name="mainFrame" id="mainFrame" title="mainFrame" />
+    </frameset>*@
+    <frame src="/Content/Bootom.html" name="topFrame" scrolling="No" noresize="noresize" id="bootomFrame" title="topFrame" />
+</frameset>
+<noframes>
+    <body>
+    </body>
+</noframes>
+</html>

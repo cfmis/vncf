@@ -78,7 +78,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         [HttpPost]
         public ActionResult EditHead(OrderHead model)
         {
-            string result = OrderDAL.UpdateOcHead(model);
+            //string result = OrderDAL.UpdateOcHead(model);
             return View("Index");
         }
         public ActionResult DeleteList(string OcID, string Seq)
@@ -91,7 +91,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         public ActionResult AddHead(OrderHead model)
         {
             string result = OrderDAL.UpdateOcHead(model);
-            return Json("OK");
+            return Json(result);
         }
 
         public ActionResult GetOcHead(string OcID)

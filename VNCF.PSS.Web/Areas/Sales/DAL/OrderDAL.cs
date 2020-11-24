@@ -16,14 +16,23 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             string strSql = "";
             strSql += string.Format(@" SET XACT_ABORT  ON ");
             strSql += string.Format(@" BEGIN TRANSACTION ");
-            if (!CheckOcHead(model.OcID))
-                strSql = "Insert Into oc_OrderHead (OcID,Ver,OrderDate,CustomerID) Values ('"
-                    + model.OcID + "','" + model.Ver + "','" + model.OrderDate + "','" + model.CustomerID + "')";
+            string OcID = "";
+            if (model.OcID == "" || model.OcID == null)
+            {
+                Random rd = new Random();
+                OcID = rd.Next(1, 1000000000).ToString();
+            }
+            else
+                OcID = model.OcID;
+            if (!CheckOcHead(OcID))
+                strSql += "Insert Into oc_OrderHead (OcID,Ver,OrderDate,CustomerID) Values ('"
+                    + OcID + "','" + model.Ver + "','" + model.OrderDate + "','" + model.CustomerID + "')";
             else
                 strSql += string.Format(@"UPDATE oc_OrderHead SET Ver='{0}',OrderDate='{1}',CustomerID='{2}' WHERE OcID='{3}'"
-                    , model.Ver, model.OrderDate, model.CustomerID, model.OcID);
+                    , model.Ver, model.OrderDate, model.CustomerID, OcID);
             strSql += string.Format(@" COMMIT TRANSACTION ");
             result = SQLHelper.ExecuteSqlUpdate(strSql);
+            result = OcID;
             return result;
         }
         private static bool CheckOcHead(string OcID)
@@ -61,7 +70,8 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
 
         public static OrderHead GetOcHeadByID(string OcID)
         {
-            string strSql = "Select * FROM oc_OrderHead Where OcID='" + OcID + "'";
+            string strSql = "Select OcID,Ver,Convert(Varchar(10),OrderDate,111) AS OrderDate,CustomerID " +
+            " FROM oc_OrderHead Where OcID='" + OcID + "'";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             DataRow dr = dt.Rows[0];
             OrderHead mdj = new OrderHead();
@@ -74,7 +84,8 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         public static List<OrderHead> GetOcHeadReturnList(OrderHead model)
         {
             string strSql = "";
-            strSql = "Select * FROM oc_OrderHead Where OcID>=''";
+            strSql = "Select * " +
+                " FROM oc_OrderHead Where OcID>=''";
             if (model.OcID == null)
                 strSql += " AND OcID='ZZZZZZZZZ' ";
             else

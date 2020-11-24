@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CF.Framework.Web;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -25,6 +26,12 @@ namespace VNCF.PSS.Web.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        //[AuthorizeIgnore]
+        public ActionResult Top()
+        {
             return View();
         }
     }

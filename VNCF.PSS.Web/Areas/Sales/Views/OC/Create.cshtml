@@ -1,0 +1,80 @@
+﻿
+@{
+    Layout = "~/Areas/Sales/Views/Shared/_Layout.cshtml";
+}
+@section PageSpecificStyleSheetIncludes{
+<link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416169">
+}
+
+<ul class="formod mgt10">
+    <input type="hidden" name="impexpMarkcd" value="E" />
+    <input type="hidden" name="entryStucd" />
+    <input type="hidden" name="chgTmsCnt" id="chgTmsCnt" />
+    <li>
+    <li><span>狀態：</span><input type="text" id="Status"></li>
+    <li>
+        <span>訂單類型：</span>@Html.TextBox("OrderType", "", new { @class = "easyui-textbox" })
+    </li>
+    <li>
+        <span>接單日期：</span>@Html.TextBox("ReceivedDate", "", new { @class = "easyui-datebox-expand" })
+    </li>
+    <li><span>洋行編號：</span>@Html.TextBox("ForeignFirm", "", new { @class = "easyui-textbox" })</li>
+</ul>
+
+<div class="head-item">
+    <div class="content-left f1">
+        <button class="btn btn-sm btn-primary" type="button" id="btn-invt-reset">
+            <i class="fa fa-plus"></i>&nbsp;button1
+        </button>
+        <button class="btn btn-sm btn-primary" type="button" id="btn-invt-save">
+            <i class="fa fa-save"></i>&nbsp;button2
+        </button>
+        <button class="btn btn-sm btn-primary" type="button" id="btn-invt-delete" disabled="disabled">
+            <i class="fa fa-trash"></i>&nbsp;button3
+        </button>
+        <button class="btn btn-sm btn-primary" type="button" id="btn-invt-import" onclick="importExcelData()" disabled>
+            <i class="glyphicon glyphicon-import"></i>&nbsp;button4
+        </button>
+    </div>
+    <div class="f2">
+        <button type="button" class="btn btn-sm btn-primary pull-right" id="btn-invt-print" disabled="disabled">
+            <i class="fa fa-print"></i>&nbsp;button5
+        </button>
+        <button type="button" class="btn btn-sm btn-primary pull-right" id="btn-invt-cancel" style="margin-right: 30px;display: none;" disabled="disabled">
+            <i class="fa fa-send"></i>&nbsp;button6
+        </button>
+        <button type="button" class="btn btn-sm btn-primary pull-right" id="btn-invt-declare" style="margin-right: 30px;" disabled="disabled">
+            <i class="fa fa-send"></i>&nbsp;button7
+        </button>
+    </div>
+</div>
+<div style="padding-top: 28px;">
+    <div class="tabs-container-dec">
+        <ul id="invtTabList" class="nav nav-tabs" style="position: fixed;z-index: 998;width: 100%;">
+            <li class="active"><a data-toggle="tab" href="#invtHeadTab">Li1</a></li>
+            <li><a data-toggle="tab" href="#invtListTab"><span id="listTabName">Li2</span></a></li>
+            <li id="invtGoodsListTabLi" style="display:none"><a data-toggle="tab" href="#invtGoodsListTab"><span>Li3</span></a></li>
+            <li id="invtWarehouseTabLi" style="display:none"><a data-toggle="tab" href="#invtWarehouseTab">Li4</a></li>
+            <li id="invtCbecBillTabLi" style="display:none"><a data-toggle="tab" href="#invtCbecBillTab">Li5</a></li>
+            <li><a data-toggle="tab" href="#attachTab">Li6</a></li>
+        </ul>
+        <div class="tab-content" style="padding-top:27px">
+            <input type="hidden" id="putrecType" />
+            <!-- ��ͷ -->
+            <div id="invtHeadTab" class="tab-pane active">
+                
+                <div style="padding:5px 2px 2px 2px">
+                    <!-- ��ͷ��Ϣ -->
+                    <form id="invt_head_form" autocomplete="off">
+                        
+</form>
+
+                </div>
+            </div>
+            <div id="invtListTab" class="tab-pane">
+                <div style="padding:5px 2px 2px 2px">
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>

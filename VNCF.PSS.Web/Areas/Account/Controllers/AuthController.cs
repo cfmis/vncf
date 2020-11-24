@@ -22,24 +22,27 @@ namespace VNCF.PSS.Web.Areas.Account.Controllers
 
         [HttpPost]
         [AuthorizeIgnore]
-        public ActionResult Login(string username, string password, string verifycode,string languageid)
+        //public ActionResult Login(string username, string password, string verifycode,string languageid)
+        //{
+        public ActionResult Login(string loginUsername, string loginPassword, string verifycode, string languageID)
         {
-
             //////return RedirectToAction("Index");
 
-            var loginInfo = this.AccountService.Login(username, password,languageid);
+            var loginInfo = this.AccountService.Login(loginUsername, loginPassword, languageID);
             if (loginInfo != null)
             {
                 this.CookieContext.UserToken = loginInfo.LoginToken;
                 this.CookieContext.UserName = loginInfo.LoginName;
                 this.CookieContext.UserId = loginInfo.UserID;
                 this.CookieContext.LanguageID = loginInfo.LanguageID;
-                return RedirectToAction("Index");
+                return Json("OK");
+                //return RedirectToAction("Index");
             }
             else
             {
-                ModelState.AddModelError("error", "用户名或密码错误");
-                return View();
+                //ModelState.AddModelError("error", "用户名或密码错误");
+                //return View();
+                return Json("ERROR");
             }
             //if (username == "admin")
             //{
