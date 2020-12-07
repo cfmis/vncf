@@ -8,7 +8,9 @@
 @section PageSpecificStyleSheetIncludes{
 <link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416167">
     <style type="text/css">
-
+        lll {
+            border:none
+        }
     </style>
 }
 <div class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;">
@@ -18,7 +20,7 @@
                 @*<input type="button" value="添加部門" class="easyui-linkbutton" iconcls="icon-add" onclick="showPublishWin()" />
                     <input type="button" value="查询" class="easyui-linkbutton" iconcls="icon-search" onclick="reloadList();">*@
                 <a href="#" class="easyui-linkbutton" iconcls="icon-add" id="btnNew">新單</a>
-                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach1" onclick="showMessageDialog('/Sales/Order/Find','查找',800,560)">查询</a>
+                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach1" onclick="showMessageDialog('Find','查找',800,560)">查询</a>
                 <button type="submit" id="submit" class="easyui-linkbutton" iconcls="icon-add">提交</button>
                 <a href="javascript:void(0)" class="easyui-linkbutton" id="btnAddHead" iconcls="icon-ok">确定</a>
             </div>
@@ -31,7 +33,7 @@
 
                 <ul class="formod mgt10">
 
-                    <li><span>@WebFromElement.OcID：</span>@Html.TextBoxFor(m => m.OcID, new { @class = "easyui-textbox" })</li>
+                    <li><span>@WebFromElement.OcID：</span>@Html.TextBoxFor(m => m.OcID, new { @class = "easyui-textbox", @readonly = "true" })</li>
                     <li><span>@WebFromElement.Ver：</span>@Html.TextBoxFor(m => m.Ver, "", new { @class = "easyui-textbox" })</li>
                     <li><span>@WebFromElement.OrderDate：</span>@Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand", @data_options = "required:true,validType:'length[1,10]'" })</li>
                     <li><span>狀態：</span>@Html.TextBox("State", "", new { @class = "easyui-textbox" })</li>
@@ -40,6 +42,7 @@
                     <li><span>洋行編號：</span>@Html.TextBox("ForeignFirm", "", new { @class = "easyui-textbox" })</li>
                     <li><span>區域：</span>@Html.TextBox("Area", "", new { @class = "easyui-textbox" })</li>
                     <li><span>@WebFromElement.CustomerID：</span>@Html.TextBoxFor(m => m.CustomerID, "", new { @class = "easyui-textbox", @data_options = "required:true,validType:'length[1,20]'" })</li>
+                    <li><span>客戶描述：</span>@Html.TextBox("CustCname", "", new { @class = "easyui-textbox" })</li>
                     <li><span>營業員：</span>@Html.TextBox("SallerID", "", new { @class = "easyui-combobox" })</li>
                     <li><span>季度：</span>@Html.TextBox("Season", "", new { @class = "easyui-combobox" })</li>
                     <li><span>聯繫人：</span>@Html.TextBox("Contacts", "", new { @class = "easyui-textbox" })</li>
@@ -64,6 +67,8 @@
                     <li><span>貨品金額：</span>@Html.TextBox("ProductAmount", "", new { @class = "easyui-textbox" })</li>
                     <li><span>總金額：</span>@Html.TextBox("TotalAmount", "", new { @class = "easyui-textbox" })</li>
                     <li><span>銀行賬號：</span>@Html.TextBox("BankAccount", "", new { @class = "easyui-combobox" })</li>
+                    <li class="ll"><span>銀行賬號：</span><input type="text" id="Remark" /></li>
+                    <li class="ll1"><span>銀行賬號：</span><input type="text" id="Remark1" /></li>
                 </ul>
             }
         </div>
@@ -72,7 +77,7 @@
             @using (Html.BeginForm("EditHead", null, FormMethod.Post, new { id = "addFormDetails", @clase = "form-inline", @role = "form" }))
             {
 
-                <table class="percent-100">
+                <table id="tbInput" class="percent-100">
                     <tbody>
                         <tr>
                             <td class="text-align-right">制單編號：</td>
@@ -80,7 +85,7 @@
                             <td class="text-align-right">產品編號：</td>
                             <td>@Html.TextBox("ProductID", "", new { @class = "easyui-textbox tbinput" })</td>
                             <td class="text-align-right">產品描述：</td>
-                            <td colspan="3">@Html.TextBox("ProductCdesc", "", new { @class = "easyui-textbox", style = "width:620px;" })</td>
+                            <td colspan="3">@Html.TextBox("ProductCdesc", "", new { @class = "easyui-textbox", @style = "width:620px;",@readonly="true" })</td>
                             
                         </tr>
                         <tr>
@@ -91,18 +96,18 @@
                             <td class="text-align-right">訂單數量：</td>
                             <td>@Html.TextBox("OrderQty", "", new { @class = "easyui-textbox" })</td>
                             <td class="text-align-right">數量單位：</td>
-                            <td>@Html.TextBox("Unit", "", new { @class = "easyui-combobox" })</td>
+                            <td>@Html.TextBox("OrderUnit", "", new { @class = "easyui-combobox" })</td>
 
                         </tr>
                         <tr>
                             <td class="text-align-right">單價：</td>
-                            <td>@Html.TextBox("State", "", new { @class = "easyui-textbox" })</td>
+                            <td>@Html.TextBox("Price", "", new { @class = "easyui-textbox" })</td>
                             <td class="text-align-right">單價單位：</td>
-                            <td>@Html.TextBox("OrderType", "", new { @class = "easyui-textbox" })</td>
+                            <td>@Html.TextBox("PriceUnit", "", new { @class = "easyui-combobox" })</td>
                             <td class="text-align-right">預計日期：</td>
-                            <td>@Html.TextBox("State", "", new { @class = "easyui-datebox-expand" })</td>
+                            <td>@Html.TextBox("RequestDate", "", new { @class = "easyui-datebox-expand" })</td>
                             <td class="text-align-right">交貨日期：</td>
-                            <td>@Html.TextBox("State", "", new { @class = "easyui-datebox-expand" })</td>
+                            <td>@Html.TextBox("DeliveryDate", "", new { @class = "easyui-datebox-expand" })</td>
                         </tr>
                     </tbody>
                 </table>
@@ -111,7 +116,7 @@
             <div data-options="region:'center'">
                 <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
                     <table id="tbDetails" class="easyui-datagrid" title=@WebFromElement.OcID style="width:100%;height:350px"
-                           data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'"></table>
+                           data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get',fit:true"></table>
 
                 </div>
             </div>
@@ -131,6 +136,9 @@
 </div>
 
 @section PageSpecificJavascriptIncludes{
+@*<script src="~/Content/js/common.js"></script>*@
+<script src="~/Content/js/order.js"></script>
+
 
 <script type="text/javascript">
     
@@ -138,11 +146,23 @@
             //initList();
             SearchOcDetails();
             InitSearch();//查询
-            $('#OcID').css({
-                height: '30px',
-                color: 'red',
-                border:'0px'
+            $("input", $("#ProductID").next("span")).blur(function () {
+                getProduct($("#ProductID").val());
             })
+            $("input", $("#CustomerID").next("span")).blur(function () {
+                getCustomer($("#CustomerID").val());
+            })
+            //$('input').css({
+            //    height: '50px',
+            //    color: 'red',
+            //    border: 'false'
+            //});
+            //$('#OcID').textbox({
+            //    border: '0px',
+            //    height:'50px'
+            //})
+            //$('#OcID').textbox('textbox').css('border', 'false');
+            //$('#OcID').textbox('textbox').css('color', 'red');
             //AddList();
             //AddHead();
             //添加信息
@@ -152,13 +172,21 @@
             ////                });
             //AddList();
             UpdateList();//修改
-            $('#txtClassIdSerach').combobox({
-                url: '/Home/GetClass?r=' + Math.random(),//数据接收URL地址
+            $('#OrderUnit').combobox({
+                url: 'GetUnit?r=' + Math.random(),//数据接收URL地址
                 method: 'post',
                 //url: '/combobox_data1.json',
                 panelHeight: 'auto',
-                valueField: 'Id',//主键值
-                textField: 'Realname'
+                valueField: 'id',//主键值
+                textField: 'name'
+            });
+            $('#PriceUnit').combobox({
+                url: 'GetUnit?r=' + Math.random(),//数据接收URL地址
+                method: 'post',
+                //url: '/combobox_data1.json',
+                panelHeight: 'auto',
+                valueField: 'id',//主键值
+                textField: 'name'
             });
             $("btnNew").click(NewDocument);
             //$(window).resize(function () {
@@ -170,12 +198,23 @@
             //        height: $(window).height() - 200   //根据自身情况更改
             //    });
             //});
-
+            //$(window).resize(function () {
+            //    var sl = $(self.parent);
+            //    debugger;
+            //    alert(sl);
+            //    $('#tbDetails').datagrid('resize', {               //根据自身情况更改
+            //        width: $(self.parent).width() - 40,    //根据自身情况更改
+            //        height: $(self.parent).height() - $('#tbInput').height() - 200  //根据自身情况更改
+            //    }).datagrid('resize', {
+            //        width: $(self.parent).width() - 40,      //根据自身情况更改
+            //        height: $(self.parent).height() - $('#tbInput').height() - 200   //根据自身情况更改
+            //    });
+            //});
         });
 
         function initList(queryData) {
             $('#tbDetails').datagrid({
-                url: '/Order/List',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据
+                url: 'List',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据
                 iconCls: 'icon-view',//图标
                 //fit: true,//自动适屏功能
                 //fit: true,
@@ -202,7 +241,7 @@
                { field: "Status", title: "狀態", width: 30 },
                { field: "ProductMo", title: "@WebFromElement.OcID", width: 100 },
                { field: "ProductID", title: "產品編號", width: 160 },
-               { field: "ProductDescription", title: "產品描述", width: 200 },
+               { field: "ProductCdesc", title: "產品描述", width: 200 },
                { field: "OrderQty", title: "訂單數量", width: 80 },
                { field: "OrderUnit", title: "數量單位", width: 60 },
                { field: "Price", title: "單價", width: 80 },
@@ -249,7 +288,7 @@
                         if (RowDeleteByID.length == 1) {
                             $.messager.confirm("删除信息", "您确认删除该条信息吗？", function (deleteClient) {
                                 if (deleteClient) {
-                                    $.post("/Order/DeleteList?r=" + Math.random(), { OcID: $("#OcID").val(), Seq: RowDeleteByID[0].Seq }, function (data) {
+                                    $.post("DeleteList?r=" + Math.random(), { OcID: $("#OcID").val(), Seq: RowDeleteByID[0].Seq }, function (data) {
                                         if (data == "OK") {
                                             $.messager.alert("系统提示！", "删除成功");
                                             //这里要将上次删除的Id清空，否则下次再删除的时候会报错
@@ -275,7 +314,10 @@
                     handler: function () {
                         $("#tbDetails").datagrid("reload");
                     }
-                }]
+                }],
+                onClickRow: function (index, row) {
+                    FillOcDetails();
+                },
 
             });
         }
@@ -304,7 +346,7 @@
         function SearchOcHead() {
             //Ajax异步实现加载
             $.ajax({
-                url: "/Order/GetOcHead?OcID=" + $("#OcID").val(),
+                url: "GetOcHead?OcID=" + $("#OcID").val(),
                 ////data: postData,
                 ////type: "post",
                 //success: function (data) {
@@ -342,70 +384,32 @@
 
         }
         function ErryFunction(data) { $.messager.alert("系统提示！", "沒有記錄!"); }
-        function AddList() {
-            $("#btnAddList").click(function () {
-                //在前台对用户输入的信息做判断，不符合要求时“添加用户”就不能提交给后台
-                 var valid = $("#addForm").form('validate');
-                if (valid == false) {
-                    return false;
-                }
-                var postData = $("#addForm").serializeArray();
-                //Ajax异步实现加载
-                $.ajax({
-                    url: "/Order/AddList?OcID=" + $("#OcID").val(),
-                    data: postData,
-                    type: "post",
-                    success: function (data) {
-                        if (data == "OK") {
-                            $.messager.alert("系统提示！", "添加成功");
-                            //$('#AddDialog').dialog('close');
-                            //$("#tbDetails").datagrid("reload");
-                            $("#addForm").form("clear")
-                            SearchOcDetails();
-                        }
-                        else {
-                            $.messager.alert("系统提示！", "添加失败");
-                        }
-                    }
-                })
-            });
-        };
-
-        function AddHead() {
-            $("#btnAddHead").click(function () {
-                //在前台对用户输入的信息做判断，不符合要求时“添加用户”就不能提交给后台
-                var valid = $("#addFormHead").form('validate');
-                if (valid == false) {
-                    return false;
-                }
-                var postData = $("#addFormHead").serializeArray();
-                //Ajax异步实现加载
-                $.ajax({
-                    url: "/Order/AddHead?r=" + Math.random(),
-                    data: postData,
-                    type: "post",
-                    success: function (data) {
-                        if (data == "OK") {
-                            debugger;
-                            $.messager.alert("系统提示！", "添加成功");
-                            //$('#AddDialog').dialog('close');
-                            //$("#tbDetails").datagrid("reload");
-                            //$("#addFormHead").form("clear")
-                            SearchOcDetails();
-                        }
-                        else {
-                            $.messager.alert("系统提示！", "添加失败");
-                        }
-                    }
-                })
-            });
-        };
+        function FillOcDetails() {
+            var RowFindByID = $('#tbDetails').datagrid('getSelections');
+            if (RowFindByID.length == 1) {
+                //实现绑定数据显示
+                //BindUpdateList();
+                //debugger;
+                var rows = RowFindByID[0];
+                $("#ProductMo").textbox('setValue', rows.ProductMo);
+                $("#ProductID").textbox('setValue', rows.ProductID);
+                $("#ProductCdesc").textbox('setValue', rows.ProductCdesc);
+                $("#OrderQty").textbox('setValue', rows.OrderQty);
+                $("#OrderUnit").textbox('setValue', rows.OrderUnit);
+                $("#Price").textbox('setValue', rows.Price);
+                $("#PriceUnit").textbox('setValue', rows.PriceUnit);
+            }
+            else {
+                $.messager.alert("友情提示！", "每次只能修改一条，你已经选择了<font color='red'  size='6'>" + RowFindByID.length + "</font>条");
+            }
+        }
         function Save() {
             if (!ValidForm()) {
                 return;
             }
-                
-            if ($("#OcID").val() == "")
+            var result = "";
+            var OcID = $("#OcID").val();
+            if (OcID == "")
             {
                 var OcID = "";
                 OcID = SaveMaster();
@@ -414,9 +418,9 @@
                 $("#OcID").textbox('setValue', OcID);
             }
             var postData = $("#addFormDetails").serializeArray();
-            //Ajax异步实现加载
+            ////Ajax异步实现加载
             $.ajax({
-                url: "/Order/AddList?OcID=" + $("#OcID").val(),
+                url: "AddList?OcID=" + OcID,
                 data: postData,
                 //cache: false,
                 //async: false,//改为同步方式
@@ -434,18 +438,23 @@
                     }
                 }
             })
-
+            //Ajax.call('AddList1?OcID=' + OcID, $.toJSON(postData), addToCartResponse, 'POST', 'JSON');
         }
+        //function addToCartResponse(result) {
+        //    //$.messager.alert("系统提示！", "添加明細表記錄成功!");
+        //    SearchOcDetails();
+        //}
         function SaveMaster() {
             //var valid = $("#addFormHead").form('validate');
             //if (valid == false) {
             //    return false;
             //}
-            var postData = $("#addFormHead").serializeArray();
             var OcID = "";
+            var postData = $("#addFormHead").serializeArray();
+
             //Ajax异步实现加载
             $.ajax({
-                url: "/Order/AddHead?r=" + Math.random(),
+                url: "AddHead?r=" + Math.random(),
                 data: postData,
                 async: false,//改为同步方式
                 type: "post",
@@ -465,6 +474,8 @@
             })
             return OcID;
         }
+
+
         function ValidForm() {
             var valid = $("#addFormHead").form('validate');
             if (valid == false) {
@@ -514,34 +525,7 @@
             $("#txtUPMobile").val(RowEditById.Mobile);
         }
 
-        function showMessageDialog(url, title, width, height, shadow) {
-
-            var content = '<iframe src="' + url + '" width="100%" height="99%" frameborder="0" scrolling="no"></iframe>';
-            //content += '<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" style="width:80px" onclick="javascript:$(' + '\'#msgwindow\'' + ').dialog(' + '\'close\'' + ')">' + '关闭' + '</a>';
-            var boarddiv = '<div id="msgwindow" title="' + title + '"></div>'//style="overflow:hidden;"可以去掉滚动条
-            $(document.body).append(boarddiv);
-            var win = $('#msgwindow').dialog({
-                content: content,
-                width: width,
-                height: height,
-                modal: shadow,
-                title: title,
-                onClose: function () {
-                    //$(this).dialog('destroy');//后面可以关闭后的事件
-                    //document.getElementById('btnSerach').click();
-                }
-            });
-            win.dialog('open');
-        }
-        function closeWindow() {
-            //window.opener = null;
-            ////window.open(' ', '_self', ' ');
-            //window.open('', '_self');
-            //window.close();
-
-            $('#msgwindow').dialog('close');
-            //$('msgwindow').dialog('close');
-        }
+        
 
 </script>
 }

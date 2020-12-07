@@ -83,7 +83,7 @@
 
         function initList(queryData) {
             $('#tbDetails').datagrid({
-                url: '/Order/GetOcHeadReturnList',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据
+                url: 'GetOcHeadReturnList',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据
                 iconCls: 'icon-view',//图标
                 //fit: true,//自动适屏功能
                 //fit: true,
@@ -106,13 +106,13 @@
                 pageList: [10, 20, 30, 40, 50],
                 queryParams: queryData, //搜索条件查询
                 columns: [[
-                    {
-                        field: 'oprate', title: '操作', align: 'center', width: 60,
-                        formatter: function (value, row, index) {
-                            var str = '<a href="#" name="opera" onclick="SelectData()" class="easyui-linkbutton" >選擇</a>';
-                            return str;
-                        }
-                    },
+                    //{
+                    //    field: 'oprate', title: '操作', align: 'center', width: 60,
+                    //    formatter: function (value, row, index) {
+                    //        var str = '<a href="#" name="opera" onclick="SelectData()" class="easyui-linkbutton" >選擇</a>';
+                    //        return str;
+                    //    }
+                    //},
                { field: "OcID", title: "OC編號", width: 80 },
                { field: "OrderDate", title: "@WebFromElement.OcID", width: 100 },
                { field: "Ver", title: "版本號", width: 160 },
@@ -126,8 +126,15 @@
                { field: "DiscountRate", title: "折扣率", width: 80 },
                { field: "Discount", title: "折扣額", width: 80 },
                { field: "AmountAfterDiscount", title: "折扣後金額", width: 80 }
-                ]]
-
+                ]],
+                onDblClickRow: function (index, row) {
+                    //var typeJsp = '3,' + row.goodsNo;
+                    //var title = '标的管理';
+                    //var url = parent.baseUrl + 'goods?typeJSP=' + typeJsp;
+                    //var icon = 'icon-sys';
+                    //self.parent.addTab(title, url, icon);
+                    SelectData();
+                },
             });
         }
 
@@ -166,32 +173,32 @@
                 obj.value = OcID;
                 window.parent.SearchOcHead();
                 window.parent.SearchOcDetails();
-                window.parent.closeWindow();
+                self.parent.closeWindow();
             }
             else {
                 $.messager.alert("友情提示！", "每次只能修改一条，你已经选择了<font color='red'  size='6'>" + RowFindByID.length + "</font>条");
             }
         }
 
-        function showMessageDialog(url, title, width, height, shadow) {
+        //function showMessageDialog(url, title, width, height, shadow) {
 
-            var content = '<iframe src="' + url + '" width="100%" height="99%" frameborder="0" scrolling="no"></iframe>';
-            //content += '<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" style="width:80px" onclick="javascript:$(' + '\'#msgwindow\'' + ').dialog(' + '\'close\'' + ')">' + '关闭' + '</a>';
-            var boarddiv = '<div id="msgwindow" title="' + title + '"></div>'//style="overflow:hidden;"可以去掉滚动条
-            $(document.body).append(boarddiv);
-            var win = $('#msgwindow').dialog({
-                content: content,
-                width: width,
-                height: height,
-                modal: shadow,
-                title: title,
-                onClose: function () {
-                    //$(this).dialog('destroy');//后面可以关闭后的事件
-                    //document.getElementById('btnSerach').click();
-                }
-            });
-            win.dialog('open');
-        }
+        //    var content = '<iframe src="' + url + '" width="100%" height="99%" frameborder="0" scrolling="no"></iframe>';
+        //    //content += '<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" style="width:80px" onclick="javascript:$(' + '\'#msgwindow\'' + ').dialog(' + '\'close\'' + ')">' + '关闭' + '</a>';
+        //    var boarddiv = '<div id="msgwindow" title="' + title + '"></div>'//style="overflow:hidden;"可以去掉滚动条
+        //    $(document.body).append(boarddiv);
+        //    var win = $('#msgwindow').dialog({
+        //        content: content,
+        //        width: width,
+        //        height: height,
+        //        modal: shadow,
+        //        title: title,
+        //        onClose: function () {
+        //            //$(this).dialog('destroy');//后面可以关闭后的事件
+        //            //document.getElementById('btnSerach').click();
+        //        }
+        //    });
+        //    win.dialog('open');
+        //}
 
 </script>
 }

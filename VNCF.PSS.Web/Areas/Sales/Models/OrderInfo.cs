@@ -32,5 +32,21 @@ namespace VNCF.PSS.Web.Areas.Sales.Models
         public float DiscountRate { get; set; }
         public float Discount { get; set; }
         public float AmountAfterDiscount { get; set; }
+        public string ProductCdesc { get; set; }
+    }
+    public class it_goods
+    {
+        public string ProductID { get; set; }
+        public string ProductCdesc { get; set; }
+    }
+    public class bs_customer
+    {
+        public string id { get; set; }
+        public string CustCname { get; set; }
+    }
+    public class bs_unit
+    {
+        public string id { get; set; }
+        public string name { get; set; }
     }
 }

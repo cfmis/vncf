@@ -1,25 +1,26 @@
 ﻿
 @{
-    Layout = "~/Areas/Sales/Views/Shared/_Layout.cshtml";
+    Layout = null;//"~/Areas/Sales/Views/Shared/_Layout11.cshtml";
 }
 @section PageSpecificStyleSheetIncludes{
 <link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416169">
 }
-
+@*<script src="~/Content/js/jquery.json.js"></script>*@
 <ul class="formod mgt10">
-    <input type="hidden" name="impexpMarkcd" value="E" />
-    <input type="hidden" name="entryStucd" />
-    <input type="hidden" name="chgTmsCnt" id="chgTmsCnt" />
-    <li>
-    <li><span>狀態：</span><input type="text" id="Status"></li>
+    @*<input type="hidden" name="impexpMarkcd" value="E" />
+        <input type="hidden" name="entryStucd" />
+        <input type="hidden" name="chgTmsCnt" id="chgTmsCnt" />*@
+    <li><span>ProductID：</span><input type="text" id="ProductID" onBlur="getProduct(this.value)"></li>
+    <li><span>ProductCdesc：</span><input type="text" id="ProductCdesc"></li>
     <li>
         <span>訂單類型：</span>@Html.TextBox("OrderType", "", new { @class = "easyui-textbox" })
     </li>
     <li>
-        <span>接單日期：</span>@Html.TextBox("ReceivedDate", "", new { @class = "easyui-datebox-expand" })
+        <span>接單日期：</span>@Html.TextBox("ReceivedDate", "", "")
     </li>
     <li><span>洋行編號：</span>@Html.TextBox("ForeignFirm", "", new { @class = "easyui-textbox" })</li>
 </ul>
+
 
 <div class="head-item">
     <div class="content-left f1">
@@ -67,7 +68,7 @@
                     <!-- ��ͷ��Ϣ -->
                     <form id="invt_head_form" autocomplete="off">
                         
-</form>
+                    </form>
 
                 </div>
             </div>
@@ -78,3 +79,19 @@
                 </div>
             </div>
         </div>
+<script type="text/javascript" src="~/Scripts/jquery-1.8.3.min.js"></script>
+<script src="~/Content/js/jquery.json.js"></script>
+@*<script src="~/Content/js/common.js"></script>*@
+@*<script src="~/Content/js/globals.js"></script>*@
+<script src="~/Content/js/transport_jquery.js"></script>
+@*<script src="~/Content/js/utils.js"></script>*@
+<script src="~/Content/js/order.js?v=20201125001"></script>
+<script type="text/javascript" src="~/Lib/lhgdialog/lhgdialog.min.js?self=true&skin=iblue"></script>
+<script type="text/javascript" src="~/Lib/jquery-easyui-1.5/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="~/Lib/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="~/Lib/jquery-easyui-1.5/easyuiDatePicker.js"></script>
+<script src="~/Content/Hg/static/js/enter.js?v=20201029102416153"></script>
+
+
+<script type="text/javascript">
+</script>

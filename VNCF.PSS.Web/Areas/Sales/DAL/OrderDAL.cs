@@ -48,8 +48,11 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         }
         public static List<OrderDetails> GetOcDetailsByID(string OcID)
         {
-            string strSql = "Select * FROM oc_OrderDetails Where OcID='" + OcID + "'";
-            strSql += " ORDER BY Seq Desc";
+            string strSql = "Select a.*,b.name,b.english_name" +
+                " FROM oc_OrderDetails a " +
+                " Left Join it_goods b ON a.ProductID=b.id" +
+                " Where a.OcID='" + OcID + "'";
+            strSql += " ORDER BY a.Seq Desc";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<OrderDetails> lsDetails = new List<OrderDetails>();
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -63,6 +66,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 mdj.OrderUnit = dr["OrderUnit"].ToString();
                 mdj.Price = Convert.ToDecimal(dr["Price"]);
                 mdj.PriceUnit = dr["PriceUnit"].ToString();
+                mdj.ProductCdesc = dr["name"].ToString();
                 lsDetails.Add(mdj);
             }
             return lsDetails;
@@ -135,6 +139,44 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             strSql = "Delete FROM oc_OrderDetails Where OcID='" + OcID + "' AND Seq='" + Seq + "'";
             result = SQLHelper.ExecuteSqlUpdate(strSql);
             return result;
+        }
+        public static it_goods GetProductByID(string ProductID)
+        {
+            string strSql = "Select id,name,english_name " +
+            " FROM it_goods Where type='" + "0001" + "' AND id='" + ProductID + "'";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            DataRow dr = dt.Rows[0];
+            it_goods mdj = new it_goods();
+            mdj.ProductID = dr["id"].ToString();
+            mdj.ProductCdesc = dr["name"].ToString();
+            return mdj;
+        }
+        public static bs_customer GetCustByID(string ID)
+        {
+            string strSql = "Select id,name,english_name " +
+            " FROM bs_customer Where id='" + ID + "'";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            DataRow dr = dt.Rows[0];
+            bs_customer mdj = new bs_customer();
+            mdj.id = dr["id"].ToString();
+            mdj.CustCname = dr["name"].ToString();
+            return mdj;
+        }
+        public static List<bs_unit> GetUnit()
+        {
+            string strSql = "Select id,name,english_name " +
+            " FROM bs_unit Order By id";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            List<bs_unit> lsModel = new List<bs_unit>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                bs_unit mdj = new bs_unit();
+                mdj.id = dr["id"].ToString();
+                mdj.name = dr["name"].ToString();
+                lsModel.Add(mdj);
+            }
+            return lsModel;
         }
     }
 }

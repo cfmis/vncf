@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using VNCF.PSS.Web.Areas.Sales.Models;
 using VNCF.PSS.Web.Areas.Sales.DAL;
 using VNCF.PSS.Web.Common;
+using System.IO;
 
 namespace VNCF.PSS.Web.Areas.Sales.Controllers
 {
@@ -67,6 +70,32 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             string result = OrderDAL.UpdateOcDetails(model);
             return Json("OK");
         }
+        public ActionResult AddList1(string OcID)
+        {
+            //listOrderInfo.Add(model);
+            //var result = new { total = 100, rows = listOrderInfo };
+            //return Json(result, JsonRequestBehavior.AllowGet);
+            //string OcID = Request["OcID"] == null ? "" : Request["OcID"].ToString();
+            OrderDetails model = new OrderDetails();
+            var sr = new StreamReader(Request.InputStream);
+            var stream = sr.ReadToEnd();
+            //var entity = JsonConvert.DeserializeObject<PlaceOrder>(stream);
+            JArray ja = (JArray)JsonConvert.DeserializeObject(stream);
+            //model.ProductMo = ja[0]["ProductMo"].ToString();
+            //for (int i = 0; i < ja.Count; i++)
+            //{
+            //    var ja0 = ja[i];
+                model.ProductMo = ja[0]["value"].ToString();
+            model.ProductID = ja[1]["value"].ToString();
+            //model.ProductID = ja[i]["ProductID"].ToString();
+            //model.OrderQty = Convert.ToInt32(ja[i]["OrderQty"].ToString());
+            //model.Price = Convert.ToDecimal(ja[i]["Price"].ToString());
+            //}
+            model.OcID = OcID;
+            string result = OrderDAL.UpdateOcDetails(model);
+            //return Json("OK");
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult Create()
         {
             return View("Edit");
@@ -104,6 +133,24 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         {
             var list = OrderDAL.GetOcHeadReturnList(model);
             var result = new { rows = list };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetProduct(string ProductID)
+        {
+            var result = OrderDAL.GetProductByID(ProductID);
+            //var result = new { rows = list };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetCustomer(string ID)
+        {
+            var result = OrderDAL.GetCustByID(ID);
+            //var result = new { rows = list };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetUnit()
+        {
+            var result = OrderDAL.GetUnit();
+            //var result = new { rows = list };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
