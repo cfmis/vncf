@@ -20,9 +20,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             if (model.OcID == "" || model.OcID == null)
             {
                 Random rd = new Random();
-                string dateTimeStr = System.DateTime.Now.ToString("yyyy/MM/dd hh:MM:dd");
-                OcID = dateTimeStr.Substring(0,4)+ dateTimeStr.Substring(5, 2)+ dateTimeStr.Substring(8, 2)
-                    + dateTimeStr.Substring(11, 2)+ dateTimeStr.Substring(14, 2)+ dateTimeStr.Substring(17, 2);// rd.Next(1, 1000000000).ToString();
+                OcID = rd.Next(1, 1000000000).ToString();
             }
             else
                 OcID = model.OcID;
@@ -50,10 +48,9 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         }
         public static List<OrderDetails> GetOcDetailsByID(string OcID)
         {
-            string strSql = "Select a.*,b.name,b.english_name,c.picture_name" +
+            string strSql = "Select a.*,b.name,b.english_name" +
                 " FROM oc_OrderDetails a " +
                 " Left Join it_goods b ON a.ProductID=b.id" +
-                " Left Join cd_pattern_details c On b.blueprint_id=c.id" +
                 " Where a.OcID='" + OcID + "'";
             strSql += " ORDER BY a.Seq Desc";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
@@ -69,8 +66,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 mdj.OrderUnit = dr["OrderUnit"].ToString();
                 mdj.Price = Convert.ToDecimal(dr["Price"]);
                 mdj.PriceUnit = dr["PriceUnit"].ToString();
-                mdj.ProductCdesc = dr["name"].ToString();//"file:///"  + Server.MapPath("~")  +"~/Images/login.jpg";//
-                mdj.ArtImage = "/art/artwork/" + dr["picture_name"].ToString().Trim().Replace("\\", "/");//"AAAA/A888020.bmp";// 
+                mdj.ProductCdesc = dr["name"].ToString();
                 lsDetails.Add(mdj);
             }
             return lsDetails;

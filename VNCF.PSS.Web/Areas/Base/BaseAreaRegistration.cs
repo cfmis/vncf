@@ -17,7 +17,7 @@ namespace VNCF.PSS.Web.Areas.Base
             context.MapRoute(
                 "Base_default",
                 "Base/{controller}/{action}/{id}",
-                new { action = "Default", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional }
             );
         }
     }

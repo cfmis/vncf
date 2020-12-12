@@ -109,9 +109,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Program Files (x86)\Microsoft Visual Studio 14.0\ReportViewer\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -119,7 +124,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
@@ -244,7 +248,13 @@
     <Compile Include="Areas\Sales\Models\OrderInfo.cs" />
     <Compile Include="Areas\Sales\Models\WebFormElement.cs" />
     <Compile Include="Areas\Sales\SalesAreaRegistration.cs" />
-    <Compile Include="Areas\System\SystemAreaRegistration.cs" />
+    <Compile Include="Areas\Sales\AspNetReports\Order.aspx.cs">
+      <DependentUpon>Order.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Areas\Sales\AspNetReports\Order.aspx.designer.cs">
+      <DependentUpon>Order.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Common\AdminCacheContext.cs" />
     <Compile Include="Common\AdminControllerBase.cs" />
     <Compile Include="Common\AdminCookieContext.cs" />
@@ -260,8 +270,14 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="VNCFPSSDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VNCFPSSDataSet.xsd</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Sales\AspNetReports\Order.aspx" />
     <Content Include="Config\AdminMenuConfig.xml" />
     <Content Include="Config\CacheConfig.xml" />
     <Content Include="Config\DaoConfig.xml" />
@@ -276,9 +292,7 @@
     <Content Include="Content\js\jquery.json.js" />
     <Content Include="Content\js\order.js" />
     <Content Include="Content\js\vncf_common.js" />
-    <Content Include="Content\js\transport.js" />
     <Content Include="Content\js\transport_jquery.js" />
-    <Content Include="Content\layui-v2.5.6\layui\adminLogin.css" />
     <Content Include="Content\layui-v2.5.6\layui\css\layui.css" />
     <Content Include="Content\layui-v2.5.6\layui\css\layui.mobile.css" />
     <Content Include="Content\layui-v2.5.6\layui\css\modules\code.css" />
@@ -390,7 +404,6 @@
     <Content Include="Content\layui-v2.5.6\layui\light.png" />
     <Content Include="Content\layui-v2.5.6\layui\login.html" />
     <Content Include="Content\layui-v2.5.6\layui\login2.html" />
-    <Content Include="Content\layui-v2.5.6\layui\tp1.jpg" />
     <Content Include="Content\layui-v2.5.6\layui\tp12.jpg" />
     <Content Include="Content\layui-v2.5.6\免责声明.txt" />
     <Content Include="Content\main.css" />
@@ -406,30 +419,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Areas\System\Views\web.config" />
-    <Content Include="Areas\System\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\System\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Account\Views\web.config" />
-    <Content Include="Areas\Account\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Account\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Account\Views\Auth\Login.cshtml" />
-    <Content Include="Areas\Account\Views\Auth\Index.cshtml" />
-    <Content Include="Areas\Account\Views\Auth\Left.cshtml" />
-    <Content Include="Areas\Account\Views\Auth\Right.cshtml" />
-    <Content Include="Areas\Account\Views\Auth\RightMain.cshtml" />
-    <Content Include="Areas\Account\Views\Auth\Top.cshtml" />
-    <Content Include="Areas\Base\Views\web.config" />
-    <Content Include="Areas\Base\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Base\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Base\Views\Dep\Index.cshtml" />
-    <Content Include="Areas\Base\Views\Dep\Info.cshtml" />
-    <Content Include="Areas\Base\Views\ProductType\Index.cshtml" />
-    <Content Include="Areas\Base\Views\Dep\AddDep.cshtml" />
-    <Content Include="Areas\Sales\Views\web.config" />
-    <Content Include="Areas\Sales\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Sales\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Sales\Views\Order\Index.cshtml" />
-    <Content Include="Areas\Sales\Views\Order\Find.cshtml" />
     <Content Include="Content\layui-v2.5.6\layui\font\iconfont.eot" />
     <Content Include="Content\layui-v2.5.6\layui\font\iconfont.ttf" />
     <Content Include="Content\layui-v2.5.6\layui\font\iconfont.woff" />
@@ -439,9 +428,29 @@
     <Content Include="Content\layui-v2.5.6\文档与示例\在线示例.url" />
     <Content Include="Content\layui-v2.5.6\文档与示例\快速上手.url" />
     <Content Include="Content\layui-v2.5.6\更新日志.url" />
-    <Content Include="Areas\Sales\Views\OC\Index.cshtml" />
+    <Content Include="Areas\Account\Views\web.config" />
+    <Content Include="Areas\Account\Views\Auth\Index.cshtml" />
+    <Content Include="Areas\Account\Views\Auth\Left.cshtml" />
+    <Content Include="Areas\Account\Views\Auth\Login.cshtml" />
+    <Content Include="Areas\Account\Views\Auth\Right.cshtml" />
+    <Content Include="Areas\Account\Views\Auth\RightMain.cshtml" />
+    <Content Include="Areas\Account\Views\Auth\Top.cshtml" />
+    <Content Include="Areas\Base\Views\web.config" />
+    <Content Include="Areas\Base\Views\Dep\AddDep.cshtml" />
+    <Content Include="Areas\Base\Views\Dep\Index.cshtml" />
+    <Content Include="Areas\Base\Views\Dep\Info.cshtml" />
+    <Content Include="Areas\Base\Views\ProductType\Index.cshtml" />
+    <Content Include="Areas\Sales\Views\web.config" />
     <Content Include="Areas\Sales\Views\OC\Create.cshtml" />
+    <Content Include="Areas\Sales\Views\OC\Index.cshtml" />
+    <Content Include="Areas\Sales\Views\Order\Find.cshtml" />
+    <Content Include="Areas\Sales\Views\Order\Index.cshtml" />
+    <Content Include="Areas\Sales\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Sales\Views\Shared\_Layout1.cshtml" />
+    <Content Include="Areas\Sales\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Base\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Account\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Account\Views\Shared\_Layout.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -493,12 +502,21 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Top.cshtml" />
+    <Content Include="VNCFPSSDataSet.xsc">
+      <DependentUpon>VNCFPSSDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="VNCFPSSDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>VNCFPSSDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="VNCFPSSDataSet.xss">
+      <DependentUpon>VNCFPSSDataSet.xsd</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\System\Controllers\" />
-    <Folder Include="Areas\System\Models\" />
-    <Folder Include="Areas\System\Views\Auth\" />
+    <Folder Include="Areas\Base\Views\Shared\" />
     <Folder Include="Content\Hg\" />
     <Folder Include="Images\" />
     <Folder Include="Lib\" />
@@ -510,6 +528,9 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Areas\Sales\RDLCReports\Order.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

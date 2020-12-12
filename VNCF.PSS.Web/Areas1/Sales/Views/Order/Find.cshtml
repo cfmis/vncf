@@ -1,0 +1,205 @@
+﻿@using VNCF.PSS.Web.Areas.Sales.DAL
+@using VNCF.PSS.Web.Areas.Sales.Models;
+@model OrderHead
+@{
+    ViewBag.Title = "Index";
+    var WebFromElement = Factory.GenWebFormElement().AdminCreateOrderIndex("Sales.Order.Index");
+}
+
+
+
+<div class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;">
+
+
+    @using (Html.BeginForm("EditHead", null, FormMethod.Post, new { id = "findFormHead", @clase = "form-inline", @role = "form" }))
+    {
+        <div data-options="region:'center'">
+            <div class="easyui-layout" data-options="fit:true">
+                <div class="botbtbx pdb0">
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" onclick="window.parent.closeWindow()">关闭</a>
+                    <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach">查询</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" id="btnConf" iconcls="icon-ok">确定</a>
+                </div>
+            </div>
+        </div>
+        <ul class="formod mgt10">
+            <li><span>@WebFromElement.OcID：</span>@Html.TextBoxFor(m => m.OcID, new { @class = "easyui-textbox" })</li>
+            <li><span>@WebFromElement.Ver：</span>@Html.TextBoxFor(m => m.Ver, "", new { @class = "easyui-textbox" })</li>
+            <li><span>@WebFromElement.OrderDate：</span>@Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand" })</li>
+            <li><span>狀態：</span>@Html.TextBox("State", "", new { @class = "easyui-textbox" })</li>
+            <li><span>訂單類型：</span>@Html.TextBox("OrderType", "", new { @class = "easyui-textbox" })</li>
+            <li><span>接單日期：</span>@Html.TextBox("ReceivedDate", "", new { @class = "easyui-datebox-expand" })</li>
+            <li><span>洋行編號：</span>@Html.TextBox("ForeignFirm", "", new { @class = "easyui-textbox" })</li>
+            <li><span>區域：</span>@Html.TextBox("Area", "", new { @class = "easyui-textbox" })</li>
+            <li><span>@WebFromElement.CustomerID：</span>@Html.TextBoxFor(m => m.CustomerID, "", new { @class = "easyui-textbox" })</li>
+            <li><span>營業員：</span>@Html.TextBox("SallerID", "", new { @class = "easyui-combobox" })</li>
+            <li><span>季度：</span>@Html.TextBox("Season", "", new { @class = "easyui-combobox" })</li>
+        </ul>
+    }
+    <div class="areabx_divider"></div>
+    <div data-options="region:'center'">
+        <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
+            <table id="tbDetails" class="easyui-datagrid" title=@WebFromElement.OcID style="width:790px;height:350px"
+                   data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'"></table>
+
+        </div>
+    </div>
+    @*<a class="btn blue" title='添加產品' href="@Url.Action("Create")"><i class="icon-plus icon-white"></i> 添加產品</a>*@
+</div>
+
+
+@section PageSpecificJavascriptIncludes{
+<script type="text/javascript">
+    $(function () {
+        SearchData();
+        //InitSearch();//查询
+        $("#btnSerach").click(function () {
+            //得到用户输入的参数
+            SearchData();
+        });
+        $("#btnConf").click(function () {
+            SelectData();
+        });
+        $('#txtClassIdSerach').combobox({
+            url: '/Home/GetClass?r=' + Math.random(),//数据接收URL地址
+            method: 'post',
+            //url: '/combobox_data1.json',
+            panelHeight: 'auto',
+            valueField: 'Id',//主键值
+            textField: 'Realname'
+        });
+
+        //$(window).resize(function () {
+        //    $('#tbDetails').datagrid('resize', {               //根据自身情况更改
+        //        width: $(window).width() - 40,    //根据自身情况更改
+        //        height: $(window).height() - 200  //根据自身情况更改
+        //    }).datagrid('resize', {
+        //        width: $(window).width() - 40,      //根据自身情况更改
+        //        height: $(window).height() - 200   //根据自身情况更改
+        //    });
+        //});
+
+        });
+
+        function initList(queryData) {
+            $('#tbDetails').datagrid({
+                url: 'GetOcHeadReturnList',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据
+                iconCls: 'icon-view',//图标
+                //fit: true,//自动适屏功能
+                //fit: true,
+                //width: function () { return document.body.clientWidth * 2 },//自动宽度
+                nowrap: true,
+                //collapsible: true,
+                autoRowHeight: false,//自动行高
+                striped: true,
+                collapsible: true,
+                //sortName: 'Id',//排序列名为ID
+                sortOrder: 'asc',//排序为将序
+                remoteSort: false,
+                idField: 'OcID',//主键值
+                rownumbers: true,//显示行号
+                multiSort: true,//启用排序 sortable: true //启用排序列
+                pagination: true,
+                loadMsg: 'Loading... ',
+                emptyMsg: '<span>无记录</span>',
+                pageSize: 10,
+                pageList: [10, 20, 30, 40, 50],
+                queryParams: queryData, //搜索条件查询
+                columns: [[
+                    //{
+                    //    field: 'oprate', title: '操作', align: 'center', width: 60,
+                    //    formatter: function (value, row, index) {
+                    //        var str = '<a href="#" name="opera" onclick="SelectData()" class="easyui-linkbutton" >選擇</a>';
+                    //        return str;
+                    //    }
+                    //},
+               { field: "OcID", title: "OC編號", width: 80 },
+               { field: "OrderDate", title: "@WebFromElement.OcID", width: 100 },
+               { field: "Ver", title: "版本號", width: 160 },
+               { field: "CustomerID", title: "客戶編號", width: 60 },
+               { field: "Status", title: "狀態", width: 30 },
+               { field: "ProductDescription", title: "產品描述", width: 200 },
+               { field: "OrderQty", title: "訂單數量", width: 80 },
+               { field: "Price", title: "單價", width: 80 },
+               { field: "PriceUnit", title: "單價單位", width: 80 },
+               { field: "Amount", title: "金額", width: 80 },
+               { field: "DiscountRate", title: "折扣率", width: 80 },
+               { field: "Discount", title: "折扣額", width: 80 },
+               { field: "AmountAfterDiscount", title: "折扣後金額", width: 80 }
+                ]],
+                onDblClickRow: function (index, row) {
+                    //var typeJsp = '3,' + row.goodsNo;
+                    //var title = '标的管理';
+                    //var url = parent.baseUrl + 'goods?typeJSP=' + typeJsp;
+                    //var icon = 'icon-sys';
+                    //self.parent.addTab(title, url, icon);
+                    SelectData();
+                },
+            });
+        }
+
+        //初始化搜索框
+        function InitSearch() {
+            //按照条件进行查询，首先我们得到数据
+            $("#btnSerach").click(function () {
+                //得到用户输入的参数
+                SearchData();
+            });
+            $("#btnConf").click(function () {
+                SelectData();
+            });
+        }
+        function SearchData() {
+            var queryData = {
+                OcID: $("#OcID").val(),
+                Ver: $("#Ver").val()
+                //ClassId: $("#txtClassIdSerach").combobox("getValue")
+            };
+            //var queryData = $("#findFormHead").serializeArray();
+            //debugger;
+            //将值传递给initTable
+            initList(queryData);
+            return false;
+        }
+        function SelectData() {
+
+            var RowFindByID = $('#tbDetails').datagrid('getSelections');
+            if (RowFindByID.length == 1) {
+                //实现绑定数据显示
+                //BindUpdateList();
+                //debugger;
+                var OcID = RowFindByID[0].OcID;
+                var obj = window.parent.document.getElementById("OcID");
+                obj.value = OcID;
+                window.parent.SearchOcHead();
+                window.parent.SearchOcDetails();
+                self.parent.closeWindow();
+            }
+            else {
+                $.messager.alert("友情提示！", "每次只能修改一条，你已经选择了<font color='red'  size='6'>" + RowFindByID.length + "</font>条");
+            }
+        }
+
+        //function showMessageDialog(url, title, width, height, shadow) {
+
+        //    var content = '<iframe src="' + url + '" width="100%" height="99%" frameborder="0" scrolling="no"></iframe>';
+        //    //content += '<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" style="width:80px" onclick="javascript:$(' + '\'#msgwindow\'' + ').dialog(' + '\'close\'' + ')">' + '关闭' + '</a>';
+        //    var boarddiv = '<div id="msgwindow" title="' + title + '"></div>'//style="overflow:hidden;"可以去掉滚动条
+        //    $(document.body).append(boarddiv);
+        //    var win = $('#msgwindow').dialog({
+        //        content: content,
+        //        width: width,
+        //        height: height,
+        //        modal: shadow,
+        //        title: title,
+        //        onClose: function () {
+        //            //$(this).dialog('destroy');//后面可以关闭后的事件
+        //            //document.getElementById('btnSerach').click();
+        //        }
+        //    });
+        //    win.dialog('open');
+        //}
+
+</script>
+}
+

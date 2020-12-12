@@ -1,0 +1,1903 @@
+﻿
+@{
+    Layout = null;
+}
+<!-- <script type="text/javascript">
+var swProxyBasePath = decodeURI("https\x3A\x2F\x2Fswapp.singlewindow.cn\x3A443\x2Fsasserver\x2F");
+var host = "swapp.singlewindow.cn\x3A443";
+var contextPath = "\x2Fsasserver";
+</script> -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单录入</title>
+    <link rel="shortcut icon" href="https&#x3a;&#x2f;&#x2f;swapp.singlewindow.cn&#x3a;443&#x2f;sasserver&#x2f;static/favicon.ico">
+
+
+
+    <link href="~/Content/Bootstrap-3.3.7/css/bootstrap.min.css?v=3.3.7" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/newStyle.css?v=20201029102416153">
+    <style>
+        .percent-100 tr1 {
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="head-item">
+        <div class="content-left f1">
+            <button class="btn btn-sm btn-primary" type="button" id="btn-invt-reset">
+                <i class="fa fa-plus"></i>&nbsp;button1
+            </button>
+            <button class="btn btn-sm btn-primary" type="button" id="btn-invt-save">
+                <i class="fa fa-save"></i>&nbsp;button2
+            </button>
+            <button class="btn btn-sm btn-primary" type="button" id="btn-invt-delete" disabled="disabled">
+                <i class="fa fa-trash"></i>&nbsp;button3
+            </button>
+            <button class="btn btn-sm btn-primary" type="button" id="btn-invt-import" onclick="importExcelData()" disabled>
+                <i class="glyphicon glyphicon-import"></i>&nbsp;button4
+            </button>
+        </div>
+        <div class="f2">
+            <button type="button" class="btn btn-sm btn-primary pull-right" id="btn-invt-print" disabled="disabled">
+                <i class="fa fa-print"></i>&nbsp;button5
+            </button>
+            <button type="button" class="btn btn-sm btn-primary pull-right" id="btn-invt-cancel" style="margin-right: 30px;display: none;" disabled="disabled">
+                <i class="fa fa-send"></i>&nbsp;button6
+            </button>
+            <button type="button" class="btn btn-sm btn-primary pull-right" id="btn-invt-declare" style="margin-right: 30px;" disabled="disabled">
+                <i class="fa fa-send"></i>&nbsp;button7
+            </button>
+        </div>
+    </div>
+    <div style="padding-top: 28px;">
+        <div class="tabs-container-dec">
+            <ul id="invtTabList" class="nav nav-tabs" style="position: fixed;z-index: 998;width: 100%;">
+                <li class="active"><a data-toggle="tab" href="#invtHeadTab">Li1</a></li>
+                <li><a data-toggle="tab" href="#invtListTab"><span id="listTabName">Li2</span></a></li>
+                <li id="invtGoodsListTabLi" style="display:none"><a data-toggle="tab" href="#invtGoodsListTab"><span>Li3</span></a></li>
+                <li id="invtWarehouseTabLi" style="display:none"><a data-toggle="tab" href="#invtWarehouseTab">Li4</a></li>
+                <li id="invtCbecBillTabLi" style="display:none"><a data-toggle="tab" href="#invtCbecBillTab">Li5</a></li>
+                <li><a data-toggle="tab" href="#attachTab">Li6</a></li>
+            </ul>
+            <div class="tab-content" style="padding-top:27px">
+                <input type="hidden" id="putrecType" />
+                <!-- ��ͷ -->
+                <div id="invtHeadTab" class="tab-pane active">
+                    <div style="padding:5px 2px 2px 2px">
+
+                        <!-- ��ͷ��Ϣ -->
+                        <form id="invt_head_form" autocomplete="off">
+                            <input type="hidden" name="impexpMarkcd" value="E" />
+                            <input type="hidden" name="entryStucd" />
+                            <input type="hidden" name="chgTmsCnt" id="chgTmsCnt" />
+
+                            <table class="percent-100">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">tr1-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" name="seqNo" maxlength="18" data-readonly="true" readonly="readonly">
+                                                <input type="hidden" name="param1" />
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="2">tr1-td2</td>
+                                        <td colspan="2">
+                                            <div class="input-group">
+                                                <input type="text" maxlength="64" name="bondInvtNo" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="2"><i style="color: red;">*</i>&nbsp;tr1-td3</td>
+                                        <td colspan="2">
+                                            <div class="input-group">
+                                                <input type="hidden" name="invtType" id="invtType" value="0" maxlength="1">
+                                                <input type="text" class="non-empty" id="invtTypeName" name="invtTypeName" value="tr1-td4">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;tr1-td5</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="non-empty" name="putrecNo" maxlength="64">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;tr2-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="non-empty" maxlength="10" name="bizopEtpsno" style="width: 78%;">
+                                                <button class="btn-primary btn-table non-disabled-btn" type="button" id="forceBizOpEtpsInfo" style="margin-left:0px 5px">but1</button>
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">tr2-td2</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" maxlength="18" name="bizopEtpsSccd">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;tr2-td3</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="non-empty" name="bizopEtpsNm" maxlength="512">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;tr3-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="non-empty" name="rcvgdEtpsno" maxlength="10" style="width: 78%;">
+                                                <button class="btn-primary btn-table non-disabled-btn" type="button" id="forceRcvgdEtpsInfo" style="margin-left:0px 5px">but2</button>
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">tr3-td2</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" maxlength="18" name="rvsngdEtpsSccd">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;tr3-td3</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="non-empty" name="rcvgdEtpsNm" maxlength="512">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;tr4-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="non-empty" maxlength="10" name="dclEtpsno" style="width: 78%;" value="">
+                                                <button class="btn-primary btn-table non-disabled-btn" type="button" id="forceDclEtpsInfo" style="margin-left:0px 5px">but3</button>
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">tr4-td2</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" maxlength="18" name="dclEtpsSccd" value="">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;tr4-td3</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="non-empty" name="dclEtpsNm" maxlength="512" value="">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">tr5-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" name="inputCode" value="" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">tr5-td2</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" name="inputCreditCode" value="" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">tr5-td3</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" name="inputName" value="" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">tr6-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" name="etpsInnerInvtNo" maxlength="64">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="2">tr6-td2</td>
+                                        <td colspan="2">
+                                            <div class="input-group">
+                                                <input type="hidden" name="dclTypecd" id="dclTypecd" maxlength="1">
+                                                <input type="text" data-readonly="true" name="dclTypecdName" id="dclTypecdName" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <!-- <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;¼������</td> -->
+                                        <td class="text-align-right th-bg" colspan="2">tr6-td3</td>
+                                        <td colspan="2">
+                                            <div class="input-group">
+                                                <input type="text" data-readonly="true" name="inputTime" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">tr6-td4</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" name="invtDclTime" data-readonly="true" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;tr7-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="mtpckEndprdMarkcd" id="mtpckEndprdMarkcd" maxlength="4">
+                                                <input type="text" class="non-empty" name="mtpckEndprdMarkcdName" id="mtpckEndprdMarkcdName">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;tr7-td2</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="supvModecd" id="supvModecd" maxlength="6">
+                                                <input type="text" class="non-empty" name="supvModecdName" id="supvModecdName">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;tr7-td3</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="trspModecd" id="trspModecd" maxlength="6">
+                                                <input type="text" class="non-empty" name="trspModecdName" id="trspModecdName">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;<span name="label-iePortCD">tr8-td1</span></td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="impexpPortcd" id="impexpPortcd" maxlength="4">
+                                                <input type="text" class="non-empty" id="impexpPortcdName" name="impexpPortcdName">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="2"><i style="color: red;">*</i>&nbsp;tr8-td2</td>
+                                        <td colspan="2">
+                                            <div class="input-group">
+                                                <input type="hidden" name="dclPlcCuscd" id="dclPlcCuscd" maxlength="4">
+                                                <input type="text" class="non-empty" name="dclPlcCuscdName" id="dclPlcCuscdName">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="2">tr8-td3</td>
+                                        <td colspan="2">
+                                            <div class="input-group">
+                                                <input type="hidden" name="vrfdedMarkcd" id="vrfdedMarkcd" maxlength="4">
+                                                <input type="text" name="vrfdedMarkcdName" id="vrfdedMarkcdName" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;<span name="label-tradeCountry">tr8-td4</span></td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="stshipTrsarvNatcd" id="stshipTrsarvNatcd" maxlength="3">
+                                                <input type="text" class="non-empty" name="stshipTrsarvNatcdName" id="stshipTrsarvNatcdName">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">tr9-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="invtIochkptStucd" id="invtIochkptStucd" maxlength="4">
+                                                <input type="text" name="invtIochkptStucdName" id="invtIochkptStucdName" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4" id="label_applyNo">tr9-td2</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" name="applyNo" maxlength="64">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">tr9-td3</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="listType" id="listType" maxlength="1">
+                                                <input type="text" name="listTypeName" id="listTypeName">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;tra-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="dclcusFlag" id="dclcusFlag" maxlength="1">
+                                                <input type="text" class="non-empty" id="dclcusFlagName" name="dclcusFlagName">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="2"><i style="color: red;">*</i>&nbsp;tra-td2</td>
+                                        <td colspan="2">
+                                            <div class="input-group">
+                                                <input type="hidden" name="genDecFlag" id="genDecFlag" maxlength="1">
+                                                <input type="text" class="non-empty" name="genDecFlagName" id="genDecFlagName">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="2">tra-td3</td>
+                                        <td colspan="2">
+                                            <div class="input-group">
+                                                <input type="hidden" name="dclcusTypecd" id="dclcusTypecd" maxlength="25">
+                                                <input type="text" name="dclcusTypecdName" id="dclcusTypecdName">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">tra-td4</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="decType" id="decType" maxlength="1">
+                                                <input type="text" name="decTypeName" id="decTypeName">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">trb-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="corr-entry" maxlength="18" name="entryNo" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">trb-td2</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="corr-entry" maxlength="10" name="corrEntryDclEtpsNo" style="width: 78%;">
+                                                <button class="btn-primary btn-table non-disabled-btn" type="button" id="forceCorrEntryDclEtpsInfo" style="margin-left:0px 5px">but1</button>
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">trb-td3</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="corr-entry" maxlength="18" name="corrEntryDclEtpsSccd">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">trc-td1</td>
+                                        <td colspan="20">
+                                            <div class="input-group">
+                                                <input type="text" class="corr-entry" maxlength="512" name="corrEntryDclEtpsNm">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">trd-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="rlt-entry" name="rltEntryNo" maxlength="18" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">trd-td2</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" maxlength="18" name="rltInvtNo">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">trd-td3</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" maxlength="12" name="rltPutrecNo" id="rltPutrecNo">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">tre-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="rlt-entry" maxlength="10" name="rltEntryBizopEtpsno" style="width: 78%;">
+                                                <button class="btn-primary btn-table non-disabled-btn" type="button" id="forceRltEntryBizopEtpsInfo" style="margin-left:0px 5px">but1</button>
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">tre-td2</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="rlt-entry" maxlength="18" name="rltEntryBizopEtpsSccd">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">tre-td3</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="rlt-entry" name="rltEntryBizopEtpsNm" maxlength="512">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">trf-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="rlt-entry" maxlength="10" name="rltEntryRcvgdEtpsno" style="width: 78%;">
+                                                <button class="btn-primary btn-table non-disabled-btn" type="button" id="forceRltEntryRcvgdEtpsInfo" style="margin-left:0px 5px">but1</button>
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">trf-td2</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="rlt-entry" maxlength="18" name="rltEntryRvsngdEtpsSccd">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">trf-td3</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="rlt-entry" name="rltEntryRcvgdEtpsNm" maxlength="512">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">trg-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="rlt-entry" maxlength="10" name="rltEntryDclEtpsno" style="width: 78%;">
+                                                <button class="btn-primary btn-table non-disabled-btn" type="button" id="forceRltEntryDclEtpsInfo" style="margin-left:0px 5px">but1</button>
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">trg-td2</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="rlt-entry" maxlength="18" name="rltEntryDclEtpsSccd">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">trg-td3</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="rlt-entry" name="rltEntryDclEtpsNm" maxlength="512">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">trh-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="rlt-entry" name="entryDclTime" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">trh-td2</td>
+                                        <td colspan="12">
+                                            <div class="input-group">
+                                                <input type="text" maxlength="255" name="rmk" entry="no">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">tri-td1</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" name="decNo" id="decNo" data-readonly="true" readonly="readonly" disabled="disabled">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">tri-td2</td>
+                                        <td colspan="12">
+                                            <div class="input-group">
+                                                <input type="text" name="decRmk" id="decRmk" data-readonly="true" readonly="readonly" disabled="disabled">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+
+                    </div>
+                </div>
+                <!-- ����/��Ʒ -->
+                <div id="invtListTab" class="tab-pane">
+                    <div style="padding:5px 2px 2px 2px">
+
+
+                        <form id="invt_list_form">
+                            <table class="percent-100">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">���</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" name="gdsSeqno" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">�������</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" name="putrecSeqno" maxlength="19">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;��Ʒ�Ϻ�</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="text" class="non-empty" name="gdsMtno" maxlength="32" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">���ص���Ʒ���</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="entryGdsSeqno" maxlength="19"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">��ת�걨�����</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="applyTbSeqno" maxlength="19"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;��Ʒ����</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" class="non-empty" maxlength="10" name="gdecd" id="gdecd"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;��Ʒ����</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" class="non-empty" name="gdsNm" maxlength="512"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;����ͺ�</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" class="non-empty" name="gdsSpcfModelDesc" data-readonly="true" readonly="readonly"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;����</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="dclCurrcd" id="dclCurrcd">
+                                                <input type="text" class="non-empty" name="dclCurrcdName" id="dclCurrcdName">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;�걨������λ</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="dclUnitcd" id="dclUnitcd">
+                                                <input type="text" class="non-empty" name="dclUnitcdName" id="dclUnitcdName">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">����������λ</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="lawfUnitcd" id="lawfUnitcd">
+                                                <input type="text" name="lawfUnitcdName" id="lawfUnitcdName" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">�����ڶ�������λ</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="secdLawfUnitcd" id="secdLawfUnitcd">
+                                                <input type="text" name="secdLawfUnitcdName" id="secdLawfUnitcdName" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;�걨����</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" class="non-empty" min="0" oninput="if(value.length>19)value=value.slice(0,19)" name="dclQty"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;��������</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" class="non-empty" min="0" oninput="if(value.length>19)value=value.slice(0,19)" name="lawfQty"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">�ڶ���������</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" min="0" oninput="if(value.length>19)value=value.slice(0,19)" name="secdLawfQty"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;��ҵ�걨����</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" class="non-empty" min="0" oninput="if(value.length>19)value=value.slice(0,19)" name="dclUprcAmt"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;��ҵ�걨�ܼ�</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" class="non-empty" min="0" oninput="if(value.length>19)value=value.slice(0,19)" name="dclTotalAmt"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;<span name="label-natCD">ԭ����(����)</span></td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="natcd" id="natcd" maxlength="3">
+                                                <input type="text" class="non-empty" name="natcdName" id="natcdName">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">������������</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="wtSfVal" data-readonly="true" readonly="readonly"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">��һ��������</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="fstSfVal" data-readonly="true" readonly="readonly"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">�ڶ���������</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="secdSfVal" data-readonly="true" readonly="readonly"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">ë��</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" min="0" oninput="if(value.length>19)value=value.slice(0,19)" name="grossWt"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">����</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" min="0" oninput="if(value.length>19)value=value.slice(0,19)" name="netWt"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;<span name="label-destinationNatcd">����Ŀ�Ĺ�(����)</span></td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="destinationNatcd" id="destinationNatcd" maxlength="3">
+                                                <input type="text" class="non-empty" name="destinationNatcdName" id="destinationNatcdName">
+                                            </div>
+                                        </td>
+                                        <!-- <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;��;����</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="useCd" id="useCd" value="11">
+                                                <input type="text" class="non-empty" name="useCdName" id="useCdName" value="����">
+                                            </div>
+                                        </td> -->
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;���ⷽʽ</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="lvyrlfModecd" id="lvyrlfModecd">
+                                                <input type="text" class="non-empty" name="lvyrlfModecdName" id="lvyrlfModecdName">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">���İ汾��</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="ucnsVerno" maxlength="8"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">�Զ��������</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="param3" data-readonly="true" readonly="readonly">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">�޸ı�־</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="modfMarkcd" id="modfMarkcd">
+                                                <input type="text" name="modfMarkcdName" id="modfMarkcdName" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">��ע</td>
+                                        <td colspan="12">
+                                            <div class="input-group"><input type="text" name="rmk" maxlength="255" enter="no"></div>
+                                            <input type="hidden" name="param1" id="param1">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+
+                        <div class="row itswRow">
+                            <div class="btn-group col-sm-12" role="group">
+                                <button type="button" class="btn btn-second btn-default" id="invt-list-add-btn" disabled="disabled">
+                                    <span class="fa fa-plus"></span>&nbsp;����
+                                </button>
+                                <button type="button" class="btn btn-second btn-default" id="invt-list-del-btn" disabled="disabled">
+                                    <span class="glyphicon glyphicon-trash"></span>&nbsp;ɾ��
+                                </button>
+                                <button type="button" class="btn btn-second btn-default" id="invt-list-copy-btn" disabled="disabled">
+                                    <span class="fa fa-copy"></span>&nbsp;����
+                                </button>
+                                <button type="button" class="btn btn-second btn-default" id="open-goods-search-modal-btn" disabled="disabled">
+                                    <span class="glyphicon glyphicon-search"></span>&nbsp;��Ʒ���ٲ�ѯ
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row itswRow">
+                            <div class="col-sm-12">
+                                <div class="example-wrap">
+                                    <div class="example">
+                                        <table id="InvtListTable" class="table-fixed text-nowrap">
+                                            <thead style="height:37px">
+                                                <tr>
+                                                    <th data-field="state" data-checkbox="true"></th>
+                                                    <th data-field="gdsSeqno">���</th>
+                                                    <th data-field="putrecSeqno">�������</th>
+                                                    <th data-field="gdsMtno">��Ʒ�Ϻ�</th>
+                                                    <th data-field="entryGdsSeqno">���ص���Ʒ���</th>
+                                                    <th data-field="applyTbSeqno">��ת�걨�����</th>
+                                                    <th data-field="gdecd">��Ʒ����</th>
+                                                    <th data-field="gdsNm">��Ʒ����</th>
+                                                    <th data-field="gdsSpcfModelDesc">����ͺ�</th>
+                                                    <th data-field="dclUnitcdName">�걨������λ</th>
+                                                    <th data-field="lawfUnitcdName">����������λ</th>
+                                                    <th data-field="secdLawfUnitcdName">�����ڶ�������λ</th>
+                                                    <th data-field="natcdName">ԭ����(����)</th>
+                                                    <th data-field="destinationNatcdName">����Ŀ�Ĺ�(����)</th>
+                                                    <th data-field="dclUprcAmt">��ҵ�걨����</th>
+                                                    <th data-field="dclTotalAmt">��ҵ�걨�ܼ�</th>
+                                                    <th data-field="dclCurrcdName">����</th>
+                                                    <th data-field="modfMarkcdName">�޸ı�־</th>
+                                                    <th data-field="lawfQty">��������</th>
+                                                    <th data-field="secdLawfQty">�ڶ���������</th>
+                                                    <th data-field="wtSfVal">������������</th>
+                                                    <th data-field="fstSfVal">��һ��������</th>
+                                                    <th data-field="secdSfVal">�ڶ���������</th>
+                                                    <th data-field="dclQty">�걨����</th>
+                                                    <th data-field="grossWt">ë��</th>
+                                                    <th data-field="netWt">����</th>
+                                                    <!-- <th data-field="useCdName">��;����</th> -->
+                                                    <th data-field="lvyrlfModecdName">���ⷽʽ</th>
+                                                    <th data-field="ucnsVerno">���İ汾��</th>
+                                                    <th data-field="clyMarkcdName">�����־</th>
+                                                    <th data-field="param3">�Զ��������</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <fieldset style="border: 1px solid silver; border-radius: 5px; margin-top: 10px; padding-bottom: 10px;">
+                            <legend style="color: #309be6; padding: 0px 5px; border: 0; width: initial; font-size: 13px; margin-bottom: 5px; margin-left: 10px; border: 0;">
+                                ���ص��ݸ�&emsp;
+                                <span style="color:red;font-size: 12px;"><b>��Ҫ��ʾ��</b>��¼<b>&nbsp;�����걨ϵͳ&nbsp;</b>������<b>&nbsp;�����걨&nbsp;</b>-<b>&nbsp;���ݲ�ѯ/ͳ��&nbsp;</b>-<b>&nbsp;�������ݲ�ѯ&nbsp;</b>���棬���뱨�ص�ͳһ��š������ѯ�����ɵ������ص����ݡ�</span>
+                            </legend>
+                            <div class="row itswRow">
+                                <div class="col-sm-12">
+                                    <div class="example-wrap">
+                                        <div class="example">
+                                            <table id="InvtDecListTable" class="table-fixed text-nowrap">
+                                                <thead style="height:37px">
+                                                    <tr>
+                                                        <th data-field="decSeqNo">���ص�ͳһ���</th>
+                                                        <th data-field="entryGdsSeqno">���ص���Ʒ���</th>
+                                                        <th data-field="gdecd">��Ʒ����</th>
+                                                        <th data-field="gdsNm">��Ʒ����</th>
+                                                        <th data-field="gdsSpcfModelDesc">����ͺ�</th>
+                                                        <th data-field="dclQty">�걨����</th>
+                                                        <th data-field="dclUprcAmt">�걨����</th>
+                                                        <th data-field="dclTotalAmt">�걨�ܼ�</th>
+                                                        <th data-field="dclCurrCdName">�걨����</th>
+                                                        <th data-field="dclUnitcdName">�걨������λ</th>
+                                                        <th data-field="lawfUnitcdName">����������λ</th>
+                                                        <th data-field="secdLawfUnitcdName">�����ڶ�������λ</th>
+                                                        <th data-field="natCdName">ԭ����(����)</th>
+                                                        <th data-field="destinationNatcdName">����Ŀ�Ĺ�(����)</th>
+                                                        <th data-field="lawfQty">��������</th>
+                                                        <th data-field="secdLawfQty">�ڶ���������</th>
+                                                        <!-- <th data-field="useCdName">��;����</th> -->
+                                                        <th data-field="ciqCode">������߱���</th>
+                                                        <th data-field="declGoodsEname">��ƷӢ������</th>
+                                                        <th data-field="origPlaceCode">ԭ����������</th>
+                                                        <th data-field="purpose">��;����</th>
+                                                        <th data-field="prodValidDt">��Ʒ��Ч��</th>
+                                                        <th data-field="prodQgp">��Ʒ������</th>
+                                                        <th data-field="goodsAttr">�������Դ���</th>
+                                                        <th data-field="stuff">�ɷ�/ԭ��/���</th>
+                                                        <th data-field="unCode">UN����</th>
+                                                        <th data-field="dangName">Σ�ջ�������</th>
+                                                        <th data-field="dangPackType">Σ�����</th>
+                                                        <th data-field="dangPackSpec">Σ�����</th>
+                                                        <th data-field="engManEntCnm">����������ҵ����</th>
+                                                        <th data-field="noDangFlag">��Σ�ջ�ѧƷ</th>
+                                                        <th data-field="destCode">Ŀ�ĵش���</th>
+                                                        <th data-field="goodsSpec">������߻�����</th>
+                                                        <th data-field="goodsModel">�����ͺ�</th>
+                                                        <th data-field="goodsBrand">����Ʒ��</th>
+                                                        <th data-field="produceDate">��������</th>
+                                                        <th data-field="prodBatchNo">��������</th>
+                                                        <th data-field="districtCode">����Ŀ�ĵ�/���ڻ�Դ��</th>
+                                                        <th data-field="ciqName">�����������</th>
+                                                        <th data-field="mnufctrRegno">������λע���</th>
+                                                        <th data-field="mnufctrRegName">������λ����</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="f2" style="margin-top: 5px;">
+                            <button type="button" class="btn btn-sm btn-primary pull-right" id="btn-invt-dec-import" onclick="importExcelData('invt-dec-import')" disabled>
+                                <i class="glyphicon glyphicon-import"></i>&nbsp;���뱨�ص������ֶ�
+                            </button>
+                        </div>
+                        <fieldset style="border: 1px solid silver; border-radius: 5px; margin-top: 30px; padding-bottom: 10px;" id="invt_dec_head_form_fieldset">
+                            <legend style="color: #309be6; padding: 0px 5px; border: 0; width: initial; font-size: 13px; margin-bottom: 5px; margin-left: 10px; border: 0;">���ص���ͷ�����ֶ�</legend>
+                            <form id="invt_dec_head_form">
+                                <table class="percent-100">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-align-right th-bg" colspan="2">�ᵥ��</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="billNo" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">��ͬ��</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="contrNo" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">��������</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="cutMode" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">�ɽ���ʽ</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="transMode" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">��������</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="type" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-align-right th-bg" colspan="2">�˷ѱ���</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="feeCurr" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">�˷ѱ��</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="feeMark" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">�˷�/��</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="feeRate" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">ë��</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="grossWet" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">����</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="netWt" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-align-right th-bg" colspan="2">���շѱ���</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="insurCurr" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">���շѱ��</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="insurMark" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">���շ�/��</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="insurRate" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">��װ����</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="wrapType" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">����</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="packNo" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-align-right th-bg" colspan="2">�ӷѱ���</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="otherCurr" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">�ӷѱ�־</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="otherMark" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">�ӷ�/��</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="otherRate" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">����֤���</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="licenseNo" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">��ŵ����</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="promiseItems" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-align-right th-bg" colspan="2">ó�׹���</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="tradeAreaCode" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">���˸۴���</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="despPortCode" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="4">��ͣ��/ָ�˸�</td>
+                                            <td colspan="4">
+                                                <div class="input-group">
+                                                    <input type="text" name="distinatePort" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="2">��ŵص�</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="goodsPlace" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-align-right th-bg" colspan="3">���乤�ߴ��뼰����</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="trafName" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="3">�뾳/�뾳�ڰ�����</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="entryPortCode" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="3">���ⷢ���˴���</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="overseasConsignorCode" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="3">���ⷢ��������(����)</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="overseasConsignorEname" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-align-right th-bg" colspan="3">�����շ���������</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="overseasConsignorCname" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="3">�����շ����˵�ַ</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="overseasConsignorAddr" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="3">�����ջ��˱���</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="overseasConsigneeCode" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                            <td class="text-align-right th-bg" colspan="3">�����ջ�������(����)</td>
+                                            <td colspan="2">
+                                                <div class="input-group">
+                                                    <input type="text" name="overseasConsigneeEname" data-readonly="true" readonly="readonly">
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </form>
+                        </fieldset>
+                    </div>
+                </div>
+                <!-- �ϼ� -->
+                <div id="invtGoodsListTab" class="tab-pane">
+                    <div style="padding:5px 2px 2px 2px">
+
+
+                        <form id="invt_goods_form">
+                            <input type="hidden" name="modfMarkcd" id="modfMarkcd" value="3">
+                            <table class="percent-100">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">���</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="gdsSeqno" data-readonly="true" readonly="readonly"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">�������</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="putrecSeqno" maxlength="19"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;��Ʒ�Ϻ�</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" class="non-empty" name="gdsMtno" maxlength="32" data-readonly="true" readonly="readonly"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">��ת�걨�����</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="applyTbSeqno" maxlength="19"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;��Ʒ����</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" class="non-empty" maxlength="10" name="gdecd" id="goods-gdecd" data-readonly="true" readonly="readonly"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;��Ʒ����</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" class="non-empty" name="gdsNm" maxlength="512" data-readonly="true" readonly="readonly"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">����ͺ�</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="gdsSpcfModelDesc" data-readonly="true" readonly="readonly"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;����</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="dclCurrcd" id="goods-dclCurrcd">
+                                                <input type="text" class="non-empty" name="dclCurrcdName" id="goods-dclCurrcdName">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">�걨������λ</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="dclUnitcd" id="goods-dclUnitcd">
+                                                <input type="text" name="dclUnitcdName" id="goods-dclUnitcdName" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">����������λ</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="lawfUnitcd" id="goods-lawfUnitcd">
+                                                <input type="text" name="lawfUnitcdName" id="goods-lawfUnitcdName" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">�����ڶ�������λ</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="secdLawfUnitcd" id="goods-secdLawfUnitcd">
+                                                <input type="text" name="secdLawfUnitcdName" id="goods-secdLawfUnitcdName" data-readonly="true" readonly="readonly">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;�걨����</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" class="non-empty" min="0" oninput="if(value.length>19)value=value.slice(0,19)" name="dclQty"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;��ҵ�걨����</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" class="non-empty" min="0" oninput="if(value.length>19)value=value.slice(0,19)" name="dclUprcAmt"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;��ҵ�걨�ܼ�</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" class="non-empty" min="0" oninput="if(value.length>19)value=value.slice(0,19)" name="dclTotalAmt"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;��������</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" class="non-empty" min="0" oninput="if(value.length>19)value=value.slice(0,19)" name="lawfQty"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">�ڶ���������</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" min="0" oninput="if(value.length>19)value=value.slice(0,19)" name="secdLawfQty"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;<span name="label-natCD">ԭ����(����)</span></td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="natcd" id="goods-natcd" maxlength="3">
+                                                <input type="text" class="non-empty" name="natcdName" id="goods-natcdName">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">������������</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="wtSfVal" data-readonly="true" readonly="readonly"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">��һ��������</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="fstSfVal" data-readonly="true" readonly="readonly"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">�ڶ���������</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="secdSfVal" data-readonly="true" readonly="readonly"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">ë��</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" min="0" oninput="if(value.length>19)value=value.slice(0,19)" name="grossWt"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">����</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" min="0" oninput="if(value.length>19)value=value.slice(0,19)" name="netWt"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;<span name="label-destinationNatcd">����Ŀ�Ĺ�(����)</span></td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="destinationNatcd" id="goods-destinationNatcd" maxlength="3">
+                                                <input type="text" class="non-empty" name="destinationNatcdName" id="goods-destinationNatcdName">
+                                            </div>
+                                        </td>
+                                        <!-- <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;��;����</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="useCd" id="goods-useCd">
+                                                <input type="text" class="non-empty" name="useCdName" id="goods-useCdName">
+                                            </div>
+                                        </td> -->
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;���ⷽʽ</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" name="lvyrlfModecd" id="goods-lvyrlfModecd">
+                                                <input type="text" class="non-empty" name="lvyrlfModecdName" id="goods-lvyrlfModecdName">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">���İ汾��</td>
+                                        <td colspan="4">
+                                            <div class="input-group"><input type="text" name="ucnsVerno" maxlength="8"></div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">��ע</td>
+                                        <td colspan="12">
+                                            <div class="input-group"><input type="text" name="rmk" maxlength="255" enter="no"></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+
+                        <div class="row itswRow">
+                            <div class="btn-group col-sm-12" role="group">
+                                <button type="button" class="btn btn-second btn-default" id="invt-goods-add-btn" disabled="disabled">
+                                    <span class="fa fa-plus"></span>&nbsp;����
+                                </button>
+                                <button type="button" class="btn btn-second btn-default" id="invt-goods-del-btn" disabled="disabled">
+                                    <span class="glyphicon glyphicon-trash"></span>&nbsp;ɾ��
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row itswRow">
+                            <div class="col-sm-12">
+                                <div class="example-wrap">
+                                    <div class="example">
+                                        <table id="InvtGoodsTable" class="table-fixed text-nowrap">
+                                            <thead style="height:37px">
+                                                <tr>
+                                                    <th data-field="state" data-checkbox="true"></th>
+                                                    <th data-field="gdsSeqno">���</th>
+                                                    <th data-field="putrecSeqno">�������</th>
+                                                    <th data-field="gdsMtno">��Ʒ�Ϻ�</th>
+                                                    <th data-field="entryGdsSeqno">���ص���Ʒ���</th>
+                                                    <th data-field="applyTbSeqno">��ת�걨�����</th>
+                                                    <th data-field="gdecd">��Ʒ����</th>
+                                                    <th data-field="gdsNm">��Ʒ����</th>
+                                                    <th data-field="gdsSpcfModelDesc">����ͺ�</th>
+                                                    <th data-field="dclUnitcdName">�걨������λ</th>
+                                                    <th data-field="lawfUnitcdName">����������λ</th>
+                                                    <th data-field="secdLawfUnitcdName">�����ڶ�������λ</th>
+                                                    <th data-field="natcdName">ԭ����(����)</th>
+                                                    <th data-field="destinationNatcdName">����Ŀ�Ĺ�(����)</th>
+                                                    <th data-field="dclUprcAmt">��ҵ�걨����</th>
+                                                    <th data-field="dclTotalAmt">��ҵ�걨�ܼ�</th>
+                                                    <th data-field="dclCurrcdName">����</th>
+                                                    <th data-field="lawfQty">��������</th>
+                                                    <th data-field="secdLawfQty">�ڶ���������</th>
+                                                    <th data-field="wtSfVal">������������</th>
+                                                    <th data-field="fstSfVal">��һ��������</th>
+                                                    <th data-field="secdSfVal">�ڶ���������</th>
+                                                    <th data-field="dclQty">�걨����</th>
+                                                    <th data-field="grossWt">ë��</th>
+                                                    <th data-field="netWt">����</th>
+                                                    <th data-field="useCdName">��;����</th>
+                                                    <!-- <th data-field="lvyrlfModecdName">���ⷽʽ</th> -->
+                                                    <th data-field="ucnsVerno">���İ汾��</th>
+                                                    <th data-field="clyMarkcdName">�����־</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ����ⵥ -->
+                <div id="invtWarehouseTab" class="tab-pane">
+                    <div style="padding:5px 2px 2px 2px">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="example-wrap">
+                                    <div class="example">
+                                        <table id="InvtWarehouseTable" class="table-fixed text-nowrap">
+                                            <thead style="height:37px">
+                                                <tr>
+                                                    <th data-field="gNo" data-formatter="indexFormatter">���</th>
+                                                    <th data-field="sasStockNo">����ⵥ���</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- �渽���̵� -->
+                <div id="invtCbecBillTab" class="tab-pane">
+                    <div style="padding:5px 2px 2px 2px">
+
+                        <form id="invt_cbec_bill_form">
+                            <table class="percent-60">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-align-right th-bg">���</td>
+                                        <td colspan="2">
+                                            <div class="input-group">
+                                                <input type="text" name="gno" data-readonly="true" readonly="readonly">
+                                                <input type="hidden" name="startTime">
+                                                <input type="hidden" name="endTime">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg"><i style="color: red;">*</i>&nbsp;�����嵥���</td>
+                                        <td colspan="3">
+                                            <div class="input-group">
+                                                <input type="text" class="non-empty" name="cbecBillNo" maxlength="18">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+
+                        <div class="row itswRow">
+                            <div class="btn-group col-sm-12" role="group">
+                                <button type="button" class="btn btn-second btn-default" id="invt-cbecbill-add-btn" disabled="disabled">
+                                    <span class="fa fa-plus"></span>&nbsp;����
+                                </button>
+                                <button type="button" class="btn btn-second btn-default" id="invt-cbecbill-del-btn" disabled="disabled">
+                                    <span class="glyphicon glyphicon-trash"></span>&nbsp;����ɾ��
+                                </button>
+                                <button type="button" class="btn btn-second btn-default" id="invt-cbecbill-del-all-btn" disabled="disabled">
+                                    <span class="glyphicon glyphicon-trash"></span>&nbsp;ȫ��ɾ��
+                                </button>
+                                <button type="button" class="btn btn-second btn-default" id="open-query-cbecbill-modal-btn" disabled="disabled">
+                                    <span class="glyphicon glyphicon-search"></span>&nbsp;���ٲ�ѯ
+                                </button>
+                                <button type="button" class="btn btn-second btn-default" id="get-cbec-group-btn" disabled="disabled">
+                                    <span class="glyphicon glyphicon-search"></span>&nbsp;��ȡ����
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row itswRow">
+                            <div class="col-sm-8">
+                                <div class="example-wrap">
+                                    <div class="example">
+                                        <table id="InvtCbecBillTable" class="table-fixed text-nowrap">
+                                            <thead style="height:37px">
+                                                <tr>
+
+                                                    <th data-checkbox="true"></th>
+                                                    <th data-field="gno">���</th>
+                                                    <th data-field="cbecBillNo">�����嵥���</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--�渽���� -->
+                <div id="attachTab" class="tab-pane">
+
+                    <!-- �渽���� ҳ�� -->
+                    <!-- <div id="acmpRLContent" style="display: none; margin: 20px auto;"> -->
+                    <div style="padding:5px 2px 2px 2px">
+                        <form id="acmp_form">
+                            <input type="hidden" id="acmpOperateFlag" name="acmpOperateFlag">
+                            <!-- �渽�������� -->
+                            <input type="hidden" id="seqNo" name="seqNo">
+                            <input type="hidden" id="acmpFormSeqNo" name="acmpFormSeqNo">
+                            <input type="hidden" id="acmpFormFileNm" name="acmpFormFileNm">
+                            <input type="hidden" id="acmpBlsStatus" name="acmpBlsStatus">
+                            <input type="hidden" id="acmpBlsStatusName" name="acmpBlsStatusname">
+                            <input type="hidden" id="pocketId" name="pocketId">
+                            <input type="hidden" id="totalPocketQty" name="totalPocketQty">
+                            <input type="hidden" id="curPocketNo" name="curPocketNo">
+                            <!-- �޸ı�Ǵ��� 0:δ�޸� 1:�޸� 2:ɾ�� 3:���� -->
+                            <input type="hidden" id="modfMarkCd" name="modfMarkCd">
+                            <div style="position: relative;">
+                                <table class="percent-100">
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;ҵ��֤����</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" id="blsType" name="blsType">
+                                                <input type="text" id="blsTypename" name="blsTypename" readonly>
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;ҵ��֤ͳһ���</td>
+                                        <td colspan="4">
+                                            <input type="text" id="blsNo" name="blsNo" readonly>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;�ϴ���IC����</td>
+                                        <td colspan="4">
+                                            <input type="text" id="icCardNo" name="icCardNo" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">���/�޸Ĵ���</td>
+                                        <td colspan="4">
+                                            <input type="text" id="chgTmsCnt" name="chgTmsCnt" readonly>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;�渽���ݸ�ʽ</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" id="acmpFormFmt" name="acmpFormFmt">
+                                                <input class="non-empty" type="text" id="acmpFormFmtname" name="acmpFormFmtname">
+                                            </div>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">�渽��������</td>
+                                        <td colspan="4">
+                                            <div class="input-group">
+                                                <input type="hidden" id="acmpFormTypeCD" name="acmpFormTypeCD">
+                                                <input type="text" id="acmpFormTypeCDname" name="acmpFormTypeCDname">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg td-acmpFormNo" colspan="4"><i style="color: red;">*</i>&nbsp;�渽���ݱ��</td>
+                                        <td colspan="4">
+                                            <input type="text" id="acmpFormNo" name="acmpFormNo">
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">�渽����������λ</td>
+                                        <td colspan="3">
+                                            <input id="transferTradeCode" name="transferTradeCode" aria-required="true" maxlength="10" aria-invalid="true" type="text">
+                                        </td>
+                                        <td style="border-left: 0px;width: 4%;">
+                                            <button class="btn-primary btn-table non-disabled-btn" type="button" id="forTransferTradeCode" style="width: 90%;margin-left:5%;">ˢ��</button>
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">�渽����������λ����</td>
+                                        <td colspan="4">
+                                            <input type="text" id="transferTradeName" name="transferTradeName" readonly="readonly">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-align-right th-bg" colspan="4">�嵥��Ʒ���</td>
+                                        <td colspan="4">
+                                            <input type="text" id="invtGdsSeqNo" name="invtGdsSeqNo">
+                                        </td>
+                                        <td class="text-align-right th-bg" colspan="4">�渽�����ļ�</td>
+                                        <td colspan="12">
+                                            <input type="hidden" id="rmk" name="rmk">
+                                            <button id="btn-chooseFile" type="button" class="btn-primary btn-table non-disabled-btn">
+                                                <i class="fa fa-upload"></i>&nbsp;�ļ�ѡ��
+                                            </button>
+                                            <span class="span-acmp" id="span-acmp"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </form>
+                        <div class="alert alert-danger" role="alert" style="margin: 5px 1px;border-radius: 0px;">
+                            <p>���ѣ�</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;1��������СҪ�󲻳���4M������ļ����󣬽����ֶ���ϴ���</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;2��������ʽҪ��PDF�ļ���</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;3��ͬһ�������Ϳ����ϴ����������</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;4��������������л���ִ���ʧ�ܵ����������ʱ��ע��������״̬��</p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;5��Ҫ���ϴ���ӡ���Ŀ��ϴ�ԭ����ɨ�����</p>
+                        </div>
+                        <div class="bootTable-content bor-line" style="margin-top: 2px;">
+                            <div class="btn-group" id="acmpRLTalbeToolbar" role="group">
+                                <button class="btn-second btn-default" type="button" id="resetAcmpBtn">
+                                    <i class="fa fa-plus"></i>&nbsp;����
+                                </button>
+                                <button class="btn-second btn-default" type="button" id="saveAcmpBtn">
+                                    <i class="fa fa-save"></i>&nbsp;�ݴ�
+                                </button>
+                                <button class="btn-second btn-default" type="button" id="delAcmpBtn">
+                                    <i class="glyphicon glyphicon-trash"></i>&nbsp;ɾ��
+                                </button>
+                                <button class="btn-second btn-default" type="button" id="filesUploadAcmpBtn">
+                                    <i class="fa fa-upload"></i>&nbsp;�ϴ�
+                                </button>
+                                <button class="btn-second btn-default" type="button" id="downloadAcmpBtn">
+                                    <i class="fa fa-download"></i>&nbsp;����
+                                </button>
+                            </div>
+                            <div style="margin-top: 2px;">
+                                <table id="acmpRLTalbe" class="table-fixed text-nowrap" data-id-field="acmpFormSeqNo" data-mobile-responsive="true"
+                                       data-resizable="true" style="margin-top: -24px;" data-uniqueId="acmpFormSeqNo" data-sortName="acmpFormSeqNo">
+                                    <thead>
+                                        <tr>
+                                            <th data-checkbox="true"></th>
+                                            <th style="background-color:#64a5eb" data-field="acmpFormSeqNo" data-visible="true">�渽�������</th>
+                                            <th style="background-color:#64a5eb" data-field="acmpFormFileNm">�渽�����ļ�����</th>
+                                            <th style="background-color:#64a5eb" data-field="acmpFormTypeCDname">�渽��������</th>
+                                            <th style="background-color:#64a5eb" data-field="acmpFormNo">�渽���ݱ��</th>
+                                            <th style="background-color:#64a5eb" data-field="acmpBlsStatusname">�渽����״̬</th>
+                                            <th style="background-color:#64a5eb" data-field="invtGdsSeqNo">�嵥��Ʒ���</th>
+                                            <th style="background-color:#64a5eb" data-field="transferTradeCode">�渽����������λ</th>
+                                            <th style="background-color:#64a5eb" data-field="icCardNo">�ϴ���IC����</th>
+                                            <th style="background-color:#64a5eb" data-field="fileName">�渽���ݴ洢��</th>
+                                            <th style="background-color:#64a5eb" data-field="acmpFormFmtname">�渽���ݸ�ʽ</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ���嵼�� -->
+    <div id="importExcel" style="display:none;margin-top:30px;margin-left:20px">
+        <form id="id_cusForm" action="" method="post" enctype="multipart/form-data">
+            <input type="text" name="fileName" class="fileName-input" placeholder="��ѡ���Ӧ��excelģ���ļ���" id="fileName" disabled="true" />
+            <input type="file" name="file" id="id_cusForm_file" style="position:absolute;clip:rect(0 0 0 0);" onchange="fileSelect('id_cusForm')" />
+            <label class="file-input" for="id_cusForm_file">ѡ���ļ�</label>
+            <br />
+            <input type="text" name="maxSasDclSeqno" id="maxSasDclSeqno" style="display:none" />
+            <input type="text" name="activeTab" id="activeTab" style="display:none" />
+            <button type="button" class="file-button" onclick="uploadExcelData('id_cusForm')" id="uploadBtn">�ϴ�</button>
+            <button type="button" class="file-download" onclick="excelDownload('INVT')" id="downloadBtn">ģ������</button>
+        </form>
+    </div>
+
+
+    <div id="goodsListElemContent" style="padding: 0 15px;display: none;">
+        <p style="margin-top: 10px;">����Ʒ������в�ѯ����������Ʒ����ѡ��</p>
+        <table id="goodsListElemTable" data-checkbox-header="false" class="itswTable">
+            <thead>
+                <tr>
+                    <th data-radio="true"></th>
+                    <th data-field="codeTs">��Ʒ���</th>
+                    <th data-field="gname">��Ʒ����</th>
+                    <th data-field="noteS">��ע</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <!-- �������ݲ�ѯ -->
+    <div id="searchGoodsContent" style="padding: 0 15px;display: none;">
+        <fieldset class="search-condition" style="margin-bottom: 5px;">
+            <legend class="search-condition">��ѯ����</legend>
+            <form id="searchGoodsForm">
+                <table class="condition-table">
+                    <tbody>
+                        <tr>
+                            <td class="text-align-right th-bg">&nbsp;��Ʒ�Ϻ�</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" name="gdsMtno" maxlength="32">
+                                </div>
+                            </td>
+                            <td class="text-align-right th-bg">&nbsp;��Ʒ����</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" name="gdsCd" maxlength="10">
+                                </div>
+                            </td>
+                            <td class="text-align-right th-bg">&nbsp;��Ʒ����</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" name="gdsNm" maxlength="512">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-align-right th-bg">&nbsp;�����嵥���</td>
+                            <td colspan="3">
+                                <div class="input-group">
+                                    <input type="text" name="invtNo" maxlength="18">
+                                </div>
+                            </td>
+                            <td class="text-align-right th-bg">&nbsp;�����嵥��Ʒ���</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" name="invtGNo" maxlength="19">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <div class="row itswRow">
+                <div class="col-sm-12">
+                    <div style="text-align:center; margin-bottom: 10px;">
+                        <button class="btn btn-sm btn-primary" type="button" id="invt-goods-search-btn">
+                            <span class="fa fa-search"></span>&nbsp;&nbsp;��ѯ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <table id="searchGoodsTable" data-checkbox-header="false" class="table-fixed text-nowrap">
+            <thead style="height:37px">
+                <tr>
+                    <th data-radio="true"></th>
+                    <th data-field="putrecSeqNo">�������</th>
+                    <th data-field="gdsMtno">��Ʒ�Ϻ�</th>
+                    <th data-field="gdeCD">��Ʒ����</th>
+                    <th data-field="gdsNm">��Ʒ����</th>
+                    <th data-field="gdsSpcfModelDesc">����ͺ�</th>
+                    <th data-field="dclUnitCDName">�걨������λ</th>
+                    <th data-field="lawfUnitCDName">����������λ</th>
+                    <th data-field="secdLawfUnitCDName">�����ڶ�������λ</th>
+                    <th data-field="wtSfVal">������������</th>
+                    <th data-field="fstSfVal">��һ��������</th>
+                    <th data-field="secdSfVal">�ڶ���������</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <!-- ��˰�������ݲ�ѯ -->
+    <div id="searchCbecBillContent" style="padding: 0 15px;display: none;">
+        <fieldset class="search-condition" style="margin-bottom: 5px;">
+            <legend class="search-condition">��ѯ����</legend>
+            <form id="searchCbecBillForm">
+                <table class="condition-table">
+                    <tbody>
+                        <tr>
+                            <td class="text-align-right th-bg"><i style="color: red;">*</i>&nbsp;��ʼʱ��</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" id="inputDateStart" name="inputDateStart" maxlength="14" isDate="true"
+                                           style="background-color: #fff;" placeholder="��ѡ������"
+                                           onfocus="laydate({elem: '#inputDateStart',istime: true, format: 'YYYYMMDDhhmmss'})" onkeypress="return false">
+                                </div>
+                            </td>
+                            <td class="text-align-right th-bg"><i style="color: red;">*</i>&nbsp;��ֹʱ��</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" id="inputDateEnd" name="inputDateEnd" maxlength="14" isDate="true"
+                                           style="background-color: #fff;" placeholder="��ѡ������"
+                                           onfocus="laydate({elem: '#inputDateEnd',istime: true, format: 'YYYYMMDDhhmmss'})" onkeypress="return false">
+                                </div>
+                            </td>
+                            <!-- <td class="text-align-right th-bg">&nbsp;��������</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" name="customsCode" id="customsCode" maxlength="4">
+                                </div>
+                            </td> -->
+                        </tr>
+                        <!-- <tr>
+                            <td class="text-align-right th-bg">&nbsp;����������</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" name="batchNo" id="batchNo" maxlength="30">
+                                </div>
+                            </td>
+                            <td class="text-align-right th-bg">&nbsp;�걨��ҵ����</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" name="agentCode" id="agentCode" maxlength="10">
+                                </div>
+                            </td>
+                            <td class="text-align-right th-bg">&nbsp;����ƽ̨����</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" name="ebpCode" id="ebpCode" maxlength="10">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-align-right th-bg">&nbsp;������ҵ����</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" name="ebcCode" id="ebcCode" maxlength="10">
+                                </div>
+                            </td>
+                            <td class="text-align-right th-bg">&nbsp;������ҵ����</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="text" name="logisticsCode" id="logisticsCode" maxlength="10">
+                                </div>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </form>
+            <div class="row itswRow">
+                <div class="col-sm-12">
+                    <div style="text-align:center; margin-bottom: 10px;">
+                        <button class="btn btn-sm btn-primary" type="button" id="invt-cbecbill-search-btn">
+                            <span class="fa fa-search"></span>&nbsp;&nbsp;��ѯ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <table id="searchCbecBillTable" data-checkbox-header="false" class="table-fixed text-nowrap">
+            <thead style="height:37px">
+                <tr>
+                    <th data-checkbox="true"></th>
+                    <th data-field="cbecBillNo">�������</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <!-- ��ӡ���� -->
+    <div id="invt-print-model" style="display:none;margin-top:20px;margin-left:50px">
+        <div class="container-fluid">
+            <form id="invtPrintChoseForm" class="form-inline">
+                <span style="font-weight: 700; color: #080808;padding-right: 10px;">ѡ����壺</span><br>
+                <div style="padding-left: 20px">
+                    <div class="radio-inline">
+                        <label>
+                            <input type="radio" style="margin-top: inherit;" name="printList" value="invtList" checked="checked">����
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            <input type="radio" style="margin-top: inherit;" name="printList" value="invtDecList">���ص��ݸ�
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            <input type="radio" style="margin-top: inherit;" name="printList" value="invtGoods">�򵥼ӹ��嵥�ϼ����� / һ�ɳ�Ʒ������Ʒ����
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            <input type="radio" style="margin-top: inherit;" name="printList" value="invtWarehouseTypeAndCbecBill">����ⵥ�͵����嵥
+                        </label>
+                    </div>
+                </div>
+                <br>
+                <span style="font-weight: 700; color: #080808;padding-right: 10px;">���÷�Χ��</span>
+                <br>
+                <div style="padding-left: 20px">
+                    ��
+                    <div class="form-group inline">
+                        <input type="text" class="form-control" id="start" name="start" style="width: 40px;">
+                    </div>
+                    ��&nbsp;&nbsp;��&nbsp;&nbsp;��
+                    <div class="form-group inline">
+                        <input type="text" class="form-control" id="end" name="end" style="width: 40px;">
+                    </div>
+                    ��
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var COMMON_INFO = {
+    	impexpMarkcd: 'E',
+    	subSystem: 'Npts',
+    	subSysId: 'B1',
+    	bizKey: '',
+    	opera: ''
+    }
+    </script>
+    <!-- ������Ŀ����js -->
+
+
+
+
+
+
+    <script type="text/javascript">
+//��¼��
+	var login_name='2119030031887';
+	if("null"==login_name){
+		login_name="";
+	}
+//��¼����
+  var login_type='1';
+  if('null'==login_type){
+	   login_type="";
+  }
+ //����Ա���
+ var decl_card='null';
+  if('null'==decl_card){
+	   decl_card="";
+  }
+	//��ҵ����
+   var etps_name='\u4E1C\u839E\u5E02\u712F\u7EB6\u94AE\u6263\u6709\u9650\u516C\u53F8';
+   if('null'==etps_name){
+	   etps_name="";
+   }
+   //����ʮλ����
+   var cus_reg_no='4419940W2Q';
+   if('null'==cus_reg_no){
+	   cus_reg_no="";
+   }
+   //
+   var op_name='\u53F6\u8000\u6C5F';
+   if('null'==op_name){
+	   op_name="";
+   }
+   //
+   var cards='2119030031887';
+   if('null'==cards){
+	   cards="";
+   }
+   //
+   var dec_password='88888888';
+   if('null'==dec_password){
+	   dec_password="";
+   }
+   //
+   var ciq_etps_reg_no='null';
+   if('null'==ciq_etps_reg_no){
+	   ciq_etps_reg_no="";
+   }
+   //
+   var account_name='2119030031887';
+   if('null'==account_name){
+	   account_name="";
+   }
+   //
+   var account_type='3';
+   if('null'==account_type){
+	   account_type="";
+   }
+   //��ַ
+   var gs_dom='\u5E7F\u4E1C\u7701\u4E1C\u839E\u5E02\u9053\u6ED8\u9547\u5927\u7F57\u6C99\u5927\u65B0\u885718\u53F7';
+   if('null'==gs_dom){
+	   gs_dom="";
+   }
+   //���񲿱���
+   var mc_manage_code='null';
+   if('null'==mc_manage_code){
+	   mc_manage_code="";
+   }
+
+   var mc_corp_code='null';
+   if('null'==mc_corp_code){
+	   mc_corp_code="";
+   }
+
+   /* ������� */
+   //���ͳһ���ô���
+   var social_credit_code='91441900MA53M99N9W';
+   if('null'==social_credit_code || '' == social_credit_code){
+	   social_credit_code='';
+   }
+   //��֯��������
+   var org_code='MA53M99N9';
+   if('null'==org_code ||'' == org_code){
+	   if(social_credit_code !=''){
+		   if(social_credit_code !=''){
+			   org_Code = social_credit_code.substring(8, 17);
+		   }else{
+			   org_code = '';
+		   }
+	   }
+   }
+   //��������
+   var correp_name='\u6881\u56FD\u7EA2';
+   if('null'==correp_name){
+	   correp_name="";
+   }
+
+   //��Ӫ����
+   var gs_oploc='null';
+   if('null'==gs_oploc){
+	   gs_oploc="";
+   }
+
+   //ע�����
+   var mc_manage_dept='null';
+   if('null'==mc_manage_dept){
+	   mc_manage_dept="";
+   }
+
+   //��������
+   var mc_post_code='null';
+   if('null'==mc_post_code){
+	   mc_post_code="";
+   }
+   //����֤������
+   var iddoc_typecd='01';
+   if('null'==iddoc_typecd){
+	   iddoc_typecd="";
+   }
+
+   //����֤������
+   var iddoc_no='44190019760317301X';
+   if('null'==iddoc_no){
+	   iddoc_no="";
+   }
+
+   //ע���ʱ�����
+   var gs_regcapcur='\u4EBA\u6C11\u5E01\u5143';
+   if('null'==gs_regcapcur){
+	   gs_regcapcur="";
+   }
+
+   //ע���ʱ�
+   var gs_regcap='300.000000';
+   if('null'==gs_regcap){
+	   gs_regcap="";
+   }
+
+   //ע���ʽ�����Ԫ������Ԫ��
+   var mc_reg_money_amt='null';
+   if('null'==mc_reg_money_amt){
+	   mc_reg_money_amt="";
+   }
+   //����ע���
+   var gs_reg_no='441900400263671';
+   if('null'==gs_reg_no){
+	   gs_reg_no="";
+   }
+   //����ע������
+   var gs_esdate='null';
+   if('null'==gs_esdate){
+	   gs_esdate="";
+   }
+   var rdtime='hejp4l6mK9aQGiZ4';
+   if('null'==rdtime){
+   	rdtime="";
+   }
+
+   var cus_cop_master_cus='5204';
+   if('null'==cus_cop_master_cus){
+	   cus_cop_master_cus="";
+   }
+
+   var Session={
+		 login_name :login_name,
+		 login_type :login_type,
+		 decl_card:decl_card,
+		 etps_name :etps_name,
+		 cus_reg_no :cus_reg_no,
+		 op_name : op_name,
+		 cards : cards,
+		 dec_password : dec_password,
+		 ciq_etps_reg_no : ciq_etps_reg_no,
+		 account_name:account_name,
+		 account_type:account_type,
+		 social_credit_code:social_credit_code,
+		 org_code:org_code,
+		 gs_dom:gs_dom,
+		 mc_manage_code:mc_manage_code,
+		 mc_corp_code:mc_corp_code,
+		 correp_name:correp_name,
+		 gs_oploc:gs_oploc,
+		 mc_manage_dept:mc_manage_dept,
+		 mc_post_code:mc_post_code,
+		 iddoc_typecd:iddoc_typecd,
+		 iddoc_no:iddoc_no,
+		 gs_regcapcur:gs_regcapcur,
+		 gs_regcap:gs_regcap,
+		 mc_reg_money_amt:mc_reg_money_amt,
+		 gs_reg_no:gs_reg_no,
+		 gs_esdate:gs_esdate,
+		 rdtime:rdtime,
+		 cus_cop_master_cus:cus_cop_master_cus
+   }
+   var content="content-info",contentV="1il|i1l|l|i1l1il";
+    </script>
+    <!-- ȫ��js -->
+    <script src="~/Content/Hg/js/jquery.min.js?v=3.4.0"></script>
+    <script src="~/Content/bootstrap-3.3.7/js/bootstrap.min.js?v=3.3.7"></script>
+    <script src="~/Content/Hg/static/js/enter.js?v=20201029102416153"></script>
+</body>
+</html>
+

@@ -33,7 +33,6 @@ namespace VNCF.PSS.Web.Areas.Sales.Models
         public float Discount { get; set; }
         public float AmountAfterDiscount { get; set; }
         public string ProductCdesc { get; set; }
-        public string ArtImage { get; set; }
     }
     public class it_goods
     {

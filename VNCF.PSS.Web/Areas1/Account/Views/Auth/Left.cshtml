@@ -1,0 +1,253 @@
+﻿@using VNCF.PSS.Web.Areas.Account.DAL;
+@{
+    var adminMenuGroup = Factory.GenAdminiMenu().getAdminMenuDetailsList();
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <link href="~/Content/sharestyle.css" rel="stylesheet" />
+    <link href="~/Content/main.css" rel="stylesheet" />
+    <style type="text/css">
+        body
+        {
+           margin:0px;
+           padding:0px;
+        }
+    </style>
+    <script src="~/Scripts/jquery-2.1.1.min.js"></script>
+    
+</head>
+<body>
+ @*<div class="leftbar" id="divSample" style="display:none">
+  <dl>
+    <dt class="head2" id="dt_ulSample" onclick='ShowMenuList("ulSample")'>订单管理</dt>
+    <ul class="box_n" id="ulSample">
+      <li><a href="#">批量新建订单</a></li>
+      <li><a href="#">手工新建订单</a></li>
+      <li><a class="nav_sub" href="#">订单草稿<span>（3）</span></a></li>
+      <li><a href="#">已确认订单<span>（3）</span></a></li>
+      <li><a href="#">待发货订单<span>（3）</span></a></li>
+      <li><a href="#">已发货订单<span>（0）</span></a></li>
+      <li><a href="#">订单回收站<span>（0）</span></a></li>
+      <li><a href="#">退件<span>（0）</span></a></li>
+      <li><a href="#">批量修改订单</a></li>
+    </ul>
+  </dl>
+  <dl>
+    <dt class="head1" id="dt_ulLading" onclick='ShowMenuList("ulLading")'>提单管理</dt>
+    <ul class="box_n" id="ulLading" style="display:none;" >
+      <li><a href="#">创建托盘</a></li>
+      <li><a href="#">未交货托盘<span>（6）</span></a></li>
+      <li><a href="#">已交货托盘</a></li>
+      <li><a href="#">创建交货单</a></li>
+      <li><a href="#">交货单列表</a></li>
+      <li><a href="#">待预扣提单<span>（3）</span></a></li>
+      <li><a href="#">已预扣提单</a></li>
+    </ul>
+  </dl>
+  <dl>
+    <dt class="head1" id="dt_ulIdentityCard" onclick='ShowMenuList("ulIdentityCard")'>身份证管理</dt>
+    <ul class="box_n" id="ulIdentityCard" style="display:none;" >
+      <li><a href="#">待验证身份证<span>（3）</span></a></li>
+      <li><a href="#">无需验证身份证<span>（3）</span></a></li>
+      <li><a href="#">已验证身份证<span>（3）</span></a></li>
+    </ul>
+  </dl>
+</div>*@
+@foreach (var group1 in adminMenuGroup)
+{
+    <div class="leftbar" id=@group1.DivId>
+        @foreach (var group2 in group1.AdminMenuGroup)
+        {
+            <dl>
+                <dt id=@group2.WebId class=@group2.Class onclick='ShowMenuList("@group2.UlId")'>@group2.Name</dt>
+                <ul class="box_n" id=@group2.UlId>
+                    @foreach (var group3 in group2.AdminMenuArray)
+                    {
+                        var hasUrl = group3.Url == "";
+                        var Url= (hasUrl ? "/Base/Dep/Info" : group3.Url);
+                        @*<li><a target="mainFrame" id=@group3.WebId onclick="goNewPage('@group3.Url', '@group3.Name');">@group3.Name</a></li>*@
+                        <li><a target="mainFrame" id=@group3.WebId onclick="goNewPage('@Url', '@group3.Name');">@group3.Name</a></li>
+                    }
+                </ul>
+            </dl>
+        }
+    </div>
+}
+
+    @*<div class="leftbar" id="divBase">
+        <dl>
+            <dt id="dt_ulCode" class="head2" onclick='ShowMenuList("ulCode")'>代號控制</dt>
+            <ul class="box_n" id="ulCode">
+                <li><a href="#" onclick="goNewPage('a.html', '部門代號');">部門代號</a></li>
+                <li><a target="mainFrame" id="channelIdCode" onclick="goNewPage('/Channel/Index', '單據代號');">單據代號</a></li>
+                <li><a target="mainFrame" id="channelCust" onclick="goNewPage('c.html', '客戶資料');">客戶資料</a></li>
+                <li><a target="mainFrame" id="channelBrand" onclick="goNewPage('d.html', '牌子代號');">牌子代號</a></li>
+                <li><a target="mainFrame" id="channelVend" onclick="goNewPage('d.html', '供應商資料');">供應商資料</a></li>
+            </ul>
+        </dl>
+        <dl>
+            <dt id="dt_ulProduct" class="head1" onclick='ShowMenuList("ulProduct")'>產品控制</dt>
+            <ul class="box_n" id="ulProduct" style="display: none;">
+                <li><a href="#">物料種類</a></li>
+                <li><a href="#">產品種類</a></li>
+                <li><a href="#">顏色代號</a></li>
+                <li><a href="#">產品資料</a></li>
+            </ul>
+        </dl>
+    </div>
+
+ <div class="leftbar" id="divOrderSalse">
+     <dl>
+         <dt id="dt_ulOrder" class="head2" onclick='ShowMenuList("ulOrder")'>訂單管理</dt>
+         <ul class="box_n" id="ulOrder">
+             <li><a href="#" onclick="goNewPage('a.html', '訂單管理');">訂單控制</a></li>
+             <li><a target="mainFrame" id="channelOrderImput" onclick="goNewPage('/Channel/Index', '訂單錄入');">訂單錄入</a></li>
+             <li><a target="mainFrame" id="channelOrderSearch" onclick="goNewPage('c.html', '訂單查詢');">訂單查詢</a></li>
+         </ul>
+     </dl>
+     <dl>
+         <dt id="dt_ulInvoice" class="head1" onclick='ShowMenuList("ulInvoice")'>發票控制</dt>
+         <ul class="box_n" id="ulInvoice" style="display: none;">
+             <li><a href="#" onclick="goNewPage('a.html', '銷售發票');">銷售發票</a></li>
+             <li><a target="mainFrame" id="channelInvoiceSearch" onclick="goNewPage('/Channel/Index', '發票查詢');">發票查詢</a></li>
+         </ul>
+     </dl>
+     <dl>
+         <dt id="dt_ulDelivery" class="head1" onclick='ShowMenuList("ulDelivery")'>送貨單</dt>
+         <ul class="box_n" id="ulDelivery" style="display: none;">
+             <li><a href="#" onclick="goNewPage('a.html', '送貨單');">送貨單</a></li>
+         </ul>
+     </dl>
+ </div>
+    <div class="leftbar" id="divStore">
+        <dl>
+            <dt id="dt_ulStore" class="head2" onclick='ShowMenuList("ulStore")'>庫存控制</dt>
+            <ul class="box_n" id="ulStore">
+                <li><a href="#" onclick="goNewPage('a.html', '物料入庫');">物料入庫</a></li>
+                <li><a target="mainFrame" id="channelMaterialOut" onclick="goNewPage('/Channel/Index', '物料出庫');">物料出庫</a></li>
+                <li><a target="mainFrame" id="channelStoreQuery" onclick="goNewPage('c.html', '庫存查詢');">庫存查詢</a></li>
+            </ul>
+        </dl>
+    </div>
+    <div class="leftbar" id="divProduction">
+        <dl>
+            <dt id="dt_ulProduction" class="head2" onclick='ShowMenuList("ulProduction")'>生產管理</dt>
+            <ul class="box_n" id="ulProduction">
+                <li><a href="#" onclick="goNewPage('a.html', '生產管理');">生產管理</a></li>
+                <li><a target="mainFrame" id="channelPlaning" onclick="goNewPage('/Channel/Index', '生產計劃');">生產計劃</a></li>
+                <li><a target="mainFrame" id="channelPlaneBrowse" onclick="goNewPage('c.html', '生產狀態瀏覽');">生產狀態瀏覽</a></li>
+            </ul>
+        </dl>
+        <dl>
+            <dt id="dt_ulProductSetting" class="head1" onclick='ShowMenuList("ulProductSetting")'>生產設定</dt>
+            <ul class="box_n" id="ulProductSetting" style="display: none;">
+                <li><a href="#">機器代碼</a></li>
+                <li><a href="#">機器標準</a></li>
+                <li><a href="#">工種類型</a></li>
+            </ul>
+        </dl>
+        <dl>
+            <dt id="dt_ulProductProcess" class="head1" onclick='ShowMenuList("ulProductProcess")'>生產進度錄入</dt>
+            <ul class="box_n" id="ulProductProcess" style="display: none;">
+                <li><a href="#">生產進度錄入</a></li>
+            </ul>
+        </dl>
+    </div>
+    <div class="leftbar" id="divPurchase">
+        <dl>
+            <dt id="dt_ulPurchase" class="head2" onclick='ShowMenuList("ulPurchase")'>採購管理</dt>
+            <ul class="box_n" id="ulPurchase">
+                <li><a href="#" onclick="goNewPage('a.html', '採購單');">採購單</a></li>
+                <li><a target="mainFrame" id="channelPurchaseIn" onclick="goNewPage('/Channel/Index', '採購進貨');">採購進貨</a></li>
+            </ul>
+        </dl>
+        <dl>
+            <dt id="dt_ulPlate" class="head1" onclick='ShowMenuList("ulPlate")'>外發加工</dt>
+            <ul class="box_n" id="ulPlate" style="display: none;">
+                <li><a href="#">外發發貨</a></li>
+                <li><a href="#">外發收貨</a></li>
+            </ul>
+        </dl>
+
+    </div>
+    <div class="leftbar" id="divReports">
+        <dl>
+            <dt id="dt_ulSalseReports" class="head2" onclick='ShowMenuList("ulSalesReports")'>銷售報表</dt>
+            <ul class="box_n" id="ulSalesReports">
+                <li><a href="#" onclick="goNewPage('a.html', '銷售報表1');">銷售報表1</a></li>
+                <li><a target="mainFrame" onclick="goNewPage('/Channel/Index', '銷售報表2');">銷售報表2</a></li>
+            </ul>
+        </dl>
+        <dl>
+            <dt id="dt_ulPurchaseReports" class="head1" onclick='ShowMenuList("ulPurchaseReports")'>採購報表</dt>
+            <ul class="box_n" id="ulPurchaseReports" style="display: none;">
+                <li><a href="#">採購報表1</a></li>
+                <li><a href="#">採購報表2</a></li>
+            </ul>
+        </dl>
+        <dl>
+            <dt id="dt_ulProductionReports" class="head1" onclick='ShowMenuList("ulProductionReports")'>生產報表</dt>
+            <ul class="box_n" id="ulProductionReports" style="display: none;">
+                <li><a href="#">生產報表1</a></li>
+                <li><a href="#">生產報表2</a></li>
+            </ul>
+        </dl>
+        <dl>
+            <dt id="dt_ulPlateReports" class="head1" onclick='ShowMenuList("ulPlateReports")'>外發報表</dt>
+            <ul class="box_n" id="ulPlateReports" style="display: none;">
+                <li><a href="#">外發報表1</a></li>
+                <li><a href="#">外發報表2</a></li>
+            </ul>
+        </dl>
+    </div>
+
+    <div class="leftbar" id="divSystem">
+        <dl>
+            <dt id="dt_ulSystem" class="head2" onclick='ShowMenuList("ulSystem")'>系統控制</dt>
+            <ul class="box_n" id="ulSystem">
+                <li><a href="#" onclick="goNewPage('a.html', '建立用戶');">建立用戶</a></li>
+                <li><a target="mainFrame" onclick="goNewPage('/Channel/Index', '權限設定');">權限設定</a></li>
+                <li><a target="mainFrame" onclick="goNewPage('/Channel/Index', '數據字典');">數據字典</a></li>
+            </ul>
+        </dl>
+
+    </div>*@
+    <script type="text/javascript">
+        //显示菜单下面的选项
+        function ShowMenuList(id) {
+            var objectobj = document.getElementById(id);
+            var dtObj = document.getElementById("dt_" + id);
+            if (objectobj.style.display == "none") {
+                objectobj.style.display = "";
+                dtObj.setAttribute("class", "head2");
+                //其它菜单折叠
+                $(dtObj).parent().parent().find("dt").not(dtObj).attr("class", "head1"); //折叠
+                $(objectobj).parent().parent().find("ul").not(objectobj).css("display", "none"); //隐藏菜单子项
+            }
+            else {
+                objectobj.style.display = "none";
+                dtObj.setAttribute("class", "head1");
+            }
+        }
+        //控制菜单模块的显示和隐藏
+        function showDivMenu(divId) {
+            $("#" + divId).css("visibility", "visible");
+            $("#" + divId).siblings("div").css("visibility", "hidden");
+        }
+        $(function () {
+            $(".box_n li a").click(function () {
+                $(".box_n li a").removeClass("nav_sub");
+                $(this).addClass("nav_sub");
+            });
+        });
+        function goNewPage(url,name) {
+            self.parent.frames["mainFrame"].addTab(url,name);
+        }
+    </script>
+</body>
+</html>

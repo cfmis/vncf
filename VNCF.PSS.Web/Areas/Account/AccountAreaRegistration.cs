@@ -17,7 +17,7 @@ namespace VNCF.PSS.Web.Areas.Account
             context.MapRoute(
                 "Account_default",
                 "Account/{controller}/{action}/{id}",
-                new { action = "Default", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional }
             );
         }
     }

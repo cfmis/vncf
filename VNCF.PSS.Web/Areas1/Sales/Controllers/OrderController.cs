@@ -153,18 +153,18 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             //var result = new { rows = list };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Print()//(string ID)
+        public ActionResult Print(string ID)
         {
             //SoPrintHeadWithDetails model = new SoPrintHeadWithDetails();
             //model = SoDAL.PrintSo(ID);
             //if(model==null)
             //    return Content("No Order To Print~~");
             //return View(model);
-            string ID = "731031556";
-            string aspx = "/Areas/Sales/AspNetReports/Order.aspx?ID=" + ID;
+            
+            string aspx = "/AspNetReports/Order.aspx?ID=" + ID;
             using (var sw = new StringWriter())
             {
-                System.Web.HttpContext.Current.Server.Execute(aspx, sw, true);
+                //System.Web.HttpContext.Current.Server.Execute(aspx, sw, true);
                 return Content(sw.ToString());
             }
 

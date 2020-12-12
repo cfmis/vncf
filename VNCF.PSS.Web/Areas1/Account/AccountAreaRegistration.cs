@@ -1,23 +1,23 @@
 ﻿using System.Web.Mvc;
 
-namespace VNCF.PSS.Web.Areas.Sales
+namespace VNCF.PSS.Web.Areas.Account
 {
-    public class SalesAreaRegistration : AreaRegistration 
+    public class AccountAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
         {
             get 
             {
-                return "Sales";
+                return "Account";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
-                "Sales_default",
-                "Sales/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                "Account_default",
+                "Account/{controller}/{action}/{id}",
+                new { action = "Default", id = UrlParameter.Optional }
             );
         }
     }
