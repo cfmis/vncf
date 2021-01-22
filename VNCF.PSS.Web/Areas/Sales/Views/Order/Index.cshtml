@@ -6,10 +6,39 @@
     var WebFromElement = Factory.GenWebFormElement().AdminCreateOrderIndex("Sales.Order.Index");
 }
 @section PageSpecificStyleSheetIncludes{
-<link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416167">
+<link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416261">
     <style type="text/css">
-        lll {
-            border:none
+        /*.input111 {
+            border:none;
+            font-size:29px;
+            height:58px;
+            background-color:yellow;
+        }
+        li input{
+            font-size:39px;
+            height:88px;
+            width:600px;
+            border:1px;
+        }
+
+        .td-label{
+            width:80px;
+        }
+        .td-div{
+            width:95%;
+        }
+        input1{
+            height:38px;
+            width:100%;
+        }*/
+        img, a img {
+            border: 0;
+            /*margin: 2px;*/
+            padding: 5px;
+            max-width: 150px;
+            width: e-xpression(this.width>150?"150px":this.width);
+            max-height: 160px;
+            height: e-xpression(this.height>160?"160px":this.height);
         }
     </style>
 }
@@ -24,53 +53,84 @@
                 <button type="submit" id="submit" class="easyui-linkbutton" iconcls="icon-add">提交</button>
                 <a href="javascript:void(0)" class="easyui-linkbutton" id="btnAddHead" iconcls="icon-ok">确定</a>
                 <a href="#" class="easyui-linkbutton" id="btnPprint" iconcls="icon-print" onclick="showMessageDialog('@Url.Action("Print")','列印',800,600,true);">列印</a>
+                @*<button id="show" onclick="show()">Show</button>*@
             </div>
         </div>
+    </div>
+    <div class="mdHide">
+        <input id="mdInput" />
     </div>
     <div class="easyui-tabs" style="width:99%;height:auto;">
         <div title="First Tab" style="padding:10px;">
             @using (Html.BeginForm("EditHead", null, FormMethod.Post, new { id = "addFormHead", @clase = "form-inline", @role = "form" }))
             {
 
-                <ul class="formod mgt10">
+                <ul class="formod mgt10" id="ulPanel">
 
-                    <li><span>@WebFromElement.OcID：</span>@Html.TextBoxFor(m => m.OcID, new { @class = "easyui-textbox", @readonly = "true" })</li>
-                    <li><span>@WebFromElement.Ver：</span>@Html.TextBoxFor(m => m.Ver, "", new { @class = "easyui-textbox" })</li>
-                    <li><span>@WebFromElement.OrderDate：</span>@Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand", @data_options = "required:true,validType:'length[1,10]'" })</li>
-                    <li><span>狀態：</span>@Html.TextBox("State", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>訂單類型：</span>@Html.TextBox("OrderType", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>接單日期：</span>@Html.TextBox("ReceivedDate", "", new { @class = "easyui-datebox-expand" })</li>
-                    <li><span>洋行編號：</span>@Html.TextBox("ForeignFirm", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>區域：</span>@Html.TextBox("Area", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>@WebFromElement.CustomerID：</span>@Html.TextBoxFor(m => m.CustomerID, "", new { @class = "easyui-textbox", @data_options = "required:true,validType:'length[1,20]'" })</li>
-                    <li><span>客戶描述：</span>@Html.TextBox("CustCname", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>營業員：</span>@Html.TextBox("SallerID", "", new { @class = "easyui-combobox" })</li>
-                    <li><span>季度：</span>@Html.TextBox("Season", "", new { @class = "easyui-combobox" })</li>
-                    <li><span>聯繫人：</span>@Html.TextBox("Contacts", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>聯繫人電話：</span>@Html.TextBox("ContactsTel", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>傳真：</span>@Html.TextBox("ContactsFax", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>郵件：</span>@Html.TextBox("ContactsEmail", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>跟單員：</span>@Html.TextBox("Merchandisers", "", new { @class = "easyui-combobox" })</li>
-                    <li><span>跟單員電話：</span>@Html.TextBox("MerchandisersTel", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>跟單員郵件：</span>@Html.TextBox("MerchandisersEmail", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>貨幣代號：</span>@Html.TextBox("CurrencyID", "", new { @class = "easyui-combobox" })</li>
-                    <li><span>比率：</span>@Html.TextBox("CurrencyRate", "", new { @class = "easyui-combobox" })</li>
-                    <li><span>發貨港口：</span>@Html.TextBox("DeliveredPort", "", new { @class = "easyui-combobox" })</li>
-                    <li><span>目的港口：</span>@Html.TextBox("DestinationPort", "", new { @class = "easyui-combobox" })</li>
-                    <li><span>客戶PO：</span>@Html.TextBox("PoNo", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>付款方式：</span>@Html.TextBox("PaymentType", "", new { @class = "easyui-combobox" })</li>
-                    <li><span>價格條件：</span>@Html.TextBox("PriceType", "", new { @class = "easyui-combobox" })</li>
-                    <li><span>裝運方式：</span>@Html.TextBox("Transport", "", new { @class = "easyui-combobox" })</li>
-                    <li><span>折扣%：</span>@Html.TextBox("DiscountRate", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>折扣額：</span>@Html.TextBox("Discount", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>稅款編號：</span>@Html.TextBox("TaxNo", "", new { @class = "easyui-combobox" })</li>
-                    <li><span>稅款金額：</span>@Html.TextBox("Tax", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>貨品金額：</span>@Html.TextBox("ProductAmount", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>總金額：</span>@Html.TextBox("TotalAmount", "", new { @class = "easyui-textbox" })</li>
-                    <li><span>銀行賬號：</span>@Html.TextBox("BankAccount", "", new { @class = "easyui-combobox" })</li>
-                    <li class="ll"><span>銀行賬號：</span><input type="text" id="Remark" /></li>
-                    <li class="ll1"><span>銀行賬號：</span><input type="text" id="Remark1" /></li>
+                    <li class="lb-std"><div class="input-group"><span>@WebFromElement.OcID：</span>@Html.TextBoxFor(m => m.OcID, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>@WebFromElement.Ver：</span>@Html.TextBoxFor(m => m.Ver, "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std">
+                    <div class="input-group">
+                        <span>@WebFromElement.OrderDate：</span>
+                        @Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand",@style = "width: 55%;" })
+                        <button type="button" class="in-button-find" id="forceBizOpEtpsInfo1">...</button>
+                    </div>
+                    </li>
+                    <li class="lb-std"><div class="input-group"><span>狀態：</span>@Html.TextBox("State", "", new { @class = "easyui-textbox", @data_options = "required:true,validType:'length[1,10]'", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>訂單類型：</span>@Html.TextBox("OrderType", "", new { @class = "easyui-textbox", @data_options = "validType:'minLength[5]'", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>接單日期：</span>@Html.TextBox("ReceivedDate", "", new { @class = "easyui-datebox-expand", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>洋行編號：</span>@Html.TextBox("ForeignFirm", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div  class="input-group"><span>區域：</span>@Html.TextBox("Area", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std">
+                        <div  class="input-group">
+                            <span>@WebFromElement.CustomerID：</span>
+                            @Html.TextBoxFor(m => m.CustomerID, "", new { @class = "easyui-textbox", @data_options = "required:true,validType:'length[1,20]'", @style = "width: 55%;" })
+                            <button type="button" class="in-button-find" id="forceBizOpEtpsInfo2">...</button>
+                        </div>
+                    </li>
+                    <li class="lb-std"><div  class="input-group"><span>客戶描述：</span>@Html.TextBox("CustCname", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div  class="input-group"><span>營業員：</span>@Html.TextBox("SallerID", "", new { @class = "easyui-combobox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div  class="input-group"><span>季度：</span>@Html.TextBox("Season", "", new { @class = "easyui-combobox", @style = "width:72%" })</div></li>
+                    @*<li class="lb-std"><span>季度：</span>
+                        <li class="input-group">
+                            <input type="text" class="easyui-textbox non-empty" maxlength="10" name="Season" id="Season" style="width: 80%;">
+                            <button type="button" id="btnSeason" style="margin-left:0px 5px">...</button>
+                        </li>
+                    </li>*@
+                    <li class="lb-std"><div  class="input-group"><span>聯繫人：</span>@Html.TextBox("Contacts", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>聯繫人電話：</span>@Html.TextBox("ContactsTel", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>傳真：</span>@Html.TextBox("ContactsFax", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>郵件：</span>@Html.TextBox("ContactsEmail", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>跟單員：</span>@Html.TextBox("Merchandisers", "", new { @class = "easyui-combobox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>跟單員電話：</span>@Html.TextBox("MerchandisersTel", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>跟單員郵件：</span>@Html.TextBox("MerchandisersEmail", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std">
+                        <div class="input-group">
+                            <span>貨幣代號：</span>
+                            @Html.TextBox("CurrencyID", "", new { @class = "easyui-combobox", @style = "width: 55%;" })
+                            <button type="button" class="in-button-find" id="forceBizOpEtpsInfo3">...</button>
+                        </div>
+                    </li>
+                    <li class="lb-std"><div class="input-group"><span>比率：</span>@Html.TextBox("CurrencyRate", "", new { @class = "easyui-combobox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>發貨港口：</span>@Html.TextBox("DeliveredPort", "", new { @class = "easyui-combobox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>目的港口：</span>@Html.TextBox("DestinationPort", "", new { @class = "easyui-combobox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>客戶PO：</span>@Html.TextBox("PoNo", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>付款方式：</span>@Html.TextBox("PaymentType", "", new { @class = "easyui-combobox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>價格條件：</span>@Html.TextBox("PriceType", "", new { @class = "easyui-combobox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>裝運方式：</span>@Html.TextBox("Transport", "", new { @class = "easyui-combobox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>折扣%：</span>@Html.TextBox("DiscountRate", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>折扣額：</span>@Html.TextBox("Discount", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>稅款編號：</span>@Html.TextBox("TaxNo", "", new { @class = "easyui-combobox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>稅款金額：</span>@Html.TextBox("Tax", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>貨品金額：</span>@Html.TextBox("ProductAmount", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>總金額：</span>@Html.TextBox("TotalAmount", "", new { @class = "easyui-combobox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>銀行賬號：</span>@Html.TextBox("BankAccount", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>銀行賬號：</span>@Html.TextBox("BankAccount1", "", new { @class = "easyui-datebox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>交貨日期：</span>@Html.TextBox("DeliverDate", "", new { @class = "easyui-combobox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>儲蓄賬號：</span><input class="easyui-textbox" style="width:72%" type="text" id="Account" /></div></li>
+                    @*<li class="ll1"><span>銀行賬號：</span><input type="text" id="Remark1" /></li>*@
                 </ul>
+                
             }
         </div>
         <div title="Second Tab" closable="false" style="padding:10px;">
@@ -78,41 +138,75 @@
             @using (Html.BeginForm("EditHead", null, FormMethod.Post, new { id = "addFormDetails", @clase = "form-inline", @role = "form" }))
             {
 
-                <table id="tbInput" class="percent-100">
+                <table id="tbInput" class="percent-100" cellpadding="0" cellspacing="0" border="0">
                     <tbody>
                         <tr>
-                            <td class="text-align-right">制單編號：</td>
-                            <td>@Html.TextBox("ProductMo", "", new { @class = "easyui-textbox tbinput" })</td>
-                            <td class="text-align-right">產品編號：</td>
-                            <td>@Html.TextBox("ProductID", "", new { @class = "easyui-textbox tbinput" })</td>
-                            <td class="text-align-right">產品描述：</td>
-                            <td colspan="3">@Html.TextBox("ProductCdesc", "", new { @class = "easyui-textbox", @style = "width:620px;",@readonly="true" })</td>
-                            
+                            <td class="td-label"><div class="award-name"><span>制單編號：</span></div></td>
+                            <td class="td-input"><div class="input-group"><input id="ProductMo" class = "easyui-textbox", style = "width:100%" /></div></td>
+                            <td class="td-label"><div class="award-name"><span>產品編號：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("ProductID", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name"><span>產品描述：</span></div></td>
+                            <td colspan="3"><div class="input-group">@Html.TextBox("ProductCdesc", "", new { @class = "easyui-textbox", @style = "width:100%", @readonly = "true" })</div></td>
+                            <td rowspan="3"><img src="~/Images/loginbg.png" /></td>
                         </tr>
                         <tr>
-                            <td class="text-align-right">牌子編號：</td>
-                            <td>@Html.TextBox("BrandID", "", new { @class = "easyui-textbox" })</td>
-                            <td class="text-align-right">客戶產品編號：</td>
-                            <td>@Html.TextBox("CustomerProductID", "", new { @class = "easyui-textbox" })</td>
-                            <td class="text-align-right">訂單數量：</td>
-                            <td>@Html.TextBox("OrderQty", "", new { @class = "easyui-textbox" })</td>
-                            <td class="text-align-right">數量單位：</td>
-                            <td>@Html.TextBox("OrderUnit", "", new { @class = "easyui-combobox" })</td>
+                            <td class="td-label"><div class="award-name">牌子編號：</div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("BrandID", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name">客戶產品編號：</div></td>
+                            <td class="td-input">
+                                @*<div class="td-div-input">
+                                    <div class="td-div-input1">@Html.TextBox("CustomerProductID", "", new { @class = "easyui-textbox", @style = "width:100%" })</div>
+                                    <div class="td-div-input21"><button class="td-button" id="btnCustCode">...</button></div>
+                                </div>*@
+                                <div class="input-group">
+                                    <input type="text" class="easyui-textbox non-empty" maxlength="10" name="CustomerProductID" id="CustomerProductID" style="width: 80%;">
+                                    <button type="button" class="in-button-find" id="forceBizOpEtpsInfo">...</button>
+                                </div>
+                            </td>
+                            <td class="td-label"><div class="award-name"><span>訂單數量：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("OrderQty", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name"><span>數量單位：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("OrderUnit", "", new { @class = "easyui-combobox", @style = "width:100%" })</div></td>
+                            @*<td></td>*@
 
                         </tr>
                         <tr>
-                            <td class="text-align-right">單價：</td>
-                            <td>@Html.TextBox("Price", "", new { @class = "easyui-textbox" })</td>
-                            <td class="text-align-right">單價單位：</td>
-                            <td>@Html.TextBox("PriceUnit", "", new { @class = "easyui-combobox" })</td>
-                            <td class="text-align-right">預計日期：</td>
-                            <td>@Html.TextBox("RequestDate", "", new { @class = "easyui-datebox-expand" })</td>
-                            <td class="text-align-right">交貨日期：</td>
-                            <td>@Html.TextBox("DeliveryDate", "", new { @class = "easyui-datebox-expand" })</td>
+                            <td class="td-label"><div class="award-name"><span>單價：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("Price", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name"><span>單價單位：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("PriceUnit", "", new { @class = "easyui-combotbox", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name"><span>預計日期：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("RequestDate", "", new { @class = "easyui-datebox-expand", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name"><span>交貨日期：</span></div></td>
+                            @*<td>@Html.TextBox("DeliveryDate", "", new { @class = "easyui-datebox-expand" })</td>*@
+                            <td class="td-input"><div class="input-group"><input type="text" class="easyui-datebox-expand" style="width:100%" id="DeliveryDate" /></div></td>
+                            @*<td></td>*@
+                        </tr>
+                        <tr>
+                            <td class="td-label"><div class="award-name"><span>單價：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("Price", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name"><span>單價單位：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("PriceUnit", "", new { @class = "easyui-combotbox", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name"><span>預計日期：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("RequestDate", "", new { @class = "easyui-datebox-expand", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name"><span>交貨日期：</span></div></td>
+                            @*<td>@Html.TextBox("DeliveryDate", "", new { @class = "easyui-datebox-expand" })</td>*@
+                            <td class="td-input" colspan="2"><div class="input-group"><input type="text" class="easyui-datebox-expand" style="width:100%" id="DeliveryDate" /></div></td>
+                            @*<td></td>*@
                         </tr>
                     </tbody>
                 </table>
             }
+            @*<div style="width:800px">
+                <input id="showWindowWidth" style="border:1px" />
+                <input id="showTableWidth" style="border:1px" />
+                <input id="showTdWidth" style="border:1px" />
+                <input id="showDivWidth" style="border:1px" />
+                <input id="showProductMo" style="border:1px" />
+                <input id="showProductMoH" style="border:1px" />
+                
+            </div>*@
+
             <div class="areabx_divider"></div>
             <div data-options="region:'center'">
                 <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
@@ -128,7 +222,7 @@
             9.		Third Tab
             10.
         </div>*@
-
+        
         </div>
  </div>
 <!--设置添加的弹出层-->
@@ -144,6 +238,14 @@
 <script type="text/javascript">
     
         $(function () {
+
+
+            //setInputWidth(0.6);
+            //$(window).resize(function () {
+            //    setInputWidth(0.6);
+                
+            //});
+            
             //initList();
             SearchOcDetails();
             InitSearch();//查询
@@ -153,15 +255,40 @@
             $("input", $("#CustomerID").next("span")).blur(function () {
                 getCustomer($("#CustomerID").val());
             })
+            //$("#DeliverDate").textbox('textbox').css("font-size", "18pt");
+            //$("#DeliverDate").textbox('textbox').css("height", "18px");
+            //$("input:text", document.forms[0]).each(
+            //    function () {
+            //        //alert(this.name);
+            //    }
+            //    );
+
+            //$("#aa1 li").find("input").each(function () {
+            //    //$(this).click(function () {
+            //    //    alert("luozhiping");
+            //    //});
+            //    //alert(this.name);
+            //    if(this.name!="")
+            //    {
+            //        //debugger;
+            //        var obj = this.name;
+            //        //alert(this.name);
+            //        //var obj1 = this;
+            //        //$(this).textbox('textbox').css("font-size", "18pt");
+            //        //$(this).textbox('textbox').css("height", "38px");
+            //        //$(this).textbox('textbox').css("width", "118px");
+            //    }
+            //});
             //$('input').css({
             //    height: '50px',
             //    color: 'red',
             //    border: 'false'
             //});
-            //$('#OcID').textbox({
-            //    border: '0px',
-            //    height:'50px'
+            //$('#TotalAmount').textbox({
+            //    border: 'none',
+            //    height:'18px'
             //})
+            
             //$('#OcID').textbox('textbox').css('border', 'false');
             //$('#OcID').textbox('textbox').css('color', 'red');
             //AddList();
@@ -181,6 +308,15 @@
                 valueField: 'id',//主键值
                 textField: 'name'
             });
+            //$('#Account').combobox({
+            //    url: 'GetUnit?r=' + Math.random(),//数据接收URL地址
+            //    method: 'post',
+            //    //url: '/combobox_data1.json',
+            //    panelHeight: 'auto',
+            //    valueField: 'id',//主键值
+            //    textField: 'name'
+            //});
+            //$("#Account").combobox('textbox').css("font-size", "22pt");
             $('#PriceUnit').combobox({
                 url: 'GetUnit?r=' + Math.random(),//数据接收URL地址
                 method: 'post',
@@ -212,7 +348,85 @@
             //    });
             //});
         });
-
+        function setInputWidth(bwidth) {
+            
+            var ddlw = parseInt($(".lb-std").css("width"));
+            var ddlh = parseInt($("#mdInput").css("height"));
+            var ddlf = parseInt($("#mdInput").css("font-size"));
+            
+            
+            $("#ulPanel").find("input").each(function () {
+                //$(this).click(function () {
+                //    alert("luozhiping");
+                //});
+                //alert(this.id);
+                //debugger;
+                var name = this;
+                var id = this.id;
+                var result = $(this).find('.easyui-textbox');
+                var className = $(this).attr("class");
+                if (!className)
+                    className = "";
+                var name1 = className.substring(0, 6);
+                if (name1 == "easyui")//(this.id.length==5)
+                {
+                    //debugger;
+                    var obj = this.id;
+                    //alert(this.name);
+                    //var obj1 = this;
+                    //var val = $(this).val();
+                    //var val1 = $("#ipt11").val();
+                    //var width1 = this.;
+                    $(this).textbox({
+                        height: ddlh,
+                        width: ddlw * bwidth,
+                    });
+                    $(this).textbox('textbox').css("font-size", ddlf);
+                }
+            }); 
+            ddlw = parseInt($(".td-div-input").css("width"));
+            ddld = parseInt($(".td-input").css("width"));
+           
+            //debugger;
+            $("#tbInput").find("input").each(function () {
+                //$(this).click(function () {
+                //    alert("luozhiping");
+                //});
+                //alert(this.id);
+                var name = this;
+                var id = this.id;
+                var result = $(this).find('.easyui-textbox');
+                var className = $(this).attr("class");
+                if (!className)
+                    className = "";
+                var name1 = className.substring(0, 6);
+                if (name1 == "easyui")//(this.id.length==5)
+                {
+                    //debugger;
+                    var obj = this.id;
+                    //alert(this.name);
+                    //var obj1 = this;
+                    //var val = $(this).val();
+                    //var val1 = $("#ipt11").val();
+                    //var width1 = this.;
+                    $(this).textbox({
+                        height: ddlh,
+                        width: ddlw - 20,
+                    });
+                    $(this).textbox('textbox').css("font-size", ddlf);
+                }
+                
+            });
+            
+        }
+        function show() {
+            $("#showWindowWidth").val(window.innerWidth);
+            $("#showTableWidth").val($("#tbInput").width());
+            $("#showTdWidth").val(parseInt($(".td-input").css("width")));
+            $("#showDivWidth").val(parseInt($(".td-div-input").css("width")));
+            $("#showProductMo").val(parseInt($("#mdInput").css("width")));
+            $("#showProductMoH").val(parseInt($("#btnCustCode").css("height")));
+        }
         function initList(queryData) {
             $('#tbDetails').datagrid({
                 url: 'List',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据

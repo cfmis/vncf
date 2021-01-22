@@ -6,18 +6,25 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title></title>
+    <style>
+        html,body,form,#div1 {
+            height: 100%; 
+        }
+    </style>
+
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
+        <div class="div1">
     
         <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="false">
         </asp:ScriptManager>
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
                 
-                <rsweb:ReportViewer ID="ReportViewer1" Width="90%" Height="90%" runat="server">
+                <rsweb:ReportViewer ID="ReportViewer1" Width="100%" Height="100%" runat="server">
                 </rsweb:ReportViewer>
                 
             </ContentTemplate>
