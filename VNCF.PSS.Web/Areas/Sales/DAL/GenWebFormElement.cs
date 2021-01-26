@@ -6,6 +6,7 @@ using System.Data;
 using VNCF.PSS.Web.Common;
 using VNCF.PSS.Web.Areas.Sales.Models;
 using CF.SQLServer.DAL;
+using CF.Framework.Utility;
 
 namespace VNCF.PSS.Web.Areas.Sales.DAL
 {
@@ -31,6 +32,26 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 item.CustomerID = fieldsID == "CUSTOMERID" ? fieldsName : item.CustomerID;
             }
             return item;
+        }
+
+        public List<WebFormElementModel> GetWebFormElement(string webFormName)
+        {
+            var LanguageID = AdminUserContext.Current.LoginInfo.LanguageID;
+            List<WebFormElementModel> lsModel = new List<WebFormElementModel>();
+            string strSql = "Select a.FieldsID,b.FieldsName" +
+                " FROM sy_WebFormElement a" +
+                " INNER JOIN sy_DataDictionaryLanguage b ON a.FieldsID=b.FieldsID" +
+                " WHERE a.WebFormName='" + webFormName + "' AND b.LanguageID='" + LanguageID + "'";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            for (int i=0;i<dt.Rows.Count;i++)
+            {
+                DataRow dr = dt.Rows[i];
+                WebFormElementModel objModel = new WebFormElementModel();
+                objModel.FieldsID = dr["FieldsID"].ToString().Trim();
+                objModel.FieldsName = dr["FieldsName"].ToString().Trim();
+                lsModel.Add(objModel);
+            }
+            return lsModel;
         }
     }
 }

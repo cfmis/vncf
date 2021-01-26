@@ -36,7 +36,7 @@ ol,ul {list-style:none;}
 	width:100%;
 	} /*//超出部分显示省略号*/
 .mdHide{
-    display:none;
+    display:normal;
     width:600px;
     background-color: aqua;
 }

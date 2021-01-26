@@ -55,6 +55,7 @@
     <Compile Include="Converter.cs" />
     <Compile Include="ConvertJson.cs" />
     <Compile Include="Cookie.cs" />
+    <Compile Include="DataTableToJson.cs" />
     <Compile Include="Diff.cs" />
     <Compile Include="EmailHelper.cs" />
     <Compile Include="Encrypt.cs" />

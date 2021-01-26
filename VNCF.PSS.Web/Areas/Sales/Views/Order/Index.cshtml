@@ -1,4 +1,5 @@
-﻿@using VNCF.PSS.Web.Areas.Sales.DAL
+﻿@using Resources;
+@using VNCF.PSS.Web.Areas.Sales.DAL;
 @using VNCF.PSS.Web.Areas.Sales.Models;
 @model OrderHead
 @{
@@ -6,7 +7,7 @@
     var WebFromElement = Factory.GenWebFormElement().AdminCreateOrderIndex("Sales.Order.Index");
 }
 @section PageSpecificStyleSheetIncludes{
-<link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416261">
+<link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416262">
     <style type="text/css">
         /*.input111 {
             border:none;
@@ -39,6 +40,14 @@
             width: e-xpression(this.width>150?"150px":this.width);
             max-height: 160px;
             height: e-xpression(this.height>160?"160px":this.height);
+        }
+
+        .btnbox {
+            width: 10px;
+            height: 10px;
+            background: #ddd;
+            display: flex;
+            align-items: center;
         }
     </style>
 }
@@ -83,8 +92,10 @@
                     <li class="lb-std"><div  class="input-group"><span>區域：</span>@Html.TextBox("Area", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
                     <li class="lb-std">
                         <div  class="input-group">
-                            <span>@WebFromElement.CustomerID：</span>
-                            @Html.TextBoxFor(m => m.CustomerID, "", new { @class = "easyui-textbox", @data_options = "required:true,validType:'length[1,20]'", @style = "width: 55%;" })
+                            <span>@Resource.CustomerID：</span>
+                            @Html.TextBoxFor(m => m.CustomerID, "", new { @class = "easyui-textbox", @data_options = "required:true,validType:'length[1,20]'", @style = "width: 20%;" })
+                            <input class="easyui-textbox" style="width:25%" />
+                            <input class="easyui-textbox" style="width:10%" />
                             <button type="button" class="in-button-find" id="forceBizOpEtpsInfo2">...</button>
                         </div>
                     </li>
@@ -97,7 +108,7 @@
                             <button type="button" id="btnSeason" style="margin-left:0px 5px">...</button>
                         </li>
                     </li>*@
-                    <li class="lb-std"><div  class="input-group"><span>聯繫人：</span>@Html.TextBox("Contacts", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div  class="input-group"><span>聯繫人</span>@Html.TextBox("Contacts", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>聯繫人電話：</span>@Html.TextBox("ContactsTel", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>傳真：</span>@Html.TextBox("ContactsFax", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>郵件：</span>@Html.TextBox("ContactsEmail", "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
@@ -454,8 +465,8 @@
                 columns: [[
                { field: "Seq", title: "序號", width: 30 },
                { field: "Status", title: "狀態", width: 30 },
-               { field: "ProductMo", title: "@WebFromElement.OcID", width: 100 },
-               { field: "ProductID", title: "產品編號", width: 160 },
+               { field: "ProductMo", title: "@Resource.OcID", width: 100 },
+               { field: "ProductID", title: "@Resource.ProductItem", width: 160 },
                { field: "ProductCdesc", title: "產品描述", width: 200 },
                { field: "OrderQty", title: "訂單數量", width: 80 },
                { field: "OrderUnit", title: "數量單位", width: 60 },
@@ -739,8 +750,6 @@
             $("#txtUPRealName").val(RowEditById.RealName);
             $("#txtUPMobile").val(RowEditById.Mobile);
         }
-
-        
-
 </script>
+
 }

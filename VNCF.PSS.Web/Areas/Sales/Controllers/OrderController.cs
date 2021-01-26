@@ -85,7 +85,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             //for (int i = 0; i < ja.Count; i++)
             //{
             //    var ja0 = ja[i];
-                model.ProductMo = ja[0]["value"].ToString();
+            model.ProductMo = ja[0]["value"].ToString();
             model.ProductID = ja[1]["value"].ToString();
             //model.ProductID = ja[i]["ProductID"].ToString();
             //model.OrderQty = Convert.ToInt32(ja[i]["OrderQty"].ToString());
@@ -167,10 +167,21 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
                 System.Web.HttpContext.Current.Server.Execute(aspx, sw, true);
                 return Content(sw.ToString());
             }
-
-
-
             //return View();
+        }
+        public ActionResult Init()
+        {
+            string jsonText =
+"{'Total':'0','Rows':[{'id':'31','project':'6','project_name':'一卡通','name':'接口测试！','assignedTo':'zhangsan',"
++ "'realname':'张三','estStarted':'2016/11/23','realStarted':'2000/01/01','status':'wait'},"
++ "{'id':'32','project':'6','project_name':'一卡通','name':'测试服务器调通！','assignedTo':'lisi',"
++ "'realname':'李四','estStarted':'2016/11/23','realStarted':'2016/11/23','status':'wait'}]}";
+            var result= Factory.GenWebFormElement().GetWebFormElement("Sales.Order.Index");
+            JObject json1 = (JObject)JsonConvert.DeserializeObject(jsonText);
+
+            JArray array = (JArray)json1["Rows"];
+            return Json(result, JsonRequestBehavior.AllowGet);
+            //return Json(array);
         }
     }
 }

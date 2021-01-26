@@ -10,6 +10,7 @@ using CF.Framework.Utility;
 using CF.Account.Contract;
 using CF.Framework.Web;
 using CF.Web;
+using System.Threading;
 
 namespace VNCF.PSS.Web.Common
 {
@@ -193,6 +194,20 @@ namespace VNCF.PSS.Web.Common
         }
 
         #endregion
+
+        protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
+        {
+            //HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies["LanguageID"];
+            var LanguageID = this.CookieContext.LanguageID.ToString().Trim();
+            string langName = "en";// "";// "zh-CN";
+            if (LanguageID == "0")
+                langName = "zh-TW";
+            else if (LanguageID == "1")
+                langName = "zh-CN";
+            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langName);
+            Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture(langName);
+            return base.BeginExecuteCore(callback, state);
+        }
 
     }
 }
