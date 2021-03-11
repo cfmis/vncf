@@ -195,6 +195,7 @@ namespace VNCF.PSS.Web.Common
 
         #endregion
 
+        #region 多語言轉換
         protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
         {
             //HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies["LanguageID"];
@@ -208,6 +209,6 @@ namespace VNCF.PSS.Web.Common
             Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture(langName);
             return base.BeginExecuteCore(callback, state);
         }
-
+        #endregion
     }
 }

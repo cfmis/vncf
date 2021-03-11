@@ -123,6 +123,9 @@
   <data name="OcID" xml:space="preserve">
     <value>OC編號TW</value>
   </data>
+  <data name="OrderDate" xml:space="preserve">
+    <value>訂單日期TW</value>
+  </data>
   <data name="ProductItem" xml:space="preserve">
     <value>產品編號TW</value>
   </data>

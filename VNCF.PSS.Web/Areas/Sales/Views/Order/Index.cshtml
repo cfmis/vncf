@@ -76,11 +76,11 @@
 
                 <ul class="formod mgt10" id="ulPanel">
 
-                    <li class="lb-std"><div class="input-group"><span>@WebFromElement.OcID：</span>@Html.TextBoxFor(m => m.OcID, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>@Resource.OcID：</span>@Html.TextBoxFor(m => m.OcID, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>@WebFromElement.Ver：</span>@Html.TextBoxFor(m => m.Ver, "", new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
                     <li class="lb-std">
                     <div class="input-group">
-                        <span>@WebFromElement.OrderDate：</span>
+                        <span>@Resource.OrderDate：</span>
                         @Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand",@style = "width: 55%;" })
                         <button type="button" class="in-button-find" id="forceBizOpEtpsInfo1">...</button>
                     </div>
@@ -248,6 +248,13 @@
 
 <script type="text/javascript">
     
+
+    @*//然后在其他的js文件中直接引用全局变量
+    window.l_this_field_cannot_be_empty = '@Resource.ProductItem';
+    alert(window["l_this_field_cannot_be_empty"]);*@
+
+    @*alert('@Resource.ProductItem');*@
+
         $(function () {
 
 

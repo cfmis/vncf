@@ -123,6 +123,9 @@
   <data name="OcID" xml:space="preserve">
     <value>OC No.</value>
   </data>
+  <data name="OrderDate" xml:space="preserve">
+    <value>Order Date</value>
+  </data>
   <data name="ProductItem" xml:space="preserve">
     <value>Product Item</value>
   </data>
