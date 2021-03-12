@@ -10,18 +10,18 @@
     <title>Login - @CF.Core.Config.CachedConfigContext.Current.SettingConfig.WebSiteTitle</title>
     <script type="text/javascript">
         function hideShowFrame() {
-            if (document.getElementById("middenFram").cols == "193,*") {
+            if (document.getElementById("middenFram").cols == "173,*") {
                 document.getElementById("middenFram").cols = "0,*";
             }
             else {
-                document.getElementById("middenFram").cols = "193,*"
+                document.getElementById("middenFram").cols = "173,*"
             }
         }
     </script>
 </head>
-<frameset rows="46,*,30" cols="*" frameborder="no" border="0" framespacing="0">
+<frameset rows="26,*,30" cols="*" frameborder="no" border="0" framespacing="0">
     <frame src="Top" name="topFrame" scrolling="No" noresize="noresize" id="topFrame" title="topFrame" />
-    <frameset cols="193,*" frameborder="no" border="0" framespacing="0" id="middenFram">
+    <frameset cols="173,*" frameborder="no" border="0" framespacing="0" id="middenFram">
         <frame src="Left" name="leftFrame" scrolling="No" noresize="noresize" id="leftFrame" title="leftFrame" />
         <frame src="Right" name="mainFrame" id="mainFrame" title="mainFrame" />
     </frameset>

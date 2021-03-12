@@ -77,7 +77,7 @@ body{
 	font-size: 16px;
 }
 .index_header{
-	height:102px;
+	height:92px;
 	width:100%;
 	min-width: 1024px;
 	position:fixed; top:0px; left:0px;
@@ -96,10 +96,10 @@ body{
 .nav_list{ float:left; margin-top:1px;}
 .nav_list li {float: left;}
 .nav_list li a{	color:#CEEBFF; display:block;	
-	height:45px;
+	height:25px;
 	cursor: pointer;
-	line-height:45px;
-	font-size:16px; font-weight:bold; width:80px; text-align:center; margin-right:10px;
+	line-height:25px;
+	font-size:12px; font-weight:bold; width:60px; text-align:center; margin-right:10px;
 }
 .nav_list li a:hover{	color:#fff; 
 }
@@ -137,17 +137,17 @@ body{
 	margin-right:20px;
 }
 .fucnbx span{
-	font-size:14px;
+	font-size:12px;
 	color:#fff;
 	font-weight: bold;
 	margin-left:25px;
-	line-height: 45px;
+	line-height: 25px;
 }
 .fucnbx span i{
 	width:20px;
 	height:20px;
 	display:inline-block;
-	margin-right:10px;
+	margin-right:8px;
 	vertical-align:middle;
 }
 .fucnbx span a { color:#fff;
@@ -168,16 +168,16 @@ body{
 	background:#EEF1F8;
 	border-right:1px solid #c1d1dc;
 	min-height: 837px;
-	padding-top:15px;
+	padding-top:10px;
 	position:fixed;top:0px; left:0px; /*top:102px*/
-	width:193px;
+	width:173px;
 }
 .nav_list .slctd {
 	color:#fff;
 }
 .leftbar dt{ margin-left:30px;
 
-	cursor: pointer; font-size:16px; position:relative;
+	cursor: pointer; font-size:14px; position:relative;
 }
 .leftbar dd{
 	height:37px;
@@ -207,7 +207,7 @@ body{
 	background:url(../images/h_12.png) no-repeat; width:9px; height:9px; position:absolute; right:20px;top:19px;}
 .rightmenu1{display:inline-block;
 	background:url(../images/icon_12.png) no-repeat; width:9px; height:9px; position:absolute; right:20px;top:19px;}	
-.box_n a{ display:block; height:37px; line-height:37px; font-size:14px; color:#858585; padding-left:58px;}
+.box_n a{ display:block; height:27px; line-height:27px; font-size:12px; color:#858585; padding-left:58px;}
 .box_n a:hover,.nav_sub{ background:url(../images/icon_8.png) repeat-x; color:#fff !important;}
 .box_n span{color:#f20000;}
 .btsty3{
