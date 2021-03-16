@@ -89,6 +89,15 @@ ol,ul {list-style:none;}
 .mgt10{
 	margin-top:5px!important;
 }
+.percent-100 img {
+            border: 0;
+            /*margin: 2px;*/
+            padding: 5px;
+            max-width: 150px;
+            width: e-xpression(this.width>150?"150px":this.width);
+            max-height: 160px;
+            height: e-xpression(this.height>160?"160px":this.height);
+        }
 .in-button-find{
     width: 15%;  
     padding:2px;

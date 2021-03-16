@@ -270,6 +270,8 @@
     <Compile Include="Areas\Sales\AspNetReports\Order.aspx.designer.cs">
       <DependentUpon>Order.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Store\Controllers\TransferController.cs" />
+    <Compile Include="Areas\Store\StoreAreaRegistration.cs" />
     <Compile Include="Common\AdminCacheContext.cs" />
     <Compile Include="Common\AdminControllerBase.cs" />
     <Compile Include="Common\AdminCookieContext.cs" />
@@ -466,6 +468,9 @@
     <Content Include="Areas\Base\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Account\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Account\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Store\Views\web.config" />
+    <Content Include="Areas\Store\Views\Transfer\Create.cshtml" />
+    <Content Include="Areas\Store\Views\_ViewStart.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -532,6 +537,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Base\Views\Shared\" />
+    <Folder Include="Areas\Store\Models\" />
+    <Folder Include="Areas\Store\Views\Shared\" />
     <Folder Include="Content\Hg\" />
     <Folder Include="Images\" />
     <Folder Include="Lib\" />
