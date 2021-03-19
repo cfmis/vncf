@@ -245,3 +245,12 @@ ol,ul {list-style:none;}
         height:26px;
    }
 }
+
+/*必填項藍色字體*/
+.font_color_required{
+    color :blue;
+}
+/*9號字體*/
+.font_9px{
+    font-size:9px;
+}
