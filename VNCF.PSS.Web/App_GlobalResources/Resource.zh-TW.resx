@@ -117,19 +117,448 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActualToHKDate" xml:space="preserve">
+    <value>實際回港日期</value>
+  </data>
+  <data name="ActualToHKQty" xml:space="preserve">
+    <value>實際回港數量</value>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>區域</value>
+  </data>
+  <data name="ArriveDate" xml:space="preserve">
+    <value>交貨日期</value>
+  </data>
+  <data name="BankAccount" xml:space="preserve">
+    <value>銀行賬號</value>
+  </data>
+  <data name="BrandID" xml:space="preserve">
+    <value>牌子編號</value>
+  </data>
+  <data name="btn_add" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="btn_additem" xml:space="preserve">
+    <value>項目新增</value>
+  </data>
+  <data name="btn_blank" xml:space="preserve">
+    <value>清除</value>
+  </data>
+  <data name="btn_cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="btn_del" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="btn_edit" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="btn_edititem" xml:space="preserve">
+    <value>項目修改</value>
+  </data>
+  <data name="btn_exit" xml:space="preserve">
+    <value>關閉</value>
+  </data>
+  <data name="btn_new" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="btn_ok" xml:space="preserve">
+    <value>確定</value>
+  </data>
+  <data name="btn_print" xml:space="preserve">
+    <value>列印</value>
+  </data>
+  <data name="btn_reload" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="btn_save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="btn_saveitem" xml:space="preserve">
+    <value>項目保存</value>
+  </data>
+  <data name="btn_search" xml:space="preserve">
+    <value>查詢</value>
+  </data>
+  <data name="btn_submit" xml:space="preserve">
+    <value>提交</value>
+  </data>
+  <data name="btn_undo" xml:space="preserve">
+    <value>恢復</value>
+  </data>
+  <data name="Contacts" xml:space="preserve">
+    <value>聯繫人</value>
+  </data>
+  <data name="ContactsEmail" xml:space="preserve">
+    <value>郵件</value>
+  </data>
+  <data name="ContactsFax" xml:space="preserve">
+    <value>傳真</value>
+  </data>
+  <data name="ContactsTel" xml:space="preserve">
+    <value>聯繫人電話</value>
+  </data>
+  <data name="ContractID" xml:space="preserve">
+    <value>PO/NO</value>
+  </data>
+  <data name="CreateAt" xml:space="preserve">
+    <value>建檔日期-</value>
+  </data>
+  <data name="CreateBy" xml:space="preserve">
+    <value>建檔人</value>
+  </data>
+  <data name="CurrencyID" xml:space="preserve">
+    <value>貨幣代碼</value>
+  </data>
+  <data name="CurrencyRate" xml:space="preserve">
+    <value>貨幣匯率</value>
+  </data>
+  <data name="CustColorID" xml:space="preserve">
+    <value>客顏色編號</value>
+  </data>
+  <data name="CustColorName" xml:space="preserve">
+    <value>客顏色名稱</value>
+  </data>
+  <data name="CustomerCdesc" xml:space="preserve">
+    <value>客戶名稱(中文)</value>
+  </data>
+  <data name="CustomerEdesc" xml:space="preserve">
+    <value>客戶名稱(英文)</value>
+  </data>
   <data name="CustomerID" xml:space="preserve">
-    <value>客戶編號TW</value>
+    <value>客戶編號</value>
+  </data>
+  <data name="CustProductID" xml:space="preserve">
+    <value>客產品編號</value>
+  </data>
+  <data name="CustProductName" xml:space="preserve">
+    <value>客產品名稱</value>
+  </data>
+  <data name="CustSize" xml:space="preserve">
+    <value>客戶尺寸</value>
+  </data>
+  <data name="DeliveredPort" xml:space="preserve">
+    <value>裝貨港口</value>
+  </data>
+  <data name="DestinationPort" xml:space="preserve">
+    <value>目的港口</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>折扣額</value>
+  </data>
+  <data name="DiscountRate" xml:space="preserve">
+    <value>折扣率%</value>
+  </data>
+  <data name="DoColor" xml:space="preserve">
+    <value>顏色做法</value>
+  </data>
+  <data name="Dosage" xml:space="preserve">
+    <value>用量</value>
+  </data>
+  <data name="FactoryShipOutDate" xml:space="preserve">
+    <value>交客日期</value>
+  </data>
+  <data name="ForeignFirm" xml:space="preserve">
+    <value>洋行編號</value>
+  </data>
+  <data name="GetColorSample" xml:space="preserve">
+    <value>取色版</value>
+  </data>
+  <data name="InvoiceRemark" xml:space="preserve">
+    <value>發票備註</value>
+  </data>
+  <data name="IsFree" xml:space="preserve">
+    <value>是否免費</value>
+  </data>
+  <data name="IsPrint" xml:space="preserve">
+    <value>是否列印</value>
+  </data>
+  <data name="Merchandisers" xml:space="preserve">
+    <value>跟單員</value>
+  </data>
+  <data name="MerchandisersEmail" xml:space="preserve">
+    <value>跟單員郵件</value>
+  </data>
+  <data name="MerchandisersTel" xml:space="preserve">
+    <value>跟單員電話</value>
+  </data>
+  <data name="MoState" xml:space="preserve">
+    <value>頁數狀態</value>
+  </data>
+  <data name="MoType" xml:space="preserve">
+    <value>制單種類</value>
+  </data>
+  <data name="msg_add_details_failed" xml:space="preserve">
+    <value>明細資料添加失败 !</value>
+  </data>
+  <data name="msg_add_failed" xml:space="preserve">
+    <value>數據添加失敗 !</value>
+  </data>
+  <data name="msg_add_master_failed" xml:space="preserve">
+    <value>主檔資料添加失败!</value>
+  </data>
+  <data name="msg_condition_is_empty" xml:space="preserve">
+    <value>查詢條件不可以為空 !</value>
+  </data>
+  <data name="msg_data_query" xml:space="preserve">
+    <value>數據查詢</value>
+  </data>
+  <data name="msg_details_info" xml:space="preserve">
+    <value>明細資料</value>
+  </data>
+  <data name="msg_detail_data_no_valid" xml:space="preserve">
+    <value>請檢查明細資料的完整性 !</value>
+  </data>
+  <data name="msg_invalid_product_id" xml:space="preserve">
+    <value>無效的產品編號 !</value>
+  </data>
+  <data name="msg_loading_data" xml:space="preserve">
+    <value>正在加載數據,請稍等...</value>
+  </data>
+  <data name="msg_master_data_is_added_status" xml:space="preserve">
+    <value>主檔資料為新增狀態,當前操作無效 !</value>
+  </data>
+  <data name="msg_master_data_is_empty" xml:space="preserve">
+    <value>主檔資料為空,當前操作無效 !</value>
+  </data>
+  <data name="msg_master_data_no_valid" xml:space="preserve">
+    <value>請檢查主檔資料的完整性 !</value>
+  </data>
+  <data name="msg_no_data" xml:space="preserve">
+    <value>無記錄.</value>
+  </data>
+  <data name="msg_only_select_one" xml:space="preserve">
+    <value>每次只能選擇一條 !</value>
+  </data>
+  <data name="msg_saved_master_success" xml:space="preserve">
+    <value>主檔資料保存成功 !</value>
+  </data>
+  <data name="msg_saved_success" xml:space="preserve">
+    <value>數據保存成功 !</value>
+  </data>
+  <data name="msg_search_condition" xml:space="preserve">
+    <value>查找條件</value>
+  </data>
+  <data name="msg_system_prompt" xml:space="preserve">
+    <value>系统提示</value>
   </data>
   <data name="OcID" xml:space="preserve">
-    <value>OC編號TW</value>
+    <value>OC編號</value>
+  </data>
+  <data name="OcRemark" xml:space="preserve">
+    <value>OC備註</value>
   </data>
   <data name="OrderDate" xml:space="preserve">
-    <value>訂單日期TW</value>
+    <value>落單日期</value>
+  </data>
+  <data name="OrderQty" xml:space="preserve">
+    <value>訂單數量</value>
+  </data>
+  <data name="OrderType" xml:space="preserve">
+    <value>訂單類型</value>
+  </data>
+  <data name="OrderUnit" xml:space="preserve">
+    <value>訂單單位</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>付款方式</value>
+  </data>
+  <data name="PlanCompleteDate" xml:space="preserve">
+    <value>計劃完成日期</value>
+  </data>
+  <data name="PlateRemark" xml:space="preserve">
+    <value>電鍍備註</value>
+  </data>
+  <data name="PoNo" xml:space="preserve">
+    <value>客戶PO</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>單價</value>
+  </data>
+  <data name="PriceType" xml:space="preserve">
+    <value>價格條件</value>
+  </data>
+  <data name="PriceUnit" xml:space="preserve">
+    <value>單價單位</value>
+  </data>
+  <data name="PrimaryKey" xml:space="preserve">
+    <value>面件</value>
+  </data>
+  <data name="ProductAmount" xml:space="preserve">
+    <value>貨品金額</value>
+  </data>
+  <data name="ProductCdesc" xml:space="preserve">
+    <value>貨品名稱</value>
+  </data>
+  <data name="ProductID" xml:space="preserve">
+    <value>貨品編號</value>
   </data>
   <data name="ProductItem" xml:space="preserve">
-    <value>產品編號TW</value>
+    <value>產品編號</value>
   </data>
   <data name="ProductMo" xml:space="preserve">
-    <value>制單編號TW</value>
+    <value>制單頁數</value>
+  </data>
+  <data name="ProductRemark" xml:space="preserve">
+    <value>生產備註</value>
+  </data>
+  <data name="ReceivedDate" xml:space="preserve">
+    <value>接單日期</value>
+  </data>
+  <data name="Remark" xml:space="preserve">
+    <value>備注</value>
+  </data>
+  <data name="sales_order_details" xml:space="preserve">
+    <value>銷售訂單明細資料</value>
+  </data>
+  <data name="sales_order_master" xml:space="preserve">
+    <value>銷售訂單主檔資料</value>
+  </data>
+  <data name="SallerID" xml:space="preserve">
+    <value>營業員</value>
+  </data>
+  <data name="Season" xml:space="preserve">
+    <value>季度</value>
+  </data>
+  <data name="Seq" xml:space="preserve">
+    <value>序號</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>狀態</value>
+  </data>
+  <data name="StyleNo" xml:space="preserve">
+    <value>客戶款號</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>稅款金額</value>
+  </data>
+  <data name="TaxNo" xml:space="preserve">
+    <value>稅款編號</value>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>總金額</value>
+  </data>
+  <data name="Transport" xml:space="preserve">
+    <value>裝運方式</value>
+  </data>
+  <data name="UnitCode" xml:space="preserve">
+    <value>單位</value>
+  </data>
+  <data name="UpdateAt" xml:space="preserve">
+    <value>更改日期</value>
+  </data>
+  <data name="UpdateBy" xml:space="preserve">
+    <value>更改人</value>
+  </data>
+  <data name="Ver" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="msg_add_success" xml:space="preserve">
+    <value>數據添加成功 !</value>
+  </data>
+  <data name="msg_an_mo_have_one_main_part" xml:space="preserve">
+    <value>同一頁數只能有一個主件!</value>
+  </data>
+  <data name="msg_current_mo_needs_specify_key" xml:space="preserve">
+    <value>當前頁數需指定一個主件!</value>
+  </data>
+  <data name="msg_del_failed" xml:space="preserve">
+    <value>删除當前記錄失敗 !</value>
+  </data>
+  <data name="msg_del_success" xml:space="preserve">
+    <value>數據删除成功 !</value>
+  </data>
+  <data name="msg_dosage_cannot_be_empty" xml:space="preserve">
+    <value>用量不可為空 !</value>
+  </data>
+  <data name="msg_is_del_current_record" xml:space="preserve">
+    <value>确认删除该条記錄?</value>
+  </data>
+  <data name="msg_item_code_cannot_be_empty" xml:space="preserve">
+    <value>貨品編碼不可為空 !</value>
+  </data>
+  <data name="msg_select_one_row_before_edit" xml:space="preserve">
+    <value>請首先選中需要編輯的當前行</value>
+  </data>
+  <data name="CodeType" xml:space="preserve">
+    <value>編碼類型</value>
+  </data>
+  <data name="Confirmed" xml:space="preserve">
+    <value>已批準</value>
+  </data>
+  <data name="Cosign" xml:space="preserve">
+    <value>委外加工</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>注銷</value>
+  </data>
+  <data name="Made" xml:space="preserve">
+    <value>自制品</value>
+  </data>
+  <data name="msg_cannot_be_greater_than" xml:space="preserve">
+    <value>不可以大于</value>
+  </data>
+  <data name="msg_detail_data_is_added_status" xml:space="preserve">
+    <value>資料為新增狀態,當前操作無效 !</value>
+  </data>
+  <data name="msg_detail_data_is_empty" xml:space="preserve">
+    <value>明細資料為空,當前操作無效 !</value>
+  </data>
+  <data name="msg_it_is_already_new_status_no_need_to_empty" xml:space="preserve">
+    <value>已是新增狀態,無需清空!</value>
+  </data>
+  <data name="msg_save_oc_details_first" xml:space="preserve">
+    <value>請首先保存OC明細資料</value>
+  </data>
+  <data name="msg_select_specified_row_in_oc_detail" xml:space="preserve">
+    <value>OC明細資料中請首先選中指定的行</value>
+  </data>
+  <data name="msg_wrong_date" xml:space="preserve">
+    <value>日期有誤</value>
+  </data>
+  <data name="mst_clear_detail_head_data" xml:space="preserve">
+    <value>請首先按清除按鈕,清空表明細表頭信息 !</value>
+  </data>
+  <data name="ProductEdesc" xml:space="preserve">
+    <value>貨品名稱(英文)</value>
+  </data>
+  <data name="Purcharse" xml:space="preserve">
+    <value>採購件</value>
+  </data>
+  <data name="Unconfirmed" xml:space="preserve">
+    <value>未批準</value>
+  </data>
+  <data name="FinshedProduct" xml:space="preserve">
+    <value>成品</value>
+  </data>
+  <data name="OrderQty_and_unit" xml:space="preserve">
+    <value>訂單數量/單位</value>
+  </data>
+  <data name="Price_and_unit" xml:space="preserve">
+    <value>單價/單位</value>
+  </data>
+  <data name="btn_import" xml:space="preserve">
+    <value>訂單匯入</value>
+  </data>
+  <data name="PurchaseID" xml:space="preserve">
+    <value>採購單號</value>
+  </data>
+  <data name="VendorID" xml:space="preserve">
+    <value>供應商編號</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>重量</value>
+  </data>
+  <data name="WeightUnit" xml:space="preserve">
+    <value>重量單位</value>
+  </data>
+  <data name="VendorName" xml:space="preserve">
+    <value>供應商名稱</value>
+  </data>
+  <data name="msg_is_edit_status" xml:space="preserve">
+    <value>當前為編輯狀態,此操作無效!</value>
+  </data>
+  <data name="msg_is_confirm_this_operation" xml:space="preserve">
+    <value>確定要進行當前操作?</value>
   </data>
 </root>
