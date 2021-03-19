@@ -251,10 +251,15 @@
     <Compile Include="Areas\Account\DAL\Factory.cs" />
     <Compile Include="Areas\Account\DAL\GenAdminiMenu.cs" />
     <Compile Include="Areas\Account\Models\AdminMenuConfig.cs" />
+    <Compile Include="Areas\Base\ASHX\BaseDataList.ashx.cs">
+      <DependentUpon>BaseDataList.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Base\BaseAreaRegistration.cs" />
     <Compile Include="Areas\Base\Controllers\DepController.cs" />
     <Compile Include="Areas\Base\Controllers\ProductTypeController.cs" />
+    <Compile Include="Areas\Base\DAL\BaseDataDAL.cs" />
     <Compile Include="Areas\Base\Models\DepInfo.cs" />
+    <Compile Include="Areas\Base\Models\DocFlagModels.cs" />
     <Compile Include="Areas\Sales\Controllers\OCController.cs" />
     <Compile Include="Areas\Sales\Controllers\OrderController.cs" />
     <Compile Include="Areas\Sales\DAL\Factory.cs" />
@@ -270,8 +275,9 @@
     <Compile Include="Areas\Sales\AspNetReports\Order.aspx.designer.cs">
       <DependentUpon>Order.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Store\Controllers\TransferController.cs" />
-    <Compile Include="Areas\Store\StoreAreaRegistration.cs" />
+    <Compile Include="Areas\Stock\Controllers\TransferController.cs" />
+    <Compile Include="Areas\Stock\Models\TransferModels.cs" />
+    <Compile Include="Areas\Stock\StockAreaRegistration.cs" />
     <Compile Include="Common\AdminCacheContext.cs" />
     <Compile Include="Common\AdminControllerBase.cs" />
     <Compile Include="Common\AdminCookieContext.cs" />
@@ -283,6 +289,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Areas\Base\Models\CustomerModels.cs" />
+    <Compile Include="Areas\Base\Models\GoodsModels.cs" />
+    <Compile Include="Areas\Base\Models\UnitModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -468,9 +477,10 @@
     <Content Include="Areas\Base\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Account\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Account\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Store\Views\web.config" />
-    <Content Include="Areas\Store\Views\Transfer\Create.cshtml" />
-    <Content Include="Areas\Store\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Stock\Views\web.config" />
+    <Content Include="Areas\Stock\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Stock\Views\Transfer\Create.cshtml" />
+    <Content Include="Areas\Base\ASHX\BaseDataList.ashx" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -537,8 +547,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Base\Views\Shared\" />
-    <Folder Include="Areas\Store\Models\" />
-    <Folder Include="Areas\Store\Views\Shared\" />
+    <Folder Include="Areas\Stock\DAL\" />
+    <Folder Include="Areas\Stock\Views\Shared\" />
     <Folder Include="Content\Hg\" />
     <Folder Include="Images\" />
     <Folder Include="Lib\" />

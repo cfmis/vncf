@@ -7,8 +7,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using VNCF.PSS.Web.Areas.Sales.Models;
 using VNCF.PSS.Web.Areas.Sales.DAL;
+using VNCF.PSS.Web.Areas.Base.DAL;
 using VNCF.PSS.Web.Common;
 using System.IO;
+
 
 namespace VNCF.PSS.Web.Areas.Sales.Controllers
 {
@@ -137,19 +139,19 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         }
         public ActionResult GetProduct(string ProductID)
         {
-            var result = OrderDAL.GetProductByID(ProductID);
+            var result = BaseDataDAL.GetGoodsByID(ProductID);
             //var result = new { rows = list };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetCustomer(string ID)
         {
-            var result = OrderDAL.GetCustByID(ID);
+            var result = BaseDataDAL.GetCustByID(ID);
             //var result = new { rows = list };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetUnit()
         {
-            var result = OrderDAL.GetUnit();
+            var result = BaseDataDAL.GetUnit();
             //var result = new { rows = list };
             return Json(result, JsonRequestBehavior.AllowGet);
         }

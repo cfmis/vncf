@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace VNCF.PSS.Web.Areas.Base.Models
+{
+    public class UnitModels
+    {
+    }
+    public class bs_unit
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+    }
+}

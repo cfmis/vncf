@@ -1,0 +1,311 @@
+﻿@using Resources;
+@using VNCF.PSS.Web.Areas.Stock.Models;
+@model TransferHead
+
+@{
+//Layout = null;
+}
+@section PageSpecificStyleSheetIncludes{
+    @*<link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416263">*@
+    <style type="text/css">
+        .percent-100 tr {
+            height: 20px;
+        }
+
+
+
+        .btnbox {
+            width: 10px;
+            height: 10px;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+}
+<div class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;">
+    <div data-options="region:'center'">
+        <div class="easyui-layout" data-options="fit:true">
+            <div class="botbtbx pdb0">
+                @*<input type="button" value="添加部門" class="easyui-linkbutton" iconcls="icon-add" onclick="showPublishWin()" />
+                    <input type="button" value="查询" class="easyui-linkbutton" iconcls="icon-search" onclick="reloadList();">*@
+                <a href="#" class="easyui-linkbutton" iconcls="icon-add" id="btnNew">新單</a>
+                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach1" onclick="showMessageDialog('Find','查找',800,560)">查询</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="btnAddHead" iconcls="icon-ok">确定</a>
+                <a href="#" class="easyui-linkbutton" id="btnPprint" iconcls="icon-print" onclick="showMessageDialog('@Url.Action("Print")','列印',800,600,true);">列印</a>
+                @*<button id="show" onclick="show()">Show</button>*@
+            </div>
+        </div>
+    </div>
+    <div class="mdHide">
+        <input id="mdInput" />
+    </div>
+    <div class="easyui-tabs" style="width:99%;height:auto;">
+        <div title="First Tab" style="padding:10px;">
+            @using (Html.BeginForm("EditHead", null, FormMethod.Post, new { id = "addFormHead", @clase = "form-inline", @role = "form" }))
+            {
+
+                <ul class="formod mgt10" id="ulPanel">
+
+                    <li class="lb-std"><div class="input-group"><span>@Resource.OcID：</span>@Html.TextBoxFor(m => m.ID, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>單據日期:</span>@Html.TextBoxFor(m => m.TransferDate, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>單據類型:</span>@Html.TextBoxFor(m => m.FlagID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>倉庫號碼:</span>@Html.TextBoxFor(m => m.LocID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>建立人:</span>@Html.TextBoxFor(m => m.CreateUser, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>建立時間:</span>@Html.TextBoxFor(m => m.CreateTime, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>修改人:</span>@Html.TextBoxFor(m => m.AmendUser, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>修改時間:</span>@Html.TextBoxFor(m => m.AmendTime, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                </ul>
+
+            }
+        </div>
+        <div title="Second Tab" closable="false" style="padding:10px;">
+
+            @using (Html.BeginForm("EditHead", null, FormMethod.Post, new { id = "addFormDetails", @clase = "form-inline", @role = "form" }))
+            {
+
+                <table id="tbInput" class="percent-100" cellpadding="0" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="td-label"><div class="award-name"><span>制單編號：</span></div></td>
+                            <td class="td-input"><div class="input-group"><input id="ProductMo" class="easyui-textbox" , style="width:100%" /></div></td>
+                            <td class="td-label"><div class="award-name"><span>物料編號：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("GoodsID", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name"><span>物料描述：</span></div></td>
+                            <td colspan="3"><div class="input-group">@Html.TextBox("GoodsName", "", new { @class = "easyui-textbox", @style = "width:100%", @readonly = "true" })</div></td>
+
+                        </tr>
+                        <tr>
+                            <td class="td-label"><div class="award-name">倉庫編號：</div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("DetailsLocID", "", new { @class = "easyui-combobox", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name">交易數量：</div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("TransferQty", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name"><span>數量單位：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("QtyUnit", "", new { @class = "easyui-combobox", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name"><span>交易重量：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("TransferWeg", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+
+                            @*<td></td>*@
+
+                        </tr>
+                        <tr>
+                            <td class="td-label"><div class="award-name"><span>重量單位：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("WegUnit", "", new { @class = "easyui-combobox", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name"><span>批號：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("LotNo", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name">收貨部門：</div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("NextLocID", "", new { @class = "easyui-combobox", @style = "width:100%" })</div></td>
+                            <td class="td-label"><div class="award-name"><span>序號：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("Seq", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            }
+
+            <div class="areabx_divider"></div>
+            <div data-options="region:'center'">
+                <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
+                    <table id="tbDetails" class="easyui-datagrid" title=@Resource.OcID style="width:100%;height:350px"
+                           data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get',fit:true"></table>
+
+                </div>
+            </div>
+            @*<a class="btn blue" title='添加產品' href="@Url.Action("Create")"><i class="icon-plus icon-white"></i> 添加產品</a>*@
+        </div>
+
+
+    </div>
+</div>
+@section PageSpecificJavascriptIncludes{
+    @*<script src="~/Content/js/order.js"></script>*@
+    <script type="text/javascript">
+        $(function () {
+            var baseUrl = '/Areas/Base/ASHX/BaseDataList.ashx/GetItem?';
+            $('#FlagID').combobox({
+                //url: 'GetDocFlag?r=' + Math.random(),//数据接收URL地址
+                url: baseUrl + 'paraa=wh_transfer&parab=list',//数据接收URL地址
+                method: 'post',
+                panelHeight: 'auto',
+                valueField: 'ID',//主键值
+                textField: 'Name'
+            });
+            $('#LocID').combobox({
+                url: baseUrl + 'paraa=loc&parab=list',//数据接收URL地址
+                method: 'post',
+                panelHeight: 'auto',
+                valueField: 'ID',//主键值
+                textField: 'Name'
+            });
+            $('#DetailsLocID').combobox({
+                url: baseUrl + 'paraa=loc&parab=list',//数据接收URL地址
+                method: 'post',
+                panelHeight: 'auto',
+                valueField: 'ID',//主键值
+                textField: 'Name'
+            });
+            $('#NextLocID').combobox({
+                url: baseUrl + 'paraa=loc&parab=list',//数据接收URL地址
+                method: 'post',
+                panelHeight: 'auto',
+                valueField: 'ID',//主键值
+                textField: 'Name'
+            });
+            $('#QtyUnit').combobox({
+                url: baseUrl + 'paraa=unit&parab=list',//数据接收URL地址
+                method: 'post',
+                panelHeight: 'auto',
+                valueField: 'ID',//主键值
+                textField: 'Name'
+            });
+            $('#WegUnit').combobox({
+                url: baseUrl + 'paraa=unit&parab=list',//数据接收URL地址
+                method: 'post',
+                panelHeight: 'auto',
+                valueField: 'ID',//主键值
+                textField: 'Name'
+            });
+
+            SearchDetails();
+            InitSearch();//查询
+        })
+        //初始化搜索框
+        function InitSearch() {
+            //按照条件进行查询，首先我们得到数据
+            $("#btnSerach").click(function () {
+                //得到用户输入的参数
+                //SearchHead();
+                SearchDetails();
+            });
+        }
+        function SearchDetails() {
+            var queryData = {
+                OcID: $("#OcID").val(),
+                Ver: $("#Ver").val()
+                //ClassId: $("#txtClassIdSerach").combobox("getValue")
+            };
+            //将值传递给initTable
+            initList(queryData);
+            return false;
+        }
+
+        function initList(queryData) {
+            $('#tbDetails').datagrid({
+                url: 'List',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据
+                iconCls: 'icon-view',//图标
+                //fit: true,//自动适屏功能
+                //fit: true,
+                width: function () { return document.body.clientWidth * 2 },//自动宽度
+                nowrap: true,
+                //collapsible: true,
+                autoRowHeight: false,//自动行高
+                striped: true,
+                collapsible: true,
+                //sortName: 'Id',//排序列名为ID
+                sortOrder: 'asc',//排序为将序
+                remoteSort: false,
+                idField: 'Seq',//主键值
+                rownumbers: true,//显示行号
+                multiSort: true,//启用排序 sortable: true //启用排序列
+                pagination: true,
+                loadMsg: 'Loading... ',
+                emptyMsg: '<span>无记录</span>',
+                pageSize: 10,
+                pageList: [10, 20, 30, 40, 50],
+                queryParams: queryData, //搜索条件查询
+                columns: [[
+                { field: 'Seq', title: '序號', width: 60 },
+                { field: 'ProductMo', title: '制單編號', width: 100 },
+                { field: 'GoodsID', title: '物料編號', width: 200 },
+                { field: 'GoodsName', title: '物料描述', width: 200 },
+                { field: 'TransferQty', title: '交易數量', width: 80 },
+                { field: 'QtyUnit', title: '數量單位', width: 60 },
+                { field: 'TransferWeg', title: '交易重量', width: 80 },
+                { field: 'WegUnit', title: '重量單位', width: 60 },
+                { field: 'NextLocID', title: '收貨部門', width: 80 },
+                { field: 'LotNo', title: '批號', width: 100 },
+                {
+                    field: 'oprate', title: '操作', align: 'center', width: 80,
+                    formatter: function (value, row, index) {
+                        var str = '<a href="#" name="opera" onclick="deleteRecord(' + index + ')" class="easyui-linkbutton" >刪除</a>';
+                        ////value = '<a href="#" name="opera" onclick="showDetails1(' + index + ')" class="easyui-linkbutton" ></a>';
+                        ////str="showModalDialog('../Products/Pd_Mo_Plan_Details.aspx?dep_id='+row.dep_id+'&dep_cdesc='+row.dep_cdesc, 'subpage', 'dialogWidth:800px;dialogHeight:500px;center:yes;help:no;resizable:no;status:no')";
+                        return str;
+                        //return '<a href="#" onclick="showDetails1(' + index + ')">修改</a>';
+                    }
+                }
+                ]],
+                toolbar: [{
+                    id: 'btnAdd',
+                    text: '新增',
+                    iconCls: 'icon-add',
+                    handler: function () {
+                        @*$('#btnAdd').linkbutton('enable');
+                        $('#btnAdd').click(function () {
+                            //$('#AddDialog').dialog('open').dialog('setTitle', '新增項目');
+                            //showMessageDialog("@Url.Action("Create")","新增產品",800,600,true);
+                            Save();
+                        });*@
+                        Save();
+                    }
+                }, '-', {
+                    id: 'btnEdit',
+                    text: '修改',
+                    iconCls: 'icon-edit',
+                    handler: function () {
+                        var RowUpdateByID = $('#tbDetails').datagrid('getSelections');
+                        if (RowUpdateByID.length == 1) {
+                            //实现绑定数据显示
+                            BindUpdateList();
+                            $("#UpdateDialog").dialog('open').dialog('setTitle', '修改信息');
+                        }
+                        else {
+                            $.messager.alert("友情提示！", "每次只能修改一条，你已经选择了<font color='red'  size='6'>" + RowUpdateByID.length + "</font>条");
+                        }
+                    }
+                }, '-', {
+                    id: 'btnDelete',
+                    text: '删除',
+                    iconCls: 'icon-cancel',
+                    handler: function () {
+                        var RowDeleteByID = $('#tbDetails').datagrid("getSelections");
+                        if (RowDeleteByID.length == 1) {
+                            $.messager.confirm("删除信息", "您确认删除该条信息吗？", function (deleteClient) {
+                                if (deleteClient) {
+                                    $.post("DeleteList?r=" + Math.random(), { OcID: $("#OcID").val(), Seq: RowDeleteByID[0].Seq }, function (data) {
+                                        if (data == "OK") {
+                                            $.messager.alert("系统提示！", "删除成功");
+                                            //这里要将上次删除的Id清空，否则下次再删除的时候会报错
+                                            RowDeleteByID.length = "";
+                                            //$("#tbDetails").datagrid('reload') //重新刷新整个页面
+                                            SearchOcDetails();
+                                        }
+                                        else {
+                                            $.messager.alert("系统提示！", "删除失败");
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        else {
+                            $.messager.alert("友情提示！", "每次只能删除一行，你已经选择了<font color='red' size='6'>" + RowDeleteByID.length + "</font>行");
+                        }
+                    }
+                }, '-', {
+                    id: 'btnreload',
+                    text: '刷新',
+                    iconCls: 'icon-reload',
+                    handler: function () {
+                        $("#tbDetails").datagrid("reload");
+                    }
+                }],
+                onClickRow: function (index, row) {
+                    FillOcDetails();
+                },
+
+            });
+        }
+
+
+    </script>
+}

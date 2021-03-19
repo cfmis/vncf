@@ -1,22 +1,22 @@
 ﻿using System.Web.Mvc;
 
-namespace VNCF.PSS.Web.Areas.Store
+namespace VNCF.PSS.Web.Areas.Stock
 {
-    public class StoreAreaRegistration : AreaRegistration 
+    public class StockAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
         {
             get 
             {
-                return "Store";
+                return "Stock";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
-                "Store_default",
-                "Store/{controller}/{action}/{id}",
+                "Stock_default",
+                "Stock/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
         }
