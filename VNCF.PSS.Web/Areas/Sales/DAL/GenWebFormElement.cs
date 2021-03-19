@@ -7,6 +7,8 @@ using VNCF.PSS.Web.Common;
 using VNCF.PSS.Web.Areas.Sales.Models;
 using CF.SQLServer.DAL;
 using CF.Framework.Utility;
+using System.Web.Mvc;
+
 
 namespace VNCF.PSS.Web.Areas.Sales.DAL
 {
@@ -53,5 +55,31 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             }
             return lsModel;
         }
+
+
+        /// <summary>
+        /// 前端頁面翻譯
+        /// </summary>
+        /// <param name="webFormName"> web page name</param>
+        /// <returns></returns>
+        public ViewDataDictionary getViewData(string webFormName)
+        {
+            //ViewData存儲標簽翻譯數據
+            var LanguageID = AdminUserContext.Current.LoginInfo.LanguageID;
+            string strSql = "Select a.FieldsID,b.FieldsName" +
+               " FROM sy_WebFormElement a" +
+               " INNER JOIN sy_DataDictionaryLanguage b ON a.FieldsID=b.FieldsID" +
+               " WHERE a.WebFormName='" + webFormName + "' AND b.LanguageID='" + LanguageID + "'";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            ViewDataDictionary ViewData = new ViewDataDictionary();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ViewData[dt.Rows[i]["FieldsID"].ToString()] = dt.Rows[i]["FieldsName"].ToString();
+            }
+            //調用頁面的當前用戶及時間
+            ViewData["user_id"] = AdminUserContext.Current.LoginInfo.LoginName;
+            return ViewData;
+        }
+
     }
 }
