@@ -1,0 +1,38 @@
+﻿
+#fm
+{
+   margin: 0;
+   padding: 10px 30px;
+}
+.ftitle
+{
+      font-size: 14px;
+      font-weight: bold;
+      padding: 5px 0;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+}
+.fitem
+{
+    margin-bottom: 5px;
+}
+.fitem label
+{
+    display: inline-block;
+    width: 100px;    
+}
+
+
+/*表格欄位固定*/
+#details_master{
+   table-layout: fixed;
+}
+#details_master td{
+   word-break: break-all;
+   word-wrap: break-word;
+}
+
+/*必填項藍色字體*/
+.myblue{
+   color :blue;
+}

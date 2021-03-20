@@ -1,0 +1,199 @@
+﻿@using Resources;
+@using VNCF.PSS.Web.Areas.Sales.DAL
+@using VNCF.PSS.Web.Areas.Sales.Models;
+@model Order_Head
+@{
+    ViewBag.Title = "SalesOrderFind";
+    //var WebFromElement = Factory.GenWebFormElement().AdminCreateOrderIndex("Sales.Order.Index");   
+    //var WebFromElement = Factory.GenWebFormElement().getViewData("Sales.Order.Index");    
+}
+
+<div class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;">
+
+    @using (Html.BeginForm("EditHead", null, FormMethod.Post, new { id = "findFormHead", @clase = "form-inline", @role = "form" }))
+    {
+        <div data-options="region:'center'">
+            <div class="easyui-layout" data-options="fit:true">
+                <div class="botbtbx pdb0">
+                    @*<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" onclick="window.parent.closeWindow()">@WebFromElement.btn_exit</a>*@  <!--关闭-->
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" onclick="window.parent.closeWindow()">@Resource.btn_exit</a>  <!--关闭-->
+                    <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach">@Resource.btn_search</a>      <!--查询-->
+                    <a href="javascript:void(0)" class="easyui-linkbutton" id="btnConf" iconcls="icon-ok">@Resource.btn_ok</a> <!--确定-->
+                </div>
+            </div> 
+        </div>
+            <ul class="formod mgt10">
+                <li><span>@Resource.OcID：</span>@Html.TextBoxFor(m => m.OcID, new { @class = "easyui-textbox" })</li> <!--OC編號-->
+                <li><span>@Resource.Ver:</span>@Html.TextBoxFor(m => m.Ver, "", new { @class = "easyui-textbox" })</li> <!--版本-->
+                <li><span>@Resource.OrderDate：</span>@Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand" })</li> <!--落單日期--> 
+                <li><span>@Resource.ReceivedDate：</span>@Html.TextBox("ReceivedDate", "", new { @class = "easyui-datebox-expand" })</li> <!--接單日期-->
+                <li><span>@Resource.ForeignFirm：</span>@Html.TextBox("ForeignFirm", "", new { @class = "easyui-textbox" })</li> <!--洋行編號-->
+                <li><span>@Resource.Area：</span>@Html.TextBox("Area", "", new { @class = "easyui-textbox" })</li> <!--區域-->
+                <li><span>@Resource.CustomerID：</span>@Html.TextBoxFor(m => m.CustomerID, "", new { @class = "easyui-textbox" })</li> <!--客戶編號-->
+                <li><span>@Resource.SallerID：</span>@Html.TextBox("SallerID", "", new { @class = "easyui-textbox" })</li> <!--營業員-->
+                <li><span>@Resource.Season：</span>@Html.TextBox("Season", "", new { @class = "easyui-textbox" })</li> <!--季度-->
+
+                <li><span>@Resource.ContractID：</span>@Html.TextBox("ContractID", "", new { @class = "easyui-textbox" })</li> <!--PO/NO-->
+                <li><span>@Resource.BrandID：</span>@Html.TextBox("BrandID", "", new { @class = "easyui-textbox" })</li> <!--牌子編號-->
+                <li><span>@Resource.ProductMo：</span>@Html.TextBox("ProductMo", "", new { @class = "easyui-textbox" })</li>   <!--頁數-->
+                <li><span>@Resource.ProductID：</span>@Html.TextBox("ProductID", "", new { @class = "easyui-textbox" })</li>   <!--貨品編碼-->
+                
+            </ul>
+    }
+    <div class="areabx_divider"></div>
+    <div data-options="region:'center'">
+        <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
+            <table id="tbDetails" class="easyui-datagrid" title=@Resource.msg_details_info style="width:790px;height:350px"
+                   data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'"></table>
+
+        </div>
+    </div>
+    @*<a class="btn blue" title='添加產品' href="@Url.Action("Create")"><i class="icon-plus icon-white"></i> 添加產品</a>*@
+</div>
+
+
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">
+        $(function () {
+            SearchData();
+            //InitSearch();//查询
+            $("#btnSerach").click(function () {
+                //還原狀態為只讀,以免父頁頁新增新單時未結束時點查詢,返因主頁面時控件可修改
+                window.parent.DisableMaster(true);//只讀
+                window.parent.DisableDetails(true);//只讀
+                window.parent.setEditMasterButtonSatus(false);//btnEdit disable
+                window.parent.setEditDetailButtonSatus(false);//btnEditItem disable
+                window.parent.document.getElementById("ActionType_H").value = "";
+                window.parent.document.getElementById("ActionType_D").value = "";
+                //得到用户输入的参数
+                SearchData();
+            });
+            $("#btnConf").click(function () {
+                SelectData();
+            });
+
+            //$('#txtClassIdSerach').combobox({
+            //    url: '/Home/GetClass?r=' + Math.random(),//数据接收URL地址
+            //    method: 'post',
+            //    //url: '/combobox_data1.json',
+            //    panelHeight: 'auto',
+            //    valueField: 'Id',//主键值
+            //    textField: 'Realname'
+            //});
+
+        });
+
+        function initList(queryData) {
+            $('#tbDetails').datagrid({
+                url: '/SalesOrder/GetOcHeadReturnList',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据
+                iconCls: 'icon-view',//图标
+                //fit: true,//自动适屏功能
+                //fit: true,
+                //width: function () { return document.body.clientWidth * 2 },//自动宽度
+                nowrap: true,
+                //collapsible: true,
+                autoRowHeight: false,//自动行高
+                striped: true,
+                collapsible: true,
+                //sortName: 'Id',//排序列名为ID
+                sortOrder: 'asc',//排序为将序
+                remoteSort: false,
+                idField: 'OcID',//主键值
+                rownumbers: true,//显示行号
+                multiSort: true,//启用排序 sortable: true //启用排序列
+                pagination: true,
+                loadMsg: 'Loading... ',
+                emptyMsg: '<span> No Data</span>',
+                pageSize: 10,
+                pageList: [10, 20, 30, 40, 50],
+                queryParams: queryData, //搜索条件查询
+                columns: [[
+                    //{
+                    //    field: 'oprate', title: '操作', align: 'center', width: 60,
+                    //    formatter: function (value, row, index) {
+                    //        var str = '<a href="#" name="opera" onclick="SelectData()" class="easyui-linkbutton" >選擇</a>';
+                    //        return str;
+                    //    }
+                    //},
+               { field: "OcID", title: "@Resource.OcID", width: 100 },//OC編號
+               { field: "OrderDate", title: "@Resource.OrderDate", width: 80 },//訂單日期
+               { field: "Ver", title: "@Resource.Ver", width: 40, align: 'center'},//版本號
+               { field: "CustomerID", title: "@Resource.CustomerID", width: 70 },//客戶編號
+               { field: "State", title: "@Resource.State", width: 35, align: 'center'},//狀態
+               { field: "ProductMo", title: "@Resource.ProductMo", width: 80 },//頁數
+               { field: "ProductID", title: "@Resource.ProductID", width: 160 },//貨品編號
+               { field: "ProductCdesc", title: "@Resource.ProductCdesc", width: 200 },//產品描述
+               { field: "OrderQty", title: "@Resource.OrderQty", width: 80, align: 'right'},//訂單數量
+               { field: "Price", title: "@Resource.Price", width: 70, align: 'right' },//單價
+               { field: "PriceUnit", title: "@Resource.PriceUnit", width: 60, align: 'center' },//單價單位
+               { field: "RateDiscount", title: "@Resource.DiscountRate", width: 60 ,align: 'right' },//折扣率
+               { field: "AmountDiscount", title: "@Resource.Discount", width: 80,align: 'right' },//折扣額
+               { field: "AmountProduct", title: "@Resource.ProductAmount", width: 80, align: 'right' }//貨品金額
+        ]],
+        onDblClickRow: function (index, row) {
+            SelectData();
+        },
+        });
+        }
+
+        //初始化搜索框
+        function InitSearch() {
+            //按照条件进行查询，首先我们得到数据
+            $("#btnSerach").click(function () {
+                //得到用户输入的参数
+                SearchData();
+            });
+            $("#btnConf").click(function () {
+                SelectData();
+            });
+        }
+        function SearchData() {
+            var queryData = {
+                OcID: $("#OcID").val(),
+                Ver: $("#Ver").val()
+                //ClassId: $("#txtClassIdSerach").combobox("getValue")
+            };
+            //var queryData = $("#findFormHead").serializeArray();
+            //将值传递给initTable
+            initList(queryData);
+            return false;
+        }
+        function SelectData() {
+            var RowFindByID = $('#tbDetails').datagrid('getSelections');
+            if (RowFindByID.length == 1) {
+                //实现绑定数据显示
+                var OcID = RowFindByID[0].OcID;
+                var obj = window.parent.document.getElementById("OcID");
+                obj.value = OcID;
+                window.parent.SearchOcHead();
+                window.parent.SearchOcDetails();
+                window.parent.closeWindow();
+            }
+            else {
+                $.messager.alert("@Resource.msg_system_prompt","@Resource.msg_only_select_one");
+            }
+        }
+
+        //function showMessageDialog(url, title, width, height, shadow) {
+
+        //    var content = '<iframe src="' + url + '" width="100%" height="99%" frameborder="0" scrolling="no"></iframe>';
+        //    //content += '<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" style="width:80px" onclick="javascript:$(' + '\'#msgwindow\'' + ').dialog(' + '\'close\'' + ')">' + '关闭' + '</a>';
+        //    var boarddiv = '<div id="msgwindow" title="' + title + '"></div>'//style="overflow:hidden;"可以去掉滚动条
+        //    $(document.body).append(boarddiv);
+        //    var win = $('#msgwindow').dialog({
+        //        content: content,
+        //        width: width,
+        //        height: height,
+        //        modal: shadow,
+        //        title: title,
+        //        onClose: function () {
+        //            //$(this).dialog('destroy');//后面可以关闭后的事件
+        //            //document.getElementById('btnSerach').click();
+        //        }
+        //    });
+        //    win.dialog('open');
+        //}
+
+    </script>
+}
+

@@ -100,3 +100,8 @@
 .icon-excel{
 	background:url('icons/excel.png') no-repeat center center;
 }
+
+/*add new icon*/
+.icon-import{
+	background:url('icons/import.png') no-repeat center center;
+}
