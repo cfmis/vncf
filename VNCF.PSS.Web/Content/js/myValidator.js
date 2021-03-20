@@ -27,7 +27,7 @@
       goodsCheckSub: {
           validator: function (value) {
               var item = /^[a-zA-Z0-9]+$/;
-              return value.length == 18 && item.test(value);
+              return value.length == 14 && item.test(value);
           },
           message: "只能包括英文字母、数字(共18位字符長度)"
       },
