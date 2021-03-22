@@ -146,9 +146,7 @@
                     <li class="lb-std"><span class="input-group">@Resource.UpdateAt：</span>@Html.TextBox("UpdateAt", "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
                     <!--定義隱藏的臨時變量儲存當前操作是新增或修改-->
                     @*<li> @Html.TextBox("OperationType", "", new { @class = "easyui-textbox ", type = "hidden"}) </li>*@
-                    <li><input class="" type="hidden" name="ActionType" id="ActionType_H" /></li>
-                    <li><input class="" type="hidden" name="BuilOcID" id="BuilOcID" /></li>
-                    <li><input class="" type="hidden" name="BuilOcVer" id="BuilOcVer" /></li>
+                    <li><input class="" type="hidden" name="ActionType" id="ActionType_H" /></li>                   
                 </ul>
             }
         </div>
@@ -319,7 +317,7 @@
 </div>
 
 @section PageSpecificJavascriptIncludes{
-    <script src="~/Content/js/SalesOrder.js?v=20210112000051"></script>
+    <script src="~/Content/js/SalesOrder.js?v=20210112000052"></script>
     @*<script src="~/Content/js/SalesOrder.js"></script>*@
     
 

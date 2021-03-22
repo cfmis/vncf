@@ -33,6 +33,7 @@
                 <li class="lb-std"><span class="input-group">@Resource.ProductMo：</span>@Html.TextBoxFor(m => m.ProductMo, new { @class = "easyui-textbox ", @data_options = "validType:'length[1,9]'", @style = "width:72%" })</li>
                 <li class="lb-std"><span class="input-group">@Resource.ProductID：</span>@Html.TextBoxFor(m => m.ProductID, new { @class = "easyui-textbox ", @data_options = "validType:'length[1,20]'", @style = "width:72%" })</li>
             </ul>
+            <input class="" type="hidden" name="TempOcID" id="TempOcID" />
         }
     </div>
 
@@ -58,9 +59,14 @@
             $("#btnSerach").click(function () {
                 //得到用户输入的参数
                 SearchData();
-            });
+            });            
+
             $("#btnConf").click(function () {
-                SelectData();
+                $.messager.confirm("@Resource.msg_system_prompt", "@Resource.msg_is_confirm_this_operation", function (r) {
+                    if (r) {
+                        SelectData();
+                    }
+                });
             });
 
             var t = $('#ProductID');
@@ -145,13 +151,7 @@
                 SearchData();
             });
 
-            $("#btnConf").click(function () {
-                $.messager.confirm("@Resource.msg_system_prompt", "@Resource.msg_is_confirm_this_operation", function (r) {
-                    if (r) {
-                        SelectData();
-                    }
-                });
-            });
+           
         }
 
         function SearchData() {
@@ -178,9 +178,13 @@
                     async: false,//改为同步方式(需等待當前動作執行是否成)
                     type: "post",
                     success: function (data) {                        
-                        if (data.ID != "") {
-                            window.parent.document.getElementById('BuilOcID').value = data.ID;//父窗體接授返回的臨時值 
-                            window.parent.document.getElementById('BuilOcVer').value = '0';
+                        if (data.ID != "") {                           
+                            window.parent.document.getElementById('OcID').value = data.ID;                            
+                            window.parent.document.getElementById('Ver').value = '0';
+
+                            window.parent.SearchOcHead();
+                            window.parent.SearchOcDetails();
+                            window.parent.closeWindow();
                         }
                         else {
                             //主檔資料添加失败                

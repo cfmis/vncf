@@ -1074,22 +1074,25 @@ function openWin(url, title, width, height,rowIndex, shadow) {
             //$(this).dialog('destroy');//后面可以关闭后的事件
             //document.getElementById('btnSerach').click();
             //判斷后臺是否生成OC數據
-            if (title == "Build OC") {                
-                var OcID = document.getElementById("BuildOcID").val();
-                var OcVer = document.getElementById("BuildOcVer").val();
-                alert('OcID:' + OcID + ';Ver:' + OcVer);
-                if (OcID != "") {
-                    var objOcID = document.getElementById("OcID");
-                    var objVer = document.getElementById("Ver");
-                    objOcID.value = OcID;
-                    objVer.value = OcVer;
-                    alert('objOcID.value:' + objOcID.value + ';objVer.value:' + objVer.value);
-                    window.parent.SearchOcHead();
-                    window.parent.SearchOcDetails();
-                    //window.parent.closeWindow();
-                }
-                return;
-            }
+
+            //if (title == "Build OC") {
+            //    //var OcID = document.getElementById("BuildOcID").val();
+            //    //var OcVer = document.getElementById("BuildOcVer").val();
+            //    var OcID = $("#OcID").val();
+            //    var OcVer = $("#Ver").val()
+            //    //alert('OcID:' + OcID + ';Ver:' + OcVer);
+            //    if (OcID != "") {
+            //        var objOcID = document.getElementById("OcID");
+            //        var objVer = document.getElementById("Ver");
+            //        objOcID.value = OcID;
+            //        objVer.value = OcVer;
+            //        alert('objOcID.value:' + objOcID.value + ';objVer.value:' + objVer.value);
+            //        window.parent.SearchOcHead();
+            //        window.parent.SearchOcDetails();
+            //        //window.parent.closeWindow();
+            //    }
+            //    return;
+            //}
 
             //查詢貨品編碼
             var strItem = document.getElementById('goods_id').value;
