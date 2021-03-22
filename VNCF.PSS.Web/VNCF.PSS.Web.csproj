@@ -255,11 +255,15 @@
       <DependentUpon>BaseDataList.ashx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Base\BaseAreaRegistration.cs" />
+    <Compile Include="Areas\Base\Controllers\BrandController.cs" />
     <Compile Include="Areas\Base\Controllers\CountryController.cs" />
     <Compile Include="Areas\Base\Controllers\DepController.cs" />
+    <Compile Include="Areas\Base\Controllers\DeptController.cs" />
     <Compile Include="Areas\Base\Controllers\ProductTypeController.cs" />
+    <Compile Include="Areas\Base\Controllers\VendorController.cs" />
     <Compile Include="Areas\Base\DAL\BaseDAL.cs" />
     <Compile Include="Areas\Base\DAL\BaseDataDAL.cs" />
+    <Compile Include="Areas\Base\DAL\DeptDAL.cs" />
     <Compile Include="Areas\Base\Models\BaseInfo.cs" />
     <Compile Include="Areas\Base\Models\DepInfo.cs" />
     <Compile Include="Areas\Base\Models\DocFlagModels.cs" />
@@ -496,6 +500,9 @@
     <Content Include="Areas\Sales\Views\SalesOrder\ImportOrder.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\Index.cshtml" />
     <Content Include="Areas\Base\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Base\Views\Brand\Index.cshtml" />
+    <Content Include="Areas\Base\Views\Dept\Index.cshtml" />
+    <Content Include="Areas\Base\Views\Vendor\Index.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

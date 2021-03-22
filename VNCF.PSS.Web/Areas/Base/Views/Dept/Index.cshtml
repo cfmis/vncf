@@ -1,0 +1,184 @@
+﻿@using VNCF.PSS.Web.Areas.Sales.DAL
+@using VNCF.PSS.Web.Areas.Base.Models;
+@model Dept
+@{
+    ViewBag.Title = "Deptpartment";
+    var WebFromElement = ViewBag;
+}
+
+
+<script type="text/javascript">
+    $(function () {        
+        SearchData();
+        
+        //點擊查詢按鈕時調用SearchData()函數
+        $("#btnSerach").click(function () {
+            //得到用户输入的参数           
+            SearchData();
+        });
+
+        //$("#btnConf").click(function () {
+        //    SelectData();
+        //});
+        //$('#txtClassIdSerach').combobox({
+        //    url: '/Home/GetClass?r=' + Math.random(),//数据接收URL地址
+        //    method: 'post',
+        //    //url: '/combobox_data1.json',
+        //    panelHeight: 'auto',
+        //    valueField: 'Id',//主键值
+        //    textField: 'Realname'
+        //});
+
+        //$(window).resize(function () {
+        //    $('#tbDetails').datagrid('resize', {  //根据自身情况更改
+        //        width: $(window).width() - 40,    //根据自身情况更改
+        //        height: $(window).height() - 200  //根据自身情况更改
+        //    }).datagrid('resize', {
+        //        width: $(window).width() - 40,    //根据自身情况更改
+        //        height: $(window).height() - 200  //根据自身情况更改
+        //    });
+        //});
+       
+        });
+    
+    function initList(queryData) {       
+        $('#tbDetails').datagrid({               
+                url: '/Dept/GetDeptReturnList',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据
+                iconCls: 'icon-view',//图标
+                //fit: true,//自动适屏功能
+                //fit: true,
+                //width: function () { return document.body.clientWidth * 2 },//自动宽度
+                nowrap: true,
+                //collapsible: true,
+                autoRowHeight: false,//自动行高                
+                striped: true,
+                collapsible: true,
+                //sortName: 'Id',//排序列名为ID
+                sortOrder: 'asc',//排序为将序
+                remoteSort: false,
+                idField: 'id',//主键值
+                rownumbers: false,//显示行号
+                multiSort: true, //启用排序 sortable: true //启用排序列
+                pagination: true,
+                pageSize: 10,
+                pageList: [10, 20, 30, 40, 50],
+                queryParams: queryData, //搜索条件查询
+                columns: [[
+                    @*{
+                        field: 'oprate', title: '操作', align: 'center', width: 60,
+                        formatter: function (value, row, index) {
+                            var str = '<a href="#" name="opera" onclick="SelectData()" class="easyui-linkbutton" >選擇</a>';
+                            return str;
+                        }
+                    },*@
+               { field: "id", title: "@WebFromElement.id", width: 80 },// 編號
+               @*{ field: "name", title: "@WebFromElement.OcID", width: 100 },*@
+               { field: "name", title: "@WebFromElement.name", width: 160 },//名稱
+               { field: "english_name", title: "@WebFromElement.english_name", width: 160 } //名稱(英文)             
+                ]]
+
+            });
+        }
+
+        //初始化搜索框
+        //function InitSearch() {
+        //    //按照条件进行查询，首先我们得到数据
+        //    $("#btnSerach").click(function () {
+        //        //得到用户输入的参数
+        //        SearchData();
+        //    });
+        //    $("#btnConf").click(function () {
+        //        SelectData();
+        //    });
+        //}
+
+        function SearchData() {
+            var queryData = {
+                id: $("#id").val(),
+                name: $("#name").val()
+                //ClassId: $("#txtClassIdSerach").combobox("getValue")
+            };
+            //var queryData = $("#findFormHead").serializeArray();序列化的方式,無需逐個取賦值            
+            //将值传递给initTable
+            initList(queryData);
+            return false;
+        }
+        //function SelectData() {
+        //    var RowFindByID = $('#tbDetails').datagrid('getSelections');
+        //    if (RowFindByID.length == 1) {
+        //        //实现绑定数据显示
+        //        //BindUpdateList();
+        //        //debugger;
+        //        var id = RowFindByID[0].id;
+        //        var obj = window.parent.document.getElementById("id");
+        //        obj.value = id;
+        //        window.parent.SearchOcHead();
+        //        window.parent.SearchOcDetails();
+        //        window.parent.closeWindow()
+        //    }
+        //    else {
+        //        $.messager.alert("友情提示！", "每次只能修改一条，你已经选择了<font color='red'  size='6'>" + RowFindByID.length + "</font>条");
+        //    }
+        //}
+
+        //function showMessageDialog(url, title, width, height, shadow) {
+
+        //    var content = '<iframe src="' + url + '" width="100%" height="99%" frameborder="0" scrolling="no"></iframe>';
+        //    //content += '<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" style="width:80px" onclick="javascript:$(' + '\'#msgwindow\'' + ').dialog(' + '\'close\'' + ')">' + '关闭' + '</a>';
+        //    var boarddiv = '<div id="msgwindow" title="' + title + '"></div>'//style="overflow:hidden;"可以去掉滚动条
+        //    $(document.body).append(boarddiv);
+        //    var win = $('#msgwindow').dialog({
+        //        content: content,
+        //        width: width,
+        //        height: height,
+        //        modal: shadow,
+        //        title: title,
+        //        onClose: function () {
+        //            //$(this).dialog('destroy');//后面可以关闭后的事件
+        //            //document.getElementById('btnSerach').click();
+        //        }
+        //    });
+        //    win.dialog('open');
+        //}
+</script>
+
+
+@*
+    <h3>部門資料</h3>
+    <hr style="height:2px;border:none;border-top:2px dotted #185598;" />
+    <div class="areabx_header">部門資料</div>
+*@
+
+
+<div class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;">
+     <fieldset>
+           <legend>@WebFromElement.msg_search_condition</legend> <!--查詢條件-->           
+           <div class="botbtbx pdb0" style="margin-top: 5px">                            
+                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach" style="margin-left:50px ">@WebFromElement.btn_search</a> <!--查询-->                           
+           </div>
+
+           @*<div style="height:10px"></div>*@<!--工具按鈕與文本框之間的間隔-->
+           <ul class="formod mgt10" style="margin-bottom:10px">
+               <li><span>@WebFromElement.id：</span>@Html.TextBoxFor(m => m.id, new { @class = "easyui-textbox" })</li> <!--編號-->
+               <li><span>@WebFromElement.name：</span>@Html.TextBoxFor(m => m.name, new { @class = "easyui-textbox" })</li> <!--名稱-->
+               <li><span>@WebFromElement.english_name：</span>@Html.TextBoxFor(m => m.english_name, new { @class = "easyui-textbox" })</li>  <!--名稱(英文)-->                    
+           </ul>
+      </fieldset>
+        
+           
+      @*<div class="areabx_header">明細資料</div>*@
+      @*<div class="areabx_divider"></div>  劃線*@
+
+      <div data-options="region:'center'">
+           <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
+                <!--table id="tbDetails" class="easyui-datagrid" title="表格標提" style="width:790px;height:350px"-->
+                <table id="tbDetails" class="display" style="width:100%;height:500px"
+                       data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'">
+                </table>
+           </div>                   
+      </div>            
+</div>
+
+
+
+

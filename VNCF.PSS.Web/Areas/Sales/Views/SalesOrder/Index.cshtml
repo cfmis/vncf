@@ -178,7 +178,8 @@
                                <td class="td-label font_color_required"><div class="award-name">@Resource.ProductID:</div></td> 
                                <td class="td-input">
                                    <div class="input-group">
-                                       @Html.TextBox("ProductID", "", new { @class = "easyui-textbox", @style = "width:85%", @data_options = "required:true,validType:'goodsCheckSub'" })
+                                       @*@Html.TextBox("ProductID", "", new { @class = "easyui-textbox", @style = "width:85%", @data_options = "required:true,validType:'goodsCheckSub'" })*@
+                                       @Html.TextBox("ProductID", "", new { @class = "easyui-textbox", @style = "width:85%", @data_options = "required:true" })
                                        @*<a href="#" class="easyui-linkbutton" id="btnItem">···</a>*@<!--彈窗查詢貨品編號-->
                                        <button type="button" class="in-button-find" id="btnItem">...</button>
                                    </div>
