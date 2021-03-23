@@ -820,9 +820,10 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         }
 
         //返回生成的OC單據編號
-        public static PurchaseInfo GetBuilOCID(PurchaseInfo model)
+        public static PurchaseInfo GetBuildOCID(PurchaseInfo model)
         {
-            string strSql = string.Format("EXECUTE usp_buil_oc_from_geo '{0}',{1}", model.ID,model.Ver);
+            string user_id = AdminUserContext.Current.LoginInfo.LoginName;
+            string strSql = string.Format("EXECUTE usp_build_oc_from_geo '{0}',{1},'{2}'", model.ID,model.Ver, user_id);
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             PurchaseInfo objModel = new PurchaseInfo();
             if (dt.Rows.Count > 0)

@@ -57,8 +57,8 @@
             //InitSearch();//查询
             $("#btnSerach").click(function () {
                 //還原狀態為只讀,以免父頁頁新增新單時未結束時點查詢,返因主頁面時控件可修改
-                window.parent.DisableMaster(true);//只讀
-                window.parent.DisableDetails(true);//只讀
+                window.parent.disableMaster(true);//只讀
+                window.parent.disableDetails(true);//只讀
                 window.parent.setEditMasterButtonSatus(false);//btnEdit disable
                 window.parent.setEditDetailButtonSatus(false);//btnEditItem disable
                 window.parent.document.getElementById("ActionType_H").value = "";

@@ -99,7 +99,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         //后臺生成OC數據
         public ActionResult BuildOrder(PurchaseInfo model)
         {
-            var result = SalesOrderDAL.GetBuilOCID(model);
+            var result = SalesOrderDAL.GetBuildOCID(model);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
