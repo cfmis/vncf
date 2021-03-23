@@ -117,19 +117,448 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActualToHKDate" xml:space="preserve">
+    <value>Actual To HK Date</value>
+  </data>
+  <data name="ActualToHKQty" xml:space="preserve">
+    <value>Actual To HK Qty</value>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>Area</value>
+  </data>
+  <data name="ArriveDate" xml:space="preserve">
+    <value>Arrive Date</value>
+  </data>
+  <data name="BankAccount" xml:space="preserve">
+    <value>Bank Account</value>
+  </data>
+  <data name="BrandID" xml:space="preserve">
+    <value>Brand ID</value>
+  </data>
+  <data name="btn_add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="btn_additem" xml:space="preserve">
+    <value>Add Item</value>
+  </data>
+  <data name="btn_blank" xml:space="preserve">
+    <value>Clear Data</value>
+  </data>
+  <data name="btn_cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="btn_del" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="btn_edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="btn_edititem" xml:space="preserve">
+    <value>Edit Item</value>
+  </data>
+  <data name="btn_exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="btn_new" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="btn_ok" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="btn_print" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="btn_reload" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="btn_save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="btn_saveitem" xml:space="preserve">
+    <value>Save Item</value>
+  </data>
+  <data name="btn_search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="btn_submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="btn_undo" xml:space="preserve">
+    <value>Recover</value>
+  </data>
+  <data name="Contacts" xml:space="preserve">
+    <value>Contact Name</value>
+  </data>
+  <data name="ContactsEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="ContactsFax" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="ContactsTel" xml:space="preserve">
+    <value>Contact Tel</value>
+  </data>
+  <data name="ContractID" xml:space="preserve">
+    <value>PO/NO</value>
+  </data>
+  <data name="CreateAt" xml:space="preserve">
+    <value>Create Date</value>
+  </data>
+  <data name="CreateBy" xml:space="preserve">
+    <value>Create By</value>
+  </data>
+  <data name="CurrencyID" xml:space="preserve">
+    <value>Money ID</value>
+  </data>
+  <data name="CurrencyRate" xml:space="preserve">
+    <value>Money Rate</value>
+  </data>
+  <data name="CustColorID" xml:space="preserve">
+    <value>Cust.Color ID</value>
+  </data>
+  <data name="CustColorName" xml:space="preserve">
+    <value>Cust.Color Desc.</value>
+  </data>
+  <data name="CustomerCdesc" xml:space="preserve">
+    <value>Product Name</value>
+  </data>
+  <data name="CustomerEdesc" xml:space="preserve">
+    <value>Product Name(Eng)</value>
+  </data>
   <data name="CustomerID" xml:space="preserve">
-    <value>Customer</value>
+    <value>CustomerID</value>
+  </data>
+  <data name="CustProductID" xml:space="preserve">
+    <value>Cust.Product ID</value>
+  </data>
+  <data name="CustProductName" xml:space="preserve">
+    <value>Cust.Prod.Desc.</value>
+  </data>
+  <data name="CustSize" xml:space="preserve">
+    <value>Cust.Prod.Size</value>
+  </data>
+  <data name="DeliveredPort" xml:space="preserve">
+    <value>Delivered Port</value>
+  </data>
+  <data name="DestinationPort" xml:space="preserve">
+    <value>Destn. Port</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Discount Amt.</value>
+  </data>
+  <data name="DiscountRate" xml:space="preserve">
+    <value>Discount%</value>
+  </data>
+  <data name="DoColor" xml:space="preserve">
+    <value>Deal With Color</value>
+  </data>
+  <data name="Dosage" xml:space="preserve">
+    <value>Dosage</value>
+  </data>
+  <data name="FactoryShipOutDate" xml:space="preserve">
+    <value>Cust.Arrive Date</value>
+  </data>
+  <data name="ForeignFirm" xml:space="preserve">
+    <value>Foreign Firm</value>
+  </data>
+  <data name="GetColorSample" xml:space="preserve">
+    <value>Color Sample</value>
+  </data>
+  <data name="InvoiceRemark" xml:space="preserve">
+    <value>Invoice Remark</value>
+  </data>
+  <data name="IsFree" xml:space="preserve">
+    <value>Is Free</value>
+  </data>
+  <data name="IsPrint" xml:space="preserve">
+    <value>Is Print</value>
+  </data>
+  <data name="Merchandisers" xml:space="preserve">
+    <value>Merchandiser</value>
+  </data>
+  <data name="MerchandisersEmail" xml:space="preserve">
+    <value>Merch. Email</value>
+  </data>
+  <data name="MerchandisersTel" xml:space="preserve">
+    <value>Merch. Phone</value>
+  </data>
+  <data name="MoState" xml:space="preserve">
+    <value>Mo State</value>
+  </data>
+  <data name="MoType" xml:space="preserve">
+    <value>Mo Type</value>
+  </data>
+  <data name="msg_add_details_failed" xml:space="preserve">
+    <value>Failed to add details data !</value>
+  </data>
+  <data name="msg_add_failed" xml:space="preserve">
+    <value>Failed to add current item !</value>
+  </data>
+  <data name="msg_add_master_failed" xml:space="preserve">
+    <value>Failed to add master data !</value>
+  </data>
+  <data name="msg_condition_is_empty" xml:space="preserve">
+    <value>The query condition cannot be empty!</value>
+  </data>
+  <data name="msg_data_query" xml:space="preserve">
+    <value>Data Query</value>
+  </data>
+  <data name="msg_details_info" xml:space="preserve">
+    <value>Details Info</value>
+  </data>
+  <data name="msg_detail_data_no_valid" xml:space="preserve">
+    <value>Please check the integrity of the detail data .</value>
+  </data>
+  <data name="msg_invalid_product_id" xml:space="preserve">
+    <value>Invalid Product ID.</value>
+  </data>
+  <data name="msg_loading_data" xml:space="preserve">
+    <value>Data Loading,Please Wait ...</value>
+  </data>
+  <data name="msg_master_data_is_added_status" xml:space="preserve">
+    <value>The master data is in the added status,Current operation is invalid.</value>
+  </data>
+  <data name="msg_master_data_is_empty" xml:space="preserve">
+    <value>The master data is empty,Current operation is invalid.</value>
+  </data>
+  <data name="msg_master_data_no_valid" xml:space="preserve">
+    <value>Please check the integrity of the master data .</value>
+  </data>
+  <data name="msg_no_data" xml:space="preserve">
+    <value>No Data.</value>
+  </data>
+  <data name="msg_only_select_one" xml:space="preserve">
+    <value>You can only select one item at a time !</value>
+  </data>
+  <data name="msg_saved_master_success" xml:space="preserve">
+    <value>Master data saved successfully !</value>
+  </data>
+  <data name="msg_saved_success" xml:space="preserve">
+    <value>Data saved successfully !</value>
+  </data>
+  <data name="msg_search_condition" xml:space="preserve">
+    <value>Search condition</value>
+  </data>
+  <data name="msg_system_prompt" xml:space="preserve">
+    <value>System Prompt Info</value>
   </data>
   <data name="OcID" xml:space="preserve">
-    <value>OC No.</value>
+    <value>OC ID</value>
+  </data>
+  <data name="OcRemark" xml:space="preserve">
+    <value>OC Remark</value>
   </data>
   <data name="OrderDate" xml:space="preserve">
     <value>Order Date</value>
   </data>
+  <data name="OrderQty" xml:space="preserve">
+    <value>Order Qty</value>
+  </data>
+  <data name="OrderType" xml:space="preserve">
+    <value>Order Type</value>
+  </data>
+  <data name="OrderUnit" xml:space="preserve">
+    <value>Order Unit</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>Payment Term</value>
+  </data>
+  <data name="PlanCompleteDate" xml:space="preserve">
+    <value>Plan Complete Date</value>
+  </data>
+  <data name="PlateRemark" xml:space="preserve">
+    <value>Plate Remark</value>
+  </data>
+  <data name="PoNo" xml:space="preserve">
+    <value>Po No.</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="PriceType" xml:space="preserve">
+    <value>Price Terms</value>
+  </data>
+  <data name="PriceUnit" xml:space="preserve">
+    <value>Price Unit</value>
+  </data>
+  <data name="PrimaryKey" xml:space="preserve">
+    <value>Main Part</value>
+  </data>
+  <data name="ProductAmount" xml:space="preserve">
+    <value>Amt. of Goods</value>
+  </data>
+  <data name="ProductCdesc" xml:space="preserve">
+    <value>Product Name</value>
+  </data>
+  <data name="ProductID" xml:space="preserve">
+    <value>Product ID.</value>
+  </data>
   <data name="ProductItem" xml:space="preserve">
-    <value>Product Item</value>
+    <value>Product Item.</value>
   </data>
   <data name="ProductMo" xml:space="preserve">
     <value>Product Mo</value>
+  </data>
+  <data name="ProductRemark" xml:space="preserve">
+    <value>Product Remark</value>
+  </data>
+  <data name="ReceivedDate" xml:space="preserve">
+    <value>ReceivedDate</value>
+  </data>
+  <data name="Remark" xml:space="preserve">
+    <value>Remark</value>
+  </data>
+  <data name="sales_order_details" xml:space="preserve">
+    <value>Sales Order Details</value>
+  </data>
+  <data name="sales_order_master" xml:space="preserve">
+    <value>Sales Order Master</value>
+  </data>
+  <data name="SallerID" xml:space="preserve">
+    <value>Salesman ID</value>
+  </data>
+  <data name="Season" xml:space="preserve">
+    <value>Season</value>
+  </data>
+  <data name="Seq" xml:space="preserve">
+    <value>Seq No.</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="StyleNo" xml:space="preserve">
+    <value>Cust. Style No.</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Tax</value>
+  </data>
+  <data name="TaxNo" xml:space="preserve">
+    <value>TaxNo</value>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Total Amount</value>
+  </data>
+  <data name="Transport" xml:space="preserve">
+    <value>Transport</value>
+  </data>
+  <data name="UnitCode" xml:space="preserve">
+    <value>Unit</value>
+  </data>
+  <data name="UpdateAt" xml:space="preserve">
+    <value>Update Date</value>
+  </data>
+  <data name="UpdateBy" xml:space="preserve">
+    <value>Update By</value>
+  </data>
+  <data name="Ver" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="msg_add_success" xml:space="preserve">
+    <value>Data added successfully !</value>
+  </data>
+  <data name="msg_an_mo_have_one_main_part" xml:space="preserve">
+    <value>An MO can only have one main part</value>
+  </data>
+  <data name="msg_current_mo_needs_specify_key" xml:space="preserve">
+    <value>The current MO needs to specify a main part.</value>
+  </data>
+  <data name="msg_del_failed" xml:space="preserve">
+    <value>Failed to delete current item !</value>
+  </data>
+  <data name="msg_del_success" xml:space="preserve">
+    <value>Data deleted successfully</value>
+  </data>
+  <data name="msg_dosage_cannot_be_empty" xml:space="preserve">
+    <value>Dosage cannot be empty</value>
+  </data>
+  <data name="msg_is_del_current_record" xml:space="preserve">
+    <value>You confirm to delete this record ?</value>
+  </data>
+  <data name="msg_item_code_cannot_be_empty" xml:space="preserve">
+    <value>Item code cannot be empty.</value>
+  </data>
+  <data name="msg_select_one_row_before_edit" xml:space="preserve">
+    <value>Please select the current record before editing</value>
+  </data>
+  <data name="CodeType" xml:space="preserve">
+    <value>CodeType</value>
+  </data>
+  <data name="Confirmed" xml:space="preserve">
+    <value>Confirmed</value>
+  </data>
+  <data name="Cosign" xml:space="preserve">
+    <value>Cosign</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Made" xml:space="preserve">
+    <value>Made</value>
+  </data>
+  <data name="msg_cannot_be_greater_than" xml:space="preserve">
+    <value>Cannot be greater than.</value>
+  </data>
+  <data name="msg_detail_data_is_added_status" xml:space="preserve">
+    <value>The detail data is in the added status,Current operation is invalid.</value>
+  </data>
+  <data name="msg_detail_data_is_empty" xml:space="preserve">
+    <value>The detail data is empty,Current operation is invalid.</value>
+  </data>
+  <data name="msg_it_is_already_new_status_no_need_to_empty" xml:space="preserve">
+    <value>It is already a new state, no need to empty.</value>
+  </data>
+  <data name="msg_save_oc_details_first" xml:space="preserve">
+    <value>Please save the OC details first.</value>
+  </data>
+  <data name="msg_select_specified_row_in_oc_detail" xml:space="preserve">
+    <value>Please select the specified row in the OC detailed data.</value>
+  </data>
+  <data name="msg_wrong_date" xml:space="preserve">
+    <value>Wrong date</value>
+  </data>
+  <data name="mst_clear_detail_head_data" xml:space="preserve">
+    <value>Please first press the clear button to clear the detailed master file information.</value>
+  </data>
+  <data name="ProductEdesc" xml:space="preserve">
+    <value>Product Name(Eng.)</value>
+  </data>
+  <data name="Purcharse" xml:space="preserve">
+    <value>Purcharse</value>
+  </data>
+  <data name="Unconfirmed" xml:space="preserve">
+    <value>Unconfirmed</value>
+  </data>
+  <data name="FinshedProduct" xml:space="preserve">
+    <value>Finshed Product</value>
+  </data>
+  <data name="OrderQty_and_unit" xml:space="preserve">
+    <value>Order Qty /Unit</value>
+  </data>
+  <data name="Price_and_unit" xml:space="preserve">
+    <value>Price /Unit</value>
+  </data>
+  <data name="btn_import" xml:space="preserve">
+    <value>Order Import</value>
+  </data>
+  <data name="PurchaseID" xml:space="preserve">
+    <value>Purchase ID</value>
+  </data>
+  <data name="VendorID" xml:space="preserve">
+    <value>Vendor ID</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Weight</value>
+  </data>
+  <data name="WeightUnit" xml:space="preserve">
+    <value>Weight Unit</value>
+  </data>
+  <data name="VendorName" xml:space="preserve">
+    <value>Vendor Name</value>
+  </data>
+  <data name="msg_is_edit_status" xml:space="preserve">
+    <value>Edit status, this operation is invalid!</value>
+  </data>
+  <data name="msg_is_confirm_this_operation" xml:space="preserve">
+    <value>Are you sure you want to do this operation?</value>
   </data>
 </root>

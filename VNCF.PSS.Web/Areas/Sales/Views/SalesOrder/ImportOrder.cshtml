@@ -1,0 +1,203 @@
+﻿@using Resources;
+@using VNCF.PSS.Web.Areas.Sales.Models;
+@model PurchaseInfo
+@{
+    ViewBag.Title = "OrderImport";
+}
+
+@section PageSpecificStyleSheetIncludes{
+    <link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416175">
+    <style type="text/css">
+
+    </style>
+}
+
+<div class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;">
+
+    <div data-options="region:'center'">
+        <div class="botbtbx pdb0" style="margin-top: 5px">           
+            <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" id="btnClose" style="margin-left:10px ">@Resource.btn_exit</a>  <!--关闭-->
+            <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach">@Resource.btn_search</a> <!--查询-->
+            <a href="#" class="easyui-linkbutton" iconcls="icon-ok" id="btnConf">@Resource.btn_ok</a> <!--确定-->
+        </div>
+    </div>   
+
+    <div title="" style="padding:10px;"><!--font-size:9px!important;-->
+        @using (Html.BeginForm("OrderImport", null, FormMethod.Post, new { id = "OrderImport", @clase = "form-inline", @role = "form" }))
+        {
+            <ul class="formod mgt10" id="ulPanel">
+                <li class="lb-std"><span class="input-group">@Resource.VendorID：</span>@Html.TextBoxFor(m=>m.VendorID, new { @class = "easyui-textbox ", @data_options = "validType:'length[1,9]'", @style = "width:72%" })</li>
+                <li class="lb-std"><span class="input-group">@Resource.PurchaseID：</span>@Html.TextBoxFor(m => m.ID, new { @class = "easyui-textbox ", @data_options = "validType:'length[1,9]'", @style = "width:72%" })</li>
+                <li class="lb-std"><span class="input-group">From @Resource.OrderDate：</span>@Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand ", @data_options = "validType:'length[1,10]'", @style = "width:72%" })</li>
+                <li class="lb-std"><span class="input-group">To @Resource.OrderDate：</span>@Html.TextBoxFor(m => m.OrderDateEnd, "", new { @class = "easyui-datebox-expand ", @data_options = "validType:'length[1,10]'", @style = "width:72%" })</li>
+                <li class="lb-std"><span class="input-group">@Resource.ProductMo：</span>@Html.TextBoxFor(m => m.ProductMo, new { @class = "easyui-textbox ", @data_options = "validType:'length[1,9]'", @style = "width:72%" })</li>
+                <li class="lb-std"><span class="input-group">@Resource.ProductID：</span>@Html.TextBoxFor(m => m.ProductID, new { @class = "easyui-textbox ", @data_options = "validType:'length[1,20]'", @style = "width:72%" })</li>
+            </ul>
+           
+        }
+    </div>
+
+    <div class="areabx_divider"></div>
+    <div data-options="region:'center'">
+         <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
+              <table id="tbDetails" class="easyui-datagrid" title='' style="width:840px;height:330px"
+                       data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'">
+              </table>
+         </div>
+    </div>
+</div>
+
+
+@section PageSpecificJavascriptIncludes{
+    <script src="~/Content/js/SalesOrder.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //$("input[name='modality'][value='3']").attr("checked", true);//賦初值,F0
+            //SearchData();
+
+            //InitSearch();//查询
+            $("#btnSerach").click(function () {
+                //得到用户输入的参数
+                SearchData();
+            });            
+
+            $("#btnConf").click(function () {
+                $.messager.confirm("@Resource.msg_system_prompt", "@Resource.msg_is_confirm_this_operation", function (r) {
+                    if (r) {
+                        SelectData();
+                    }
+                });
+            });
+
+            var t = $('#ProductID');
+            t.textbox('textbox').bind('keyup', function (e) {
+                t.textbox('setValue', $(this).val().toUpperCase());
+                //this.value = this.value.toUpperCase();
+                //if (e.keyCode == 13) {   // 当按下回车键时接受输入的值。
+                //    t.textbox('setValue', $(this).val());
+                //}
+            });
+
+            $("#VendorID").textbox("setValue", "CL-CF001");
+            //初始化日期
+            $("#OrderDateEnd").textbox("setValue", iniDate());
+            var strDate = $("#OrderDateEnd").textbox("getValue");
+            strDate = dateAdd(dateParse(strDate), -7);
+            $("#OrderDate").textbox("setValue", strDate);
+
+
+            $("#btnClose").click(function () {
+                window.parent.closeWindow();//关闭窗口
+            });
+
+        });
+
+        function intDate() {
+            Ajax.call('GetDBDate', '', setDate, 'GET', 'JSON');
+        }
+        function setDate(result) {
+            $("#OrderDateEnd").textbox("setValue", result.current_date);
+        }
+
+        function initList(queryData) {
+            $('#tbDetails').datagrid({
+                url: '/SalesOrder/ImportOrderReturnList',  //指向后台的Action来获取当前用户的信息的Json格式的数据
+                iconCls: 'icon-view',//图标
+                //fit: true,//自动适屏功能
+                //width: function () { return document.body.clientWidth * 2 },//自动宽度
+                nowrap: true,
+                //collapsible: true,
+                autoRowHeight: false,//自动行高
+                striped: true,
+                collapsible: true,
+                sortName: 'ID',//排序列名为ID
+                sortOrder: 'asc',//排序为将序
+                remoteSort: false,
+                idField: 'ID',//主键值
+                rownumbers: true,//显示行号
+                multiSort: true,//启用排序 sortable: true //启用排序列
+                pagination: true,
+                loadMsg: 'Loading... ',
+                emptyMsg: '<span> No Data</span>',
+                pageSize: 10,
+                pageList: [10, 20, 30, 40, 50],
+                queryParams: queryData, //搜索条件查询
+                columns: [[
+                    { field: "VendorID", title: "@Resource.VendorID", width: 90 },//供應商編號
+                    { field: "VendorName", title: "@Resource.VendorName", width: 120 },//供應商編號
+                    { field: "ID", title: "@Resource.PurchaseID", width: 90 },//採購單號
+                    { field: "Ver", title: "@Resource.Ver", width: 50 },//版本
+                    { field: "OrderDate", title: "@Resource.OrderDate", width: 80 },//訂單日期
+                    { field: "ProductMo", title: "@Resource.ProductMo", width: 100 },//頁數
+                    { field: "ProductID", title: "@Resource.ProductID", width: 150 },//貨品編號
+                    { field: "ProductCdesc", title: "@Resource.ProductCdesc", width: 200 },//貨品名稱
+                    { field: "ProductEdesc", title: "@Resource.ProductEdesc", width: 200 },//貨品名稱
+                    { field: "OrderQty", title: "@Resource.OrderQty", width: 100 },//訂單數量
+                    { field: "UnitCode", title: "@Resource.UnitCode", width: 50 },//單位
+                    { field: "SecQty", title: "@Resource.Weight", width: 100 },//重量
+                    { field: "SecUnit", title: "@Resource.WeightUnit", width: 50 },//重量單位
+                ]],
+                //onDblClickRow: function (index, row) {
+                //    SelectData();
+                //},
+            });
+        }
+
+        //初始化搜索框
+        function InitSearch() {
+            //按照条件进行查询，首先我们得到数据
+            $("#btnSerach").click(function () {
+                //得到用户输入的参数
+                SearchData();
+            });           
+        }
+
+        function SearchData() {
+            var queryData = {
+                VendorID: $("#VendorID").val(),
+                ID: $("#ID").val(),
+                OrderDate: $("#OrderDate").datebox('getValue'),
+                OrderDateEnd: $("#OrderDateEnd").datebox('getValue'),
+                ProductMo: $("#ProductMo").val(),
+                ProductID: $("#ProductID").val()
+            };
+            //将值传递给initTable
+            initList(queryData);
+            return false;
+        }
+
+        function SelectData() {
+            var RowFindByID = $('#tbDetails').datagrid('getSelections');
+            if (RowFindByID.length == 1) {                
+                var postData = { ID: RowFindByID[0].ID, Ver: RowFindByID[0].Ver }
+                $.ajax({
+                    url: "/SalesOrder/BuildOrder",
+                    data: postData,
+                    async: true,//改为同步方式(需等待當前動作執行是否成)
+                    type: "post",
+                    success: function (data) {                        
+                        if (data.ID != "") {                           
+                            window.parent.document.getElementById('OcID').value = data.ID;                            
+                            window.parent.document.getElementById('Ver').value = '0';
+
+                            window.parent.SearchOcHead();
+                            window.parent.SearchOcDetails();
+                            window.parent.closeWindow();
+                        }
+                        else {
+                            //主檔資料添加失败                
+                            $.messager.alert(window['msg_system_prompt'], window['msg_add_master_failed']);
+                        }
+                    }
+                })                
+                window.parent.closeWindow();//关闭窗口
+            }
+            else {
+                $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_only_select_one");
+            }
+        }       
+
+
+    </script>
+}
+

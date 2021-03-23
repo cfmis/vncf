@@ -1,0 +1,312 @@
+﻿@using VNCF.PSS.Web.Areas.Sales.DAL
+@*@using VNCF.PSS.Web.Areas.Sales.Models;*@
+
+@{
+    ViewBag.Title = "Brand Info";
+    var WebFromElement = ViewBag;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>   
+    <meta name="viewport" content="width=device-width" charset="utf-8 " />
+    <title>Brand</title>
+
+    <script>
+        var aryParam = null;
+
+        //var obj1 = eval('(' + WebFromElement + ')');
+        //alert(WebFromElement["name"]);
+        @*function load_data(){
+        ////創建異步對象
+        //var xmlhttp;
+        //if (window.XMLHttpRequest) {
+        //    //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+        //    xmlhttp = new XMLHttpRequest();
+        //}
+        //else {
+        //    // IE6, IE5 浏览器执行代码
+        //    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        //}
+        ////綁定事件
+        //xmlhttp.onreadystatechange=function(){
+        //    if (xmlhttp.readyState==4 && xmlhttp.status==200){
+        //       document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+        //    }
+        //}
+        ////初始化請求數據
+        //xmlhttp.open("POST", "/Brand/GetBrandtReturnList", true);
+        ////發起請求
+        //xmlhttp.send();
+
+
+
+        @*$.ajax({
+            //url: '@Url.Action("SetCallBackStatus")',
+            url: '@Url.Action("/Brand/GetBrandtReturnList")',
+            data: { "selectedIDs": _list },
+            //data: _list,
+            dataType: "json",
+            type: "POST",
+            traditional: true,
+            success: function (responseJSON) {
+                // your logic
+                alert('Ok');
+            }
+        });*@
+
+            ////初始化查詢條件參數
+            //var aryParam = {
+            //    id: $("#id").val(),
+            //    name: $("#name").val(),
+            //    english_name: $("#english_name").val()
+            //}
+
+
+            //$.ajax({
+            //    type: "post",
+            //    url: "/Brand/GetBrandtReturnList",
+            //    data: aryParam,
+            //    dataType: "json",
+            //    success: function (data) {
+            //        $.each(data, function (i, data) {
+
+            //            document.getElementById("myDiv").innerText = data["id"];
+            //        });
+            //        //for (var k in data)
+            //        //{
+            //        //    document.getElementById("myDiv").innerHTML = {k};
+            //        //}
+            //        // your logic
+            //        //document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
+            //        //alert('Ok');
+
+
+            //        //callback(brand_date);
+            //        alert('Ok');
+            //    },
+            //});
+
+        //}
+
+        //function callback(brand_date) {
+        //    $('#myTable').datagrid({
+        //        width: 750,
+        //        height: 200,
+        //        method: 'post',
+        //        rownumbers: true, // 显示行号列
+        //        pagination: true, // 显示分页工具栏
+        //        singleSelect: false,// 只能单选行
+        //        checkOnSelect: false,
+        //        loadMsg: '请稍候，数据加载中...',// 自定义等待消息
+        //        emptyMsg: '查询数据为空...',
+        //        columns: [[
+        //           { field: 'id', title: '牌子編碼', hidden: 'false' },
+        //           {
+        //               field: 'name', title: '名稱', width: 100,
+        //               formatter: function (value, row, index) {
+        //                //可对待展现的数据进行处理
+        //               }
+        //           },
+        //            {
+        //            field: 'elish_name', width: 130, title: '英文名稱',align: 'right' //center、left、right
+        //        } ]],
+        //        onLoadSuccess: function () {
+        //            //当鼠标移动到单元格上面时，会提示内容信息
+        //            $('#myTable').datagrid('datagridCellTips', { field: "all" });
+        //        }
+        //    })
+        //}
+
+        //===================================
+        /**
+         * 牌子基本資料(入口函數)
+         */
+        $(function () {
+            //初始载入数据
+            loadData();
+            //刷新数据
+            //reload();
+            //lang();
+        });
+
+        /*
+         * 初始载入数据
+         */
+        function loadData()
+        {
+            var aryQuery = {
+                id: $("#id").val(),
+                name: $("#name").val(),
+                english_name: $("#english_name").val()
+            };
+
+            //alert(obj1["name"]);
+            //将值传递给initTable
+            getDateGrid(aryQuery);
+            return false;
+        }
+
+        ////初始化搜索框
+        //function searchData() {
+        //    loadData();
+        //}
+
+        /**
+        * 载入数据,初始化datagrid格式
+        */
+        function getDateGrid(aryQuery) {
+            $('#myTable').datagrid({
+                url: '/Brand/GetBrandtReturnList',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据
+                iconCls: 'icon-view',//图标
+                width: function () { return document.body.clientWidth * 2 },//自动宽度
+                nowrap: true,
+                //collapsible: true,
+                autoRowHeight: false,//自动行高
+                striped: true,//斑馬隔行
+                collapsible: true,
+                //sortName: 'Id',//排序列名为ID
+                sortOrder: 'asc',//排序为升序
+                remoteSort: false,
+                idField: 'id',//主键值
+                rownumbers: true,//显示行号
+                multiSort: true,//启用排序 sortable: true //启用排序列
+                singleSelect: true,//只能單選一行
+                pagination: true,
+                //fit: true,
+                fitColumns:true, //列自動適應滿屏 ,較少列時可設置為True,多列時要設為False超出屏幕時datagrid底部會出現水平滾動條
+                pageSize: 20,
+                pageList: [10, 20, 30, 40, 50],
+                queryParams: aryQuery, //搜索条件查询
+                columns: [[
+                { field: 'id', title: '@WebFromElement.id', width: 100, sortable: true },//牌子编号
+                { field: 'name', title: '@WebFromElement.name', width: 100, sortable: true },//牌子名称(中文)
+                { field: 'english_name', title: '@WebFromElement.english_name', width: 100 },//牌子名称(英文)
+                { field: 'create_by', title: '@WebFromElement.create_by', width: 100 },//建檔人
+                { field: 'create_date', title: '@WebFromElement.create_date', width: 100 },//建檔日期
+                { field: 'update_by', title: '@WebFromElement.update_by', width: 100 },//修改人
+                { field: 'update_date', title: '@WebFromElement.update_date', width: 100 }//修改日期                
+                ]]
+
+            });
+            //$('#myTable').datagrid({
+            //    //loadFilter:pagerFilter,
+            //    rownumbers:true,
+            //    singleSelect:false,
+            //    pageSize:20,
+            //    pagination:true,
+            //    multiSort:true,
+            //    fitColumns:true,
+            //    fit:true,
+            //    columns:[[
+            //        //{checkbox:true},
+            //        { field: 'id',title:'牌子编号',width:100,sortable:true},
+            //        { field: 'name', title: '牌子名称(中文)', width: 100, sortable: true },
+            //        { field: 'english_name', title: '牌子名称(英文)', width: 100 },
+            //        { field: 'create_by',title:'建檔人',width:100},
+            //        { field: 'create_date', title: '建檔日期', width: 100 },
+            //        { field: 'update_by',title:'修改人',width:100},
+            //        { field: 'update_date', title: '修改日期', width: 100 }
+            //    ]]
+            //});
+        }
+
+        ////设置分页控件
+        //var p = $(‘#goodinfo’).datagrid(‘getPager’);
+        //$(p).pagination({
+        //    pageSize: 5,//每页显示的记录条数，默认为10
+        //    pageList: [5,10,20],//可以设置每页记录条数的列表
+        //    beforePageText: ‘第’,//页数文本框前显示的汉字
+        //    pageNumber: 1,
+        //    afterPageText: ‘页 共 {pages} 页’,
+        //    displayMsg: ‘当前显示 {from} - {to} 条记录 共 {total} 条记录’,
+        //            onBeforeRefresh:function(){
+        //    $(this).pagination(‘loading’);
+        //    alert(‘before refresh’);
+        //    $(this).pagination(‘loaded’);
+        //    }
+
+
+        ///*
+        // * 发送请求，获取数据
+        // */
+        //function getData(url, aryParam)
+        //{
+        //    $.ajax({
+        //        url: url,
+        //        type: "POST",
+        //        async : false,
+        //        contentType:'application/json;charset=UTF-8',
+        //        data: JSON.stringify(aryParam),
+        //        dataType: "JSON",
+        //        timeout: 20000,
+        //        success: function (data) {
+        //            //process my logic
+        //            reLodadDateGrid(data);
+        //        },
+        //        error: function (data) {
+        //            //process error logic
+        //        }
+        //    });
+        //}
+
+        ///*
+        // * 组装dataGrid数据
+        // */
+        //function reLodadDateGrid(data)
+        //{
+        //    var values = [];
+        //    debugger;
+        //    //遍歷json數據
+        //    var r = $(data).length;
+        //    for (var i = 0; i <data.length; i++) {
+
+        //        var a = {
+        //            'id' : data[i].id,
+        //            'name' : data[i].name,
+        //            'english_name' : data[i].english_name,
+        //            'create_by': data[i].create_by,
+        //            'create_date': data[i].create_date,
+        //            'update_by': data[i].update_by,
+        //            'update_date': data[i].update_date
+        //        };
+        //        values.push(a);
+        //    }
+        //    $('#myTable').datagrid('loadData', values);//第一參數之意為加載本地數據,即將values載入
+        //}
+
+    </script>
+
+</head>
+<body>    
+    
+    <div class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;"> 
+        <fieldset>
+            @*查詢條件*@
+            <legend>@WebFromElement.msg_search_condition</legend>
+                @*添加或查詢按鈕*@            
+                <div class="botbtbx pdb0" style="margin-top: 5px">
+                    @*<input type="button" value="添加部門" class="easyui-linkbutton" iconcls="icon-add" onclick="showPublishWin()" />
+                    <input type="button" value="查询" class="easyui-linkbutton" iconcls="icon-search" onclick="reloadList();">*@
+                    @*<a href="#" class="easyui-linkbutton" iconcls="icon-add" id="btnAdd" onclick="showPublishWin()">添加</a>*@
+                    <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach" onclick="loadData()" style="margin-left:50px ">@WebFromElement.btn_search</a><!--查询-->
+                    
+                </div>
+
+                @*//查詢條件*@
+                <ul class="formod mgt10" style="margin-bottom:10px">
+                    <li><span>@WebFromElement.id：</span>@Html.TextBox("id", "", new { @class = "easyui-textbox" })</li><!--牌子編號-->
+                    <li><span>@WebFromElement.name：</span>@Html.TextBox("name", "", new { @class = "easyui-textbox" })</li><!--牌子中文名-->
+                    <li><span>@WebFromElement.english_name：</span>@Html.TextBox("english_name", "", new { @class = "easyui-textbox" })</li><!--牌子英文名-->
+                </ul>
+        </fieldset>
+            <!--div class="areabx_header">明細資料</div-->
+            @*表格*@
+            <div class="tob_box mgt15">
+                <table id="myTable" class="display" cellspacing="0" cellpadding="0" border="0"></table>
+                <!--style="width:100%"-->
+            </div>
+</div>
+</body>
+</html>

@@ -200,11 +200,22 @@ namespace VNCF.PSS.Web.Common
         {
             //HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies["LanguageID"];
             var LanguageID = this.CookieContext.LanguageID.ToString().Trim();
-            string langName = "en";// "";// "zh-CN";
-            if (LanguageID == "0")
-                langName = "zh-TW";
-            else if (LanguageID == "1")
-                langName = "zh-CN";
+            string langName = "";
+            switch (LanguageID)
+            {
+                case "0":
+                    langName = "zh-TW";//繁體中文
+                    break;
+                case "1":
+                    langName = "zh-CN";//簡體中文
+                    break;
+                case "2":
+                    langName = "en";   //英文
+                    break;
+                default:
+                    langName = "en";
+                    break;
+            }
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langName);
             Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture(langName);
             return base.BeginExecuteCore(callback, state);

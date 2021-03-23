@@ -1,0 +1,153 @@
+﻿@using Resources;
+@using VNCF.PSS.Web.Areas.Sales.DAL
+@using VNCF.PSS.Web.Areas.Sales.Models;
+@*@model Order_Head*@
+@{
+    ViewBag.Title = "FindItem";    
+}
+
+<div class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;">
+    
+        <div data-options="region:'center'">            
+             <div class="botbtbx pdb0" style="margin-top: 5px">
+                  @*<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" onclick="window.parent.closeWindow()">@WebFromElement.btn_exit</a>*@  <!--关闭-->
+                  <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" id="btnClose" style="margin-left:10px ">@Resource.btn_exit</a>  <!--关闭-->
+                  <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach">@Resource.btn_search</a> <!--查询-->
+                  <a href="#" class="easyui-linkbutton" iconcls="icon-ok" id="btnConf">@Resource.btn_ok</a> <!--确定-->
+             </div>           
+        </div>
+
+        <table class="font_9px" style="border-collapse:separate; border-spacing:0px 1px;">
+            <tr height="30">
+                <td style="text-align:right" width="150px">@Resource.ProductID：</td> <!--產品編號-->
+                <td>@Html.TextBox("ProductID", "", new { @class = "easyui-textbox", style = "width:300px", @data_options = "validType:'length[0,18]'" })</td>
+            </tr>            
+            <tr height="30">
+                <td style="text-align:right">@Resource.CodeType：</td><!--編碼類型-->
+                <td style="text-align:left">
+                    <span class="radioSpan">
+                        <input type="radio" id="modality" name="modality" value="3">@Resource.FinshedProduct <!--成品-->
+                        <input type="radio" id="modality" name="modality" value="0">@Resource.Made <!--自制品-->
+                        <input type="radio" id="modality" name="modality" value="1">@Resource.Cosign <!--委外加工-->
+                        <input type="radio" id="modality" name="modality" value="2">@Resource.Purcharse <!--採購件-->
+                    </span>
+                </td>
+            </tr>
+        </table>
+
+        <div class="areabx_divider"></div>
+        <div data-options="region:'center'">
+            <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
+                <table id="tbDetails" class="easyui-datagrid" title='' style="width:840px;height:350px"
+                       data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'"></table>
+
+            </div>
+        </div>
+
+</div>
+
+
+
+
+
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">
+        $(function () {            
+            $("input[name='modality'][value='3']").attr("checked", true);//賦初值,F0
+            SearchData();
+            //InitSearch();//查询
+            $("#btnSerach").click(function () {       
+                //得到用户输入的参数
+                SearchData();
+            });
+            $("#btnConf").click(function () {
+                SelectData();
+            });
+
+            var t = $('#ProductID');
+            t.textbox('textbox').bind('keyup', function (e) {
+                t.textbox('setValue', $(this).val().toUpperCase());
+                //this.value = this.value.toUpperCase();
+                //if (e.keyCode == 13) {   // 当按下回车键时接受输入的值。
+                //    t.textbox('setValue', $(this).val());
+                //}
+            });
+            $("#btnClose").click(function () {
+                window.parent.closeWindow();//关闭窗口
+            });
+
+        });
+
+        function initList(queryData) {
+            $('#tbDetails').datagrid({
+                url: '/SalesOrder/FindItemReturnList',  //指向后台的Action来获取当前用户的信息的Json格式的数据
+                iconCls: 'icon-view',//图标
+                //fit: true,//自动适屏功能                
+                //width: function () { return document.body.clientWidth * 2 },//自动宽度
+                nowrap: true,
+                //collapsible: true,
+                autoRowHeight: false,//自动行高
+                striped: true,
+                collapsible: true,
+                sortName: 'ProductID',//排序列名为ID
+                sortOrder: 'asc',//排序为将序
+                remoteSort: false,
+                idField: 'ProductID',//主键值
+                rownumbers: true,//显示行号
+                multiSort: true,//启用排序 sortable: true //启用排序列
+                pagination: true,
+                loadMsg: 'Loading... ',
+                emptyMsg: '<span> No Data</span>',
+                pageSize: 10,
+                pageList: [10, 20, 30, 40, 50],
+                queryParams: queryData, //搜索条件查询
+                columns: [[                    
+                { field: "ProductID", title: "@Resource.ProductID", width: 160 },//貨品ID
+                { field: "ProductCdesc", title: "@Resource.ProductCdesc", width: 250 },//貨品名稱
+                { field: "ProductEdesc", title: "@Resource.ProductEdesc", width: 250 },//貨品名稱
+                { field: "Type", title: "@Resource.CodeType", width: 110 }//貨品編碼類型               
+                ]],
+                onDblClickRow: function (index, row) {
+                    SelectData();
+                },
+            });
+        }
+
+        //初始化搜索框
+        function InitSearch() {
+            //按照条件进行查询，首先我们得到数据
+            $("#btnSerach").click(function () {
+                //得到用户输入的参数
+                SearchData();
+            });
+            $("#btnConf").click(function () {
+                SelectData();
+            });
+        }
+        function SearchData() {
+            var opt = $("input:radio[name='modality']:checked").val();           
+            var queryData = {
+                ProductID: $("#ProductID").val(),
+                type: opt
+            };            
+            //将值传递给initTable
+            initList(queryData);
+            return false;
+        }
+        function SelectData() {
+            var RowFindByID = $('#tbDetails').datagrid('getSelections');
+            if (RowFindByID.length == 1) {
+                //实现绑定数据显示
+                var ProductID = RowFindByID[0].ProductID;
+                window.parent.document.getElementById('goods_id').value = ProductID;//父窗體接授返回的臨時值
+                window.parent.closeWindow();//关闭窗口
+            }
+            else {
+                //$.messager.alert("提示:", "每次只能修改一条，你已经选择了<font color='red'  size='6'>" + RowFindByID.length + "</font>条");
+                $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_only_select_one");
+            }
+        }       
+
+    </script>
+}
+
