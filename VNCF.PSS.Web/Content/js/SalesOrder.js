@@ -42,7 +42,7 @@ function setProductDesc(result) {
 }
 
 //檢查狀態,是否可以生成頁數
-function DisableGenMoAndOcID(isDisabled) {
+function disableGenMoAndOcID(isDisabled) {
     if (isDisabled) {
         //不可選擇下拉框        
         $('#MoType').combobox('readonly', true).combobox('textbox').prev().hide();
@@ -72,7 +72,7 @@ function setUndo() {
 }
 
 //區域
-function DisableArea(isDisabled) {
+function disableArea(isDisabled) {
     if (isDisabled) {
         //區域下拉框不可用用,代表不可生成OCID
         $('#Area').combobox('readonly', true).combobox('textbox').prev().hide();
@@ -85,7 +85,7 @@ function DisableArea(isDisabled) {
 }
 
 //單據狀態,頁數狀態只讀
-function DisableSate() {
+function disableSate() {
     $('#State').combobox('readonly', false).combobox('textbox').prev().show();//
     $('#State').combobox('readonly', true).combobox('textbox').prev().hide();
     $('#MoState').combobox('readonly', false).combobox('textbox').prev().show();//
@@ -392,7 +392,7 @@ function disableOCToolbar(isDisable) {
     }
 }
 
-function DisableMaster(isDisable) {
+function disableMaster(isDisable) {
     //上面这句代码的意思是将form表单里面除了样式为.btn btn-primary,.back的元素都置为只读
     if (isDisable) {
         //只讀
@@ -415,7 +415,7 @@ function DisableMaster(isDisable) {
     }
 }
 
-function DisableDetails(isDisable) {
+function disableDetails(isDisable) {
     //查某對象類名className = $("#MoType").attr("class");//var className = $("#GetColorSample").attr("class");
     //此代码意思是将form表单里面除了样式为.not('.btn btn-primary,.back').btn btn-primary,.back的元素都置为只读
     if (isDisable) {
@@ -466,9 +466,9 @@ function EditMaster(title) {
     disableTabs("#tabPages", 2, true);//非活動Tab禁用
     $('#ActionType_H').val("EDIT");//設置狀態
     setEditMasterButtonSatus(true)
-    DisableMaster(false);//對象可修改
-    DisableArea(true);//區域不可點擊
-    DisableSate();//設置狀態只讀
+    disableMaster(false);//對象可修改
+    disableArea(true);//區域不可點擊
+    disableSate();//設置狀態只讀
 }
 
 function setActivePage(PageTitle)
@@ -478,8 +478,8 @@ function setActivePage(PageTitle)
 
 function UndoEditMaster() {
     setEditMasterButtonSatus(false)
-    DisableMaster(true);//對象不可修改
-    disableTabs("#tabPages", 3, false);//非活動Tab解除禁用
+    disableMaster(true);//對象不可修改
+    disableTabs("#tabPages", 2, false);//非活動Tab解除禁用
     $('#ActionType_H').val("");    
 }
  
@@ -518,9 +518,9 @@ function clearDetailHead()
 
     $("#ActionType_D").val("NEW");
     $("#Seq").val("");
-    DisableDetails(false); //明細可編號
-    DisableGenMoAndOcID(false); //可生成頁數
-    DisableSate();//設置狀態只讀
+    disableDetails(false); //明細可編號
+    disableGenMoAndOcID(false); //可生成頁數
+    disableSate();//設置狀態只讀
 }
 
 
@@ -758,10 +758,10 @@ function Save() {
     $('#MoState').combobox('setValue', '0');//下拉列表框賦值
     $("#IsPrint").attr("checked", true)//默認PI需列印
 
-    DisableMaster(true); //主檔頁數不可編號
-    DisableDetails(false); //明細可編號
-    DisableGenMoAndOcID(false); //GenMO可用,可生成頁數
-    DisableSate();//設置狀態只讀
+    disableMaster(true); //主檔頁數不可編號
+    disableDetails(false); //明細可編號
+    disableGenMoAndOcID(false); //GenMO可用,可生成頁數
+    disableSate();//設置狀態只讀
 }
 
 /*
@@ -806,7 +806,7 @@ function SaveEditMaster() {
         //主表資料保存成功
         $.messager.alert(window['msg_system_prompt'], window['msg_saved_master_success']);
         setEditMasterButtonSatus(false)
-        DisableMaster(true);//對象不可修改
+        disableMaster(true);//對象不可修改
         disableTabs("#tabPages", 2, false);//非活動Tab解禁
         $('#ActionType_H').val("");
     }
@@ -1024,10 +1024,10 @@ function FillOcDetails() {
 
         $("#picture_name").attr("src", rows.ArtImage);//設置圖樣
         //頁面變為不可繼續新增,需按清空方可新增
-        DisableDetails(true);
-        DisableGenMoAndOcID(true);
+        disableDetails(true);
+        disableGenMoAndOcID(true);
         disableSalesBomToolbar(false);//恢復SalesBom按鈕的可用狀態
-        DisableSate();
+        disableSate();
     }
     else {
         //每次只能修改一条，你已经选择了<font color='red'  size='6'>

@@ -317,8 +317,8 @@
 </div>
 
 @section PageSpecificJavascriptIncludes{
-    <script src="~/Content/js/SalesOrder.js?v=20210112000052"></script>
-    @*<script src="~/Content/js/SalesOrder.js"></script>*@
+    @*<script src="~/Content/js/SalesOrder.js?v=20210112000052"></script>*@
+    <script src="~/Content/js/SalesOrder.js"></script>
     
 
     <script type="text/javascript">
@@ -492,8 +492,8 @@
             //$("#pictrue_name").attr("src", path + obj.Photo1);
             //$('details_master').prop('readonly', true);
 
-            DisableMaster(true);
-            DisableDetails(true);
+            disableMaster(true);
+            disableDetails(true);
             setEditMasterButtonSatus(false);//btnEdit disable
             setEditDetailButtonSatus(false);////btnEditItem disable
             //setSalesBomButtonSatus(false);////btnEditItem disable
@@ -586,11 +586,11 @@
             $("#ActionType_H").val("NEW");//隱藏提交某一值給一下表單或后臺
             $("#ActionType_D").val("NEW");//隱藏提交某一值給一下表單或后臺
 
-            DisableArea(false);//區域可編輯
-            DisableGenMoAndOcID(false);//GenMO可用
-            DisableMaster(false);//主表可編輯
-            DisableDetails(false);//明細可編輯
-            DisableSate();//OC,MO狀態禁用
+            disableArea(false);//區域可編輯
+            disableGenMoAndOcID(false);//GenMO可用
+            disableMaster(false);//主表可編輯
+            disableDetails(false);//明細可編輯
+            disableSate();//OC,MO狀態禁用
             getDBDateTime();//獲取服務器系統時間并設落單日期
         }
                 
@@ -698,7 +698,7 @@
                             //請首先按清除按鈕,清空表明細表頭信息
                             $.messager.alert("@Resource.msg_system_prompt", "@Resource.mst_clear_detail_head_data");
                         }
-                        DisableArea(true);//區域禁用
+                        disableArea(true);//區域禁用
                     }
                 }, '-', {
                     id: 'btnBlank',
@@ -735,14 +735,14 @@
                             current_edit_rowindex = index;
 
                             $("#ActionType_D").val("EDIT");//設置編輯狀態
-                            DisableDetails(false);//明細可編輯
-                            DisableGenMoAndOcID(true);// GenMo禁用
-                            DisableArea(true);//區域禁用
-                            DisableSate(true);//Mo狀態禁用
+                            disableDetails(false);//明細可編輯
+                            disableGenMoAndOcID(true);// GenMo禁用
+                            disableArea(true);//區域禁用
+                            disableSate(true);//Mo狀態禁用
                             setEditDetailButtonSatus(true);//disable btnEditItem
                             disableSalesBomToolbar(true);//禁用SalesBOM工具欄按鈕
                             disableTabs("#tabPages", 2, true);//非活動Tab禁用
-                            DisableSate();
+                            disableSate();
                         }
                     }
                 }, '-', {
@@ -782,7 +782,7 @@
                                 if (data == "OK") {
                                     SearchOcDetails();//重新查詢
                                     $("#ActionType_D").val("");
-                                    DisableDetails(true);//禁止編輯明細
+                                    disableDetails(true);//禁止編輯明細
                                     setEditDetailButtonSatus(false);//enable btnEditItem
                                     disableSalesBomToolbar(false);//啟用SalesBOM工具欄按鈕
                                     disableTabs("#tabPages", 2, false);//非活動Tab解禁
@@ -803,7 +803,7 @@
                         SearchOcDetails();
                         $("#ActionType_D").val("");
                         setUndo();
-                        DisableDetails(true);//禁止編輯明細
+                        disableDetails(true);//禁止編輯明細
                         setEditDetailButtonSatus(false);//enable btnEditItem
                         disableSalesBomToolbar(false);//啟用SalesBOM工具欄按鈕
                         disableTabs("#tabPages", 2, false);//非活動Tab解禁
