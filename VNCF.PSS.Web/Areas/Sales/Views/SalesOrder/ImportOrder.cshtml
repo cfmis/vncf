@@ -173,7 +173,7 @@
                 $.ajax({
                     url: "/SalesOrder/BuildOrder",
                     data: postData,
-                    async: false,//改为同步方式(需等待當前動作執行是否成)
+                    async: true,//改为同步方式(需等待當前動作執行是否成)
                     type: "post",
                     success: function (data) {                        
                         if (data.ID != "") {                           
