@@ -41,8 +41,8 @@
        
         });
     
-    function initList(queryData) {       
-        $('#tbDetails').datagrid({               
+    function initList(queryData) {
+        $('#tbDetails').datagrid({  
                 url: '/Dept/GetDeptReturnList',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据
                 iconCls: 'icon-view',//图标
                 //fit: true,//自动适屏功能
@@ -57,7 +57,7 @@
                 sortOrder: 'asc',//排序为将序
                 remoteSort: false,
                 idField: 'id',//主键值
-                rownumbers: false,//显示行号
+                rownumbers: true,//显示行号
                 multiSort: true, //启用排序 sortable: true //启用排序列
                 pagination: true,
                 pageSize: 10,
@@ -103,43 +103,7 @@
             initList(queryData);
             return false;
         }
-        //function SelectData() {
-        //    var RowFindByID = $('#tbDetails').datagrid('getSelections');
-        //    if (RowFindByID.length == 1) {
-        //        //实现绑定数据显示
-        //        //BindUpdateList();
-        //        //debugger;
-        //        var id = RowFindByID[0].id;
-        //        var obj = window.parent.document.getElementById("id");
-        //        obj.value = id;
-        //        window.parent.SearchOcHead();
-        //        window.parent.SearchOcDetails();
-        //        window.parent.closeWindow()
-        //    }
-        //    else {
-        //        $.messager.alert("友情提示！", "每次只能修改一条，你已经选择了<font color='red'  size='6'>" + RowFindByID.length + "</font>条");
-        //    }
-        //}
-
-        //function showMessageDialog(url, title, width, height, shadow) {
-
-        //    var content = '<iframe src="' + url + '" width="100%" height="99%" frameborder="0" scrolling="no"></iframe>';
-        //    //content += '<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" style="width:80px" onclick="javascript:$(' + '\'#msgwindow\'' + ').dialog(' + '\'close\'' + ')">' + '关闭' + '</a>';
-        //    var boarddiv = '<div id="msgwindow" title="' + title + '"></div>'//style="overflow:hidden;"可以去掉滚动条
-        //    $(document.body).append(boarddiv);
-        //    var win = $('#msgwindow').dialog({
-        //        content: content,
-        //        width: width,
-        //        height: height,
-        //        modal: shadow,
-        //        title: title,
-        //        onClose: function () {
-        //            //$(this).dialog('destroy');//后面可以关闭后的事件
-        //            //document.getElementById('btnSerach').click();
-        //        }
-        //    });
-        //    win.dialog('open');
-        //}
+        
 </script>
 
 
@@ -168,15 +132,11 @@
            
       @*<div class="areabx_header">明細資料</div>*@
       @*<div class="areabx_divider"></div>  劃線*@
-
-      <div data-options="region:'center'">
-           <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
-                <!--table id="tbDetails" class="easyui-datagrid" title="表格標提" style="width:790px;height:350px"-->
-                <table id="tbDetails" class="display" style="width:100%;height:500px"
-                       data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'">
-                </table>
-           </div>                   
-      </div>            
+         
+      @*表格*@
+      <div class="tob_box mgt15">
+          <table id="tbDetails" class="display" cellspacing="0" cellpadding="0" border="0"></table>         
+      </div>          
 </div>
 
 

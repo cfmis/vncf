@@ -22,6 +22,8 @@
         border-collapse: collapse;
     }*/
     
+
+
     /*表格欄位寬度固定*/
     #details_master{
         table-layout: fixed;
@@ -385,7 +387,7 @@
             });
 
             $("#btnImport").click(function () {
-                openWin('/Sales/SalesOrder/ImportOrder', 'Build OC', 850, 560, null);
+                openWin('/Sales/SalesOrder/ImportOrder', '@Resource.btn_import', 850, 560, null);
                 @*if ($("#ActionType_D").val() == "" && $("#ActionType_H").val() == "") {
                     //showMessageDialog('/Sales/SalesOrder/ImportOrder', '@Resource.btn_import', 850, 560);
                     $("#BuilOcID").val("");//打開彈窗前清空單據標識
@@ -1276,46 +1278,9 @@
                     $(this).textbox('textbox').css("font-size", ddlf);
                 }
             });
-        }
+        }      
 
-        ////异步实现修改信息,btnUpdate
-        //function UpdateList() {
-        //    var RowUpdateByID = $('#tbDetails').datagrid('getSelections');
-        //    //首先执行加载绑定数据显示在页面上面
-        //    $("#btnUpdate").click(function () {
-        //        //在前台验证用户提交的信息是否符合要求，若不合要求不提交
-        //        var valid = $("#updateForm").form('validate');
-        //        if (valid == false) {
-        //            return false;
-        //        }
-        //        var postUpdate = $("#updateForm").serializeArray();//构造参数发送给后台
-        //        //实现异步修改数据
-        //        $.post("/Home/Edit?r=" + Math.random(), postUpdate, function (data) {
-        //            if (data == "OK") {
-        //                $.messager.alert("系统提示！", "修改成功");
-        //                $("#UpdateDialog").dialog('close');
-        //                $("#tbDetails").datagrid("reload");
-        //            }
-        //            else {
-        //                $.messager.alert("系统提示！", "修改失败，请您检查");
-        //            }
-        //        });
-        //    });
-        //};
 
-        ////打開Genmo的Div
-        ////*****************
-        //function openGenMoDialog() {
-        //    $('#GenMoDialog').dialog('open');
-        //    //if ($("#ActionType_D").val() == "NEW") {
-        //    //    //明細新增狀態方彈出此窗口
-        //    //    $('#GenMoDialog').dialog('open');
-        //    //    //$("#GenMoDialog").form("clear");//清空頁面數據
-        //    //}
-        //    //else {
-        //    //    $.messager.alert("System Info", "新增狀態方可進行此操修!");
-        //    //}
-        //};
 
     </script>
 }

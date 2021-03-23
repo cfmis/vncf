@@ -103,6 +103,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
         [HttpPost]
         public ActionResult EditHead(Order_Head model)
         {
