@@ -33,7 +33,7 @@
                 <li class="lb-std"><span class="input-group">@Resource.ProductMo：</span>@Html.TextBoxFor(m => m.ProductMo, new { @class = "easyui-textbox ", @data_options = "validType:'length[1,9]'", @style = "width:72%" })</li>
                 <li class="lb-std"><span class="input-group">@Resource.ProductID：</span>@Html.TextBoxFor(m => m.ProductID, new { @class = "easyui-textbox ", @data_options = "validType:'length[1,20]'", @style = "width:72%" })</li>
             </ul>
-            <input class="" type="hidden" name="TempOcID" id="TempOcID" />
+           
         }
     </div>
 
@@ -137,9 +137,9 @@
                     { field: "SecQty", title: "@Resource.Weight", width: 100 },//重量
                     { field: "SecUnit", title: "@Resource.WeightUnit", width: 50 },//重量單位
                 ]],
-                onDblClickRow: function (index, row) {
-                    SelectData();
-                },
+                //onDblClickRow: function (index, row) {
+                //    SelectData();
+                //},
             });
         }
 
@@ -149,17 +149,15 @@
             $("#btnSerach").click(function () {
                 //得到用户输入的参数
                 SearchData();
-            });
-
-           
+            });           
         }
 
         function SearchData() {
             var queryData = {
                 VendorID: $("#VendorID").val(),
                 ID: $("#ID").val(),
-                OrderDate: $("#OrderDate").val(),
-                OrderDateEnd: $("#OrderDateEnd").val(),
+                OrderDate: $("#OrderDate").datebox('getValue'),
+                OrderDateEnd: $("#OrderDateEnd").datebox('getValue'),
                 ProductMo: $("#ProductMo").val(),
                 ProductID: $("#ProductID").val()
             };
