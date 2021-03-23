@@ -4,7 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using VNCF.PSS.Web.Common;
-using VNCF.PSS.Web.Areas.Base.DAL;
+using VNCF.PSS.Web.Areas.Stock.Models;
+using VNCF.PSS.Web.Areas.Stock.DAL;
 
 namespace VNCF.PSS.Web.Areas.Stock.Controllers
 {
@@ -19,18 +20,11 @@ namespace VNCF.PSS.Web.Areas.Stock.Controllers
         {
             return View();
         }
+        public ActionResult AddTransferHead(TransferHead model)
+        {
+            string result = TransferDAL.UpdateOcHead(model);
+            return Json(result);
+        }
 
-        public ActionResult GetUnit()
-        {
-            var result = BaseDataDAL.GetUnit();
-            //var result = new { rows = list };
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-        public ActionResult GetDocFlag()
-        {
-            var result = BaseDataDAL.GetDocFlag("wh_transfer");
-            //var result = new { rows = list };
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
     }
 }

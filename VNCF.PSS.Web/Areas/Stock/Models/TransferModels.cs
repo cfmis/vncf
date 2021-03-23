@@ -21,6 +21,7 @@ namespace VNCF.PSS.Web.Areas.Stock.Models
         public string FlagID { get; set; }
         public string DepID { get; set; }
         public string LocID { get; set; }
+        public string NextLocID { get; set; }
     }
     public class TransferDetails : StockModelBase
     {

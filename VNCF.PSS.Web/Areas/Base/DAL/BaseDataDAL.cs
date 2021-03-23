@@ -10,36 +10,45 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
 {
     public class BaseDataDAL
     {
-        public static DataTable GetLoc()
+        public static List<BaseDataModels> GetLoc()
         {
             string strSql = "Select ID,Name,Engname,VieName " +
             " FROM bs_Loc Order By ID";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-            return dt;
+            List<BaseDataModels> lsModel = new List<BaseDataModels>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                BaseDataModels mdj = new BaseDataModels();
+                mdj.ID = dr["id"].ToString();
+                mdj.Name = dr["name"].ToString();
+                lsModel.Add(mdj);
+            }
+            return lsModel;
         }
-        public static DataTable GetUnitReturnDataTable()
-        {
-            string strSql = "Select ID,Name,English_name,VieName " +
-            " FROM bs_Unit Order By ID";
-            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-            return dt;
-        }
-        public static DataTable GetDocFlag(string DocFlag)
+        //public static DataTable GetUnitReturnDataTable()
+        //{
+        //    string strSql = "Select ID,Name,English_name,VieName " +
+        //    " FROM bs_Unit Order By ID";
+        //    DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+        //    return dt;
+        //}
+        public static List<BaseDataModels> GetDocFlag(string DocFlag)
         {
             string strSql = "Select ID,Name,Engname,VieName " +
             " FROM bs_DocFlag Order By id";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-            //List<DocFlag> lsModel = new List<DocFlag>();
-            //for (int i = 0; i < dt.Rows.Count; i++)
-            //{
-            //    DataRow dr = dt.Rows[i];
-            //    DocFlag mdj = new DocFlag();
-            //    mdj.ID = dr["ID"].ToString();
-            //    mdj.Name = dr["Name"].ToString();
-            //    lsModel.Add(mdj);
-            //}
-            //return lsModel;
-            return dt;
+            List<BaseDataModels> lsModel = new List<BaseDataModels>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                BaseDataModels mdj = new BaseDataModels();
+                mdj.ID = dr["ID"].ToString();
+                mdj.Name = dr["Name"].ToString();
+                lsModel.Add(mdj);
+            }
+            return lsModel;
+            //return dt;
         }
 
         public static it_goods GetGoodsByID(string ProductID)
@@ -53,18 +62,18 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             mdj.ProductCdesc = dr["name"].ToString();
             return mdj;
         }
-        public static List<bs_unit> GetUnit()
+        public static List<BaseDataModels> GetUnit()
         {
-            string strSql = "Select id,name,english_name " +
+            string strSql = "Select ID,Name,english_name " +
             " FROM bs_unit Order By id";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-            List<bs_unit> lsModel = new List<bs_unit>();
+            List<BaseDataModels> lsModel = new List<BaseDataModels>();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 DataRow dr = dt.Rows[i];
-                bs_unit mdj = new bs_unit();
-                mdj.id = dr["id"].ToString();
-                mdj.name = dr["name"].ToString();
+                BaseDataModels mdj = new BaseDataModels();
+                mdj.ID = dr["id"].ToString();
+                mdj.Name = dr["name"].ToString();
                 lsModel.Add(mdj);
             }
             return lsModel;

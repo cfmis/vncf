@@ -55,19 +55,19 @@ namespace VNCF.PSS.Web.Areas.Base.ASHX
             string ReturnValue = string.Empty;
             //BasicInformationFacade basicInformationFacade = new BasicInformationFacade();   //实例化基础信息外观  
             DataTable dt = new DataTable();
-            //dt = basicInformationFacade.itemsQuery(); //根据查询条件获取结果
-            switch (paraa)
-            {
-                case "wh_transfer":
-                    dt = BaseDataDAL.GetDocFlag("wh_transfer");
-                    break;
-                case "loc":
-                    dt = BaseDataDAL.GetLoc();
-                    break;
-                case "unit":
-                    dt = BaseDataDAL.GetUnitReturnDataTable();
-                    break;
-            }
+            ////dt = basicInformationFacade.itemsQuery(); //根据查询条件获取结果
+            //switch (paraa)
+            //{
+            //    case "wh_transfer":
+            //        dt = BaseDataDAL.GetDocFlag("wh_transfer");
+            //        break;
+            //    case "loc":
+            //        dt = BaseDataDAL.GetLoc();
+            //        break;
+            //    case "unit":
+            //        dt = BaseDataDAL.GetUnitReturnDataTable();
+            //        break;
+            //}
 
 
             //DataTableToJson cls = new DataTableToJson();

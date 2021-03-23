@@ -50,7 +50,8 @@
                     <li class="lb-std"><div class="input-group"><span>@Resource.OcID：</span>@Html.TextBoxFor(m => m.ID, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>單據日期:</span>@Html.TextBoxFor(m => m.TransferDate, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>單據類型:</span>@Html.TextBoxFor(m => m.FlagID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
-                    <li class="lb-std"><div class="input-group"><span>倉庫號碼:</span>@Html.TextBoxFor(m => m.LocID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>倉庫編號:</span>@Html.TextBoxFor(m => m.LocID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>收貨倉庫:</span>@Html.TextBoxFor(m => m.NextLocID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>建立人:</span>@Html.TextBoxFor(m => m.CreateUser, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>建立時間:</span>@Html.TextBoxFor(m => m.CreateTime, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>修改人:</span>@Html.TextBoxFor(m => m.AmendUser, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
@@ -76,25 +77,20 @@
 
                         </tr>
                         <tr>
-                            <td class="td-label"><div class="award-name">倉庫編號：</div></td>
-                            <td class="td-input"><div class="input-group">@Html.TextBox("DetailsLocID", "", new { @class = "easyui-combobox", @style = "width:100%" })</div></td>
                             <td class="td-label"><div class="award-name">交易數量：</div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("TransferQty", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
                             <td class="td-label"><div class="award-name"><span>數量單位：</span></div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("QtyUnit", "", new { @class = "easyui-combobox", @style = "width:100%" })</div></td>
                             <td class="td-label"><div class="award-name"><span>交易重量：</span></div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("TransferWeg", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-
+                            <td class="td-label"><div class="award-name"><span>重量單位：</span></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("WegUnit", "", new { @class = "easyui-combobox", @style = "width:100%" })</div></td>
                             @*<td></td>*@
 
                         </tr>
                         <tr>
-                            <td class="td-label"><div class="award-name"><span>重量單位：</span></div></td>
-                            <td class="td-input"><div class="input-group">@Html.TextBox("WegUnit", "", new { @class = "easyui-combobox", @style = "width:100%" })</div></td>
                             <td class="td-label"><div class="award-name"><span>批號：</span></div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("LotNo", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                            <td class="td-label"><div class="award-name">收貨部門：</div></td>
-                            <td class="td-input"><div class="input-group">@Html.TextBox("NextLocID", "", new { @class = "easyui-combobox", @style = "width:100%" })</div></td>
                             <td class="td-label"><div class="award-name"><span>序號：</span></div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("Seq", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
                         </tr>
@@ -121,45 +117,54 @@
     @*<script src="~/Content/js/order.js"></script>*@
     <script type="text/javascript">
         $(function () {
-            var baseUrl = '/Areas/Base/ASHX/BaseDataList.ashx/GetItem?';
+            var baseUrl = '~/Lib/BaseDataList.ashx/GetItem?';//'/Areas/Base/ASHX/BaseDataList.ashx/GetItem?'
+            var wwwUrlPath = window.document.location.href;
+            var pathName = window.document.location.pathname;
+            var pos = wwwUrlPath.indexOf(pathName);
+            var localhostPath = wwwUrlPath.substring(0, pos);
+            $("#ID").textbox('setValue', localhostPath);
+            baseUrl = localhostPath + baseUrl;
             $('#FlagID').combobox({
                 //url: 'GetDocFlag?r=' + Math.random(),//数据接收URL地址
-                url: baseUrl + 'paraa=wh_transfer&parab=list',//数据接收URL地址
+                url: '/Base/BaseData/GetDocFlag',//数据接收URL地址
                 method: 'post',
                 panelHeight: 'auto',
                 valueField: 'ID',//主键值
-                textField: 'Name'
+                textField: 'Name',
+                required: true
             });
             $('#LocID').combobox({
-                url: baseUrl + 'paraa=loc&parab=list',//数据接收URL地址
+                url: '/Base/BaseData/GetLoc',//baseUrl + 'paraa=loc&parab=list',//数据接收URL地址
                 method: 'post',
                 panelHeight: 'auto',
                 valueField: 'ID',//主键值
-                textField: 'Name'
+                textField: 'Name',
+                required: true
             });
             $('#DetailsLocID').combobox({
-                url: baseUrl + 'paraa=loc&parab=list',//数据接收URL地址
+                url: '/Base/BaseData/GetLoc',//baseUrl + 'paraa=loc&parab=list',//数据接收URL地址
                 method: 'post',
                 panelHeight: 'auto',
                 valueField: 'ID',//主键值
-                textField: 'Name'
+                textField: 'Name',
+                required: true
             });
             $('#NextLocID').combobox({
-                url: baseUrl + 'paraa=loc&parab=list',//数据接收URL地址
+                url: '/Base/BaseData/GetLoc',//数据接收URL地址
                 method: 'post',
                 panelHeight: 'auto',
                 valueField: 'ID',//主键值
                 textField: 'Name'
             });
             $('#QtyUnit').combobox({
-                url: baseUrl + 'paraa=unit&parab=list',//数据接收URL地址
+                url: '/Base/BaseData/GetUnit',//baseUrl + 'paraa=unit&parab=list',//数据接收URL地址
                 method: 'post',
                 panelHeight: 'auto',
                 valueField: 'ID',//主键值
                 textField: 'Name'
             });
             $('#WegUnit').combobox({
-                url: baseUrl + 'paraa=unit&parab=list',//数据接收URL地址
+                url: '/Base/BaseData/GetUnit',//baseUrl + 'paraa=unit&parab=list',//数据接收URL地址
                 method: 'post',
                 panelHeight: 'auto',
                 valueField: 'ID',//主键值
@@ -178,6 +183,11 @@
                 SearchDetails();
             });
         }
+        //function show() {
+        //    //debugger;
+        //    var wwwUrlPath = window.document.location.href;
+        //    $("#ID").textbox('setValue', wwwUrlPath);
+        //}
         function SearchDetails() {
             var queryData = {
                 OcID: $("#OcID").val(),
@@ -306,6 +316,84 @@
             });
         }
 
-
+        function Save() {
+            if (!ValidForm()) {
+                return;
+            }
+            var result = "";
+            var ID = $("#ID").val();
+            if (ID == "") {
+                var ID = "";
+                ID = SaveMaster();
+                if (ID == "")
+                    return;
+                $("#ID").textbox('setValue', ID);
+            }
+            var postData = $("#addFormDetails").serializeArray();
+            return;
+            ////Ajax异步实现加载
+            $.ajax({
+                url: "AddList?ID=" + ID,
+                data: postData,
+                //cache: false,
+                //async: false,//改为同步方式
+                type: "post",
+                success: function (data) {
+                    if (data == "OK") {
+                        //$.messager.alert("系统提示！", "添加明細表記錄成功!");
+                        //$('#AddDialog').dialog('close');
+                        //$("#tbDetails").datagrid("reload");
+                        $("#addForm").form("clear")
+                        SearchDetails();
+                    }
+                    else {
+                        $.messager.alert("系统提示！", "添加失败");
+                    }
+                }
+            })
+            //Ajax.call('AddList1?OcID=' + OcID, $.toJSON(postData), addToCartResponse, 'POST', 'JSON');
+        }
+        function SaveMaster() {
+            //var valid = $("#addFormHead").form('validate');
+            //if (valid == false) {
+            //    return false;
+            //}
+            var ID = "";
+            var postData = $("#addFormHead").serializeArray();
+            //Ajax异步实现加载
+            $.ajax({
+                url: "AddTransferHead?r=" + Math.random(),
+                data: postData,
+                async: false,//改为同步方式
+                type: "post",
+                success: function (data) {
+                    if (data != "") {
+                        //$.messager.alert("系统提示！", "添加主表記錄成功!");
+                        //$('#AddDialog').dialog('close');
+                        //$("#tbDetails").datagrid("reload");
+                        //$("#addFormHead").form("clear")
+                        //SearchOcDetails();
+                        ID = data;
+                    }
+                    else {
+                        $.messager.alert("系统提示！", "添加失败");
+                    }
+                }
+            })
+            return ID;
+        }
+        function ValidForm() {
+            var valid = $("#addFormHead").form('validate');
+            if (valid == false) {
+                $.messager.alert("系统提示！", "主表信息未輸入完整!");
+                return false;
+            }
+            valid = $("addFormDetails").form('validate');
+            if (valid == false) {
+                $.messager.alert("系统提示！", "明細表信息未輸入完整!");
+                return false;
+            }
+            return true;
+        }
     </script>
 }

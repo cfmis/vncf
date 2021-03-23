@@ -5,12 +5,9 @@ using System.Web;
 
 namespace VNCF.PSS.Web.Areas.Base.Models
 {
-    public class UnitModels
+    public class BaseDataModels
     {
-    }
-    public class bs_unit
-    {
-        public string id { get; set; }
-        public string name { get; set; }
+        public string ID { get; set; }
+        public string Name { get; set; }
     }
 }
