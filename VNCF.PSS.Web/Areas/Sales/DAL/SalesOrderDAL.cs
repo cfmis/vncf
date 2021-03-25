@@ -12,7 +12,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
 {
     public class SalesOrderDAL
     {
-        static string strRemoteDB = "DGERP2.cferp.dbo.";//SQLHelper.RemoteDB;
+        static string strRemoteDB = "DGERP2.cferp.dbo.";//SQLHelper.RemoteDB;//
         public static string UpdateOcHead(Order_Head model)
         {
             string result = "";
