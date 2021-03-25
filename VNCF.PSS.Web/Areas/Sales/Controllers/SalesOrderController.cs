@@ -192,24 +192,6 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             return Json(list);
         }
 
-        ////下拉列表框基礎信息,返回ID,Name
-        //public ActionResult GetBaseInfo(string strTableName)
-        //{
-        //    //登入語言
-        //    string lang = AdminUserContext.Current.LoginInfo.LanguageID;
-        //    var result = SalesOrderDAL.GetBaseInfoReturnList(lang, strTableName);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
-
-        ////下拉列表框基礎信息,返回Name
-        //public ActionResult GetBaseInfoByName(string strTableName)
-        //{
-        //    //登入語言
-        //    string lang = AdminUserContext.Current.LoginInfo.LanguageID;
-        //    var list = SalesOrderDAL.GetBaseInfoByNameReturnList(lang, strTableName);
-        //    return Json(list);
-        //}
-
         //取最大單號
         public ActionResult GetMaxOcID(string strArea)
         {
