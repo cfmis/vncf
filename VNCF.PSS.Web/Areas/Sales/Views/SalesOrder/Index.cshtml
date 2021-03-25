@@ -2,46 +2,11 @@
 @using VNCF.PSS.Web.Areas.Sales.DAL
 @using VNCF.PSS.Web.Areas.Sales.Models;
 @model Order_Head
-@{
-    //Sales Order
-    ViewBag.Title = "Index";
-    //var WebFromElement1 = Factory.GenWebFormElement().getWebLanguage("Sales.Order.Index");
-    //var WebFromElement = ViewBag;
-}
-@section PageSpecificStyleSheetIncludes{
-    <link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416175">   
-    <style type="text/css">    
-    </style>
+@{   
+    ViewBag.Title = "Sales Order";
 }
 
 @*<script type="text/javascript" src="~/Content/myValidator.js"></script>*@
-
-<style>   
-    /*#details_master , #details_master td, #details_master th {
-        border: 1px solid #ff0000;
-        border-collapse: collapse;
-    }*/
-    
-
-
-    /*表格欄位寬度固定*/
-    #details_master{
-        table-layout: fixed;
-    }
-    #details_master td{
-        word-break: break-all;
-        word-wrap: break-word;
-    }
-   
-    /*.easyui-combobox ,.combobox-item,.combobox-group{
-        font-size:9px;
-    }*/
-    /*.easyui-combobox*/
-    /*.datagrid.cell.{
-        font-size:9px;
-    }*/
-
-</style>
 
 
 <div class="areabx clear " style="margin-bottom:0px;padding-bottom:0px;">
@@ -319,13 +284,12 @@
 </div>
 
 @section PageSpecificJavascriptIncludes{
-    @*<script src="~/Content/js/SalesOrder.js?v=20210112000052"></script>*@
+    @*<script src="~/Content/js/SalesOrder.js?v=20210112000053"></script>*@
     <script src="~/Content/js/SalesOrder.js"></script>
-    
+    <script src="~/Content/js/BaseData.js"></script>
 
     <script type="text/javascript">
-        //设置全局变量,供其他JS代碼使用
-        //var test = "@Resource.msg_system_prompt";
+        //设置全局变量,供其他JS代碼使用       
         /**
         使用方法：
         设置单个全局变量：
@@ -355,48 +319,24 @@
         })
 
 
-        $(function () {
-            //initList();
+        $(function () {    
 
             SearchOcDetails();
             InitSearch();//查询
 
-            // UpdateList();//修改
-
-            //另一種綁定下拉框值格式
-            //$('#txtClassIdSerach').combobox({
-            //    url: 'GetClass?r=' + Math.random(),//数据接收URL地址
-            //    method: 'post',
-            //    //url: '/combobox_data1.json',
-            //    panelHeight: 'auto',
-            //    valueField: 'id',//主键值
-            //    textField: 'name'
-            //});
-
-            $("btnNew").click(NewDocument);
+            //$("btnNew").click(NewDocument);
 
             $("#btnEdit").click(function () {
                 EditMaster("@Resource.sales_order_master");
             });
-
-            //$("#btnItem").click(function () {
-            //    findItem($("#ActionType_D").val(), null);
-            //});
+          
             $("#btnItem").click(function () {
                 findItem(null);
             });
 
             $("#btnImport").click(function () {
-                openWin('/Sales/SalesOrder/ImportOrder', '@Resource.btn_import', 850, 560, null);
-                @*if ($("#ActionType_D").val() == "" && $("#ActionType_H").val() == "") {
-                    //showMessageDialog('/Sales/SalesOrder/ImportOrder', '@Resource.btn_import', 850, 560);
-                    $("#BuilOcID").val("");//打開彈窗前清空單據標識
-                    openWin('/Sales/SalesOrder/ImportOrder', 'Build OC', 850, 560, null);                    
-                } else {
-                    $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_is_edit_status");
-                }*@
+                openWin('/Sales/SalesOrder/ImportOrder', '@Resource.btn_import', 850, 560, null);               
             });
-
 
             //設置只讀背景色為灰色
             setReadonlyBackground();
@@ -525,12 +465,7 @@
                 countItemAmount();
             });
 
-            //$('#tabPages').tabs('resize', {
-            //    plain: false,
-            //    boder: false,
-            //    width: $(window).width(),
-            //    height: $(window).height() - 30
-            //})
+      
             //********
             //$('#tbSalesBom').datagrid({
             //    onDblClickCell: function (index, field, value) {
@@ -561,7 +496,7 @@
         function AddNew() {
             if ($('#OcID').val().length > 0) {
                 //存在數據,提示是否清除全部頁面,建立新OC?
-                $.messager.confirm('System Info', 'Are you sure you want to do this operation?', function (r) {
+                $.messager.confirm("@Resource.msg_system_prompt", "@Resource.msg_confirm_to_do", function (r) {
                     if (r) {
                         initAddData();
                     }
@@ -595,7 +530,7 @@
             disableSate();//OC,MO狀態禁用
             getDBDateTime();//獲取服務器系統時間并設落單日期
         }
-                
+
 
         /**
         *查詢明細
@@ -820,11 +755,11 @@
                         if (RowDeleteByID.length == 1) {
                             //doto
                             //*如已存在計劃單(BillCode)禁止刪除,此功能待完善
-                            if (checkPlan($("#OcID").val(), RowDeleteByID[0].Ver, RowDeleteByID[0].Seq))
+                            if (checkPlan($("#OcID").val(), RowDeleteByID[0].Ver, RowDeleteByID[0].Seq) == false) {
                                 //
                                 $.messager.confirm("@Resource.msg_system_prompt", "@Resource.msg_is_del_current_record", function (deleteClient) {
                                     if (deleteClient) {
-                                        $.post("/SalesOrder/DeleteList?r=" + Math.random(), { OcID: $("#OcID").val(), Seq: RowDeleteByID[0].Seq }, function (data) {
+                                        $.post("/SalesOrder/DeleteList?r=" + Math.random(), { OcID: $("#OcID").val(),Ver:$("#Ver").val(), Seq: RowDeleteByID[0].Seq }, function (data) {
                                             if (data == "OK") {
                                                 $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_del_success");//刪除成功
                                                 //这里要将上次删除的Id清空，否则下次再删除的时候会报错
@@ -839,6 +774,10 @@
                                         });
                                     }
                                 });
+                            } else {
+                                //已存在生產計劃,不可以刪除
+                                $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_exists_plan");
+                            }
                         }
                         else {
                             //$.messager.alert("@Resource.msg_system_prompt", "每次只能删除一行，你已经选择了<font color='red' size='6'>" + RowDeleteByID.length + "</font>行");
@@ -946,14 +885,14 @@
                     }
                 },
                 {
-                     //給列添加按鈕
-                     field: 'opt', title: '', width: 50, align: 'left',//width:$(this).width()*0.1
-                     formatter: function (value, row, index) {
-                         //var btn='<input type="button" value="···" class="easyui-linkbutton" iconCls="icon-edit" plain="true" style="width:40px;height:22px;background: #D2E9FF;" onclick="findItem(' + "'" + edit_status + "'" + ',' + index + ')"/>';
-                         var btn = '<input type="button" value="···" class="easyui-linkbutton" iconCls="icon-edit" plain="true" style="width:40px;height:22px;background: #D2E9FF;" onclick="findItem(' + index + ')"/>';
-                         return btn;
-                     }
-                 },
+                    //給列添加按鈕
+                    field: 'opt', title: '', width: 50, align: 'left',//width:$(this).width()*0.1
+                    formatter: function (value, row, index) {
+                        //var btn='<input type="button" value="···" class="easyui-linkbutton" iconCls="icon-edit" plain="true" style="width:40px;height:22px;background: #D2E9FF;" onclick="findItem(' + "'" + edit_status + "'" + ',' + index + ')"/>';
+                        var btn = '<input type="button" value="···" class="easyui-linkbutton" iconCls="icon-edit" plain="true" style="width:40px;height:22px;background: #D2E9FF;" onclick="findItem(' + index + ')"/>';
+                        return btn;
+                    }
+                },
                  { field: "ProductCdesc", title: "@Resource.ProductCdesc", width: 280, editor: { type: 'validatebox' } },//產品描述
                  {
                      //用量
@@ -1211,74 +1150,74 @@
             });
         }
 
-        //測試代碼
-        function setInputWidth(bwidth) {
-            var ddlw = parseInt($(".lb-std").css("width"));
-            var ddlh = parseInt($("#mdInput").css("height"));
-            var ddlf = parseInt($("#mdInput").css("font-size"));
+        ////測試代碼
+        //function setInputWidth(bwidth) {
+        //    var ddlw = parseInt($(".lb-std").css("width"));
+        //    var ddlh = parseInt($("#mdInput").css("height"));
+        //    var ddlf = parseInt($("#mdInput").css("font-size"));
 
-            $("#ulPanel").find("input").each(function () {
-                //$(this).click(function () {
-                //    alert("luozhiping");
-                //});
-                //alert(this.id);
-                //debugger;
-                var name = this;
-                var id = this.id;
-                var result = $(this).find('.easyui-textbox');
-                var className = $(this).attr("class");
-                if (!className)
-                    className = "";
-                var name1 = className.substring(0, 6);
-                if (name1 == "easyui")//(this.id.length==5)
-                {
-                    //debugger;
-                    var obj = this.id;
-                    //alert(this.name);
-                    //var obj1 = this;
-                    //var val = $(this).val();
-                    //var val1 = $("#ipt11").val();
-                    //var width1 = this.;
-                    $(this).textbox({
-                        height: ddlh,
-                        width: ddlw * bwidth,
-                    });
-                    $(this).textbox('textbox').css("font-size", ddlf);
-                }
-            });
-            ddlw = parseInt($(".td-div-input").css("width"));
-            ddld = parseInt($(".td-input").css("width"));
+        //    $("#ulPanel").find("input").each(function () {
+        //        //$(this).click(function () {
+        //        //    alert("luozhiping");
+        //        //});
+        //        //alert(this.id);
+        //        //debugger;
+        //        var name = this;
+        //        var id = this.id;
+        //        var result = $(this).find('.easyui-textbox');
+        //        var className = $(this).attr("class");
+        //        if (!className)
+        //            className = "";
+        //        var name1 = className.substring(0, 6);
+        //        if (name1 == "easyui")//(this.id.length==5)
+        //        {
+        //            //debugger;
+        //            var obj = this.id;
+        //            //alert(this.name);
+        //            //var obj1 = this;
+        //            //var val = $(this).val();
+        //            //var val1 = $("#ipt11").val();
+        //            //var width1 = this.;
+        //            $(this).textbox({
+        //                height: ddlh,
+        //                width: ddlw * bwidth,
+        //            });
+        //            $(this).textbox('textbox').css("font-size", ddlf);
+        //        }
+        //    });
+        //    ddlw = parseInt($(".td-div-input").css("width"));
+        //    ddld = parseInt($(".td-input").css("width"));
 
-            //debugger;
-            $("#details_master").find("input").each(function () {
-                //$(this).click(function () {
-                //    alert("luozhiping");
-                //});
-                //alert(this.id);
-                var name = this;
-                var id = this.id;
-                var result = $(this).find('.easyui-textbox');
-                var className = $(this).attr("class");
-                if (!className)
-                    className = "";
-                var name1 = className.substring(0, 6);
-                if (name1 == "easyui")//(this.id.length==5)
-                {
-                    //debugger;
-                    var obj = this.id;
-                    //alert(this.name);
-                    //var obj1 = this;
-                    //var val = $(this).val();
-                    //var val1 = $("#ipt11").val();
-                    //var width1 = this.;
-                    $(this).textbox({
-                        height: ddlh,
-                        width: ddlw - 20,
-                    });
-                    $(this).textbox('textbox').css("font-size", ddlf);
-                }
-            });
-        }      
+        //    //debugger;
+        //    $("#details_master").find("input").each(function () {
+        //        //$(this).click(function () {
+        //        //    alert("luozhiping");
+        //        //});
+        //        //alert(this.id);
+        //        var name = this;
+        //        var id = this.id;
+        //        var result = $(this).find('.easyui-textbox');
+        //        var className = $(this).attr("class");
+        //        if (!className)
+        //            className = "";
+        //        var name1 = className.substring(0, 6);
+        //        if (name1 == "easyui")//(this.id.length==5)
+        //        {
+        //            //debugger;
+        //            var obj = this.id;
+        //            //alert(this.name);
+        //            //var obj1 = this;
+        //            //var val = $(this).val();
+        //            //var val1 = $("#ipt11").val();
+        //            //var width1 = this.;
+        //            $(this).textbox({
+        //                height: ddlh,
+        //                width: ddlw - 20,
+        //            });
+        //            $(this).textbox('textbox').css("font-size", ddlf);
+        //        }
+        //    });
+        //}
 
 
 

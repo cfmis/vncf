@@ -141,59 +141,59 @@ function setDBDateTime(result) {
     $("#CreateAt").textbox("setValue", result.current_datetime);
 }
 
-function initBaseInfo(table_name, obj) {
-    $.ajax({
-        url: "/SalesOrder/GetBaseInfo?strTableName=" + table_name,
-        type: "POST",
-        async: true,
-        contentType: 'application/json;charset=UTF-8',
-        //data: JSON.stringify(param),
-        dataType: "JSON",
-        timeout: 20000,
-        success: function (data) {
-            $(obj).combobox({
-                //editable: false, // 只读 如果只能從下拉中選取,需將此項設為
-                limitToList: true,//只能从下拉中选择值
-                reversed: true,//定义在失去焦点的时候是否恢复原始值。
-                onHidePanel: check_input_unit(obj),
-                //panelHeight: 'auto', // 高度自适应
-                //required: true,
-                data: data,
-                valueField: 'id',
-                textField: 'name',
-                events: { keyup: fnKeyUp } //字母轉大寫                
-            });         
-        },
-        error: ErryFunction
-    });
-}
+//function initBaseInfo(table_name, obj) {
+//    $.ajax({
+//        url: "/SalesOrder/GetBaseInfo?strTableName=" + table_name,
+//        type: "POST",
+//        async: true,
+//        contentType: 'application/json;charset=UTF-8',
+//        //data: JSON.stringify(param),
+//        dataType: "JSON",
+//        timeout: 20000,
+//        success: function (data) {
+//            $(obj).combobox({
+//                //editable: false, // 只读 如果只能從下拉中選取,需將此項設為
+//                limitToList: true,//只能从下拉中选择值
+//                reversed: true,//定义在失去焦点的时候是否恢复原始值。
+//                onHidePanel: check_input_unit(obj),
+//                //panelHeight: 'auto', // 高度自适应
+//                //required: true,
+//                data: data,
+//                valueField: 'id',
+//                textField: 'name',
+//                events: { keyup: fnKeyUp } //字母轉大寫                
+//            });         
+//        },
+//        error: ErryFunction
+//    });
+//}
 
-function initBaseInfoByName(table_name, obj) {
-    $.ajax({
-        url: "/SalesOrder/GetBaseInfoByName?strTableName=" + table_name,
-        type: "POST",
-        async: true,
-        contentType: 'application/json;charset=UTF-8',
-        //data: JSON.stringify(param),
-        dataType: "JSON",
-        timeout: 20000,
-        success: function (data) {
-            $(obj).combobox({
-                //editable: false, // 只读 如果只能從下拉中選取,需將此項設為
-                limitToList: true,//只能从下拉中选择值
-                reversed: true,//定义在失去焦点的时候是否恢复原始值。
-                onHidePanel: check_input_unit(obj),
-                //panelHeight: 'auto', // 高度自适应
-                //required: true,
-                data: data,
-                valueField: 'id',
-                textField: 'id',
-                events: { keyup: fnKeyUp } //字母轉大寫
-            });
-        },
-        error: ErryFunction
-    });
-}
+//function initBaseInfoByName(table_name, obj) {
+//    $.ajax({
+//        url: "/SalesOrder/GetBaseInfoByName?strTableName=" + table_name,
+//        type: "POST",
+//        async: true,
+//        contentType: 'application/json;charset=UTF-8',
+//        //data: JSON.stringify(param),
+//        dataType: "JSON",
+//        timeout: 20000,
+//        success: function (data) {
+//            $(obj).combobox({
+//                //editable: false, // 只读 如果只能從下拉中選取,需將此項設為
+//                limitToList: true,//只能从下拉中选择值
+//                reversed: true,//定义在失去焦点的时候是否恢复原始值。
+//                onHidePanel: check_input_unit(obj),
+//                //panelHeight: 'auto', // 高度自适应
+//                //required: true,
+//                data: data,
+//                valueField: 'id',
+//                textField: 'id',
+//                events: { keyup: fnKeyUp } //字母轉大寫
+//            });
+//        },
+//        error: ErryFunction
+//    });
+//}
 
 //$.ajax({
 //    url: "/SalesOrder/GetCustomerByID?strCustomerID=" + customerID,
@@ -1111,7 +1111,7 @@ function getCurrentRowIndex(obj) {
 
 function checkPlan(id,ver,seq) {
     var result = false;
-    var postData = {OcID:OcID,Ver:ver,Seq:seq};
+    var postData = {OcID:id,Ver:ver,Seq:seq};
     //$.ajax({
     //    url: "/SalesOrder/CheckCreatePlan" + id,
     //    data: postData,
@@ -1123,6 +1123,7 @@ function checkPlan(id,ver,seq) {
     //    },
     //    error: ErryFunction //错误执行方法
     //})
+    
     return result;
 }
 

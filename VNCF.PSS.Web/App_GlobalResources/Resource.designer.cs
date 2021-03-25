@@ -700,6 +700,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to do this operation?.
+        /// </summary>
+        internal static string msg_confirm_to_do {
+            get {
+                return ResourceManager.GetString("msg_confirm_to_do", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The current MO needs to specify a main part..
         /// </summary>
         internal static string msg_current_mo_needs_specify_key {
@@ -777,6 +786,15 @@ namespace Resources {
         internal static string msg_dosage_cannot_be_empty {
             get {
                 return ResourceManager.GetString("msg_dosage_cannot_be_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The production plan already exists and cannot be deleted ..
+        /// </summary>
+        internal static string msg_exists_plan {
+            get {
+                return ResourceManager.GetString("msg_exists_plan", resourceCulture);
             }
         }
         
