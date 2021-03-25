@@ -2,24 +2,10 @@
 @using VNCF.PSS.Web.Areas.Sales.DAL
 @using VNCF.PSS.Web.Areas.Sales.Models;
 @model Order_Head
-<<<<<<< HEAD
 @{
-    //Sales Order
-    ViewBag.Title = "Index";
-    //var WebFromElement1 = Factory.GenWebFormElement().getWebLanguage("Sales.Order.Index");
-    //var WebFromElement = ViewBag;
-}
-@section PageSpecificStyleSheetIncludes{
-    @*<link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416175">*@   
-    <style type="text/css">    
-    </style>
-=======
-@{   
     ViewBag.Title = "Sales Order";
->>>>>>> 353baabb94d3058a9bde5e0a403b8b3a627c0576
 }
 @*<script type="text/javascript" src="~/Content/myValidator.js"></script>*@
-
 
 <div class="areabx clear " style="margin-bottom:0px;padding-bottom:0px;">
     <div data-options="region:'center'" style="padding:5px;" >
@@ -295,6 +281,7 @@
     </div>
 </div>
 
+
 @section PageSpecificJavascriptIncludes{
     @*<script src="~/Content/js/SalesOrder.js?v=20210112000053"></script>*@
     <script src="~/Content/js/SalesOrder.js"></script>
@@ -329,7 +316,6 @@
             msg_saved_success: '@Resource.msg_saved_success',
             msg_search_condition: '@Resource.msg_search_condition'
         })
-
 
         $(function () {    
 
@@ -488,9 +474,9 @@
             //    }})
 
             ////********
-
-
         });
+
+
 
         var selSetList = [];
         function clickchk(cb) {
@@ -1232,4 +1218,5 @@
         //}
 
     </script>
+
 }
