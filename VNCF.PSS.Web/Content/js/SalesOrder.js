@@ -10,7 +10,6 @@ function setMaxOcID(result) {
     $("#OcID").textbox("setValue", result);
 }
 
-
 function getCustomerInfo(id) {
     Ajax.call('GetCustomer', '&strCustomerID=' + id, setCustomerInfo, 'GET', 'JSON');
 }
@@ -140,82 +139,6 @@ function setDBDateTime(result) {
     $("#OrderDate").textbox("setValue", result.current_date);
     $("#CreateAt").textbox("setValue", result.current_datetime);
 }
-
-function initBaseInfo(table_name, obj) {
-    $.ajax({
-        url: "/SalesOrder/GetBaseInfo?strTableName=" + table_name,
-        type: "POST",
-        async: true,
-        contentType: 'application/json;charset=UTF-8',
-        //data: JSON.stringify(param),
-        dataType: "JSON",
-        timeout: 20000,
-        success: function (data) {
-            $(obj).combobox({
-                //editable: false, // 只读 如果只能從下拉中選取,需將此項設為
-                limitToList: true,//只能从下拉中选择值
-                reversed: true,//定义在失去焦点的时候是否恢复原始值。
-                onHidePanel: check_input_unit(obj),
-                //panelHeight: 'auto', // 高度自适应
-                //required: true,
-                data: data,
-                valueField: 'id',
-                textField: 'name',
-                events: { keyup: fnKeyUp } //字母轉大寫                
-            });         
-        },
-        error: ErryFunction
-    });
-}
-
-function initBaseInfoByName(table_name, obj) {
-    $.ajax({
-        url: "/SalesOrder/GetBaseInfoByName?strTableName=" + table_name,
-        type: "POST",
-        async: true,
-        contentType: 'application/json;charset=UTF-8',
-        //data: JSON.stringify(param),
-        dataType: "JSON",
-        timeout: 20000,
-        success: function (data) {
-            $(obj).combobox({
-                //editable: false, // 只读 如果只能從下拉中選取,需將此項設為
-                limitToList: true,//只能从下拉中选择值
-                reversed: true,//定义在失去焦点的时候是否恢复原始值。
-                onHidePanel: check_input_unit(obj),
-                //panelHeight: 'auto', // 高度自适应
-                //required: true,
-                data: data,
-                valueField: 'id',
-                textField: 'id',
-                events: { keyup: fnKeyUp } //字母轉大寫
-            });
-        },
-        error: ErryFunction
-    });
-}
-
-//$.ajax({
-//    url: "/SalesOrder/GetCustomerByID?strCustomerID=" + customerID,
-//    type: "POST",
-//    async: true,
-//    contentType: 'application/json;charset=UTF-8',
-//    dataType: "JSON",
-//    timeout: 20000,
-//    success: function (data) {
-//        //填充内容
-//        if (data.length > 0) {
-//            $("#CustomerCdesc").textbox("setValue", data[0]["Cdesc"]);
-//            $("#CustomerEdesc").textbox("setValue", data[0]["Cdesc"]);
-//        } else {
-//            $.messager.alert("系统提示！", customerID + "客戶編號不存在!");
-//            $("#CustomerID").textbox("setValue", "");
-//            $("#CustomerCdesc").textbox("setValue", "");
-//            $("#CustomerEdesc").textbox("setValue", "");
-//        }
-//    },
-//    error: ErryFunction
-//});
 
 //*****可以直接輸入下拉列表框中存在的值,輸入下拉列表框中不存在的值,回車自動清空
 function check_input_unit(obj) {
@@ -1111,7 +1034,7 @@ function getCurrentRowIndex(obj) {
 
 function checkPlan(id,ver,seq) {
     var result = false;
-    var postData = {OcID:OcID,Ver:ver,Seq:seq};
+    var postData = {OcID:id,Ver:ver,Seq:seq};
     //$.ajax({
     //    url: "/SalesOrder/CheckCreatePlan" + id,
     //    data: postData,
@@ -1123,6 +1046,7 @@ function checkPlan(id,ver,seq) {
     //    },
     //    error: ErryFunction //错误执行方法
     //})
+    
     return result;
 }
 

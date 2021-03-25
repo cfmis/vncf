@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using VNCF.PSS.Web.Areas.Base.DAL;
+using VNCF.PSS.Web.Common;
 
 namespace VNCF.PSS.Web.Areas.Base.Controllers
 {
@@ -31,6 +32,21 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
             var result = BaseDataDAL.GetDocFlag("wh_transfer");
             //var result = new { rows = list };
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        //登入語言
+        string lang = AdminUserContext.Current.LoginInfo.LanguageID;
+        //下拉列表框基礎信息,返回ID,Name
+        public ActionResult GetBaseInfo(string strTableName)
+        {            
+            var result = BaseDataDAL.GetBaseInfoReturnList(lang, strTableName);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        //下拉列表框基礎信息,返回Name
+        public ActionResult GetBaseInfoByName(string strTableName)
+        {
+            var list = BaseDataDAL.GetBaseInfoByNameReturnList(lang, strTableName);
+            return Json(list);
         }
     }
 }

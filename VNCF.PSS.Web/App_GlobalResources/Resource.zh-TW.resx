@@ -561,4 +561,10 @@
   <data name="msg_is_confirm_this_operation" xml:space="preserve">
     <value>確定要進行當前操作?</value>
   </data>
+  <data name="msg_exists_plan" xml:space="preserve">
+    <value>已存在生產計劃,不可以刪除!</value>
+  </data>
+  <data name="msg_confirm_to_do" xml:space="preserve">
+    <value>確定要進行當前的操作?</value>
+  </data>
 </root>

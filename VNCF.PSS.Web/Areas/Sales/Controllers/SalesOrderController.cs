@@ -110,9 +110,9 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             //string result = OrderDAL.UpdateOcHead(model);
             return View("Index");
         }
-        public ActionResult DeleteList(string OcID, string Seq)
+        public ActionResult DeleteList(string OcID,int Ver, string Seq)
         {
-            SalesOrderDAL.DeleteOcDetails(OcID, Seq);
+            SalesOrderDAL.DeleteOcDetails(OcID,Ver, Seq);
             return Json("OK");
         }
 
@@ -189,24 +189,6 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         public ActionResult GetClass()//數量單位
         {
             var list = SalesOrderDAL.GetQtyUnitReturnList();
-            return Json(list);
-        }
-
-        //下拉列表框基礎信息,返回ID,Name
-        public ActionResult GetBaseInfo(string strTableName)
-        {
-            //登入語言
-            string lang = AdminUserContext.Current.LoginInfo.LanguageID;
-            var result = SalesOrderDAL.GetBaseInfoReturnList(lang, strTableName);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        //下拉列表框基礎信息,返回Name
-        public ActionResult GetBaseInfoByName(string strTableName)
-        {
-            //登入語言
-            string lang = AdminUserContext.Current.LoginInfo.LanguageID;
-            var list = SalesOrderDAL.GetBaseInfoByNameReturnList(lang, strTableName);
             return Json(list);
         }
 
