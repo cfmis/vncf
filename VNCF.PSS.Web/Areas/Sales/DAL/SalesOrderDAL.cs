@@ -160,7 +160,15 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 FROM {0}it_bom_mostly A 
                 INNER JOIN {0}it_bom B ON A.within_code=B.within_code AND A.id=B.id AND A.exp_id=B.exp_id
                 INNER JOIN {0}it_goods C ON B.within_code=C.within_code AND B.goods_id=C.id
-                WHERE A.within_code='0000' AND A.id LIKE '{1}%'", strRemoteDB, model.ProductID);
+                WHERE A.within_code='0000'", strRemoteDB);
+            if (!string.IsNullOrEmpty(model.ProductID))
+            {
+                strSql += string.Format(" AND A.id Like '{0}%'", model.ProductID);
+            }
+            else
+            {
+                strSql += " AND 1=0";//返回空數據
+            }
 
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<SalesBom> lsDetails = new List<SalesBom>();
@@ -244,58 +252,68 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         }
         public static List<Order_Head> GetOcHeadReturnList(Order_Head model)
         {            
-            string strSql = "";
-            strSql = @"Select a.OcID,a.Ver,Convert(varchar(10),a.OrderDate,120) as OrderDate,a.CustomerID,a.State, b.RateDiscount,
+            string strSql = 
+                @"Select a.OcID,a.Ver,Convert(varchar(10),a.OrderDate,120) as OrderDate,a.CustomerID,a.State, b.RateDiscount,
                 b.AmountDiscount,b.AmountProduct,b.ProductMo,b.ProductID,b.ProductCdesc,b.OrderQty,b.OrderUnit,b.Price,b.PriceUnit
-                FROM oc_OrderHead a,oc_OrderDetails b Where a.OcID=b.OcID AND a.Ver=b.Ver and a.OcID>=''";
-            if (string.IsNullOrEmpty(model.OcID))
-                strSql += " AND a.OcID='ZZZZZZZZZ' ";
+                FROM oc_OrderHead a,oc_OrderDetails b Where a.OcID=b.OcID AND a.Ver=b.Ver ";
+            if (string.IsNullOrEmpty(model.OcID) && string.IsNullOrEmpty(model.OrderDate) && string.IsNullOrEmpty(model.ReceivedDate) &&
+                string.IsNullOrEmpty(model.Area) && string.IsNullOrEmpty(model.CustomerID) && string.IsNullOrEmpty(model.ForeignFirm) &&
+                string.IsNullOrEmpty(model.Season) && string.IsNullOrEmpty(model.SallerID) && string.IsNullOrEmpty(model.ContractID) &&
+                string.IsNullOrEmpty(model.BrandID) && string.IsNullOrEmpty(model.ProductMo) && string.IsNullOrEmpty(model.ProductID)
+                ){
+                strSql += " AND 1=0 ";//返加空數據
+            }
             else
-                strSql += " AND a.OcID Like '%" + model.OcID + "%'";
-            if(!string.IsNullOrEmpty(model.OrderDate))
             {
-                strSql += " AND a.OrderDate='" + model.OrderDate + "'";
-            }
-            if (!string.IsNullOrEmpty(model.ReceivedDate))
-            {
-                strSql += " AND a.ReceivedDate='" + model.ReceivedDate + "'";
-            }
-            if (!string.IsNullOrEmpty(model.Area))
-            {
-                strSql += " AND a.Area Like '%" + model.Area + "%'";
-            }
-            if (!string.IsNullOrEmpty(model.CustomerID))
-            {
-                strSql += " AND a.CustomerID Like '%" + model.CustomerID + "%'";
-            }
-            if (!string.IsNullOrEmpty(model.ForeignFirm))
-            {
-                strSql += " AND a.ForeignFirm Like '%" + model.ForeignFirm + "%'";
-            }            
-            if (!string.IsNullOrEmpty(model.Season))
-            {
-                strSql += " AND a.Season Like '%" + model.Season + "%'";
-            }            
-            if (!string.IsNullOrEmpty(model.SallerID))
-            {
-                strSql += " AND a.SallerID Like '%" + model.SallerID + "%'";
-            }
-            strSql += " AND a.state<>'2'";
-            if (!string.IsNullOrEmpty(model.ContractID))
-            {
-                strSql += " AND b.ContractID Like '%" + model.ContractID + "%'";
-            }
-            if (!string.IsNullOrEmpty(model.BrandID))
-            {
-                strSql += " AND b.BrandID Like '%" + model.BrandID + "%'";
-            }
-            if (!string.IsNullOrEmpty(model.ProductMo))
-            {
-                strSql += " AND b.ProductMo Like '%" + model.ProductMo + "%'";
-            }
-            if (!string.IsNullOrEmpty(model.ProductID))
-            {
-                strSql += " AND b.ProductID Like '%" + model.ProductID + "%'";
+                if (!string.IsNullOrEmpty(model.OcID))
+                {
+                    strSql += " AND a.OcID Like '%" + model.OcID + "%'";
+                }
+                if (!string.IsNullOrEmpty(model.OrderDate))
+                {
+                    strSql += " AND a.OrderDate='" + model.OrderDate + "'";
+                }
+                if (!string.IsNullOrEmpty(model.ReceivedDate))
+                {
+                    strSql += " AND a.ReceivedDate='" + model.ReceivedDate + "'";
+                }
+                if (!string.IsNullOrEmpty(model.Area))
+                {
+                    strSql += " AND a.Area Like '%" + model.Area + "%'";
+                }
+                if (!string.IsNullOrEmpty(model.CustomerID))
+                {
+                    strSql += " AND a.CustomerID Like '%" + model.CustomerID + "%'";
+                }
+                if (!string.IsNullOrEmpty(model.ForeignFirm))
+                {
+                    strSql += " AND a.ForeignFirm Like '%" + model.ForeignFirm + "%'";
+                }
+                if (!string.IsNullOrEmpty(model.Season))
+                {
+                    strSql += " AND a.Season Like '%" + model.Season + "%'";
+                }
+                if (!string.IsNullOrEmpty(model.SallerID))
+                {
+                    strSql += " AND a.SallerID Like '%" + model.SallerID + "%'";
+                }
+                strSql += " AND a.state<>'2'";
+                if (!string.IsNullOrEmpty(model.ContractID))
+                {
+                    strSql += " AND b.ContractID Like '%" + model.ContractID + "%'";
+                }
+                if (!string.IsNullOrEmpty(model.BrandID))
+                {
+                    strSql += " AND b.BrandID Like '%" + model.BrandID + "%'";
+                }
+                if (!string.IsNullOrEmpty(model.ProductMo))
+                {
+                    strSql += " AND b.ProductMo Like '%" + model.ProductMo + "%'";
+                }
+                if (!string.IsNullOrEmpty(model.ProductID))
+                {
+                    strSql += " AND b.ProductID Like '%" + model.ProductID + "%'";
+                }
             }
             
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
