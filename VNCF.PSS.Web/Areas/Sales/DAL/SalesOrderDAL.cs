@@ -17,7 +17,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         {
             string result = "";
             string strSql = "";
-            string user_id= AdminUserContext.Current.LoginInfo.LoginName;            
+            string user_id = AdminUserContext.Current.LoginInfo.LoginName;
 
             strSql += string.Format(@" SET XACT_ABORT  ON ");
             strSql += string.Format(@" BEGIN TRANSACTION ");
@@ -39,9 +39,9 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                   DeliveredPort,DestinationPort,PoNo,PaymentType,PriceType, Transport,DiscountRate,Discount,TaxNo,Tax,ProductAmount,TotalAmount
                   ,BankAccount,State,Remark,CreateBy,CreateAt) Values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}',
                   '{16}','{17}','{18}','{19}','{20}',{21},'{22}','{23}','{24}','{25}','{26}','{27}',{28},{29},'{30}',{31},{32},{33},'{34}','{35}','{36}','{37}',getdate())",
-                  OcID, model.Ver, model.OrderDate, model.CustomerID, model.CustomerCdesc, model.CustomerEdesc, model.OrderType, model.ReceivedDate, model.ForeignFirm, model.Area, model.SallerID, 
-                  model.Season, model.Contacts, model.ContactsTel, model.ContactsFax, model.ContactsEmail,model.Merchandisers,model.MerchandisersTel, model.MerchandisersEmail, model.CurrencyID, 
-                  model.CurrencyRate, model.DeliveredPort, model.DestinationPort, model.PoNo, model.PaymentType, model.PriceType, model.Transport, model.DiscountRate, model.Discount, model.TaxNo, 
+                  OcID, model.Ver, model.OrderDate, model.CustomerID, model.CustomerCdesc, model.CustomerEdesc, model.OrderType, model.ReceivedDate, model.ForeignFirm, model.Area, model.SallerID,
+                  model.Season, model.Contacts, model.ContactsTel, model.ContactsFax, model.ContactsEmail, model.Merchandisers, model.MerchandisersTel, model.MerchandisersEmail, model.CurrencyID,
+                  model.CurrencyRate, model.DeliveredPort, model.DestinationPort, model.PoNo, model.PaymentType, model.PriceType, model.Transport, model.DiscountRate, model.Discount, model.TaxNo,
                   model.Tax, model.ProductAmount, model.TotalAmount, model.BankAccount, model.State, model.Remark, user_id);
 
             else
@@ -63,7 +63,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 result = "OK";
             else
                 result = "ERROR";
-                      
+
             return result;
         }
         private static bool CheckOcHead(string OcID)
@@ -98,7 +98,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             {
                 Order_Details mdj = new Order_Details();
                 DataRow dr = dt.Rows[i];
-                mdj.OcID =  dr["OcID"].ToString() ;
+                mdj.OcID = dr["OcID"].ToString();
                 mdj.Ver = int.Parse(dr["Ver"].ToString());
                 mdj.Seq = dr["Seq"].ToString();
                 mdj.ProductMo = dr["ProductMo"].ToString();
@@ -113,10 +113,10 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 mdj.CustColorName = dr["CustColorName"].ToString();
                 mdj.CustSize = dr["CustSize"].ToString();
                 mdj.OrderQty = Convert.ToInt32(dr["OrderQty"]);
-                mdj.OrderUnit = dr["OrderUnit"].ToString();                
+                mdj.OrderUnit = dr["OrderUnit"].ToString();
                 mdj.Price = Convert.ToDecimal(dr["Price"]);
                 mdj.PriceUnit = dr["PriceUnit"].ToString();
-                mdj.RateDiscount = Convert.ToDecimal(string.IsNullOrEmpty(dr["RateDiscount"].ToString())?"0.00": dr["RateDiscount"]);
+                mdj.RateDiscount = Convert.ToDecimal(string.IsNullOrEmpty(dr["RateDiscount"].ToString()) ? "0.00" : dr["RateDiscount"]);
                 mdj.AmountDiscount = Convert.ToDecimal(string.IsNullOrEmpty(dr["AmountDiscount"].ToString()) ? "0.00" : dr["AmountDiscount"]);
                 mdj.AmountProduct = Convert.ToDecimal(string.IsNullOrEmpty(dr["AmountProduct"].ToString()) ? "0.00" : dr["AmountProduct"]); //,AmountAfterDiscount
                 mdj.MoState = dr["MoState"].ToString();
@@ -134,7 +134,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 mdj.OcRemark = dr["OcRemark"].ToString();
                 mdj.InvoiceRemark = dr["InvoiceRemark"].ToString();
                 mdj.PlateRemark = dr["PlateRemark"].ToString();
-                mdj.ProductRemark = dr["ProductRemark"].ToString();                    
+                mdj.ProductRemark = dr["ProductRemark"].ToString();
                 mdj.ArtImage = "file:/" + "/192.168.3.12/cf_artwork/Artwork" + dr["picture_name"].ToString().Trim().Replace("\\", "/");
                 //file:////192.168.3.12/cf_artwork/ArtworkRRRR/RALP114.BMP
                 lsDetails.Add(mdj);
@@ -160,7 +160,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 FROM {0}it_bom_mostly A 
                 INNER JOIN {0}it_bom B ON A.within_code=B.within_code AND A.id=B.id AND A.exp_id=B.exp_id
                 INNER JOIN {0}it_goods C ON B.within_code=C.within_code AND B.goods_id=C.id
-                WHERE A.within_code='0000' AND A.goods_id='{1}'", strRemoteDB, model.ProductID);
+                WHERE A.within_code='0000'", strRemoteDB);
             if (!string.IsNullOrEmpty(model.ProductID))
             {
                 strSql += string.Format(" AND A.id Like '{0}%'", model.ProductID);
@@ -177,10 +177,10 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 SalesBom mdj = new SalesBom();
                 DataRow dr = dt.Rows[i];
                 mdj.OcID = dr["OcID"].ToString();
-                mdj.Ver = int.Parse(dr["Ver"].ToString());                
+                mdj.Ver = int.Parse(dr["Ver"].ToString());
                 mdj.UpperSeq = dr["UpperSeq"].ToString();
-                mdj.Seq = dr["Seq"].ToString();    
-                mdj.PrimaryKey= dr["PrimaryKey"].ToString();
+                mdj.Seq = dr["Seq"].ToString();
+                mdj.PrimaryKey = dr["PrimaryKey"].ToString();
                 mdj.ProductID = dr["ProductID"].ToString();
                 mdj.ProductCdesc = dr["ProductCdesc"].ToString();
                 mdj.Dosage = int.Parse(dr["Dosage"].ToString());
@@ -188,7 +188,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 mdj.Remark = dr["Remark"].ToString();
                 mdj.ActualToHKQty = Convert.ToInt32(dr["ActualToHKQty"]);
                 mdj.ActualToHKDate = dr["ActualToHKDate"].ToString();
-                
+
                 lsDetails.Add(mdj);
             }
             return lsDetails;
@@ -196,7 +196,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
 
         public static Order_Head GetOcHeadByID(string OcID)
         {
-            string strSql = 
+            string strSql =
             @"SELECT OcID,Ver,Convert(Varchar(10),OrderDate,111) AS OrderDate,CustomerID,CustomerCdesc,CustomerEdesc,OrderType,Convert(Varchar(10),ReceivedDate,111) AS ReceivedDate,
             ForeignFirm,Area,SallerID,Season,Contacts,ContactsTel,ContactsFax,ContactsEmail,Merchandisers,MerchandisersTel,MerchandisersEmail,CurrencyID,CurrencyRate,DeliveredPort,DestinationPort,
             PoNo,PaymentType,PriceType,Transport,DiscountRate,Discount,TaxNo,Tax,ProductAmount,TotalAmount,BankAccount,State,Remark,CreateBy,CreateAt,UpdateBy,UpdateAt  
@@ -247,12 +247,12 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 mdj.UpdateBy = dr["UpdateBy"].ToString();
                 mdj.UpdateAt = dr["UpdateAt"].ToString();
             }
-           
+
             return mdj;
         }
         public static List<Order_Head> GetOcHeadReturnList(Order_Head model)
-        {            
-            string strSql = 
+        {
+            string strSql =
                 @"Select a.OcID,a.Ver,Convert(varchar(10),a.OrderDate,120) as OrderDate,a.CustomerID,a.State, b.RateDiscount,
                 b.AmountDiscount,b.AmountProduct,b.ProductMo,b.ProductID,b.ProductCdesc,b.OrderQty,b.OrderUnit,b.Price,b.PriceUnit
                 FROM oc_OrderHead a,oc_OrderDetails b Where a.OcID=b.OcID AND a.Ver=b.Ver ";
@@ -260,7 +260,8 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 string.IsNullOrEmpty(model.Area) && string.IsNullOrEmpty(model.CustomerID) && string.IsNullOrEmpty(model.ForeignFirm) &&
                 string.IsNullOrEmpty(model.Season) && string.IsNullOrEmpty(model.SallerID) && string.IsNullOrEmpty(model.ContractID) &&
                 string.IsNullOrEmpty(model.BrandID) && string.IsNullOrEmpty(model.ProductMo) && string.IsNullOrEmpty(model.ProductID)
-                ){
+                )
+            {
                 strSql += " AND 1=0 ";//返加空數據
             }
             else
@@ -315,7 +316,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                     strSql += " AND b.ProductID Like '%" + model.ProductID + "%'";
                 }
             }
-            
+
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<Order_Head> lsOrder = new List<Order_Head>();
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -324,9 +325,9 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 Order_Head mdj = new Order_Head();
                 mdj.OcID = dr["OcID"].ToString();
                 mdj.Ver = Convert.ToInt32(dr["Ver"]);
-                mdj.OrderDate = dr["OrderDate"].ToString();               
+                mdj.OrderDate = dr["OrderDate"].ToString();
                 mdj.State = dr["State"].ToString();
-                mdj.CustomerID = dr["CustomerID"].ToString();                
+                mdj.CustomerID = dr["CustomerID"].ToString();
                 mdj.ProductMo = dr["ProductMo"].ToString();
                 mdj.ProductID = dr["ProductID"].ToString();
                 mdj.ProductCdesc = dr["ProductCdesc"].ToString();
@@ -337,8 +338,8 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 mdj.RateDiscount = string.IsNullOrEmpty(dr["RateDiscount"].ToString()) ? 0 : decimal.Parse(dr["RateDiscount"].ToString());
                 mdj.AmountDiscount = string.IsNullOrEmpty(dr["AmountDiscount"].ToString()) ? 0 : decimal.Parse(dr["AmountDiscount"].ToString());
                 mdj.AmountProduct = string.IsNullOrEmpty(dr["AmountProduct"].ToString()) ? 0 : decimal.Parse(dr["AmountProduct"].ToString());
-                
-                lsOrder.Add(mdj);                
+
+                lsOrder.Add(mdj);
             }
             return lsOrder;
         }
@@ -359,7 +360,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                model.OcID, model.Ver, Seq, model.ProductMo, model.ProductMoVer, model.ProductID, model.ProductCdesc, model.BrandID, model.CustProductID, model.CustProductName,
                model.CustColorID, model.CustColorName, model.CustSize, model.OrderQty, model.OrderUnit, model.Price, model.PriceUnit, model.RateDiscount, model.AmountDiscount, model.AmountProduct,
                model.Remarks, model.PlanCompleteDate, model.ArriveDate, model.FactoryShipOutDate, model.MoType, model.MoDept, model.MoGroup, model.StyleNo, model.ContractID,
-               model.GetColorSample, model.IsFree=="on"?"1":"0", model.OcRemark, model.InvoiceRemark, model.PlateRemark, model.ProductRemark, model.MoState, model.IsPrint);
+               model.GetColorSample, model.IsFree == "on" ? "1" : "0", model.OcRemark, model.InvoiceRemark, model.PlateRemark, model.ProductRemark, model.MoState, model.IsPrint);
             /*20210312取消插入新記錄時自動添加SalesBOM
             strSql_i += string.Format(
                @" Insert Into oc_OrderBom(OcID, Ver, UpperSeq,Seq,PrimaryKey,ProductID,Dosage,UnitCode) Values('{0}','{1}', '{2}', '{3}','{4}','{5}',{6},'{7}')",
@@ -373,13 +374,13 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                CustSize='{12}',OrderQty={13},OrderUnit='{14}',Price={15}, PriceUnit='{16}',RateDiscount={17},AmountDiscount={18},AmountProduct={19} ,Remarks='{20}',PlanCompleteDate='{21}',
                ArriveDate='{22}',FactoryShipOutDate='{23}',MoType='{24}',MoDept='{25}',MoGroup='{26}',StyleNo='{27}',ContractID='{28}',GetColorSample='{29}',IsFree='{30}',
                OcRemark='{31}',InvoiceRemark='{32}',PlateRemark='{33}',ProductRemark='{34}',MoState='{35}',IsPrint='{36}'
-               WHERE OcID='{0}' And Ver='{1}' And Seq='{2}'", model.OcID, model.Ver, model.Seq,  
-               model.ProductMo,model.ProductMoVer,model.ProductID,model.ProductCdesc,model.BrandID,model.CustProductID, model.CustProductName,model.CustColorID, model.CustColorName,model.CustSize,
-               model.OrderQty,model.OrderUnit,model.Price ,model.PriceUnit,model.RateDiscount, model.AmountDiscount, model.AmountProduct, model.Remarks,model.PlanCompleteDate,model.ArriveDate, 
-               model.FactoryShipOutDate, model.MoType,model.MoDept,model.MoGroup,model.StyleNo,model.ContractID,model.GetColorSample, model.IsFree == "on" ? "1" : "0",model.OcRemark, 
-               model.InvoiceRemark, model.PlateRemark,model.ProductRemark, model.MoState, model.IsPrint == "on" ? "1" : "0");
+               WHERE OcID='{0}' And Ver='{1}' And Seq='{2}'", model.OcID, model.Ver, model.Seq,
+               model.ProductMo, model.ProductMoVer, model.ProductID, model.ProductCdesc, model.BrandID, model.CustProductID, model.CustProductName, model.CustColorID, model.CustColorName, model.CustSize,
+               model.OrderQty, model.OrderUnit, model.Price, model.PriceUnit, model.RateDiscount, model.AmountDiscount, model.AmountProduct, model.Remarks, model.PlanCompleteDate, model.ArriveDate,
+               model.FactoryShipOutDate, model.MoType, model.MoDept, model.MoGroup, model.StyleNo, model.ContractID, model.GetColorSample, model.IsFree == "on" ? "1" : "0", model.OcRemark,
+               model.InvoiceRemark, model.PlateRemark, model.ProductRemark, model.MoState, model.IsPrint == "on" ? "1" : "0");
 
-            if (model.ActionType=="NEW")
+            if (model.ActionType == "NEW")
                 result = SQLHelper.ExecuteSqlUpdate(strSql_i);
             else
                 result = SQLHelper.ExecuteSqlUpdate(strSql_u);
@@ -398,10 +399,10 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             return result;
         }
 
-        public static string DeleteOcDetails(string OcID,int Ver, string Seq)
+        public static string DeleteOcDetails(string OcID, int Ver, string Seq)
         {
             string result = "";
-            string strSql = string.Format(@"Delete FROM oc_OrderDetails Where OcID='{0}' and ver={1} AND Seq='{2}'",OcID,Ver,Seq );
+            string strSql = string.Format(@"Delete FROM oc_OrderDetails Where OcID='{0}' and ver={1} AND Seq='{2}'", OcID, Ver, Seq);
             result = SQLHelper.ExecuteSqlUpdate(strSql);
             return result;
         }
@@ -421,7 +422,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             }
             return lstUnit;
         }
-               
+
         //返回貨幣匯率
         public static decimal GetCurrencyRateByID(string strCurrencyID)
         {
@@ -450,11 +451,12 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             {
                 objModel.Cdesc = dt.Rows[0]["name"].ToString();
                 objModel.Edesc = dt.Rows[0]["english_name"].ToString();
-            }else
+            }
+            else
             {
                 objModel.Cdesc = "";
                 objModel.Edesc = "";
-            }           
+            }
             return objModel;
         }
 
@@ -465,7 +467,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             BaseDescription objModel = new BaseDescription();
             if (dt.Rows.Count > 0)
-            {                
+            {
                 objModel.Cdesc = dt.Rows[0]["name"].ToString();
                 objModel.Edesc = dt.Rows[0]["english_name"].ToString();
             }
@@ -473,7 +475,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             {
                 objModel.Cdesc = "";
                 objModel.Edesc = "";
-            }           
+            }
             return objModel;
         }
 
@@ -481,10 +483,10 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         public static string GetMaxOcID(string strArea)
         {
             strArea = strArea + "CO";
-            string strSql = string.Format("Select dbo.fn_GetMaxOcID('{0}') as max_id", strArea);            
+            string strSql = string.Format("Select dbo.fn_GetMaxOcID('{0}') as max_id", strArea);
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-            string id = dt.Rows.Count > 0 ? dt.Rows[0]["max_id"].ToString() : "";           
-            return id;           
+            string id = dt.Rows.Count > 0 ? dt.Rows[0]["max_id"].ToString() : "";
+            return id;
         }
 
         //當前服務器日期及時間
@@ -494,7 +496,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             CurrentDateTime objModel = new CurrentDateTime();
             objModel.current_date = dt.Rows[0]["curr_date"].ToString();
-            objModel.current_datetime = dt.Rows[0]["curr_datetime"].ToString();            
+            objModel.current_datetime = dt.Rows[0]["curr_datetime"].ToString();
             return objModel;
         }
 
@@ -503,7 +505,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             string strMaxMo = "";
             string strSql = string.Format("SELECT pkey, bill_code FROM sys_bill_max Where bill_id='SO02' AND bill_text1='{0}' AND bill_text2='{1}' AND bill_text3='{2}'", strMoType, strMoDept, strMoGroup);
             string strSql_u = "";
-            DataTable dtblMaxMo = SQLHelper.ExecuteSqlReturnDataTable(strSql);            
+            DataTable dtblMaxMo = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             if (dtblMaxMo.Rows.Count > 0)
             {
                 strMaxMo = dtblMaxMo.Rows[0]["bill_code"].ToString().Substring(0, 3) + (int.Parse(dtblMaxMo.Rows[0]["bill_code"].ToString().Substring(3, 6)) + 1).ToString("000000");
@@ -512,13 +514,13 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             else
             {
                 strMaxMo = strMoType + strMoDept + strMoGroup + "000001";
-                strSql_u = string.Format(@"Insert Into sys_bill_max(bill_id,bill_code,bill_text1,bill_text2,bill_text3) values('{0}','{1}','{2}','{3}','{4}')","SO02", strMaxMo, strMoType, strMoDept, strMoGroup);
+                strSql_u = string.Format(@"Insert Into sys_bill_max(bill_id,bill_code,bill_text1,bill_text2,bill_text3) values('{0}','{1}','{2}','{3}','{4}')", "SO02", strMaxMo, strMoType, strMoDept, strMoGroup);
             }
             SQLHelper.ExecuteSqlUpdate(strSql_u);
             return strMaxMo;
         }
 
-        
+
         //返回數量單位轉換率
         public static decimal GetQuantityUnitRateByID(string strID)
         {
@@ -537,14 +539,14 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         }
 
         //返回明細的總金額
-        public static decimal GetTotalAmountByID(string strOcID,int Ver, string Seq)
+        public static decimal GetTotalAmountByID(string strOcID, int Ver, string Seq)
         {
             decimal decTotalAmount = 0;
-            string strSql = string.Format("Select Sum(AmountProduct) As AmountProduct From oc_OrderDetails With(nolock) WHERE OcID='{0}' And Ver={1} And Seq<>'{2}' AND MoState<>'2'" , strOcID, Ver,Seq);            
+            string strSql = string.Format("Select Sum(AmountProduct) As AmountProduct From oc_OrderDetails With(nolock) WHERE OcID='{0}' And Ver={1} And Seq<>'{2}' AND MoState<>'2'", strOcID, Ver, Seq);
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-            if(dt.Rows.Count>0)
+            if (dt.Rows.Count > 0)
             {
-                decTotalAmount = string.IsNullOrEmpty(dt.Rows[0]["AmountProduct"].ToString()) ? 0 : decimal.Parse(dt.Rows[0]["AmountProduct"].ToString());                
+                decTotalAmount = string.IsNullOrEmpty(dt.Rows[0]["AmountProduct"].ToString()) ? 0 : decimal.Parse(dt.Rows[0]["AmountProduct"].ToString());
             }
             else
             {
@@ -586,13 +588,13 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             string result = "";
             string strSql_i = "";
             string strSql_u = "";
-            string Seq = GetMaxSeq( model.OcID,model.Ver,model.UpperSeq);
+            string Seq = GetMaxSeq(model.OcID, model.Ver, model.UpperSeq);
             strSql_i = string.Format(
                @"Insert Into oc_OrderBom(OcID,Ver,UpperSeq,Seq,PrimaryKey,ProductID,Dosage,UnitCode,Remark) Values ('{0}','{1}', '{2}', '{3}', '{4}', '{5}', {6}, '{7}', '{8}')",
-               model.OcID, model.Ver, model.UpperSeq,Seq, model.PrimaryKey,model.ProductID, model.Dosage, model.UnitCode, model.Remark);
+               model.OcID, model.Ver, model.UpperSeq, Seq, model.PrimaryKey, model.ProductID, model.Dosage, model.UnitCode, model.Remark);
             strSql_u = string.Format(
-               @"Update oc_OrderBom Set PrimaryKey='{4}',ProductID='{5}',Dosage={6},UnitCode='{7}',Remark ='{8}' WHERE OcID='{0}' And Ver='{1}' And UpperSeq='{2}' And Seq='{3}'", 
-               model.OcID, model.Ver,model.UpperSeq, model.Seq, model.PrimaryKey, model.ProductID, model.Dosage, model.UnitCode, model.Remark);
+               @"Update oc_OrderBom Set PrimaryKey='{4}',ProductID='{5}',Dosage={6},UnitCode='{7}',Remark ='{8}' WHERE OcID='{0}' And Ver='{1}' And UpperSeq='{2}' And Seq='{3}'",
+               model.OcID, model.Ver, model.UpperSeq, model.Seq, model.PrimaryKey, model.ProductID, model.Dosage, model.UnitCode, model.Remark);
 
             if (model.ActionType == "NEW")
                 result = SQLHelper.ExecuteSqlUpdate(strSql_i);
@@ -601,11 +603,11 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             return result;
         }
 
-        private static string GetMaxSeq(string OcID, int Ver,string UpperSeq)
+        private static string GetMaxSeq(string OcID, int Ver, string UpperSeq)
         {
             string result = "";
             string strSql = "";
-            strSql = string.Format("Select MAX(Seq) AS Seq FROM oc_OrderBom Where OcID='{0}' and Ver={1} and UpperSeq='{2}'", OcID,Ver, UpperSeq );
+            strSql = string.Format("Select MAX(Seq) AS Seq FROM oc_OrderBom Where OcID='{0}' and Ver={1} and UpperSeq='{2}'", OcID, Ver, UpperSeq);
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             if (dt.Rows.Count > 0)
                 result = dt.Rows[0]["Seq"].ToString() != "" ? (Convert.ToInt32(dt.Rows[0]["Seq"]) + 1).ToString().PadLeft(3, '0') : "001";
@@ -617,7 +619,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         public static string DeleteSalesBomByID(string OcID, int Ver, string UpperSeq, string Seq)
         {
             string result = "";
-            string strSql_d = string.Format(@"DELETE FROM oc_OrderBom Where OcID='{0}' And Ver={1} And UpperSeq='{2}' And Seq='{3}'", OcID, Ver, UpperSeq,Seq);
+            string strSql_d = string.Format(@"DELETE FROM oc_OrderBom Where OcID='{0}' And Ver={1} And UpperSeq='{2}' And Seq='{3}'", OcID, Ver, UpperSeq, Seq);
             result = SQLHelper.ExecuteSqlUpdate(strSql_d);
             return result;
         }
@@ -625,7 +627,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         //產品編碼查詢
         public static List<ItemInfo> FindItemReturnList(string ProductID, string Type)
         {
-            
+
             List<ItemInfo> lstItem = new List<ItemInfo>();
             if (ProductID != "")
             {
@@ -676,7 +678,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             List<PurchaseInfo> lstItem = new List<PurchaseInfo>();
             if (model != null)
             {
-                string strSql =string.Format(
+                string strSql = string.Format(
                 @"SELECT Top 500 A.id,A.ver,A.vendor_id AS VendorID,CONVERT(VARCHAR(10),A.order_date,120) AS OrderDate,
                 B.mo_id AS ProductMo,B.goods_id AS ProductID,B.goods_name As ProductCdesc,Convert(int,B.order_qty) AS OrderQty,B.unit_code AS UnitCode,
                 Isnull(B.sec_qty,0.0) AS SecQty,B.sec_unit AS SecUnit,C.english_name AS ProductEdesc,D.name AS VendorName
@@ -725,10 +727,10 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                     objModel.ProductCdesc = dt.Rows[i]["ProductCdesc"].ToString();
                     objModel.ProductEdesc = dt.Rows[i]["ProductEdesc"].ToString();
                     objModel.OrderQty = int.Parse(dt.Rows[i]["OrderQty"].ToString());
-                    objModel.Weight =  Decimal.Parse(dt.Rows[i]["SecQty"].ToString());
+                    objModel.Weight = Decimal.Parse(dt.Rows[i]["SecQty"].ToString());
                     lstItem.Add(objModel);
                 }
-            }            
+            }
             return lstItem;
         }
 
@@ -736,12 +738,12 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         public static PurchaseInfo GetBuildOCID(PurchaseInfo model)
         {
             string user_id = AdminUserContext.Current.LoginInfo.LoginName;
-            string strSql = string.Format("EXECUTE usp_build_oc_from_geo '{0}',{1},'{2}'", model.ID,model.Ver, user_id);
+            string strSql = string.Format("EXECUTE usp_build_oc_from_geo '{0}',{1},'{2}'", model.ID, model.Ver, user_id);
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             PurchaseInfo objModel = new PurchaseInfo();
             if (dt.Rows.Count > 0)
             {
-                objModel.ID = dt.Rows[0]["id"].ToString();                
+                objModel.ID = dt.Rows[0]["id"].ToString();
             }
             else
             {

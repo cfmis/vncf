@@ -971,13 +971,13 @@ function findItem(index) {
         //編輯狀態方可彈窗
         if (index == null) {
             //OC明細表頭調用
-            openWin('/Sales/SalesOrder/FindItem', 'FindItem', 850, 560, index);
+            openWin('/Sales/SalesOrder/FindItem', 'FindItem', 850, 530, index);
             return;
         }
         var temp_index = $("#CurrentRowIndex").val();       
         if (index == temp_index) {
             //BOM調用
-            openWin('/Sales/SalesOrder/FindItem', 'FindItem', 850, 560, index);
+            openWin('/Sales/SalesOrder/FindItem', 'FindItem', 850, 530, index);
         }
     }
 }

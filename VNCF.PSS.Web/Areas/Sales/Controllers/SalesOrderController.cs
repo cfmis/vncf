@@ -24,27 +24,12 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         //返回明細資料
         public JsonResult List(Order_Head model)
         {
-            //构造成Json的格式传递
-            //var result = new { iTotalRecords = 100, iTotalDisplayRecords = 10, data = list };
-
-
             ////构造成Json的格式传递
             ////var result = new { iTotalRecords = 100, iTotalDisplayRecords = 10, data = list };
             //if (!string.IsNullOrEmpty(model.OcID))
             //{
             //    var list = SalesOrderDAL.GetOcDetailsByID(model.OcID);
             //    var result = new { total = list.Count, rows = list };
-            //    return Json(list, JsonRequestBehavior.AllowGet);
-            //}
-            //else
-            //{
-            //    return Json("", JsonRequestBehavior.AllowGet);
-            //}
-
-
-            //var list = SalesOrderDAL.GetOcDetailsByID(model.OcID);
-            //var result = new { total = list.Count, rows = list };
-            //return Json(list, JsonRequestBehavior.AllowGet);
             //    return Json(result, JsonRequestBehavior.AllowGet);
             //}
             //else
@@ -52,18 +37,15 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             //    return Json(null, JsonRequestBehavior.AllowGet);
             //}
 
-            var list = SalesOrderDAL.GetOcDetailsByID(model.OcID);     
+            var list = SalesOrderDAL.GetOcDetailsByID(model.OcID);
             return Json(list, JsonRequestBehavior.AllowGet);
+
 
         }
 
         //返回SalesBom明細資料
         public JsonResult SalesBomList(SalesBom model)
         {
-            ////构造成Json的格式传递           
-            //if (!string.IsNullOrEmpty(model.OcID))
-            //{
-
             //构造成Json的格式传递
 
             //if (!string.IsNullOrEmpty(model.OcID))
@@ -79,8 +61,6 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             //    return Json(null, JsonRequestBehavior.AllowGet);
             //}
 
-            //var list = SalesOrderDAL.GetSalesBomByID(model);
-            //var result = new { total = list.Count, rows = list };
             var list = SalesOrderDAL.GetSalesBomByID(model);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -118,7 +98,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         }
         //查詢GEO採購數據
         public ActionResult ImportOrderReturnList(PurchaseInfo model)
-        {            
+        {
             var list = SalesOrderDAL.ImportOrderFromGeo(model);
             var result = new { rows = list };
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -138,9 +118,9 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             //string result = OrderDAL.UpdateOcHead(model);
             return View("Index");
         }
-        public ActionResult DeleteList(string OcID,int Ver, string Seq)
+        public ActionResult DeleteList(string OcID, int Ver, string Seq)
         {
-            SalesOrderDAL.DeleteOcDetails(OcID,Ver, Seq);
+            SalesOrderDAL.DeleteOcDetails(OcID, Ver, Seq);
             return Json("OK");
         }
 
@@ -184,8 +164,8 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
                 return Json("Error");
         }
 
-       
-        public ActionResult DeleteListSalesBom(string OcID,int Ver,string UpperSeq, string Seq)
+
+        public ActionResult DeleteListSalesBom(string OcID, int Ver, string UpperSeq, string Seq)
         {
             string result = SalesOrderDAL.DeleteSalesBomByID(OcID, Ver, UpperSeq, Seq);
             if (result == "")
@@ -234,10 +214,10 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             var list = SalesOrderDAL.GetCurrencyRateByID(strCurrencyID);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
-        
+
         //返回客戶中英文描述(返回單行兩列)
         public ActionResult GetCustomer(string strCustomerID)
-        {           
+        {
             var result = SalesOrderDAL.GetCustomerByID(strCustomerID);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -257,7 +237,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         }
 
         //前端以Json格式傳多個參數,控制器可以用model或與之對應的參數列表接收.
-        public ActionResult GetMoSerialNo(string strMoType,string strMoDept,string strMoGroup)
+        public ActionResult GetMoSerialNo(string strMoType, string strMoDept, string strMoGroup)
         {
             var list = SalesOrderDAL.GetMoSerialNo(strMoType, strMoDept, strMoGroup);
             return Json(list, JsonRequestBehavior.AllowGet);
@@ -280,7 +260,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             //return View();
         }
 
-        
+
         //返回數量轉換率(返回字串,單個值也要轉JSON)
         public ActionResult GetQuantityUnitRate(string strID)
         {
@@ -289,9 +269,9 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         }
 
         //返回明細表總金額
-        public ActionResult GetTotalAmount(string strOcID,int Ver, string strSeq)
+        public ActionResult GetTotalAmount(string strOcID, int Ver, string strSeq)
         {
-            var list = SalesOrderDAL.GetTotalAmountByID(strOcID,Ver, strSeq);
+            var list = SalesOrderDAL.GetTotalAmountByID(strOcID, Ver, strSeq);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
@@ -310,8 +290,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             //    return Json(null, JsonRequestBehavior.AllowGet);
             //}
 
-            var list = SalesOrderDAL.GetSalesBomByID(OcID, Ver);
-            //var result = new { total = list.Count, rows = list };
+            var list = SalesOrderDAL.GetSalesBomByID(OcID, Ver);           
             return Json(list, JsonRequestBehavior.AllowGet);
 
 
