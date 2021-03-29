@@ -24,20 +24,16 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         //返回明細資料
         public JsonResult List(Order_Head model)
         {
-<<<<<<< HEAD
             //构造成Json的格式传递
             //var result = new { iTotalRecords = 100, iTotalDisplayRecords = 10, data = list };
 
 
-=======
             ////构造成Json的格式传递
             ////var result = new { iTotalRecords = 100, iTotalDisplayRecords = 10, data = list };
->>>>>>> 5f8982ae55dac80814456e51cb332b5b3671bdf4
             //if (!string.IsNullOrEmpty(model.OcID))
             //{
             //    var list = SalesOrderDAL.GetOcDetailsByID(model.OcID);
             //    var result = new { total = list.Count, rows = list };
-<<<<<<< HEAD
             //    return Json(list, JsonRequestBehavior.AllowGet);
             //}
             //else
@@ -46,10 +42,9 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             //}
 
 
-            var list = SalesOrderDAL.GetOcDetailsByID(model.OcID);
+            //var list = SalesOrderDAL.GetOcDetailsByID(model.OcID);
             //var result = new { total = list.Count, rows = list };
-            return Json(list, JsonRequestBehavior.AllowGet);
-=======
+            //return Json(list, JsonRequestBehavior.AllowGet);
             //    return Json(result, JsonRequestBehavior.AllowGet);
             //}
             //else
@@ -60,24 +55,19 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             var list = SalesOrderDAL.GetOcDetailsByID(model.OcID);     
             return Json(list, JsonRequestBehavior.AllowGet);
 
-
->>>>>>> 5f8982ae55dac80814456e51cb332b5b3671bdf4
         }
 
         //返回SalesBom明細資料
         public JsonResult SalesBomList(SalesBom model)
         {
-<<<<<<< HEAD
             ////构造成Json的格式传递           
             //if (!string.IsNullOrEmpty(model.OcID))
             //{
 
-=======
             //构造成Json的格式传递
 
             //if (!string.IsNullOrEmpty(model.OcID))
             //{
->>>>>>> 5f8982ae55dac80814456e51cb332b5b3671bdf4
             //    //var list = SalesOrderDAL.GetSalesBomByID(model.OcID,model.Ver,model.UpperSeq);
             //    //2021/03/12參數改為數據模型傳值
             //    var list = SalesOrderDAL.GetSalesBomByID(model);
@@ -89,12 +79,9 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             //    return Json(null, JsonRequestBehavior.AllowGet);
             //}
 
-<<<<<<< HEAD
-            var list = SalesOrderDAL.GetSalesBomByID(model);
+            //var list = SalesOrderDAL.GetSalesBomByID(model);
             //var result = new { total = list.Count, rows = list };
-=======
             var list = SalesOrderDAL.GetSalesBomByID(model);
->>>>>>> 5f8982ae55dac80814456e51cb332b5b3671bdf4
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
