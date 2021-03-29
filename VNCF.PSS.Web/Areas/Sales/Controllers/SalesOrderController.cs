@@ -26,35 +26,46 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         {
             //构造成Json的格式传递
             //var result = new { iTotalRecords = 100, iTotalDisplayRecords = 10, data = list };
-            if (!string.IsNullOrEmpty(model.OcID))
-            {
-                var list = SalesOrderDAL.GetOcDetailsByID(model.OcID);
-                var result = new { total = list.Count, rows = list };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(null, JsonRequestBehavior.AllowGet);
-            }
+
+
+            //if (!string.IsNullOrEmpty(model.OcID))
+            //{
+            //    var list = SalesOrderDAL.GetOcDetailsByID(model.OcID);
+            //    var result = new { total = list.Count, rows = list };
+            //    return Json(list, JsonRequestBehavior.AllowGet);
+            //}
+            //else
+            //{
+            //    return Json("", JsonRequestBehavior.AllowGet);
+            //}
+
+
+            var list = SalesOrderDAL.GetOcDetailsByID(model.OcID);
+            //var result = new { total = list.Count, rows = list };
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         //返回SalesBom明細資料
         public JsonResult SalesBomList(SalesBom model)
         {
-            //构造成Json的格式传递           
-            if (!string.IsNullOrEmpty(model.OcID))
-            {
+            ////构造成Json的格式传递           
+            //if (!string.IsNullOrEmpty(model.OcID))
+            //{
 
-                //var list = SalesOrderDAL.GetSalesBomByID(model.OcID,model.Ver,model.UpperSeq);
-                //2021/03/12參數改為數據模型傳值
-                var list = SalesOrderDAL.GetSalesBomByID(model);
-                var result = new { total = list.Count, rows = list };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(null, JsonRequestBehavior.AllowGet);
-            }
+            //    //var list = SalesOrderDAL.GetSalesBomByID(model.OcID,model.Ver,model.UpperSeq);
+            //    //2021/03/12參數改為數據模型傳值
+            //    var list = SalesOrderDAL.GetSalesBomByID(model);
+            //    var result = new { total = list.Count, rows = list };
+            //    return Json(result, JsonRequestBehavior.AllowGet);
+            //}
+            //else
+            //{
+            //    return Json(null, JsonRequestBehavior.AllowGet);
+            //}
+
+            var list = SalesOrderDAL.GetSalesBomByID(model);
+            //var result = new { total = list.Count, rows = list };
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
 

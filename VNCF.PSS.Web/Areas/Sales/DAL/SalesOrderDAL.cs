@@ -160,7 +160,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 FROM {0}it_bom_mostly A 
                 INNER JOIN {0}it_bom B ON A.within_code=B.within_code AND A.id=B.id AND A.exp_id=B.exp_id
                 INNER JOIN {0}it_goods C ON B.within_code=C.within_code AND B.goods_id=C.id
-                WHERE A.within_code='0000' AND A.id LIKE '{1}%'", strRemoteDB, model.ProductID);
+                WHERE A.within_code='0000' AND A.goods_id='{1}'", strRemoteDB, model.ProductID);
 
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<SalesBom> lsDetails = new List<SalesBom>();
