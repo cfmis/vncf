@@ -202,7 +202,7 @@
     <value>PO/NO</value>
   </data>
   <data name="CreateAt" xml:space="preserve">
-    <value>建檔日期-</value>
+    <value>建檔日期</value>
   </data>
   <data name="CreateBy" xml:space="preserve">
     <value>建檔人</value>

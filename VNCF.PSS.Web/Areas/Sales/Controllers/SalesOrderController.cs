@@ -180,6 +180,8 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             var result = new { rows = list };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+      
         public ActionResult GetOcHeadReturnList(Order_Head model)
         {
             var list = SalesOrderDAL.GetOcHeadReturnList(model);

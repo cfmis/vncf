@@ -85,7 +85,7 @@
                 iconCls: 'icon-view',//图标
                 //fit: true,//自动适屏功能
                 //fit: true,
-                //width: function () { return document.body.clientWidth * 2 },//自动宽度
+                //width: function () { return document.body.clientWidth * 2 },//自动宽度               
                 nowrap: true,               
                 autoRowHeight: false,//自动行高
                 striped: true,
@@ -150,8 +150,7 @@
                 OrderDate: $("#OrderDate").datebox('getValue'),
                 ReceivedDate: $("#ReceivedDate").datebox('getValue'),
                 ForeignFirm: $("#ForeignFirm").val(),
-                Area: $("#Area").val(),
-                CustomerID: $("#CustomerID").val(),
+                Area: $("#Area").val(),               
                 SallerID: $("#SallerID").val(),
                 Season: $("#Season").val(),
                 ContractID: $("#ContractID").val(),
@@ -160,7 +159,8 @@
                 ProductID: $("#ProductID").val()
                 //ClassId: $("#txtClassIdSerach").combobox("getValue")
             };
-            //var queryData = $("#findFormHead").serializeArray();           
+            //var queryData = $("#findFormHead").serializeArray();
+            
             //将值传递给initTable
             initList(queryData);
             return false;
