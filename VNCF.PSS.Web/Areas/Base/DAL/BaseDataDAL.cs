@@ -62,10 +62,10 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             mdj.ProductCdesc = dr["name"].ToString();
             return mdj;
         }
-        public static List<BaseDataModels> GetUnit()
+        public static List<BaseDataModels> GetUnit(string kind)
         {
             string strSql = "Select ID,Name,english_name " +
-            " FROM bs_unit Order By id";
+            " FROM bs_unit Where kind='" + kind + "' Order By id";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<BaseDataModels> lsModel = new List<BaseDataModels>();
             for (int i = 0; i < dt.Rows.Count; i++)

@@ -500,6 +500,7 @@
     <Content Include="Areas\Sales\Views\SalesOrder\FindItem.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\ImportOrder.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\Index.cshtml" />
+    <Content Include="Areas\Stock\Views\Transfer\Find.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

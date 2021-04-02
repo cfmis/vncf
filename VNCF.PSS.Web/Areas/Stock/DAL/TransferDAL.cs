@@ -4,13 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using VNCF.PSS.Web.Areas.Stock.Models;
+using VNCF.PSS.Web.Areas.Base.Models;
 using CF.SQLServer.DAL;
 
 namespace VNCF.PSS.Web.Areas.Stock.DAL
 {
     public class TransferDAL
     {
-        public static string UpdateOcHead(TransferHead model)
+        public static string UpdateTransferHead(TransferHead model)
         {
             string result = "";
             string strSql = "";
@@ -47,6 +48,335 @@ namespace VNCF.PSS.Web.Areas.Stock.DAL
             else
                 result = false;
             return result;
+        }
+        public static List<TransferHead> LoadTransferHead(string ID)
+        {
+            List<TransferHead> lsModel = new List<TransferHead>();
+            string strSql = "Select * FROM wm_TransferHead Where ID='" + ID + "'";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                TransferHead mdj = new TransferHead();
+                DataRow dr = dt.Rows[i];
+                mdj.ID = dr["ID"].ToString();
+                mdj.FlagID = dr["FlagID"].ToString();
+                mdj.TransferDate = dr["TransferDate"].ToString();
+                mdj.LocID = dr["LocID"].ToString();
+                mdj.NextLocID = dr["NextLocID"].ToString();
+                lsModel.Add(mdj);
+            }
+            return lsModel;
+        }
+        public static List<TransferDetails> LoadTransfer(TransferHead model)
+        {
+            string strSql = "Select a.*,b.name,b.english_name" +
+                " FROM wm_TransferDetails a " +
+                " Left Join it_goods b ON a.GoodsID=b.id" +
+                " Where a.ID>='" + "" + "'";
+            if (model.ID != null)
+                strSql += " And a.ID='" + model.ID + "'";
+            strSql += " ORDER BY a.Seq Desc";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            List<TransferDetails> lsDetails = new List<TransferDetails>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                TransferDetails mdj = new TransferDetails();
+                DataRow dr = dt.Rows[i];
+                mdj.ID = dr["ID"].ToString();
+                mdj.Seq = dr["Seq"].ToString();
+                mdj.ProductMo = dr["ProductMo"].ToString();
+                mdj.GoodsID = dr["GoodsID"].ToString();
+                mdj.LotNo = dr["LotNo"].ToString();
+                mdj.TransferQty = Convert.ToInt32(dr["TransferQty"]);
+                mdj.QtyUnit = dr["QtyUnit"].ToString();
+                mdj.TransferWeg = Convert.ToDecimal(dr["TransferWeg"]);
+                mdj.WegUnit = dr["WegUnit"].ToString();
+                mdj.GoodsName = dr["name"].ToString();//"file:///"  + Server.MapPath("~")  +"~/Images/login.jpg";//
+                mdj.NextLocID = dr["NextLocID"].ToString();
+                lsDetails.Add(mdj);
+            }
+            return lsDetails;
+        }
+        public static List<TransferDetails> LoadTransferDetailsByID(string ID)
+        {
+            string strSql = "Select a.*,b.name,b.english_name" +
+                " FROM wm_TransferDetails a " +
+                " Left Join it_goods b ON a.GoodsID=b.id" +
+                " Where a.ID='" + ID + "'";
+            strSql += " ORDER BY a.Seq Desc";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            List<TransferDetails> lsDetails = new List<TransferDetails>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                TransferDetails mdj = new TransferDetails();
+                DataRow dr = dt.Rows[i];
+                mdj.Seq = dr["Seq"].ToString();
+                mdj.ProductMo = dr["ProductMo"].ToString();
+                mdj.GoodsID = dr["GoodsID"].ToString();
+                mdj.LotNo = dr["LotNo"].ToString();
+                mdj.TransferQty = Convert.ToInt32(dr["TransferQty"]);
+                mdj.QtyUnit = dr["QtyUnit"].ToString();
+                mdj.TransferWeg = Convert.ToDecimal(dr["TransferWeg"]);
+                mdj.WegUnit = dr["WegUnit"].ToString();
+                mdj.GoodsName = dr["name"].ToString();//"file:///"  + Server.MapPath("~")  +"~/Images/login.jpg";//
+                mdj.NextLocID = dr["NextLocID"].ToString();
+                lsDetails.Add(mdj);
+            }
+            return lsDetails;
+        }
+
+
+        public static UpdateStatusModels UpdateTransferDetails(TransferDetails model)
+        {
+            string result = "";
+            bool ValidFlag = true;
+            string strSql = "";
+            string ID = model.ID;
+            string LocID = model.LocID;
+            string NextLocID = model.NextLocID;
+            string QtyUnit = model.QtyUnit;
+            string WegUnit = model.WegUnit;
+            UpdateStatusModels resModel = new UpdateStatusModels();
+            DataTable dtFlag = GetFlag(model.FlagID);
+            string flag0 = dtFlag.Rows[0]["flag0"].ToString().Trim();
+            string flag1 = dtFlag.Rows[0]["flag1"].ToString().Trim();
+            string flag2 = dtFlag.Rows[0]["flag2"].ToString().Trim();
+            strSql += string.Format(@" SET XACT_ABORT  ON ");
+            strSql += string.Format(@" BEGIN TRANSACTION ");
+            bool FirstRec = false;
+            if (ID == null || ID == "")
+            {
+                FirstRec = true;
+                ID = GenNumberDAL.GenTransferID(flag0, LocID, NextLocID, flag2);
+            }
+            else
+            {
+                if (!CheckTransferHead(ID))
+                {
+                    FirstRec = true;
+                    ID = GenNumberDAL.GenTransferID(flag0, LocID, NextLocID, flag2);
+                }
+            }
+            if (FirstRec)
+                strSql += string.Format(@"Insert Into wm_TransferHead (ID,TransferDate,LocID,NextLocID,FlagID) Values ('"
+                        + ID + "','" + model.TransferDate + "','" + model.LocID + "','" + model.NextLocID + "','" + model.FlagID + "')");
+            else
+                strSql += string.Format(@"UPDATE wm_TransferHead SET TransferDate='{0}' WHERE ID='{1}'"
+                    , model.TransferDate, ID);
+
+            string ProductMo = model.ProductMo;
+            string GoodsID = model.GoodsID;
+            string LotNo = model.LotNo;
+            decimal Qty = model.TransferQty.ToString().Trim() != "" ? model.TransferQty : 0;
+            decimal Weg = model.TransferWeg.ToString().Trim() != "" ? model.TransferWeg : 0;
+
+            result = CheckQtyStore(LocID, GoodsID, ProductMo, LotNo, flag1, Weg, Qty);
+            if (result != "")
+                ValidFlag = false;
+            else
+            {
+                if (flag2 == "TO")
+                {
+                    result = CheckQtyStore(NextLocID, GoodsID, ProductMo, LotNo, "+", Weg, Qty);
+                    if (result != "")
+                        ValidFlag = false;
+                }
+            }
+            if (ValidFlag == false)
+            {
+                resModel.Msg = result;
+                return resModel;
+            }
+
+            string Seq = GenNumberDAL.GetDetailsSeq("wm_TransferDetails", model.ID);
+            string CreateUser = "";
+            string CreateTime = System.DateTime.Now.ToString("yyyy/MM/dd HH:ss:mm");
+
+            strSql += string.Format(@"Insert Into wm_TransferDetails (ID,Seq,ProductMo,GoodsID,LocID,LotNo,TransferQty,TransferWeg,QtyUnit,WegUnit,NextLocID,CreateUser,CreateTime) Values " +
+                        "('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}')"
+                        , ID, Seq, model.ProductMo, model.GoodsID, model.LocID, model.LotNo, model.TransferQty, model.TransferWeg, QtyUnit, WegUnit, NextLocID, "", CreateTime);
+            strSql += string.Format(JoinUpdateStr("U", LocID, GoodsID, ProductMo, LotNo, flag1, Weg, Qty, CreateUser, CreateTime));
+            if (flag2 == "TO")
+                strSql += string.Format(JoinUpdateStr("U", NextLocID, GoodsID, ProductMo, LotNo, "+", Weg, Qty, CreateUser, CreateTime));
+            strSql += string.Format(@" COMMIT TRANSACTION ");
+            result = SQLHelper.ExecuteSqlUpdate(strSql);
+            if (result == "")
+                resModel.Status = "OK";
+            else
+            {
+                resModel.Status = "ERROR";
+                resModel.Msg = result;
+            }
+            resModel.ReturnValue = ID;
+            return resModel;
+        }
+        protected static string CheckQtyStore(string LocID, string GoodsID, string ProdcutMo, string LotNo, string flag1, decimal Weg, decimal Qty)
+        {
+            string result = "";
+            decimal InQty = 0, InWeg = 0, OutQty = 0, OutWeg = 0;
+            DataTable dtStore1 = GetStoreDetails(LocID, GoodsID, ProdcutMo, LotNo);
+            if (dtStore1.Rows.Count > 0)
+            {
+
+                InWeg = dtStore1.Rows[0]["InWeg"].ToString() != "" ? Convert.ToDecimal(dtStore1.Rows[0]["InWeg"].ToString()) : 0;
+                InQty = dtStore1.Rows[0]["InQty"].ToString() != "" ? Convert.ToDecimal(dtStore1.Rows[0]["InQty"].ToString()) : 0;
+                OutWeg = dtStore1.Rows[0]["OutWeg"].ToString() != "" ? Convert.ToDecimal(dtStore1.Rows[0]["OutWeg"].ToString()) : 0;
+                OutQty = dtStore1.Rows[0]["OutQty"].ToString() != "" ? Convert.ToDecimal(dtStore1.Rows[0]["OutQty"].ToString()) : 0;
+            }
+            if (flag1 == "+")
+            {
+                if (InWeg + Weg < OutWeg || InWeg + Weg < 0)
+                {
+                    result = "倉庫發貨重量已大於收貨重量，操作無效!";
+                }
+                else if (InQty + Qty < OutQty || InQty + Qty < 0)
+                {
+                    result = "倉庫發貨數量已大於收貨數量，操作無效!";
+                }
+            }
+            else
+            {
+                if (dtStore1.Rows.Count == 0)
+                    result = "沒有倉存記錄!";
+                else
+                {
+                    if (OutWeg + Weg > InWeg || OutWeg + Weg < 0)
+                    {
+                        result = "發貨重量已大於倉存重量!";
+                    }
+                    else if (OutQty + Qty > InQty || OutQty + Qty < 0)
+                    {
+                        result = "發貨數量已大於倉存數量!";
+                    }
+                }
+            }
+            return result;
+        }
+        protected static DataTable GetFlag(string ID)
+        {
+            string strSql = "";
+            strSql = "Select ID,Name,flag0,flag1,flag2,fields1,fields2 From bs_DocFlag Where DocType='" + "wh_transfer" + "' And ID='" + ID + "'";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            return dt;
+        }
+        public static string GetFlagList(string ID)
+        {
+            string strSql = "";
+            strSql = "Select ID,Name,flag0,flag1,flag2,fields1,fields2 From bs_DocFlag Where DocType='" + "wh_transfer" + "' And ID='" + ID + "'";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            return dt.Rows[0]["flag2"].ToString().Trim();
+        }
+        protected static DataTable GetStoreDetails(string LocID, string GoodsID, string ProductMo, string LotNo)
+        {
+            string strSql = "";
+            strSql = "Select InQty,InWeg,OutQty,OutWeg From wm_StoreDetails " +
+                " Where LocID='" + LocID + "' And GoodsID='" + GoodsID + "' And ProductMo='" + ProductMo + "' And LotNo='" + LotNo + "'";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            return dt;
+        }
+
+        protected static string JoinUpdateStr(string Mode,string LocID, string GoodsID, string ProductMo, string LotNo, string flag1, decimal Weg, decimal Qty, string CreateUser, string CreateTime)
+        {
+            string strSql = "";
+            DataTable dtStore = GetStoreDetails(LocID, GoodsID, ProductMo, LotNo);
+            decimal InQty = 0, InWeg = 0, OutQty = 0, OutWeg = 0;
+            if (dtStore.Rows.Count > 0)
+            {
+                InWeg = dtStore.Rows[0]["InWeg"].ToString() != "" ? Convert.ToDecimal(dtStore.Rows[0]["InWeg"].ToString()) : 0;
+                InQty = dtStore.Rows[0]["InQty"].ToString() != "" ? Convert.ToDecimal(dtStore.Rows[0]["InQty"].ToString()) : 0;
+                OutWeg = dtStore.Rows[0]["OutWeg"].ToString() != "" ? Convert.ToDecimal(dtStore.Rows[0]["OutWeg"].ToString()) : 0;
+                OutQty = dtStore.Rows[0]["OutQty"].ToString() != "" ? Convert.ToDecimal(dtStore.Rows[0]["OutQty"].ToString()) : 0;
+            }
+            if (flag1 == "+")
+            {
+                InWeg = InWeg + Weg;
+                InQty = InQty + Qty;
+            }
+            else
+            {
+                OutWeg = OutWeg + Weg;
+                OutQty = OutQty + Qty;
+            }
+            if (dtStore.Rows.Count == 0 && Mode=="U")
+                strSql += string.Format(@"Insert Into wm_StoreDetails (LocID,GoodsID,ProductMo,LotNo,InQty,InWeg,OutQty,OutWeg,CreateUser,CreateTime) Values " +
+                "('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}')"
+                , LocID, GoodsID, ProductMo, LotNo, InQty, InWeg, OutQty, OutWeg, CreateUser, CreateTime);
+            else
+                strSql += string.Format(@"Update wm_StoreDetails Set InQty='{0}',InWeg='{1}',OutQty='{2}',OutWeg='{3}'" +
+                    ",CreateUser='{4}',CreateTime='{5}'" +
+                " Where LocID='{6}' And GoodsID='{7}' And ProductMo='{8}' And LotNo='{9}'"
+                , InQty, InWeg, OutQty, OutWeg, CreateUser, CreateTime, LocID, GoodsID, ProductMo, LotNo);
+
+            return strSql;
+        }
+        public static UpdateStatusModels Delete(string ID,string Seq)
+        {
+            string result = "";
+            UpdateStatusModels resModel = new UpdateStatusModels();
+
+            DataTable dtTransfer = FindDetailsByID(ID, Seq);
+            DataRow dr = dtTransfer.Rows[0];
+            string FlagID = dr["FlagID"].ToString().Trim();
+            string ProductMo = dr["ProductMo"].ToString().Trim();
+            string GoodsID = dr["GoodsID"].ToString().Trim();
+            string LotNo = dr["LotNo"].ToString().Trim();
+            string LocID = dr["LocID"].ToString().Trim();
+            string NextLocID = dr["NextLocID"].ToString().Trim();
+            decimal Weg = 0 - (dr["TransferWeg"].ToString().Trim() != "" ? Convert.ToDecimal(dr["TransferWeg"].ToString().Trim()) : 0);
+            decimal Qty = 0 - (dr["TransferQty"].ToString().Trim() != "" ? Convert.ToDecimal(dr["TransferQty"].ToString().Trim()) : 0);
+            string CreateUser = "";
+            string CreateTime = System.DateTime.Now.ToString("yyyy/MM/dd HH:ss:mm");
+            DataTable dtFlag = GetFlag(FlagID);
+            string flag1 = dtFlag.Rows[0]["flag1"].ToString().Trim();
+            string flag2 = dtFlag.Rows[0]["flag2"].ToString().Trim();
+            bool valid_flag = true;
+            result = CheckQtyStore(LocID, GoodsID, ProductMo, LotNo, flag1, Weg, Qty);
+            if (result != "")
+                valid_flag = false;
+            else
+            {
+                if (flag2 == "TO")
+                {
+                    result = CheckQtyStore(NextLocID, GoodsID, ProductMo, LotNo, "+", Weg, Qty);
+                    if (result != "")
+                        valid_flag = false;
+                }
+            }
+
+            if (valid_flag == true)
+            {
+                string strSql = "";
+                strSql += string.Format(@" SET XACT_ABORT  ON ");
+                strSql += string.Format(@" BEGIN TRANSACTION ");
+                strSql += string.Format(@"Delete From wm_TransferDetails Where ID='{0}' And Seq='{1}'", ID, Seq);
+                strSql += string.Format(JoinUpdateStr("D", LocID, GoodsID, ProductMo, LotNo, flag1, Weg, Qty, CreateUser,CreateTime));
+                if (flag2 == "TO")
+                    strSql += string.Format(JoinUpdateStr("D", NextLocID, GoodsID, ProductMo, LotNo, "+", Weg, Qty, CreateUser, CreateTime));
+
+                strSql += string.Format(@" COMMIT TRANSACTION ");
+
+                result = SQLHelper.ExecuteSqlUpdate(strSql);
+            }
+
+
+            if (result == "")
+                resModel.Status = "OK";
+            else
+            {
+                resModel.Status = "ERROR";
+                resModel.Msg = result;
+            }
+            resModel.ReturnValue = ID;
+            return resModel;
+        }
+
+        protected static DataTable FindDetailsByID(string ID,string Seq)
+        {
+            string strSql = "";
+            strSql = "Select a.FlagID,b.* From wm_TransferHead a " +
+                " Inner Join wm_TransferDetails b On a.ID=b.ID Where b.ID='" + ID + "' And b.Seq='" + Seq + "'";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            return dt;
         }
     }
 }

@@ -15,9 +15,9 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
         {
             return View();
         }
-        public ActionResult GetUnit()
+        public ActionResult GetUnit(string kind)
         {
-            var result = BaseDataDAL.GetUnit();
+            var result = BaseDataDAL.GetUnit(kind);
             //var result = new { rows = list };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -47,6 +47,12 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
         {
             var list = BaseDataDAL.GetBaseInfoByNameReturnList(lang, strTableName);
             return Json(list);
+        }
+        public ActionResult GetGoodsInfo(string GoodsID)
+        {
+            var result = BaseDataDAL.GetGoodsByID(GoodsID);
+            //var result = new { rows = list };
+            return Json(result.ProductCdesc, JsonRequestBehavior.AllowGet);
         }
     }
 }

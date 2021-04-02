@@ -30,7 +30,7 @@
                 @*<input type="button" value="添加部門" class="easyui-linkbutton" iconcls="icon-add" onclick="showPublishWin()" />
                     <input type="button" value="查询" class="easyui-linkbutton" iconcls="icon-search" onclick="reloadList();">*@
                 <a href="#" class="easyui-linkbutton" iconcls="icon-add" id="btnNew">新單</a>
-                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach1" onclick="showMessageDialog('Find','查找',800,560)">查询</a>
+                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach" onclick="showMessageDialog('Find','查找',800,560)">查询</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton" id="btnAddHead" iconcls="icon-ok">确定</a>
                 <a href="#" class="easyui-linkbutton" id="btnPprint" iconcls="icon-print" onclick="showMessageDialog('@Url.Action("Print")','列印',800,600,true);">列印</a>
                 @*<button id="show" onclick="show()">Show</button>*@
@@ -47,7 +47,7 @@
 
                 <ul class="formod mgt10" id="ulPanel">
 
-                    <li class="lb-std"><div class="input-group"><span>@Resource.OcID：</span>@Html.TextBoxFor(m => m.ID, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>@Resource.OcID：</span>@Html.TextBoxFor(m => m.ID, new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>單據日期:</span>@Html.TextBoxFor(m => m.TransferDate, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>單據類型:</span>@Html.TextBoxFor(m => m.FlagID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>倉庫編號:</span>@Html.TextBoxFor(m => m.LocID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
@@ -69,7 +69,7 @@
                     <tbody>
                         <tr>
                             <td class="td-label"><div class="award-name"><span>制單編號：</span></div></td>
-                            <td class="td-input"><div class="input-group"><input id="ProductMo" class="easyui-textbox" , style="width:100%" /></div></td>
+                            <td class="td-input"><div class="input-group">@Html.TextBox("ProductMo", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
                             <td class="td-label"><div class="award-name"><span>物料編號：</span></div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("GoodsID", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
                             <td class="td-label"><div class="award-name"><span>物料描述：</span></div></td>
@@ -117,13 +117,13 @@
     @*<script src="~/Content/js/order.js"></script>*@
     <script type="text/javascript">
         $(function () {
-            var baseUrl = '~/Lib/BaseDataList.ashx/GetItem?';//'/Areas/Base/ASHX/BaseDataList.ashx/GetItem?'
-            var wwwUrlPath = window.document.location.href;
-            var pathName = window.document.location.pathname;
-            var pos = wwwUrlPath.indexOf(pathName);
-            var localhostPath = wwwUrlPath.substring(0, pos);
-            $("#ID").textbox('setValue', localhostPath);
-            baseUrl = localhostPath + baseUrl;
+            //var baseUrl = '~/Lib/BaseDataList.ashx/GetItem?';//'/Areas/Base/ASHX/BaseDataList.ashx/GetItem?'
+            //var wwwUrlPath = window.document.location.href;
+            //var pathName = window.document.location.pathname;
+            //var pos = wwwUrlPath.indexOf(pathName);
+            //var localhostPath = wwwUrlPath.substring(0, pos);
+            //$("#ID").textbox('setValue', localhostPath);
+            //baseUrl = localhostPath + baseUrl;
             $('#FlagID').combobox({
                 //url: 'GetDocFlag?r=' + Math.random(),//数据接收URL地址
                 url: '/Base/BaseData/GetDocFlag',//数据接收URL地址
@@ -157,32 +157,26 @@
                 textField: 'Name'
             });
             $('#QtyUnit').combobox({
-                url: '/Base/BaseData/GetUnit',//baseUrl + 'paraa=unit&parab=list',//数据接收URL地址
+                url: '/Base/BaseData/GetUnit?kind=05',//baseUrl + 'paraa=unit&parab=list',//数据接收URL地址
                 method: 'post',
                 panelHeight: 'auto',
                 valueField: 'ID',//主键值
                 textField: 'Name'
             });
             $('#WegUnit').combobox({
-                url: '/Base/BaseData/GetUnit',//baseUrl + 'paraa=unit&parab=list',//数据接收URL地址
+                url: '/Base/BaseData/GetUnit?kind=03',//baseUrl + 'paraa=unit&parab=list',//数据接收URL地址
                 method: 'post',
                 panelHeight: 'auto',
                 valueField: 'ID',//主键值
                 textField: 'Name'
             });
-
+            $("input", $("#GoodsID").next("span")).blur(function () {
+                var result = Ajax.call('/Base/BaseData/GetGoodsInfo', '&GoodsID=' + $("#GoodsID").textbox('getValue'), "", 'GET', 'JSON', false);
+                $("#GoodsName").textbox('setValue', result);
+            })
             SearchDetails();
-            InitSearch();//查询
         })
-        //初始化搜索框
-        function InitSearch() {
-            //按照条件进行查询，首先我们得到数据
-            $("#btnSerach").click(function () {
-                //得到用户输入的参数
-                //SearchHead();
-                SearchDetails();
-            });
-        }
+
         //function show() {
         //    //debugger;
         //    var wwwUrlPath = window.document.location.href;
@@ -190,15 +184,40 @@
         //}
         function SearchDetails() {
             var queryData = {
-                OcID: $("#OcID").val(),
-                Ver: $("#Ver").val()
+                ID: $("#ID").val(),
                 //ClassId: $("#txtClassIdSerach").combobox("getValue")
             };
             //将值传递给initTable
             initList(queryData);
             return false;
         }
+        function SearchTransferHead() {
+            //Ajax异步实现加载
+            $.ajax({
+                url: "LoadTransferHead?ID=" + $("#ID").val(),
+                error: ErryFunction, //错误执行方法
+                success: FillTransferHead
+            })
+        }
+        function FillTransferHead(data) {
+            //debugger;
+            for (var item in data) {
+                //debugger;
+                var rows = data[item];//key所对应的value
+                //var val = jValue[0]["ProductMo"];
+                //如果返回的data是列表的形式：List<>的就要用如下格式獲取值
+                //$("#Ver").textbox('setValue', rows[0]["Ver"]);
+                //如果返回的是model格式的，就按如下格式獲取值：
+                $("#ID").textbox('setValue', rows["ID"]);
+                $("#TransferDate").textbox('setValue', rows["TransferDate"]);
+                $("#FlagID").textbox('setValue', rows["FlagID"]);
+                $("#LocID").textbox('setValue', rows["LocID"]);
+                $("#NextLocID").textbox('setValue', rows["NextLocID"]);
+                //}
+            }
 
+        }
+        function ErryFunction(data) { $.messager.alert("系统提示！", "沒有記錄!"); }
         function initList(queryData) {
             $('#tbDetails').datagrid({
                 url: 'List',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据
@@ -234,16 +253,6 @@
                 { field: 'WegUnit', title: '重量單位', width: 60 },
                 { field: 'NextLocID', title: '收貨部門', width: 80 },
                 { field: 'LotNo', title: '批號', width: 100 },
-                {
-                    field: 'oprate', title: '操作', align: 'center', width: 80,
-                    formatter: function (value, row, index) {
-                        var str = '<a href="#" name="opera" onclick="deleteRecord(' + index + ')" class="easyui-linkbutton" >刪除</a>';
-                        ////value = '<a href="#" name="opera" onclick="showDetails1(' + index + ')" class="easyui-linkbutton" ></a>';
-                        ////str="showModalDialog('../Products/Pd_Mo_Plan_Details.aspx?dep_id='+row.dep_id+'&dep_cdesc='+row.dep_cdesc, 'subpage', 'dialogWidth:800px;dialogHeight:500px;center:yes;help:no;resizable:no;status:no')";
-                        return str;
-                        //return '<a href="#" onclick="showDetails1(' + index + ')">修改</a>';
-                    }
-                }
                 ]],
                 toolbar: [{
                     id: 'btnAdd',
@@ -282,16 +291,17 @@
                         if (RowDeleteByID.length == 1) {
                             $.messager.confirm("删除信息", "您确认删除该条信息吗？", function (deleteClient) {
                                 if (deleteClient) {
-                                    $.post("DeleteList?r=" + Math.random(), { OcID: $("#OcID").val(), Seq: RowDeleteByID[0].Seq }, function (data) {
-                                        if (data == "OK") {
-                                            $.messager.alert("系统提示！", "删除成功");
+                                    $.post("Delete?r=" + Math.random(), { ID: $("#ID").val(), Seq: RowDeleteByID[0].Seq }, function (data) {
+                                        if (data.Status == "OK") {
+                                            //$.messager.alert("系统提示！", "删除成功");
                                             //这里要将上次删除的Id清空，否则下次再删除的时候会报错
                                             RowDeleteByID.length = "";
                                             //$("#tbDetails").datagrid('reload') //重新刷新整个页面
-                                            SearchOcDetails();
+                                            $("#ID").textbox('setValue', data.ReturnValue);
+                                            SearchDetails();
                                         }
                                         else {
-                                            $.messager.alert("系统提示！", "删除失败");
+                                            $.messager.alert("系统提示！", data.Msg);
                                         }
                                     });
                                 }
@@ -310,44 +320,67 @@
                     }
                 }],
                 onClickRow: function (index, row) {
-                    FillOcDetails();
+                    FillDetails();
                 },
 
             });
         }
-
+        function FillDetails() {
+            var RowFindByID = $('#tbDetails').datagrid('getSelections');
+            if (RowFindByID.length == 1) {
+                //实现绑定数据显示
+                //BindUpdateList();
+                //debugger;
+                var rows = RowFindByID[0];
+                $("#Seq").textbox('setValue', rows.Seq);
+                $("#ProductMo").textbox('setValue', rows.ProductMo);
+                $("#GoodsID").textbox('setValue', rows.GoodsID);
+                $("#GoodsName").textbox('setValue', rows.GoodsName);
+                $("#TransferQty").textbox('setValue', rows.TransferQty);
+                $("#QtyUnit").textbox('setValue', rows.QtyUnit);
+                $("#TransferWeg").textbox('setValue', rows.TransferWeg);
+                $("#WegUnit").textbox('setValue', rows.WegUnit);
+                $("#LotNo").textbox('setValue', rows.LotNo);
+            }
+            else {
+                $.messager.alert("系統提示！", "每次只能修改一条，你已经选择了<font color='red'  size='6'>" + RowFindByID.length + "</font>条");
+            }
+        }
         function Save() {
             if (!ValidForm()) {
                 return;
             }
             var result = "";
-            var ID = $("#ID").val();
-            if (ID == "") {
-                var ID = "";
-                ID = SaveMaster();
-                if (ID == "")
-                    return;
-                $("#ID").textbox('setValue', ID);
-            }
+            //var ID = $("#ID").val();
+            //if (ID == "") {
+            //    var ID = "";
+            //    ID = SaveMaster();
+            //    if (ID == "")
+            //        return;
+            //    $("#ID").textbox('setValue', ID);
+            //}
             var postData = $("#addFormDetails").serializeArray();
-            return;
+            postData.push({ "name": "ID", "value": $("#ID").val() });
+            postData.push({ "name": "TransferDate", "value": $("#TransferDate").textbox('getValue') });
+            postData.push({ "name": "FlagID", "value": $("#FlagID").textbox('getValue') });
+            postData.push({ "name": "LocID", "value": $("#LocID").textbox('getValue') });
+            postData.push({ "name": "NextLocID", "value": $("#NextLocID").textbox('getValue') });
             ////Ajax异步实现加载
             $.ajax({
-                url: "AddList?ID=" + ID,
+                //url: "AddList?ID1=" + ID+"&FlagID="+FlagID+"&LocID="+LocID+"&NextLocID="+NextLocID,
+                url: "AddList",
                 data: postData,
                 //cache: false,
                 //async: false,//改为同步方式
                 type: "post",
                 success: function (data) {
-                    if (data == "OK") {
-                        //$.messager.alert("系统提示！", "添加明細表記錄成功!");
-                        //$('#AddDialog').dialog('close');
-                        //$("#tbDetails").datagrid("reload");
+                    if (data.Status == "OK") {
+                        $("#ID").textbox('setValue', data.ReturnValue);
                         $("#addForm").form("clear")
                         SearchDetails();
                     }
                     else {
-                        $.messager.alert("系统提示！", "添加失败");
+                        $.messager.alert("系统提示！", data.Msg);
                     }
                 }
             })
@@ -393,7 +426,22 @@
                 $.messager.alert("系统提示！", "明細表信息未輸入完整!");
                 return false;
             }
+            var result = Ajax.call('GetDocFlag', '&ID=' + $("#FlagID").textbox('getValue'), "", 'GET', 'JSON', false);
+            if (result == "TO")
+            {
+                if ($("#NextLocID").textbox('getValue') == "") {
+                    $.messager.alert("系统提示！", "主表中必須輸入收貨部門編號!");
+                    return false;
+                }
+                if ($("#LocID").textbox('getValue') == $("#NextLocID").textbox('getValue')) {
+                    $.messager.alert("系统提示！", "不能轉到相同的貨倉!");
+                    return false;
+                }
+            }
             return true;
         }
+
+
+
     </script>
 }

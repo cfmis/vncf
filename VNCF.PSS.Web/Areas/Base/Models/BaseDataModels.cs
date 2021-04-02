@@ -10,4 +10,10 @@ namespace VNCF.PSS.Web.Areas.Base.Models
         public string ID { get; set; }
         public string Name { get; set; }
     }
+    public class UpdateStatusModels
+    {
+        public string Status { get; set; }
+        public string Msg { get; set; }
+        public string ReturnValue { get; set; }
+    }
 }

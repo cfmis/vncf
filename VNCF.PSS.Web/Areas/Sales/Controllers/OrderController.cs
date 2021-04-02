@@ -151,7 +151,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         }
         public ActionResult GetUnit()
         {
-            var result = BaseDataDAL.GetUnit();
+            var result = BaseDataDAL.GetUnit("05");
             //var result = new { rows = list };
             return Json(result, JsonRequestBehavior.AllowGet);
         }

@@ -117,23 +117,11 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         {
             string result = "";
             string strSql = "";
-            string Seq = GetMaxSeq(model.OcID);
+            string Seq = GenNumberDAL.GetOcDetailsSeq("oc_OrderDetails", model.OcID);
             strSql = "Insert Into oc_OrderDetails (OcID,Seq,ProductMo,ProductID,OrderQty,OrderUnit,Price,PriceUnit) Values ('"
                 + model.OcID + "','" + Seq + "','" + model.ProductMo + "','" + model.ProductID + "','" + model.OrderQty
                  + "','" + model.OrderUnit + "','" + model.Price + "','" + model.PriceUnit + "')";
             result = SQLHelper.ExecuteSqlUpdate(strSql);
-            return result;
-        }
-        private static string GetMaxSeq(string OcID)
-        {
-            string result = "";
-            string strSql = "";
-            strSql = "Select MAX(Seq) AS Seq FROM oc_OrderDetails Where OcID='" + OcID + "'";
-            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-            if (dt.Rows.Count > 0)
-                result = dt.Rows[0]["Seq"].ToString() != "" ? (Convert.ToInt32(dt.Rows[0]["Seq"]) + 1).ToString().PadLeft(3, '0') : "001";
-            else
-                result = "001";
             return result;
         }
 
