@@ -1,0 +1,162 @@
+﻿@using Resources;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section PageSpecificStyleSheetIncludes{
+    @*<link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416261">*@
+    <style type="text/css">
+    </style>
+}
+
+<div class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;">
+
+        <div data-options="region:'center'">
+            <div class="easyui-layout" data-options="fit:true">
+                <div class="botbtbx pdb0">
+                    <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach">查询</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" id="btnConf" iconcls="icon-ok">确定</a>
+                </div>
+            </div>
+        </div>
+        <table id="tbInput" class="percent-100" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                    <td class="td-label"><div class="award-name"><span>倉庫編號：</span></div></td>
+                    <td class="td-input"><div class="input-group">@Html.TextBox("LocID", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+                    <td class="td-label"><div class="award-name"><span>物料編號開始：</span></div></td>
+                    <td class="td-input"><div class="input-group">@Html.TextBox("GoodsIDFrom", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+                    <td class="td-label"><div class="award-name"><span>物料編號結束：</span></div></td>
+                    <td class="td-input"><div class="input-group">@Html.TextBox("GoodsIDTo", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+                </tr>
+                <tr>
+                    <td class="td-label"><div class="award-name"><span>單據日期開始：</span></div></td>
+                    <td class="td-input"><div class="input-group">@Html.TextBox("TransferDateFrom", "", new { @class = "easyui-datebox-expand", @style = "width:100%" })</div></td>
+                    <td class="td-label"><div class="award-name"><span>單據日期結束：</span></div></td>
+                    <td class="td-input"><div class="input-group">@Html.TextBox("TransferDateTo", "", new { @class = "easyui-datebox-expand", @style = "width:100%" })</div></td>
+                    <td class="td-label"><div class="award-name"><span>制單編號開始：</span></div></td>
+                    <td class="td-input"><div class="input-group">@Html.TextBox("ProductMoFrom", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+                    <td class="td-label"><div class="award-name"><span>制單編號結束：</span></div></td>
+                    <td class="td-input"><div class="input-group">@Html.TextBox("ProductMoTo", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+                </tr>
+            </tbody>
+        </table>
+    <div class="areabx_divider"></div>
+    <div data-options="region:'center'">
+        <div class="easyui-panel" style="background: #ccc;" data-options="fit:true">
+            <table id="tbDetails" class="easyui-datagrid" title="移交流水帳" data-options="singleSelect:true,collapsible:true,fit:true" style="height:350px;"></table>
+
+        </div>
+    </div>
+                    @*<a class="btn blue" title='添加產品' href="@Url.Action("Create")"><i class="icon-plus icon-white"></i> 添加產品</a>*@
+    </div>
+
+
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">
+        $(function () {
+
+
+            $('#LocID').combobox({
+                url: '/Base/BaseData/GetLoc',//baseUrl + 'paraa=loc&parab=list',//数据接收URL地址
+                method: 'post',
+                panelHeight: 'auto',
+                valueField: 'ID',//主键值
+                textField: 'Name',
+                required: true
+            });
+            SearchData();
+            //InitSearch();//查询
+            $("#btnSerach").click(function () {
+                //得到用户输入的参数
+                SearchData();
+            });
+            $("#btnConf").click(function () {
+                SelectData();
+            });
+
+            //alert(document.documentElement.clientHeight);
+
+        });
+
+        function initList(queryData) {
+            $('#tbDetails').datagrid({
+                url: 'QueryTransfer',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据
+                iconCls: 'icon-view',//图标
+                //fit: true,//自动适屏功能
+                //fit: true,
+                //width: function () { return document.body.clientWidth * 2 },//自动宽度
+                //height: function () { return document.documentElement.clientHeight -200 },//自动宽度
+                nowrap: true,
+                //collapsible: true,
+                autoRowHeight: false,//自动行高
+                striped: true,
+                collapsible: true,
+                //sortName: 'Id',//排序列名为ID
+                sortOrder: 'asc',//排序为将序
+                remoteSort: false,
+                idField: 'ID',//主键值
+                rownumbers: true,//显示行号
+                multiSort: true,//启用排序 sortable: true //启用排序列
+                pagination: true,
+                loadMsg: 'Loading... ',
+                emptyMsg: '<span>无记录</span>',
+                pageSize: 10,
+                pageList: [10, 20, 30, 40, 50],
+                queryParams: queryData, //搜索条件查询
+                columns: [[
+                { field: 'ID', title: '編號', width: 160 },
+                { field: 'LocID', title: '倉庫編號', width: 80 },
+                { field: 'TransferDate', title: '交易日期', width: 80 },
+                { field: 'GoodsID', title: '物料編號', width: 200 },
+                { field: 'GoodsName', title: '物料描述', width: 220 },
+                { field: 'FlagID', title: '操作類型', width: 80 },
+                { field: 'FlagName', title: '操作類型描述', width: 120 },
+                { field: 'TransferFlag', title: '運算符號', width: 60 },
+                { field: 'TransferQty', title: '交易數量', width: 80 },
+                { field: 'TransferWeg', title: '交易重量', width: 80 },
+                { field: 'WmQty', title: '結存數量', width: 80 },
+                { field: 'WmWeg', title: '結存重量', width: 80 },
+                { field: 'LocIDFrom', title: '發貨部門', width: 80 },
+                { field: 'NextLocID', title: '收貨部門', width: 80 },
+                { field: 'ProductMo', title: '制單編號', width: 100 },
+                { field: 'LotNo', title: '批號', width: 100 },
+                { field: 'UseItem', title: '用料編號', width: 120 },
+                { field: 'UseItemName', title: '用料描述', width: 160 },
+                ]],
+            });
+        }
+
+        //初始化搜索框
+        function InitSearch() {
+            //按照条件进行查询，首先我们得到数据
+            $("#btnSerach").click(function () {
+                //得到用户输入的参数
+                SearchData();
+            });
+            $("#btnConf").click(function () {
+                SelectData();
+            });
+        }
+        function SearchData() {
+            var queryData = {
+                LocID: $("#LocID").textbox('getValue'),
+                GoodsIDFrom: $("#GoodsIDFrom").val(),
+                GoodsIDTo: $("#GoodsIDTo").val(),
+                TransferDateFrom: $("#TransferDateFrom").textbox('getValue'),
+                TransferDateTo: $("#TransferDateTo").textbox('getValue'),
+                ProductMoFrom: $("#ProductMoFrom").val(),
+                ProductMoTo: $("#ProductMoTo").val()
+                //ClassId: $("#txtClassIdSerach").combobox("getValue")
+            };
+            //var queryData = $("#findFormHead").serializeArray();
+            //debugger;
+            //将值传递给initTable
+            initList(queryData);
+            return false;
+        }
+
+    </script>
+}
+

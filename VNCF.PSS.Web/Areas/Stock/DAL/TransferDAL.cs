@@ -5,7 +5,9 @@ using System.Web;
 using System.Data;
 using VNCF.PSS.Web.Areas.Stock.Models;
 using VNCF.PSS.Web.Areas.Base.Models;
+using VNCF.PSS.Web.Areas.Base.DAL;
 using CF.SQLServer.DAL;
+using System.Data.SqlClient;
 
 namespace VNCF.PSS.Web.Areas.Stock.DAL
 {
@@ -67,21 +69,30 @@ namespace VNCF.PSS.Web.Areas.Stock.DAL
             }
             return lsModel;
         }
-        public static List<TransferDetails> LoadTransfer(TransferHead model)
+        public static List<TransferDetails> SearchTransfer(QueryTransferParas model)
         {
-            string strSql = "Select a.*,b.name,b.english_name" +
-                " FROM wm_TransferDetails a " +
-                " Left Join it_goods b ON a.GoodsID=b.id" +
+            string strSql = "Select a.TransferDate,b.*,c.name,c.english_name" +
+                " FROM wm_TransferHead a " +
+                " Inner Join wm_TransferDetails b On a.ID=b.ID" +
+                " Left Join it_goods c ON b.GoodsID=c.id" +
                 " Where a.ID>='" + "" + "'";
-            if (model.ID != null)
-                strSql += " And a.ID='" + model.ID + "'";
-            strSql += " ORDER BY a.Seq Desc";
+            if (model.IDFrom != null && model.IDTo != null)
+                strSql += " And a.ID>='" + model.IDFrom + "' And a.ID<='" + model.IDTo + "'";
+            if (model.TransferDateFrom != null && model.TransferDateTo != null)
+            {
+                string DateTo = Convert.ToDateTime(model.TransferDateTo).AddDays(1).ToString("yyyy/MM/dd");
+                strSql += " And a.TransferDate>='" + model.TransferDateFrom + "' And a.TransferDate<'" + DateTo + "'";
+            }
+            if (model.IDFrom == null && model.IDTo == null && model.TransferDateFrom == null && model.TransferDateTo == null)
+                strSql += " And a.ID=''";
+            strSql += " ORDER BY a.TransferDate Desc,b.Seq Desc";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<TransferDetails> lsDetails = new List<TransferDetails>();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 TransferDetails mdj = new TransferDetails();
                 DataRow dr = dt.Rows[i];
+                mdj.TransferDate = dr["TransferDate"].ToString();
                 mdj.ID = dr["ID"].ToString();
                 mdj.Seq = dr["Seq"].ToString();
                 mdj.ProductMo = dr["ProductMo"].ToString();
@@ -137,7 +148,7 @@ namespace VNCF.PSS.Web.Areas.Stock.DAL
             string QtyUnit = model.QtyUnit;
             string WegUnit = model.WegUnit;
             UpdateStatusModels resModel = new UpdateStatusModels();
-            DataTable dtFlag = GetFlag(model.FlagID);
+            DataTable dtFlag = BaseDataDAL.GetDocFlayReturnTable("wh_transfer",model.FlagID);
             string flag0 = dtFlag.Rows[0]["flag0"].ToString().Trim();
             string flag1 = dtFlag.Rows[0]["flag1"].ToString().Trim();
             string flag2 = dtFlag.Rows[0]["flag2"].ToString().Trim();
@@ -226,46 +237,23 @@ namespace VNCF.PSS.Web.Areas.Stock.DAL
             if (flag1 == "+")
             {
                 if (InWeg + Weg < OutWeg || InWeg + Weg < 0)
-                {
-                    result = "倉庫發貨重量已大於收貨重量，操作無效!";
-                }
+                    result = BaseDataDAL.GetSystemMessage("ST00002");
                 else if (InQty + Qty < OutQty || InQty + Qty < 0)
-                {
-                    result = "倉庫發貨數量已大於收貨數量，操作無效!";
-                }
+                    result = BaseDataDAL.GetSystemMessage("ST00001");
             }
             else
             {
                 if (dtStore1.Rows.Count == 0)
-                    result = "沒有倉存記錄!";
+                    result = BaseDataDAL.GetSystemMessage("ST00003");
                 else
-                {
                     if (OutWeg + Weg > InWeg || OutWeg + Weg < 0)
-                    {
-                        result = "發貨重量已大於倉存重量!";
-                    }
-                    else if (OutQty + Qty > InQty || OutQty + Qty < 0)
-                    {
-                        result = "發貨數量已大於倉存數量!";
-                    }
-                }
+                    result = BaseDataDAL.GetSystemMessage("ST00002");
+                else if (OutQty + Qty > InQty || OutQty + Qty < 0)
+                    result = BaseDataDAL.GetSystemMessage("ST00001");
             }
             return result;
         }
-        protected static DataTable GetFlag(string ID)
-        {
-            string strSql = "";
-            strSql = "Select ID,Name,flag0,flag1,flag2,fields1,fields2 From bs_DocFlag Where DocType='" + "wh_transfer" + "' And ID='" + ID + "'";
-            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-            return dt;
-        }
-        public static string GetFlagList(string ID)
-        {
-            string strSql = "";
-            strSql = "Select ID,Name,flag0,flag1,flag2,fields1,fields2 From bs_DocFlag Where DocType='" + "wh_transfer" + "' And ID='" + ID + "'";
-            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-            return dt.Rows[0]["flag2"].ToString().Trim();
-        }
+
         protected static DataTable GetStoreDetails(string LocID, string GoodsID, string ProductMo, string LotNo)
         {
             string strSql = "";
@@ -326,7 +314,7 @@ namespace VNCF.PSS.Web.Areas.Stock.DAL
             decimal Qty = 0 - (dr["TransferQty"].ToString().Trim() != "" ? Convert.ToDecimal(dr["TransferQty"].ToString().Trim()) : 0);
             string CreateUser = "";
             string CreateTime = System.DateTime.Now.ToString("yyyy/MM/dd HH:ss:mm");
-            DataTable dtFlag = GetFlag(FlagID);
+            DataTable dtFlag = BaseDataDAL.GetDocFlayReturnTable("wh_transfer", FlagID);
             string flag1 = dtFlag.Rows[0]["flag1"].ToString().Trim();
             string flag2 = dtFlag.Rows[0]["flag2"].ToString().Trim();
             bool valid_flag = true;
@@ -378,5 +366,98 @@ namespace VNCF.PSS.Web.Areas.Stock.DAL
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             return dt;
         }
+        public static List<ViewTransfer> QueryTransfer(QueryTransferParas model)
+        {
+            string LocID = model.LocID != null ? model.LocID : "";
+            string TransferDateFrom = model.TransferDateFrom != null ? model.TransferDateFrom : "";
+            string TransferDateTo = model.TransferDateTo != null ? model.TransferDateTo : "";
+            string ProductMoFrom = model.ProductMoFrom != null ? model.ProductMoFrom : "";
+            string ProductMoTo = model.ProductMoTo != null ? model.ProductMoTo : "";
+            string GoodsIDFrom = model.GoodsIDFrom != null ? model.GoodsIDFrom : "";
+            string GoodsIDTo = model.GoodsIDTo != null ? model.GoodsIDTo : "";
+            if (LocID == "" && TransferDateFrom == "" && TransferDateTo == "" && ProductMoFrom == "" && ProductMoTo == "" && GoodsIDFrom == "" && GoodsIDTo == "")
+            {
+                LocID = "ZZZ";
+                TransferDateFrom = "1900/01/01";
+                TransferDateTo = "1900/01/01";
+            }
+            string strSql = "p_WmTransferDetails";
+            SqlParameter[] parameters = {new SqlParameter("@LocID", LocID)
+                    ,new SqlParameter("@DateFrom", TransferDateFrom)
+                    ,new SqlParameter("@DateTo", TransferDateTo)
+                    ,new SqlParameter("@ProductMoFrom", ProductMoFrom)
+                    ,new SqlParameter("@ProductMoTo", ProductMoTo)
+                    ,new SqlParameter("@GoodsIDFrom", GoodsIDFrom)
+                    ,new SqlParameter("@GoodsIDTo", GoodsIDTo)
+                    };
+            DataTable dt = SQLHelper.ExecuteProcedureRetrunDataTable(strSql, parameters);
+
+            List<ViewTransfer> lsDetails = new List<ViewTransfer>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ViewTransfer mdj = new ViewTransfer();
+                DataRow dr = dt.Rows[i];
+                mdj.ID = dr["ID"].ToString();
+                mdj.LocID = dr["LocID"].ToString();
+                mdj.ProductMo = dr["ProductMo"].ToString();
+                mdj.GoodsID = dr["GoodsID"].ToString();
+                mdj.LotNo = dr["LotNo"].ToString();
+                mdj.TransferQty = Convert.ToInt32(dr["TransferQty"]);
+                //mdj.QtyUnit = dr["QtyUnit"].ToString();
+                mdj.TransferWeg = Convert.ToDecimal(dr["TransferWeg"]);
+                //mdj.WegUnit = dr["WegUnit"].ToString();
+                mdj.GoodsName = dr["GoodsName"].ToString();//"file:///"  + Server.MapPath("~")  +"~/Images/login.jpg";//
+                mdj.NextLocID = dr["NextLocID"].ToString();
+                mdj.TransferDate = dr["TransferDate"].ToString();
+                mdj.FlagID = dr["FlagID"].ToString();
+                mdj.FlagName = dr["FlagName"].ToString();
+                mdj.TransferFlag = dr["TransferFlag"].ToString();
+                mdj.LocIDFrom = dr["LocIDFrom"].ToString();
+                mdj.UseItem = dr["UseItem"].ToString();
+                mdj.UseItemName = dr["UseItemName"].ToString();
+                mdj.WmQty = dr["WmQty"].ToString() != "" ? Convert.ToInt32(dr["WmQty"]) : 0;
+                mdj.WmWeg = dr["WmWeg"].ToString() != "" ? Convert.ToDecimal(dr["WmWeg"]) : 0;
+                lsDetails.Add(mdj);
+            }
+            return lsDetails;
+        }
+
+        public static List<ViewTransfer> QueryStockList(QueryTransferParas model)
+        {
+            string LocID = model.LocID != null ? model.LocID : "";
+            string ProductMoFrom = model.ProductMoFrom != null ? model.ProductMoFrom : "";
+            string ProductMoTo = model.ProductMoTo != null ? model.ProductMoTo : "";
+            string GoodsIDFrom = model.GoodsIDFrom != null ? model.GoodsIDFrom : "";
+            string GoodsIDTo = model.GoodsIDTo != null ? model.GoodsIDTo : "";
+            if (LocID == "" && ProductMoFrom == "" && ProductMoTo == "" && GoodsIDFrom == "" && GoodsIDTo == "")
+            {
+                LocID = "ZZZ";
+            }
+            string strSql = "p_WmStockList";
+            SqlParameter[] parameters = {new SqlParameter("@LocID", LocID)
+                    ,new SqlParameter("@ProductMoFrom", ProductMoFrom)
+                    ,new SqlParameter("@ProductMoTo", ProductMoTo)
+                    ,new SqlParameter("@GoodsIDFrom", GoodsIDFrom)
+                    ,new SqlParameter("@GoodsIDTo", GoodsIDTo)
+                    };
+            DataTable dt = SQLHelper.ExecuteProcedureRetrunDataTable(strSql, parameters);
+
+            List<ViewTransfer> lsDetails = new List<ViewTransfer>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ViewTransfer mdj = new ViewTransfer();
+                DataRow dr = dt.Rows[i];
+                mdj.LocID = dr["LocID"].ToString();
+                mdj.GoodsID = dr["GoodsID"].ToString();
+                mdj.ProductMo = dr["ProductMo"].ToString();
+                mdj.LotNo = dr["LotNo"].ToString();
+                mdj.GoodsName = dr["GoodsName"].ToString();//"file:///"  + Server.MapPath("~")  +"~/Images/login.jpg";//
+                mdj.WmQty = dr["WmQty"].ToString() != "" ? Convert.ToInt32(dr["WmQty"]) : 0;
+                mdj.WmWeg = dr["WmWeg"].ToString() != "" ? Convert.ToDecimal(dr["WmWeg"]) : 0;
+                lsDetails.Add(mdj);
+            }
+            return lsDetails;
+        }
+
     }
 }

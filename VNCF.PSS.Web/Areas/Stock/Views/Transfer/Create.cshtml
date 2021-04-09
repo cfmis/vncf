@@ -126,7 +126,7 @@
             //baseUrl = localhostPath + baseUrl;
             $('#FlagID').combobox({
                 //url: 'GetDocFlag?r=' + Math.random(),//数据接收URL地址
-                url: '/Base/BaseData/GetDocFlag',//数据接收URL地址
+                url: '/Base/BaseData/GetDocFlag?DocType=wh_transfer',//数据接收URL地址
                 method: 'post',
                 panelHeight: 'auto',
                 valueField: 'ID',//主键值
@@ -418,23 +418,27 @@
         function ValidForm() {
             var valid = $("#addFormHead").form('validate');
             if (valid == false) {
-                $.messager.alert("系统提示！", "主表信息未輸入完整!");
+                var msg = GetSystemMessage("CN00001");//主表記錄未輸入完整
+                $.messager.alert("系统提示！", msg);
                 return false;
             }
             valid = $("addFormDetails").form('validate');
             if (valid == false) {
-                $.messager.alert("系统提示！", "明細表信息未輸入完整!");
+                var msg = GetSystemMessage("CN00002");//明細表記錄未輸入完整
+                $.messager.alert("系统提示！", msg);
                 return false;
             }
-            var result = Ajax.call('GetDocFlag', '&ID=' + $("#FlagID").textbox('getValue'), "", 'GET', 'JSON', false);
+            var result = Ajax.call('GetDocFlagReturnString', '&ID=' + $("#FlagID").textbox('getValue'), "", 'GET', 'JSON', false);
             if (result == "TO")
             {
                 if ($("#NextLocID").textbox('getValue') == "") {
-                    $.messager.alert("系统提示！", "主表中必須輸入收貨部門編號!");
+                    var msg = GetSystemMessage("ST00004");//收貨部門不能為空
+                    $.messager.alert("系统提示！", msg);
                     return false;
                 }
                 if ($("#LocID").textbox('getValue') == $("#NextLocID").textbox('getValue')) {
-                    $.messager.alert("系统提示！", "不能轉到相同的貨倉!");
+                    var msg = GetSystemMessage("ST00005");//發貨倉庫不能和收貨部門相同
+                    $.messager.alert("系统提示！", msg);
                     return false;
                 }
             }

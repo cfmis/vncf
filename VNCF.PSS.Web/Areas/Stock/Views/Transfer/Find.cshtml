@@ -1,8 +1,7 @@
 ﻿@using Resources;
-@using VNCF.PSS.Web.Areas.Stock.Models;
-@model TransferHead
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Find";
 }
 
 @section PageSpecificStyleSheetIncludes{
@@ -26,14 +25,16 @@
             </div>
         </div>
         <ul class="formod mgt10">
-            <li><span>單據編號：</span>@Html.TextBoxFor(m => m.ID, new { @class = "easyui-textbox" })</li>
-            <li><span>單據日期：</span>@Html.TextBoxFor(m => m.TransferDate, "", new { @class = "easyui-datebox-expand" })</li>
+            <li><span>單據編號開始：</span>@Html.TextBox("IDFrom", "", new { @class = "easyui-textbox" })</li>
+            <li><span>單據編號開始：</span>@Html.TextBox("IDTo", "", new { @class = "easyui-textbox" })</li>
+            <li><span>單據日期開始：</span>@Html.TextBox("TransferDateFrom", "", new { @class = "easyui-datebox-expand" })</li>
+            <li><span>單據日期結束：</span>@Html.TextBox("TransferDateTo", "", new { @class = "easyui-datebox-expand" })</li>
         </ul>
     }
     <div class="areabx_divider"></div>
     <div data-options="region:'center'">
         <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
-            <table id="tbDetails" class="easyui-datagrid" title="單據編號" style="width:790px;height:350px"
+            <table id="tbDetails" class="easyui-datagrid" title="移交記錄查詢" style="width:790px;height:350px"
                    data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'"></table>
 
         </div>
@@ -77,7 +78,7 @@
 
         function initList(queryData) {
             $('#tbDetails').datagrid({
-                url: 'LoadTransfer',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据
+                url: 'SearchTransfer',//'/Home/GetStudent?r=' + Math.random(),   //指向后台的Action来获取当前用户的信息的Json格式的数据
                 iconCls: 'icon-view',//图标
                 //fit: true,//自动适屏功能
                 //fit: true,
@@ -90,7 +91,7 @@
                 //sortName: 'Id',//排序列名为ID
                 sortOrder: 'asc',//排序为将序
                 remoteSort: false,
-                idField: 'OcID',//主键值
+                idField: 'ID,Seq',//主键值
                 rownumbers: true,//显示行号
                 multiSort: true,//启用排序 sortable: true //启用排序列
                 pagination: true,
@@ -145,8 +146,10 @@
         }
         function SearchData() {
             var queryData = {
-                ID: $("#ID").val(),
-                TransferDate: $("#TransferDate").val()
+                IDFrom: $("#IDFrom").val(),
+                IDTo: $("#IDTo").val(),
+                TransferDateFrom: $("#TransferDateFrom").textbox('getValue'),
+                TransferDateTo: $("#TransferDateTo").textbox('getValue')
                 //ClassId: $("#txtClassIdSerach").combobox("getValue")
             };
             //var queryData = $("#findFormHead").serializeArray();

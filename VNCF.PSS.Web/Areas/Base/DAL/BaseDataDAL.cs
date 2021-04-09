@@ -5,11 +5,13 @@ using System.Web;
 using System.Data;
 using CF.SQLServer.DAL;
 using VNCF.PSS.Web.Areas.Base.Models;
+using VNCF.PSS.Web.Common;
 
 namespace VNCF.PSS.Web.Areas.Base.DAL
 {
     public class BaseDataDAL
     {
+        public static string LanguageID = AdminUserContext.Current.LoginInfo.LanguageID;
         public static List<BaseDataModels> GetLoc()
         {
             string strSql = "Select ID,Name,Engname,VieName " +
@@ -33,10 +35,12 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
         //    DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
         //    return dt;
         //}
-        public static List<BaseDataModels> GetDocFlag(string DocFlag)
+        public static List<BaseDataModels> GetDocFlag(string DocType)
         {
             string strSql = "Select ID,Name,Engname,VieName " +
-            " FROM bs_DocFlag Order By id";
+            " FROM bs_DocFlag " +
+            " Where DocType='" + DocType + "'" +
+            " Order By id";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<BaseDataModels> lsModel = new List<BaseDataModels>();
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -93,11 +97,11 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
 
         //返回基礎資料,供下拉列表框使用
         //前端是以ID值存儲至數據庫
-        public static List<BaseDataModels> GetBaseInfoReturnList(string strLanguage, string strTableName)
+        public static List<BaseDataModels> GetBaseInfoReturnList(string strTableName)
         {
             string strSql = "";
             string strFieldName = "";
-            if (strLanguage == "0")
+            if (LanguageID == "0")
                 strFieldName = "name";
             else
                 strFieldName = "english_name";
@@ -112,7 +116,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
                     strSql = string.Format(@"Select id,id +' ('+{0}+')' as name FROM {1} Where ISNULL(abbrev_id,'')<>'' and state<>'2' order by id", strFieldName, strTableName);
                     break;
                 case "sy_bill_state"://單據狀態
-                    strSql = string.Format(@"SELECT id,matter as name FROM sy_bill_state WHERE language_id='{0}'", strLanguage);
+                    strSql = string.Format(@"SELECT id,matter as name FROM sy_bill_state WHERE language_id='{0}'", LanguageID);
                     break;
                 case "bs_type_zd"://取色辦
                     strTableName = "bs_type";
@@ -137,7 +141,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
 
         //返回基礎資料,供下拉列表框使用
         //前端是以Name值存儲至數據庫
-        public static List<BaseDataModels> GetBaseInfoByNameReturnList(string strLanguage, string strTableName)
+        public static List<BaseDataModels> GetBaseInfoByNameReturnList(string strTableName)
         {
             string strSql = "";
             switch (strTableName)
@@ -192,5 +196,23 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             return lstBase;
         }
 
+        public static string GetSystemMessage(string ID)
+        {
+            string result = "";
+            //var LanguageID = AdminUserContext.Current.LoginInfo.LanguageID;
+            string strSql = "Select Name From sy_Message Where ID='" + ID + "' And LangID='" + LanguageID + "'";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            if (dt.Rows.Count > 0)
+                result = dt.Rows[0]["Name"].ToString();
+            return result;
+        }
+
+        public static DataTable GetDocFlayReturnTable(string DocType,string ID)
+        {
+            string strSql = "";
+            strSql = "Select ID,Name,flag0,flag1,flag2,fields1,fields2 From bs_DocFlag Where DocType='" + DocType + "' And ID='" + ID + "'";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            return dt;
+        }
     }
 }

@@ -28,3 +28,9 @@ function closeWindow() {
     $('#msgwindow').dialog('close');
     //$('msgwindow').dialog('close');
 }
+
+//提取提示信息
+function GetSystemMessage(ID){
+    var msg = Ajax.call('/Base/BaseData/GetSystemMessage', '&ID=' + ID, "", 'GET', 'JSON', false);
+    return msg;
+}

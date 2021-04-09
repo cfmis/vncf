@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using VNCF.PSS.Web.Common;
 using VNCF.PSS.Web.Areas.Stock.Models;
 using VNCF.PSS.Web.Areas.Stock.DAL;
+using VNCF.PSS.Web.Areas.Base.DAL;
+using System.Data;
 
 namespace VNCF.PSS.Web.Areas.Stock.Controllers
 {
@@ -32,16 +34,43 @@ namespace VNCF.PSS.Web.Areas.Stock.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
             //return Json(null, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult LoadTransfer(TransferHead model)
+        //查找移交單
+        public ActionResult SearchTransfer(QueryTransferParas model)
         {
-            var list = TransferDAL.LoadTransfer(model);
+            var list = TransferDAL.SearchTransfer(model);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+        //流水帳
+        [HttpPost]
+        public ActionResult QueryTransfer(QueryTransferParas model)
+        {
+            var list = TransferDAL.QueryTransfer(model);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        //庫存
+        public ActionResult StockList()
+        {
+            return View();
+            //var list = TransferDAL.QueryTransfer(model);
+            //return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult StockList(QueryTransferParas model)
+        {
+            var list = TransferDAL.QueryStockList(model);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public ActionResult AddTransferHead(TransferHead model)
         {
             string result = TransferDAL.UpdateTransferHead(model);
             return Json(result);
         }
+
+        [HttpPost]
         public ActionResult LoadTransferHead(string ID)
         {
             var list = TransferDAL.LoadTransferHead(ID);
@@ -60,15 +89,19 @@ namespace VNCF.PSS.Web.Areas.Stock.Controllers
             var result = TransferDAL.UpdateTransferDetails(model);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
         public ActionResult Delete(string ID,string Seq)
         {
             var result = TransferDAL.Delete(ID, Seq);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult GetDocFlag(string ID)
+
+        public ActionResult GetDocFlagReturnString(string ID)
         {
-            var list = TransferDAL.GetFlagList(ID);
-            return Json(list, JsonRequestBehavior.AllowGet);
+            DataTable dt = BaseDataDAL.GetDocFlayReturnTable("wh_transfer", ID);
+            var val=dt.Rows[0]["flag2"].ToString().Trim();
+            return Json(val, JsonRequestBehavior.AllowGet);
         }
     }
 }
