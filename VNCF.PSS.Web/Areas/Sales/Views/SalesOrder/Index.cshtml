@@ -1,5 +1,4 @@
 ﻿@using Resources;
-@using VNCF.PSS.Web.Areas.Sales.DAL
 @using VNCF.PSS.Web.Areas.Sales.Models;
 @model Order_Head
 @{
@@ -283,8 +282,8 @@
 
 @section PageSpecificJavascriptIncludes{
     @*<script src="~/Content/js/SalesOrder.js?v=20210112000053"></script>*@
-    <script src="~/Content/js/SalesOrder.js"></script>
-    <script src="~/Content/js/BaseData.js"></script>
+    <script src="~/Content/js/SalesOrder.js?v=20210412000001"></script>
+    <script src="~/Content/js/BaseData.js?v=20210412000001"></script>
 
     <script type="text/javascript">
         //设置全局变量,供其他JS代碼使用       
@@ -561,7 +560,7 @@
             var current_edit_rowindex = undefined;
             initListBom({ OcID: "", Ver: "", UpperSeq: "" })//初始化SalesBOM
             $('#tbDetails').datagrid({
-                url: '/SalesOrder/List',//指向后台的Action来获取当前用户的信息的Json格式的数据
+                url: 'List',//指向后台的Action来获取当前用户的信息的Json格式的数据
                 iconCls: 'icon-view',//图标
                 //fit: true,//自动适屏功能
                 //fit: true,
