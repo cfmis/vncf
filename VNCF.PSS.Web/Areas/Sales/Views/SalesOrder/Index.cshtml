@@ -282,8 +282,8 @@
 
 @section PageSpecificJavascriptIncludes{
     @*<script src="~/Content/js/SalesOrder.js?v=20210112000053"></script>*@
-    <script src="~/Content/js/SalesOrder.js?v=20210412000001"></script>
-    <script src="~/Content/js/BaseData.js?v=20210412000001"></script>
+    <script src="~/Content/js/SalesOrder.js?v=20210412000002"></script>
+    <script src="~/Content/js/BaseData.js?v=20210412000002"></script>
 
     <script type="text/javascript">
         //设置全局变量,供其他JS代碼使用       
@@ -701,7 +701,7 @@
                         var postData = $("#addFormDetails").serializeArray();
                         //Ajax异步实现加载
                         $.ajax({
-                            url: "/SalesOrder/AddList?OcID=" + $("#OcID").val(),
+                            url: "AddList?OcID=" + $("#OcID").val(),
                             data: postData,
                             //cache: false,
                             async: true,//改为異步方式
@@ -826,7 +826,7 @@
             var current_edit_rowindex = undefined;
             var editIndex = undefined;
             $('#tbSalesBom').datagrid({
-                url: '/SalesOrder/SalesBomList', //指向后台的Action来获取当前用户的信息的Json格式的数据
+                url: 'SalesBomList', //指向后台的Action来获取当前用户的信息的Json格式的数据
                 iconCls: 'icon-view',//图标
                 //fit: true,//自动适屏功能
                 //fit: true,
