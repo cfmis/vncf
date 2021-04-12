@@ -288,12 +288,6 @@
   <data name="MoType" xml:space="preserve">
     <value>Mo Type</value>
   </data>
-  <data name="msg_add_details_failed" xml:space="preserve">
-    <value>Failed to add details data !</value>
-  </data>
-  <data name="msg_add_failed" xml:space="preserve">
-    <value>Failed to add current item !</value>
-  </data>
   <data name="msg_add_master_failed" xml:space="preserve">
     <value>Failed to add master data !</value>
   </data>
@@ -306,23 +300,11 @@
   <data name="msg_details_info" xml:space="preserve">
     <value>Details Info</value>
   </data>
-  <data name="msg_detail_data_no_valid" xml:space="preserve">
-    <value>Please check the integrity of the detail data .</value>
-  </data>
-  <data name="msg_invalid_product_id" xml:space="preserve">
-    <value>Invalid Product ID.</value>
-  </data>
   <data name="msg_loading_data" xml:space="preserve">
     <value>Data Loading,Please Wait ...</value>
   </data>
-  <data name="msg_master_data_is_added_status" xml:space="preserve">
-    <value>The master data is in the added status,Current operation is invalid.</value>
-  </data>
   <data name="msg_master_data_is_empty" xml:space="preserve">
     <value>The master data is empty,Current operation is invalid.</value>
-  </data>
-  <data name="msg_master_data_no_valid" xml:space="preserve">
-    <value>Please check the integrity of the master data .</value>
   </data>
   <data name="msg_no_data" xml:space="preserve">
     <value>No Data.</value>
@@ -566,5 +548,11 @@
   </data>
   <data name="msg_confirm_to_do" xml:space="preserve">
     <value>Are you sure you want to do this operation?</value>
+  </data>
+  <data name="msg_add_failed" xml:space="preserve">
+    <value>Data Add Failed</value>
+  </data>
+  <data name="msg_master_data_is_added_status" xml:space="preserve">
+    <value>The master data is in the added status, and the current operation is invalid!</value>
   </data>
 </root>

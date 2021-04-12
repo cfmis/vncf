@@ -288,15 +288,6 @@
   <data name="MoType" xml:space="preserve">
     <value>制單種類</value>
   </data>
-  <data name="msg_add_details_failed" xml:space="preserve">
-    <value>明細資料添加失败 !</value>
-  </data>
-  <data name="msg_add_failed" xml:space="preserve">
-    <value>數據添加失敗 !</value>
-  </data>
-  <data name="msg_add_master_failed" xml:space="preserve">
-    <value>主檔資料添加失败!</value>
-  </data>
   <data name="msg_condition_is_empty" xml:space="preserve">
     <value>查詢條件不可以為空 !</value>
   </data>
@@ -306,23 +297,11 @@
   <data name="msg_details_info" xml:space="preserve">
     <value>明細資料</value>
   </data>
-  <data name="msg_detail_data_no_valid" xml:space="preserve">
-    <value>請檢查明細資料的完整性 !</value>
-  </data>
-  <data name="msg_invalid_product_id" xml:space="preserve">
-    <value>無效的產品編號 !</value>
-  </data>
   <data name="msg_loading_data" xml:space="preserve">
     <value>正在加載數據,請稍等...</value>
   </data>
-  <data name="msg_master_data_is_added_status" xml:space="preserve">
-    <value>主檔資料為新增狀態,當前操作無效 !</value>
-  </data>
   <data name="msg_master_data_is_empty" xml:space="preserve">
     <value>主檔資料為空,當前操作無效 !</value>
-  </data>
-  <data name="msg_master_data_no_valid" xml:space="preserve">
-    <value>請檢查主檔資料的完整性 !</value>
   </data>
   <data name="msg_no_data" xml:space="preserve">
     <value>無記錄.</value>
@@ -566,5 +545,11 @@
   </data>
   <data name="msg_confirm_to_do" xml:space="preserve">
     <value>確定要進行當前的操作?</value>
+  </data>
+  <data name="msg_add_failed" xml:space="preserve">
+    <value>數據添加失敗 !</value>
+  </data>
+  <data name="msg_master_data_is_added_status" xml:space="preserve">
+    <value>主檔資料為新增狀態,當前操作無效!</value>
   </data>
 </root>

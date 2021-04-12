@@ -375,15 +375,14 @@ function disableDetails(isDisable) {
 function EditMaster(title) {
     setActivePage(title);
     if ($('#ActionType_H').val() == "NEW") {
-        //主表資料為新增狀態,不可進行此操作！"
-        $.messager.alert(window['msg_system_prompt'], window['msg_master_data_is_added_status']);
-        return;
-        //
-        //and the current operation is invalid
+        //主表資料為新增狀態,不可進行此操作！"       
+        $.messager.alert(window['msg_system_prompt'], GetSystemMessage('OC00001'));
+        return;        
     }
     if ($('#OcID').val() == "") {
         //當前主表資料為空,不可進行此操作！"
-        $.messager.alert(window['msg_system_prompt'], window['msg_master_data_is_empty']);
+        //$.messager.alert(window['msg_system_prompt'], window['msg_master_data_is_empty']);
+        $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00001'));
         return;
     }
     disableTabs("#tabPages", 2, true);//非活動Tab禁用
@@ -615,7 +614,8 @@ function getTotalAmount(id, ver, current_seq) {
 };
 
 function ErryFunction(data) {
-    $.messager.alert("System Info", "Error getting backend data!");
+    //提取后臺數據出錯
+    $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00003'));
 }
 
 
@@ -668,7 +668,7 @@ function Save() {
             }
             else {
                 //添加明細資料失败
-                $.messager.alert(window['msg_system_prompt'], window['msg_add_details_failed']);
+                $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00004'));
             }
         }
     })
@@ -706,7 +706,7 @@ function SaveMaster() {
             }
             else {
                 //主檔資料添加失败                
-                $.messager.alert(window['msg_system_prompt'], window['msg_add_master_failed']);
+                $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00005'));
             }
         }
     })
@@ -720,7 +720,7 @@ function SaveEditMaster() {
     var valid = $("#addFormHead").form('validate');
     if (valid == false) {
         //請檢查主檔資料的完整性
-        $.messager.alert(window['msg_system_prompt'], window['msg_master_data_no_valid']);
+        $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00001'));
         return;
     }
     var result = "";
@@ -742,13 +742,13 @@ function ValidForm() {
     var valid = $("#addFormHead").form('validate');
     if (valid == false) {
         //請檢查主檔資料的完整性
-        $.messager.alert(window['msg_system_prompt'], window['msg_master_data_no_valid']);
+        $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00001'));
         return false;
     }
     valid = $("#addFormDetails").form('validate');
     if (valid == false) {
         //請檢查明細資料的完整性
-        $.messager.alert(window['msg_system_prompt'], window["msg_detail_data_no_valid"]);
+        $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00002'));
         return false;
     }
     return true;
@@ -784,7 +784,7 @@ function saveSalesBom(postData)
             }
             else {
                 //當前項目添加失敗
-                $.messager.alert(window['msg_system_prompt'], window['msg_add_failed']);
+                $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00006'));
             }
         }
     });
@@ -843,7 +843,8 @@ function FillOcHead(data) {
 *出錯信息彈窗
 */
 function ErryFunction(data) {
-    $.messager.alert("System Info", "Error getting backend data!");
+    //提取后臺數據出錯
+    $.messager.alert("System Info", GetSystemMessage('CN00003'));
 }
 
 //salesbom productid 失去焦點調用的函數
@@ -868,7 +869,7 @@ function setProductIDblur(index) {
                     edProductDesc.target.val(tmp.Cdesc);
                 } else {
                     //無效的產品編號
-                    $.messager.alert(window['msg_system_prompt'],window["msg_invalid_product_id"]);
+                    $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00007'));
                     edProductid.target.val('');
                     edProductDesc.target.val('');
                 }

@@ -637,16 +637,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to add details data !.
-        /// </summary>
-        internal static string msg_add_details_failed {
-            get {
-                return ResourceManager.GetString("msg_add_details_failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to add current item !.
+        ///   Looks up a localized string similar to Data Add Failed.
         /// </summary>
         internal static string msg_add_failed {
             get {
@@ -772,15 +763,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please check the integrity of the detail data ..
-        /// </summary>
-        internal static string msg_detail_data_no_valid {
-            get {
-                return ResourceManager.GetString("msg_detail_data_no_valid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Dosage cannot be empty.
         /// </summary>
         internal static string msg_dosage_cannot_be_empty {
@@ -795,15 +777,6 @@ namespace Resources {
         internal static string msg_exists_plan {
             get {
                 return ResourceManager.GetString("msg_exists_plan", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid Product ID..
-        /// </summary>
-        internal static string msg_invalid_product_id {
-            get {
-                return ResourceManager.GetString("msg_invalid_product_id", resourceCulture);
             }
         }
         
@@ -862,7 +835,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The master data is in the added status,Current operation is invalid..
+        ///   Looks up a localized string similar to The master data is in the added status, and the current operation is invalid!.
         /// </summary>
         internal static string msg_master_data_is_added_status {
             get {
@@ -876,15 +849,6 @@ namespace Resources {
         internal static string msg_master_data_is_empty {
             get {
                 return ResourceManager.GetString("msg_master_data_is_empty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Please check the integrity of the master data ..
-        /// </summary>
-        internal static string msg_master_data_no_valid {
-            get {
-                return ResourceManager.GetString("msg_master_data_no_valid", resourceCulture);
             }
         }
         
