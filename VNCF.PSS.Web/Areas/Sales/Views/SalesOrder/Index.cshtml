@@ -30,8 +30,7 @@
                     <li class="lb-std"><span class="input-group font_color_required">@Resource.OcID：</span>
                         @Html.TextBoxFor(m => m.OcID, new { @class = "easyui-textbox myReadonly font_group ", @data_options = "required:true,validType:'length[1,20]',readonly: true", @style = "width:60%" })
                         @Html.TextBoxFor(m => m.Ver, "0", new { @class = "easyui-textbox myReadonly", @data_options = "required:true,validType:'length[1,20]',readonly: true", @style = "width:10%" })
-                    </li>
-                                   
+                    </li>                                   
                     <!--落單日期-->
                     <li class="lb-std"><span class="input-group font_color_required">@Resource.OrderDate：</span>@Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand ", @data_options = "required:true,validType:'length[1,10]'", @style = "width:72%" })</li>
                     <!--訂單類型-->
@@ -283,15 +282,8 @@
 
 
 @section PageSpecificJavascriptIncludes{
-<<<<<<< HEAD
-    @*<script src="~/Content/js/SalesOrder.js?v=20210112000062"></script>*@
-    <script src="~/Content/js/SalesOrder.js"></script>
-    <script src="~/Content/js/BaseData.js"></script>
-=======
-    @*<script src="~/Content/js/SalesOrder.js?v=20210112000053"></script>*@
-    <script src="~/Content/js/SalesOrder.js?v=20210412000002"></script>
+    <script src="~/Content/js/SalesOrder.js?v=20210412000003"></script>
     <script src="~/Content/js/BaseData.js?v=20210412000002"></script>
->>>>>>> 5a9cf69f15bf4dbed0035f12194290ef236333df
 
     <script type="text/javascript">
         //设置全局变量,供其他JS代碼使用
@@ -569,10 +561,6 @@
             var current_edit_rowindex = undefined;
             initListBom({ OcID: "", Ver: "", UpperSeq: "" })//初始化SalesBOM
             $('#tbDetails').datagrid({
-<<<<<<< HEAD
-                //url: '/SalesOrder/List',//指向后台的Action来获取当前用户的信息的Json格式的数据
-=======
->>>>>>> 5a9cf69f15bf4dbed0035f12194290ef236333df
                 url: 'List',//指向后台的Action来获取当前用户的信息的Json格式的数据
                 iconCls: 'icon-view',//图标
                 //fit: true,//自动适屏功能
@@ -714,10 +702,6 @@
                         var postData = $("#addFormDetails").serializeArray();
                         //Ajax异步实现加载
                         $.ajax({
-<<<<<<< HEAD
-                            //url: "/SalesOrder/AddList?OcID=" + $("#OcID").val(),
-=======
->>>>>>> 5a9cf69f15bf4dbed0035f12194290ef236333df
                             url: "AddList?OcID=" + $("#OcID").val(),
                             data: postData,
                             //cache: false,
@@ -844,10 +828,6 @@
             var current_edit_rowindex = undefined;
             var editIndex = undefined;
             $('#tbSalesBom').datagrid({
-<<<<<<< HEAD
-                //url: '/SalesOrder/SalesBomList', //指向后台的Action来获取当前用户的信息的Json格式的数据
-=======
->>>>>>> 5a9cf69f15bf4dbed0035f12194290ef236333df
                 url: 'SalesBomList', //指向后台的Action来获取当前用户的信息的Json格式的数据
                 iconCls: 'icon-view',//图标
                 //fit: true,//自动适屏功能
