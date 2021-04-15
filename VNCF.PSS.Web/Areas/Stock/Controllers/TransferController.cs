@@ -70,7 +70,7 @@ namespace VNCF.PSS.Web.Areas.Stock.Controllers
             return Json(result);
         }
 
-        [HttpPost]
+        //[HttpPost]
         public ActionResult LoadTransferHead(string ID)
         {
             var list = TransferDAL.LoadTransferHead(ID);

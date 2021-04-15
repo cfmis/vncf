@@ -63,7 +63,12 @@
             valueField: 'Id',//主键值
             textField: 'Realname'
         });
+        $('#TransferDateFrom').datebox({
+            onSelect: function (value) {
+                $('#TransferDateTo').datebox('setValue', $('#TransferDateFrom').datebox('getValue'));//, changeDateToChar(value)
 
+            }
+        });
         //$(window).resize(function () {
         //    $('#tbDetails').datagrid('resize', {               //根据自身情况更改
         //        width: $(window).width() - 40,    //根据自身情况更改

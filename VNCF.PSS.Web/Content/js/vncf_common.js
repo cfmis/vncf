@@ -34,3 +34,25 @@ function GetSystemMessage(ID){
     var msg = Ajax.call('/Base/BaseData/GetSystemMessage', '&ID=' + ID, "", 'GET', 'JSON', false);
     return msg;
 }
+
+//轉換日期格式：YYYY/MM/DD
+function ChangeDateToChar(value) {
+    if (value != null) {
+        var date = new Date(value);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        var minute = date.getMinutes();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        var second = date.getSeconds();
+        second = second < 10 ? ('0' + second) : second;
+        //alert(y + '-' + m + '-' + d + ' ' + h + ':' + minute + ":" + second);
+        //var dd = y + '/' + m + '/' + d;
+        return y + '/' + m + '/' + d;
+    } else {
+        return "";
+    }
+}

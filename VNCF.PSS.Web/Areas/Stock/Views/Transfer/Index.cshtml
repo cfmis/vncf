@@ -76,6 +76,12 @@
                 SelectData();
             });
 
+            $('#TransferDateFrom').datebox({
+                onSelect: function (value) {
+                    $('#TransferDateTo').datebox('setValue', $('#TransferDateFrom').datebox('getValue'));//, changeDateToChar(value)
+
+                }
+            });
             //alert(document.documentElement.clientHeight);
 
         });

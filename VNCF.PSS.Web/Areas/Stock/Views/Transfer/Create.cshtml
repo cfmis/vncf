@@ -141,14 +141,6 @@
                 textField: 'Name',
                 required: true
             });
-            $('#DetailsLocID').combobox({
-                url: '/Base/BaseData/GetLoc',//baseUrl + 'paraa=loc&parab=list',//数据接收URL地址
-                method: 'post',
-                panelHeight: 'auto',
-                valueField: 'ID',//主键值
-                textField: 'Name',
-                required: true
-            });
             $('#NextLocID').combobox({
                 url: '/Base/BaseData/GetLoc',//数据接收URL地址
                 method: 'post',
@@ -170,10 +162,20 @@
                 valueField: 'ID',//主键值
                 textField: 'Name'
             });
+            //alert("OK");
             $("input", $("#GoodsID").next("span")).blur(function () {
                 var result = Ajax.call('/Base/BaseData/GetGoodsInfo', '&GoodsID=' + $("#GoodsID").textbox('getValue'), "", 'GET', 'JSON', false);
                 $("#GoodsName").textbox('setValue', result);
             })
+            $('#btnNew').click(function () {
+                AddNew();
+            });
+            $("#TransferDate").textbox('setValue', ChangeDateToChar(new Date()));
+            $("input", $("#ID").next("span")).blur(function () {
+                SearchTransferHead();
+                SearchDetails();
+            });
+
             SearchDetails();
         })
 
@@ -444,8 +446,15 @@
             }
             return true;
         }
-
-
+        var edit_mode = '0';//新增狀態
+        function AddNew() {
+            $("#ID").textbox('setValue', '');
+            $("#TransferDate").textbox('setValue', ChangeDateToChar(new Date()));
+            $("#LocID").textbox('setValue', '');
+            $("#FlagID").textbox('setValue', '');
+            $("#NextLocID").textbox('setValue', '');
+            edit_mode = '1';
+        }
 
     </script>
 }
