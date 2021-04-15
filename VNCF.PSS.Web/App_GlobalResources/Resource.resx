@@ -220,10 +220,10 @@
     <value>Cust.Color Desc.</value>
   </data>
   <data name="CustomerCdesc" xml:space="preserve">
-    <value>Product Name</value>
+    <value>Cust. Name</value>
   </data>
   <data name="CustomerEdesc" xml:space="preserve">
-    <value>Product Name(Eng)</value>
+    <value>Cust. Name(En)</value>
   </data>
   <data name="CustomerID" xml:space="preserve">
     <value>CustomerID</value>

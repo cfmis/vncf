@@ -64,7 +64,7 @@ namespace VNCF.PSS.Web.Areas.Purchase.Models
         public string ProductCdesc { get; set; }//產品描述
         public string Spec { get; set; }//規格
         public string Color { get; set; }//顏色
-        public string FactDate { get; set; }//交貨日期
+        public string ArriveDate { get; set; }//交貨日期
         public decimal OrderQty { get; set; }//訂單數量
         public string Unit { get; set; }//訂單單位
         public decimal Weight { get; set; }//重量
@@ -77,6 +77,7 @@ namespace VNCF.PSS.Web.Areas.Purchase.Models
         public decimal ReceiptQty { get; set; }//收貨數量
         public string ReceiptUnit { get; set; }//收貨單位
         public string Remarks { get; set; }//備註
+        public string PrintRemark { get; set; } //是否列印備註
         public string ActionType { get; set; }//記錄操作當前行臨時狀態
 
     }

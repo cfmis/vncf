@@ -403,7 +403,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Product Name.
+        ///   Looks up a localized string similar to Cust. Name.
         /// </summary>
         internal static string CustomerCdesc {
             get {
@@ -412,7 +412,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Product Name(Eng).
+        ///   Looks up a localized string similar to Cust. Name(En).
         /// </summary>
         internal static string CustomerEdesc {
             get {

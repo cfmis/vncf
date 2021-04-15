@@ -220,10 +220,10 @@
     <value>客顏色名稱</value>
   </data>
   <data name="CustomerCdesc" xml:space="preserve">
-    <value>客戶名稱(中文)</value>
+    <value>客戶名稱</value>
   </data>
   <data name="CustomerEdesc" xml:space="preserve">
-    <value>客戶名稱(英文)</value>
+    <value>客戶名稱(En)</value>
   </data>
   <data name="CustomerID" xml:space="preserve">
     <value>客戶編號</value>
