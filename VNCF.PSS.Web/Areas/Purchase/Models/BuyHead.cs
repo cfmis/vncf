@@ -29,7 +29,7 @@ namespace VNCF.PSS.Web.Areas.Purchase.Models
         public string PaymentType { get; set; }//付款方式
         public string PriceType { get; set; }//價格條件
         public decimal PaymentAmt { get; set; }//貨品金額
-        public decimal FareAmt { get; set; }//附加費金額
+        public decimal OtherAmt { get; set; }//附加費金額
         public decimal TotalAmt { get; set; }//總金額
         [Required]
         public string DepartMentID { get; set; }//採購部門
@@ -76,8 +76,7 @@ namespace VNCF.PSS.Web.Areas.Purchase.Models
         public decimal TotalSum { get; set; }//總金額
         public decimal ReceiptQty { get; set; }//收貨數量
         public string ReceiptUnit { get; set; }//收貨單位
-        public string Remarks { get; set; }//備註
-        public string PrintRemark { get; set; } //是否列印備註
+        public string Remarks { get; set; }//備註       
         public string ActionType { get; set; }//記錄操作當前行臨時狀態
 
     }

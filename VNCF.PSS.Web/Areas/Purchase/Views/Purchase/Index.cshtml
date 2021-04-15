@@ -37,11 +37,11 @@
                     <!--訂單日期-->
                     <li class="lb-std"><span class="input-group font_color_required">@Resource.OrderDate：</span>@Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand ", @data_options = "required:true,validType:'length[1,10]'", @style = "width:72%" })</li>
                     <!--供應商編號-->
-                    <li class="lb-std"><span class="input-group font_color_required">供應商編號：</span>@Html.TextBoxFor(m => m.VendorID, "", new { @class = "easyui-combobox", @data_options = "required:true,validType:'length[1,8]'", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group font_color_required">@Resource.VendorID：</span>@Html.TextBoxFor(m => m.VendorID, "", new { @class = "easyui-combobox", @data_options = "required:true,validType:'length[1,8]'", @style = "width:72%" })</li>
                     <!--供應商名稱-->
-                    <li class="lb-std"><span class="input-group">供應商名稱：</span>@Html.TextBoxFor(m => m.Vendor, "", new { @class = "easyui-textbox myReadonly", @data_options = "readonly: true", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group">@Resource.VendorName：</span>@Html.TextBoxFor(m => m.Vendor, "", new { @class = "easyui-textbox myReadonly", @data_options = "readonly: true", @style = "width:72%" })</li>
                     <!--供應商地址-->
-                    <li class="lb-std"><span class="input-group">供應商地址：</span>@Html.TextBoxFor(m => m.VendorAddress, "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group">@Resource.VendorAddress：</span>@Html.TextBoxFor(m => m.VendorAddress, "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
                     <!--聯繫人-->
                     <li class="lb-std"><span class="input-group font_color_required">@Resource.Contacts：</span>@Html.TextBoxFor(m => m.Contacts, "", new { @class = "easyui-textbox ", @data_options = "required:true", @style = "width:72%" })</li>
                     <!--聯繫人電話-->
@@ -49,31 +49,32 @@
                     <!--傳真-->
                     <li class="lb-std"><span class="input-group">@Resource.ContactsFax：</span>@Html.TextBoxFor(m => m.ContactsFax, "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
                     <!--採購員編號-->
-                    <li class="lb-std"><span class="input-group font_color_required">採購員編號：</span>@Html.TextBoxFor(m => m.BuyerID, "", new { @class = "easyui-combobox ", @data_options = "required:true", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group font_color_required">@Resource.BuyerID：</span>@Html.TextBoxFor(m => m.BuyerID, "", new { @class = "easyui-combobox ", @data_options = "required:true", @style = "width:72%" })</li>
                     <!--採購員名稱-->
-                    <li class="lb-std"><span class="input-group">採購員名稱：</span>@Html.TextBoxFor(m => m.BuyerName, "", new { @class = "easyui-textbox myReadonly", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group">@Resource.BuyerName：</span>@Html.TextBoxFor(m => m.BuyerName, "", new { @class = "easyui-textbox myReadonly", @style = "width:72%" })</li>
                     <!--貨幣代號-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.CurrencyID：</span>@Html.TextBoxFor(m => m.CurrencyID, "", new { @class = "easyui-combobox", @data_options = "required:true", @style = "width:72%" })</li>
-                    <!--貨幣匯率,比率-->
-                    <li class="lb-std"><span class="input-group">@Resource.CurrencyRate：</span>@Html.TextBoxFor(m => m.CurrencyRate, "", new { @class = "easyui-numberbox myReadonly ", @data_options = "readonly:true,min:0,precision:4", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group font_color_required">@Resource.CurrencyID：</span>
+                        @Html.TextBoxFor(m => m.CurrencyID, "", new { @class = "easyui-combobox", @data_options = "required:true", @style = "width:40%" })
+                        @Html.TextBoxFor(m => m.CurrencyRate, "", new { @class = "easyui-numberbox myReadonly ", @data_options = "readonly:true,min:0,precision:4", @style = "width:30%" })
+                    </li>                    
                     <!--部門-->
-                    <li class="lb-std"><span class="input-group font_color_required">部門：</span>@Html.TextBoxFor(m => m.DepartMentID, "", new { @class = "easyui-combobox", @style = "width:72%" })</li>                    
+                    <li class="lb-std"><span class="input-group font_color_required">@Resource.DeptID：</span>@Html.TextBoxFor(m => m.DepartMentID, "", new { @class = "easyui-combobox", @style = "width:72%" })</li>                    
                     <!--客戶代碼-->
                     <li class="lb-std"><span class="input-group">@Resource.CustomerID：</span>@Html.TextBoxFor(m => m.CustomerID, "", new { @class = "easyui-combobox", @style = "width:72%" })</li>
                     <!--客戶名稱-->
                     <li class="lb-std"><span class="input-group">@Resource.CustomerCdesc：</span>@Html.TextBoxFor(m => m.CustomerCdesc, "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>                                                         
                     <!--附加費用金額-->
-                    <li class="lb-std"><span class="input-group">附加費：</span>@Html.TextBoxFor(m=>m.FareAmt, "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "min:0,precision:2,readonly: true", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group">@Resource.OtherFare：</span>@Html.TextBoxFor(m=>m.OtherAmt, "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "min:0,precision:2,readonly: true", @style = "width:72%" })</li>
                     <!--貨品金額-->
                     <li class="lb-std"><span class="input-group">@Resource.ProductAmount：</span>@Html.TextBoxFor(m => m.PaymentAmt, "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "readonly: true,min:0,precision:2", @style = "width:72%" })</li>
-                    <!--總金額-->
-                    <li class="lb-std"><span class="input-group">@Resource.TotalAmount：</span>@Html.TextBoxFor(m => m.TotalAmt, "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "readonly: true,min:0,precision:2", @style = "width:72%" })</li>                   
-                    <!--狀態-->
-                    <li class="lb-std"><span class="input-group">@Resource.State：</span>@Html.TextBoxFor(m => m.State, "0", new { @class = "easyui-combobox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
+                    <!--包裝信息-->
+                    <li class="lb-std"><span class="input-group">@Resource.Packing：</span>@Html.TextBoxFor(m => m.Packing, "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
                     <!--備注-->
                     <li class="lb-std"><span class="input-group">@Resource.Remark：</span>@Html.TextBoxFor(m => m.Remark, "", new { @class = "easyui-textbox ", @data_options = "validType:'length[1,200]'", @style = "width:72%" })</li>
-                    <!--包裝信息-->
-                    <li class="lb-std"><span class="input-group">包裝信息：</span>@Html.TextBoxFor(m => m.Remark, "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
+                     <!--狀態-->
+                    <li class="lb-std"><span class="input-group">@Resource.State：</span>@Html.TextBoxFor(m => m.State, "0", new { @class = "easyui-combobox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li> 
+                    <!--總金額-->
+                    <li class="lb-std"><span class="input-group">@Resource.TotalAmount：</span>@Html.TextBoxFor(m => m.TotalAmt, "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "readonly: true,min:0,precision:2", @style = "width:72%" })</li>                   
                     <!--建檔人-->
                     <li class="lb-std"><span class="input-group">@Resource.CreateBy：</span>@Html.TextBoxFor(m => m.CreateBy, "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
                     <!--建檔日期-->
@@ -101,7 +102,8 @@
                             <td class="td-label font_color_required"><div class="award-name">@Resource.ProductMo：</div></td>
                             <td class="td-input">
                                 <div class="input-group">
-                                    @Html.TextBox("ProductMo", "", new { @class = "easyui-textbox font_group", @style = "width:100%", @data_options = "required:true,validType:'moCheckSub'" })                                   
+                                    @Html.TextBox("ProductMo", "", new { @class = "easyui-textbox ", @style = "width:69%", @data_options = "required:true,validType:'moCheckSub'" }) 
+                                    @Html.TextBox("Seq", "", new { @class = "easyui-textbox myReadonly", @style = "width:29%", @data_options = "readonly: true" })                                  
                                 </div>
                             </td>
                             <!--產品編號-->
@@ -119,7 +121,7 @@
                                 <div class="input-group">@Html.TextBox("ProductCdesc", "", new { @class = "easyui-textbox", @style = "width:100%" })</div>
                             </td>
                             <!--規格-->
-                            <td class="td-label"><div class="award-name">規格：</div></td>
+                            <td class="td-label"><div class="award-name">@Resource.Spec：</div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("Spec", "", new { @class = "easyui-combobox", @style = "width:100%" })</div></td>                            
                         </tr>
 
@@ -145,7 +147,7 @@
                                     @Html.TextBox("PriceUnit", "", new { @class = "easyui-combobox", @style = "width:29%", @data_options = "required:true" })
                                 </div>
                             </td>
-                            <td class="td-label"><div class="award-name">顏色：</div></td><!--顏色-->
+                            <td class="td-label"><div class="award-name">@Resource.Color：</div></td><!--顏色-->
                             <td class="td-input"><div class="input-group">@Html.TextBox("Color", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
                         </tr>
 
@@ -165,13 +167,10 @@
                             <td class="td-input"><div class="input-group">@Html.TextBox("Remarks", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>                            
                         </tr>
 
-                        <tr>                           
-                            <td class="td-label"><div class="award-name">是否列印備註：</div></td> <!--是否列印備註-->
-                            <td><input type="checkbox" name="PrintRemark" id="PrintRemark" /></td>
-
+                        <tr> 
                             <!--更新時的主鍵-->
                             <td> <input type="hidden" name="ActionType" id="ActionType_D" /></td>
-                            <td> <input type="hidden" name="Seq" id="Seq" /></td>
+                            @*<td> <input type="hidden" name="Seq" id="Seq" /></td>*@
                             <td> <input type="hidden" name="goods_id" id="goods_id" /></td>   <!--保存貨品編號查詢臨時值-->
                         </tr>
 
@@ -181,11 +180,12 @@
             }
             <!--間隔條-->
             @*<div class="areabx_divider"></div>*@
+           
             <!--明細表格-->
-            <div data-options="region:'center'">
+            <div data-options="region:'center'" style="margin-top:10px">
                 <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
                     <table id="tbDetails" class="easyui-datagrid" title="Purchase Details" style="width:100%;height:300px"
-                           data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'"></table>
+                           data-options="singleSelect:true,collapsible:true,method:'get'"></table>
                 </div>
             </div>
 
@@ -204,3 +204,29 @@
     </div>
 </div>
 
+@section PageSpecificJavascriptIncludes{
+    @*<script src="~/Content/js/SalesOrder.js?v=20210412000003"></script>*@
+    <script src="~/Content/js/SalesOrder.js"></script>
+    <script src="~/Content/js/BaseData.js"></script>
+    
+    <script type="text/javascript">
+        setValue({
+            msg_system_prompt: '@Resource.msg_system_prompt',
+            msg_condition_is_empty: '@Resource.msg_condition_is_empty',
+            msg_data_query: '@Resource.msg_data_query',
+            msg_details_info: '@Resource.msg_details_info',
+            msg_loading_data: '@Resource.msg_loading_data',
+            msg_master_data_is_empty: '@Resource.msg_master_data_is_empty',
+            msg_no_data: '@Resource.msg_no_data',
+            msg_only_select_one: '@Resource.msg_only_select_one',
+            msg_saved_master_success: '@Resource.msg_saved_master_success',
+            msg_saved_success: '@Resource.msg_saved_success',
+            msg_search_condition: '@Resource.msg_search_condition'
+        })
+
+        $(function () {
+            //TODO
+        });
+
+    </script>
+}

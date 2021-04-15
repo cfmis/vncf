@@ -555,4 +555,28 @@
   <data name="msg_cannot_be_empty" xml:space="preserve">
     <value>不可為空!</value>
   </data>
+  <data name="BuyerID" xml:space="preserve">
+    <value>採購員編號</value>
+  </data>
+  <data name="BuyerName" xml:space="preserve">
+    <value>採購員名稱</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>顏色</value>
+  </data>
+  <data name="DeptID" xml:space="preserve">
+    <value>部門編號</value>
+  </data>
+  <data name="OtherFare" xml:space="preserve">
+    <value>附加費用</value>
+  </data>
+  <data name="Packing" xml:space="preserve">
+    <value>包裝信息</value>
+  </data>
+  <data name="Spec" xml:space="preserve">
+    <value>規格</value>
+  </data>
+  <data name="VendorAddress" xml:space="preserve">
+    <value>供應商地址</value>
+  </data>
 </root>
