@@ -265,6 +265,10 @@
     <Compile Include="Areas\Base\Models\BaseDataModels.cs" />
     <Compile Include="Areas\Base\Models\BaseInfo.cs" />
     <Compile Include="Areas\Base\Models\DepInfo.cs" />
+    <Compile Include="Areas\Purchase\Controllers\PurchaseController.cs" />
+    <Compile Include="Areas\Purchase\DAL\PurchaseDAL.cs" />
+    <Compile Include="Areas\Purchase\Models\BuyHead.cs" />
+    <Compile Include="Areas\Purchase\PurchaseAreaRegistration.cs" />
     <Compile Include="Areas\Sales\Controllers\OCController.cs" />
     <Compile Include="Areas\Sales\Controllers\OrderController.cs" />
     <Compile Include="Areas\Sales\Controllers\SalesOrderController.cs" />
@@ -503,6 +507,9 @@
     <Content Include="Areas\Stock\Views\Transfer\Find.cshtml" />
     <Content Include="Areas\Stock\Views\Transfer\Index.cshtml" />
     <Content Include="Areas\Stock\Views\Transfer\StockList.cshtml" />
+    <Content Include="Areas\Purchase\Views\Purchase\Index.cshtml" />
+    <Content Include="Areas\Purchase\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Purchase\Views\web.config" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -570,6 +577,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Base\Views\BaseData\" />
     <Folder Include="Areas\Base\Views\Shared\" />
+    <Folder Include="Areas\Purchase\Views\Shared\" />
     <Folder Include="Areas\Stock\Views\Shared\" />
     <Folder Include="Content\Hg\" />
     <Folder Include="Images\" />

@@ -38,7 +38,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                   SallerID,Season,Contacts,ContactsTel,ContactsFax,ContactsEmail,Merchandisers,MerchandisersTel,MerchandisersEmail,CurrencyID,CurrencyRate,
                   DeliveredPort,DestinationPort,PoNo,PaymentType,PriceType, Transport,DiscountRate,Discount,TaxNo,Tax,ProductAmount,TotalAmount
                   ,BankAccount,State,Remark,CreateBy,CreateAt) Values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}',
-                  '{16}','{17}','{18}','{19}','{20}',{21},'{22}','{23}','{24}','{25}','{26}','{27}',{28},{29},'{30}',{31},{32},{33},'{34}','{35}','{36}','{37}',getdate())",
+                  '{16}','{17}','{18}','{19}','{20}','{21}','{22}','{23}','{24}','{25}','{26}','{27}',{28},'{29}','{30}',{31},{32},'{33}','{34}','{35}','{36}',getdate())",
                   OcID, model.Ver, model.OrderDate, model.CustomerID, model.CustomerCdesc, model.CustomerEdesc, model.OrderType, model.ReceivedDate, model.ForeignFirm, model.Area, model.SallerID,
                   model.Season, model.Contacts, model.ContactsTel, model.ContactsFax, model.ContactsEmail, model.Merchandisers, model.MerchandisersTel, model.MerchandisersEmail, model.CurrencyID,
                   model.CurrencyRate, model.DeliveredPort, model.DestinationPort, model.PoNo, model.PaymentType, model.PriceType, model.Transport, model.DiscountRate, model.Discount, model.TaxNo,
@@ -360,7 +360,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                model.OcID, model.Ver, Seq, model.ProductMo, model.ProductMoVer, model.ProductID, model.ProductCdesc, model.BrandID, model.CustProductID, model.CustProductName,
                model.CustColorID, model.CustColorName, model.CustSize, model.OrderQty, model.OrderUnit, model.Price, model.PriceUnit, model.RateDiscount, model.AmountDiscount, model.AmountProduct,
                model.Remarks, model.PlanCompleteDate, model.ArriveDate, model.FactoryShipOutDate, model.MoType, model.MoDept, model.MoGroup, model.StyleNo, model.ContractID,
-               model.GetColorSample, model.IsFree == "on" ? "1" : "0", model.OcRemark, model.InvoiceRemark, model.PlateRemark, model.ProductRemark, model.MoState, model.IsPrint);
+               model.GetColorSample, model.IsFree == "on" ? "1" : "0", model.OcRemark, model.InvoiceRemark, model.PlateRemark, model.ProductRemark, model.MoState,model.IsPrint == "on" ? "1" : "0");
             /*20210312取消插入新記錄時自動添加SalesBOM
             strSql_i += string.Format(
                @" Insert Into oc_OrderBom(OcID, Ver, UpperSeq,Seq,PrimaryKey,ProductID,Dosage,UnitCode) Values('{0}','{1}', '{2}', '{3}','{4}','{5}',{6},'{7}')",

@@ -15,7 +15,7 @@
                 <a href="#" class="easyui-linkbutton" iconcls="icon-save" id="btnSave" onclick="SaveEditMaster()">@Resource.btn_save</a> <!--保存主表更改--> 
                 <a href="#" class="easyui-linkbutton" iconcls="icon-undo" id="btnUndo" onclick="UndoEditMaster()">@Resource.btn_undo</a>
                 <a href="#" class="easyui-linkbutton" iconcls="icon-import" id="btnImport">@Resource.btn_import</a><!--訂單匯入-->
-                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach" onclick="showMessageDialog('/Sales/SalesOrder/Find', '@Resource.btn_search', 850, 680)">@Resource.btn_search</a><!--查找-->
+                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach" onclick="showMessageDialog('Find', '@Resource.btn_search', 850, 680)">@Resource.btn_search</a><!--查找-->
                 <a href="#" class="easyui-linkbutton" id="btnPrint" iconcls="icon-print" onclick="showMessageDialog('@Url.Action("Print")','列印',800,600,true);">@Resource.btn_print</a><!--列印-->
             </div>
         </div>
@@ -28,9 +28,10 @@
             {
                 <ul class="formod mgt10" id="ulPanel">
                     <!--oc編號-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.OcID：</span>@Html.TextBoxFor(m => m.OcID, new { @class = "easyui-textbox myReadonly font_group ", @data_options = "required:true,validType:'length[1,20]',readonly: true", @style = "width:72%" })</li>
-                    <!--版本-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.Ver：</span>@Html.TextBoxFor(m => m.Ver, "0", new { @class = "easyui-textbox myReadonly", @data_options = "required:true,validType:'length[1,20]',readonly: true", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group font_color_required">@Resource.OcID：</span>
+                        @Html.TextBoxFor(m => m.OcID, new { @class = "easyui-textbox myReadonly font_group ", @data_options = "required:true,validType:'length[1,20]',readonly: true", @style = "width:60%" })
+                        @Html.TextBoxFor(m => m.Ver, "0", new { @class = "easyui-textbox myReadonly", @data_options = "required:true,validType:'length[1,20]',readonly: true", @style = "width:10%" })
+                    </li>                   
                     <!--落單日期-->
                     <li class="lb-std"><span class="input-group font_color_required">@Resource.OrderDate：</span>@Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand ", @data_options = "required:true,validType:'length[1,10]'", @style = "width:72%" })</li>
                     <!--訂單類型-->
@@ -282,12 +283,12 @@
 
 
 @section PageSpecificJavascriptIncludes{
-    @*<script src="~/Content/js/SalesOrder.js?v=20210112000053"></script>*@
+    @*<script src="~/Content/js/SalesOrder.js?v=20210112000062"></script>*@
     <script src="~/Content/js/SalesOrder.js"></script>
     <script src="~/Content/js/BaseData.js"></script>
 
     <script type="text/javascript">
-        //设置全局变量,供其他JS代碼使用       
+        //设置全局变量,供其他JS代碼使用
         /**
         使用方法：
         设置单个全局变量：
@@ -300,8 +301,8 @@
             msg_condition_is_empty: '@Resource.msg_condition_is_empty',
             msg_data_query: '@Resource.msg_data_query',
             msg_details_info: '@Resource.msg_details_info',
-            msg_loading_data: '@Resource.msg_loading_data',            
-            msg_master_data_is_empty: '@Resource.msg_master_data_is_empty',            
+            msg_loading_data: '@Resource.msg_loading_data',
+            msg_master_data_is_empty: '@Resource.msg_master_data_is_empty',
             msg_no_data: '@Resource.msg_no_data',
             msg_only_select_one: '@Resource.msg_only_select_one',
             msg_saved_master_success: '@Resource.msg_saved_master_success',
@@ -309,23 +310,24 @@
             msg_search_condition: '@Resource.msg_search_condition'
         })
 
-        $(function () {    
+        $(function () {
 
             SearchOcDetails();
-            InitSearch();//查询           
+            InitSearch();//查询
 
             //$("btnNew").click(NewDocument);
 
             $("#btnEdit").click(function () {
                 EditMaster("@Resource.sales_order_master");
             });
-          
+
             $("#btnItem").click(function () {
                 findItem(null);
             });
 
             $("#btnImport").click(function () {
-                openWin('/Sales/SalesOrder/ImportOrder', '@Resource.btn_import', 850, 560, null);               
+                //openWin('/Sales/SalesOrder/ImportOrder', '@Resource.btn_import', 850, 560, null);
+                openWin('ImportOrder', '@Resource.btn_import', 850, 560, null);
             });
 
             //設置只讀背景色為灰色
@@ -455,7 +457,7 @@
                 countItemAmount();
             });
 
-      
+
             AddNew();
 
             //********
@@ -561,7 +563,8 @@
             var current_edit_rowindex = undefined;
             initListBom({ OcID: "", Ver: "", UpperSeq: "" })//初始化SalesBOM
             $('#tbDetails').datagrid({
-                url: '/SalesOrder/List',//指向后台的Action来获取当前用户的信息的Json格式的数据
+                //url: '/SalesOrder/List',//指向后台的Action来获取当前用户的信息的Json格式的数据
+                url: 'List',//指向后台的Action来获取当前用户的信息的Json格式的数据
                 iconCls: 'icon-view',//图标
                 //fit: true,//自动适屏功能
                 //fit: true,
@@ -627,7 +630,7 @@
                             //請首先按清除按鈕,清空表明細表頭信息
                             $.messager.alert("@Resource.msg_system_prompt", "@Resource.mst_clear_detail_head_data");
                         }
-                        disableArea(true);//區域禁用
+                        //disableArea(true);//區域禁用
                     }
                 }, '-', {
                     id: 'btnBlank',
@@ -702,7 +705,8 @@
                         var postData = $("#addFormDetails").serializeArray();
                         //Ajax异步实现加载
                         $.ajax({
-                            url: "/SalesOrder/AddList?OcID=" + $("#OcID").val(),
+                            //url: "/SalesOrder/AddList?OcID=" + $("#OcID").val(),
+                            url: "AddList?OcID=" + $("#OcID").val(),
                             data: postData,
                             //cache: false,
                             async: true,//改为異步方式
@@ -751,7 +755,8 @@
                                 //
                                 $.messager.confirm("@Resource.msg_system_prompt", "@Resource.msg_is_del_current_record", function (deleteClient) {
                                     if (deleteClient) {
-                                        $.post("/SalesOrder/DeleteList?r=" + Math.random(), { OcID: $("#OcID").val(),Ver:$("#Ver").val(), Seq: RowDeleteByID[0].Seq }, function (data) {
+                                        //$.post("/SalesOrder/DeleteList?r=" + Math.random(), { OcID: $("#OcID").val(), Ver: $("#Ver").val(), Seq: RowDeleteByID[0].Seq }, function (data) {
+                                        $.post("DeleteList", { OcID: $("#OcID").val(), Ver: $("#Ver").val(), Seq: RowDeleteByID[0].Seq }, function (data) {
                                             if (data == "OK") {
                                                 $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_del_success");//刪除成功
                                                 //这里要将上次删除的Id清空，否则下次再删除的时候会报错
@@ -827,7 +832,8 @@
             var current_edit_rowindex = undefined;
             var editIndex = undefined;
             $('#tbSalesBom').datagrid({
-                url: '/SalesOrder/SalesBomList', //指向后台的Action来获取当前用户的信息的Json格式的数据
+                //url: '/SalesOrder/SalesBomList', //指向后台的Action来获取当前用户的信息的Json格式的数据
+                url: 'SalesBomList', //指向后台的Action来获取当前用户的信息的Json格式的数据
                 iconCls: 'icon-view',//图标
                 //fit: true,//自动适屏功能
                 //fit: true,
@@ -1083,7 +1089,8 @@
                             //您确认删除该条記錄
                             $.messager.confirm("@Resource.msg_system_prompt", "@Resource.msg_is_del_current_record", function (isDel) {
                                 if (isDel) {
-                                    $.post("/SalesOrder/DeleteListSalesBom", { OcID: $("#OcID").val(), Ver: RowDeleteByID[0].Ver, UpperSeq: RowDeleteByID[0].UpperSeq, Seq: RowDeleteByID[0].Seq }, function (data) {
+                                    //$.post("/SalesOrder/DeleteListSalesBom", { OcID: $("#OcID").val(), Ver: RowDeleteByID[0].Ver, UpperSeq: RowDeleteByID[0].UpperSeq, Seq: RowDeleteByID[0].Seq }, function (data) {
+                                    $.post("DeleteListSalesBom", { OcID: $("#OcID").val(), Ver: RowDeleteByID[0].Ver, UpperSeq: RowDeleteByID[0].UpperSeq, Seq: RowDeleteByID[0].Seq }, function (data) {
                                         if (data == "OK") {
                                             $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_del_success");
                                             //这里要将上次删除的Id清空，否则下次再删除的时候会报错
@@ -1142,74 +1149,92 @@
             });
         }
 
-        ////測試代碼
-        //function setInputWidth(bwidth) {
-        //    var ddlw = parseInt($(".lb-std").css("width"));
-        //    var ddlh = parseInt($("#mdInput").css("height"));
-        //    var ddlf = parseInt($("#mdInput").css("font-size"));
+        /*
+        *主表明細表單輸入有效性檢查
+        */
+        function ValidForm() {
+            var not_empty = "@Resource.msg_cannot_be_empty";
+            var active_page = "@Resource.sales_order_master";//主檔頁標題
+            var objValue = null;
+            objValue = $("#Area").combobox('getValue');
+            if (checkEmpty(objValue, "@Resource.Area" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#OcID").val();
+            if (checkEmpty(objValue, "@Resource.OcID" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#OrderDate").datebox('getValue');
+            if (checkEmpty(objValue, "@Resource.OrderDate" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#ForeignFirm").combobox('getValue');
+            if (checkEmpty(objValue, "@Resource.ForeignFirm" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#CustomerID").val();
+            if (checkEmpty(objValue, "@Resource.CustomerID" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#Contacts").val();
+            if (checkEmpty(objValue, "@Resource.Contacts" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#Merchandisers").combobox('getValue');
+            if (checkEmpty(objValue, "@Resource.Merchandisers" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#SallerID").combobox('getValue');
+            if (checkEmpty(objValue, "@Resource.SallerID" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#CurrencyID").combobox('getValue');
+            if (checkEmpty(objValue, "@Resource.CurrencyID" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#PoNo").val();
+            if (checkEmpty(objValue, "@Resource.PoNo", not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#PriceType").combobox('getValue');
+            if (checkEmpty(objValue, "@Resource.PriceType" + not_empty, active_page)) {
+                return false;
+            }
 
-        //    $("#ulPanel").find("input").each(function () {
-        //        //$(this).click(function () {
-        //        //    alert("luozhiping");
-        //        //});
-        //        //alert(this.id);
-        //        //debugger;
-        //        var name = this;
-        //        var id = this.id;
-        //        var result = $(this).find('.easyui-textbox');
-        //        var className = $(this).attr("class");
-        //        if (!className)
-        //            className = "";
-        //        var name1 = className.substring(0, 6);
-        //        if (name1 == "easyui")//(this.id.length==5)
-        //        {
-        //            //debugger;
-        //            var obj = this.id;
-        //            //alert(this.name);
-        //            //var obj1 = this;
-        //            //var val = $(this).val();
-        //            //var val1 = $("#ipt11").val();
-        //            //var width1 = this.;
-        //            $(this).textbox({
-        //                height: ddlh,
-        //                width: ddlw * bwidth,
-        //            });
-        //            $(this).textbox('textbox').css("font-size", ddlf);
-        //        }
-        //    });
-        //    ddlw = parseInt($(".td-div-input").css("width"));
-        //    ddld = parseInt($(".td-input").css("width"));
+            //檢查明細
+            active_page = "@Resource.sales_order_details";//明細頁標題
+            objValue = $("#ProductMo").val();
+            if (checkEmpty(objValue, "@Resource.ProductMo" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#ProductID").val();
+            if (checkEmpty(objValue, "@Resource.ProductID" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#PlanCompleteDate").datebox('getValue');
+            if (checkEmpty(objValue, "@Resource.PlanCompleteDate" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#ArriveDate").datebox('getValue');
+            if (checkEmpty(objValue, "@Resource.ArriveDate" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#FactoryShipOutDate").datebox('getValue');
+            if (checkEmpty(objValue, "@Resource.FactoryShipOutDate" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#Price").val();
+            if (checkEmpty(objValue, "@Resource.Price" + not_empty, active_page)) {
+                return false;
+            }
+            objValue = $("#PriceUnit").combobox('getValue');
+            if (checkEmpty(objValue, "@Resource.PriceUnit" + not_empty, active_page)) {
+                return false;
+            }
 
-        //    //debugger;
-        //    $("#details_master").find("input").each(function () {
-        //        //$(this).click(function () {
-        //        //    alert("luozhiping");
-        //        //});
-        //        //alert(this.id);
-        //        var name = this;
-        //        var id = this.id;
-        //        var result = $(this).find('.easyui-textbox');
-        //        var className = $(this).attr("class");
-        //        if (!className)
-        //            className = "";
-        //        var name1 = className.substring(0, 6);
-        //        if (name1 == "easyui")//(this.id.length==5)
-        //        {
-        //            //debugger;
-        //            var obj = this.id;
-        //            //alert(this.name);
-        //            //var obj1 = this;
-        //            //var val = $(this).val();
-        //            //var val1 = $("#ipt11").val();
-        //            //var width1 = this.;
-        //            $(this).textbox({
-        //                height: ddlh,
-        //                width: ddlw - 20,
-        //            });
-        //            $(this).textbox('textbox').css("font-size", ddlf);
-        //        }
-        //    });
-        //}
+            return true;
+        }
+
 
     </script>
 

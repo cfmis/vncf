@@ -552,4 +552,7 @@
   <data name="msg_master_data_is_added_status" xml:space="preserve">
     <value>主檔資料為新增狀態,當前操作無效!</value>
   </data>
+  <data name="msg_cannot_be_empty" xml:space="preserve">
+    <value>不可為空!</value>
+  </data>
 </root>

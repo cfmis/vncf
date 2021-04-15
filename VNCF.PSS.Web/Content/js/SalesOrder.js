@@ -100,7 +100,8 @@ function getMoSerialNo() {
     if (mo_type != "" && mo_dept != "" && mo_group != "") {       
         var postData = { strMoType: mo_type, strMoDept: mo_dept, strMoGroup: mo_group };
         $.ajax({
-            url: "/SalesOrder/GetMoSerialNo",
+            //url: "/SalesOrder/GetMoSerialNo",
+            url: "GetMoSerialNo",
             data: postData,
             type: "POST",
             async: true,
@@ -137,6 +138,7 @@ function getDBDateTime() {
 }
 function setDBDateTime(result) {
     $("#OrderDate").textbox("setValue", result.current_date);
+    $("#ReceivedDate").textbox("setValue", result.current_date);
     $("#CreateAt").textbox("setValue", result.current_datetime);
 }
 
@@ -569,21 +571,22 @@ function countItemAmount() {
     $("#ProductAmount").textbox("setValue", Product_Amount.toFixed(2));
 }
 
-//單位單位匯率
+//單位匯率
 function getQuantityUnitRate(id) {   
     var rate = 0;
     $.ajax({
-        url: "/SalesOrder/GetQuantityUnitRate?strID=" + id,
-            //data: postData,
-            type: "POST",
-            async: false,
-            //contentType: 'application/json;charset=UTF-8',
-            dataType: "JSON",
-            timeout: 20000,
-            success: function (data) {
-                rate = data;
-            },
-            error: ErryFunction
+        //url: "/SalesOrder/GetQuantityUnitRate?strID=" + id,
+        url: "GetQuantityUnitRate?strID=" + id,
+        //data: postData,
+        type: "POST",
+        async: false,
+        //contentType: 'application/json;charset=UTF-8',
+        dataType: "JSON",
+        timeout: 20000,
+        success: function (data) {
+            rate = data;
+        },
+        error: ErryFunction
    });
     return rate;
 };
@@ -598,7 +601,8 @@ function getTotalAmount(id, ver, current_seq) {
     var postData = { strOcID: id,Ver:ver, strSeq: current_seq };
     var total_amount = 0;
     $.ajax({
-        url: "/SalesOrder/GetTotalAmount",
+        //url: "/SalesOrder/GetTotalAmount",
+        url: "GetTotalAmount",
         data: postData,
         type: "POST",
         async: false,
@@ -650,7 +654,8 @@ function Save() {
     var postData = $("#addFormDetails").serializeArray();
     //Ajax异步实现加载
     $.ajax({
-        url: "/SalesOrder/AddList?OcID=" + $("#OcID").val(),
+        //url: "/SalesOrder/AddList?OcID=" + $("#OcID").val(),
+        url: "AddList?OcID=" + $("#OcID").val(),
         data: postData,
         //cache: false,
         async: false,//改为同步方式
@@ -675,16 +680,20 @@ function Save() {
     
     //保存成功后設置明細項目新增可用的初始狀態
     $("#ActionType_H").val("");
-    $("#ActionType_D").val("NEW");
-    $("#addFormDetails").form("clear");//清空明細表頁面表頭
-    $("#ProductMoVer").textbox("setValue", "0");//普通控件賦值
-    $('#MoState').combobox('setValue', '0');//下拉列表框賦值
-    $("#IsPrint").attr("checked", true)//默認PI需列印
+    clearDetailHead();
+    disableMaster(true); //主檔頁數不可編號  
 
-    disableMaster(true); //主檔頁數不可編號
-    disableDetails(false); //明細可編號
-    disableGenMoAndOcID(false); //GenMO可用,可生成頁數
-    disableSate();//設置狀態只讀
+    //$("#addFormDetails").form("clear");//清空明細表頁面表頭
+    //$("#ProductMoVer").textbox("setValue", "0");//普通控件賦值
+    //$('#MoState').combobox('setValue', '0');//下拉列表框賦值
+    //$("#IsPrint").attr("checked", true)//默認PI需列印
+
+    //$("#ActionType_D").val("NEW");
+    //$("#Seq").val("");
+    //disableMaster(true); //主檔頁數不可編號   
+    //disableDetails(false); //明細可編號
+    //disableGenMoAndOcID(false); //可生成頁數
+    //disableSate();//設置狀態只讀
 }
 
 /*
@@ -695,8 +704,8 @@ function SaveMaster() {
     var OcID = "";
     //Ajax异步实现加载
     $.ajax({
-        //url: "/SalesOrder/AddHead?r=" + Math.random(),
-        url: "/SalesOrder/AddHead",
+        //url: "/SalesOrder/AddHead",
+        url: "AddHead",
         data: postData,
         async: false,//改为同步方式
         type: "post",
@@ -738,21 +747,28 @@ function SaveEditMaster() {
 /*
 *主表明細表單輸入有效性檢查
 */
-function ValidForm() {
-    var valid = $("#addFormHead").form('validate');
-    if (valid == false) {
-        //請檢查主檔資料的完整性
-        $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00001'));
-        return false;
-    }
-    valid = $("#addFormDetails").form('validate');
-    if (valid == false) {
-        //請檢查明細資料的完整性
-        $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00002'));
-        return false;
-    }
-    return true;
-}
+//function ValidForm() {
+//    var valid = true;
+//    if ($("#OcID").val() == "" || $("#OcID").val() == null) {
+//        $.messager.alert(window['msg_system_prompt'], "編號不可為空!");       
+//        valid = false;
+//    }
+//        // $('#ProductID').next('span').find('input').focus();//获取焦点
+//    return valid;
+//    //var valid = $("#addFormHead").form('validate');
+//    //if (valid == false) {
+//    //    //請檢查主檔資料的完整性
+//    //    $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00001'));
+//    //    return false;
+//    //}
+//    //valid = $("#addFormDetails").form('validate');
+//    //if (valid == false) {
+//    //    //請檢查明細資料的完整性
+//    //    $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00002'));
+//    //    return false;
+//    //}
+//    //return true;
+//}
 
 /**
 *查詢主檔
@@ -760,7 +776,8 @@ function ValidForm() {
 function SearchOcHead() {
     //Ajax异步实现加载
     $.ajax({
-        url: "/SalesOrder/GetOcHead?OcID=" + $("#OcID").val(),
+        //url: "/SalesOrder/GetOcHead?OcID=" + $("#OcID").val(),
+        url: "GetOcHead?OcID=" + $("#OcID").val(),
         success: FillOcHead,
         error: ErryFunction //错误执行方法        
     })
@@ -771,7 +788,8 @@ function saveSalesBom(postData)
 {
     var save_flag = "";
     $.ajax({
-        url: "/SalesOrder/AddSalesBom",
+        //url: "/SalesOrder/AddSalesBom",
+        url: "AddSalesBom",
         data: postData,
         //cache: false,
         async: false,//同步更新
@@ -881,7 +899,8 @@ function setProductIDblur(index) {
 function checkProductID(id) {
     var result = "{Cdesc:'',Edesc:''}";   
     $.ajax({
-        url: "/SalesOrder/GetProductID?strProductID=" + id,
+        //url: "/SalesOrder/GetProductID?strProductID=" + id,
+        url: "GetProductID?strProductID=" + id,
         //data: postData,
         async: false,//需設為同步執行
         //contentType: 'application/json;charset=UTF-8',
@@ -971,14 +990,14 @@ function findItem(index) {
     if (edit_status != "") {
         //編輯狀態方可彈窗
         if (index == null) {
-            //OC明細表頭調用
-            openWin('/Sales/SalesOrder/FindItem', 'FindItem', 850, 530, index);
+            //OC明細表頭調用 
+            openWin('FindItem', 'FindItem', 850, 530, index);
             return;
         }
-        var temp_index = $("#CurrentRowIndex").val();       
+        var temp_index = $("#CurrentRowIndex").val();
         if (index == temp_index) {
             //BOM調用
-            openWin('/Sales/SalesOrder/FindItem', 'FindItem', 850, 530, index);
+            openWin('FindItem', 'FindItem', 850, 530, index);
         }
     }
 }
@@ -1005,8 +1024,8 @@ function openWin(url, title, width, height,rowIndex, shadow) {
                 if (rowIndex == null) {
                     //OC明細的主檔查貨品編號的按鈕
                     $("#ProductID").val(strItem);//賦值
-                    $('#ProductID').next('span').find('input').focus();
-                    $('#CustProductName').next('span').find('input').focus();
+                    $('#ProductID').next('span').find('input').focus();//获取焦点
+                    $('#CustProductName').next('span').find('input').focus();//获取焦点觸發事件使描述刷新
                     $('#ProductID').next('span').find('input').focus();
                 } else {
                     //BOM表格的查詢
@@ -1049,6 +1068,15 @@ function checkPlan(id,ver,seq) {
     //})
     
     return result;
+}
+
+function checkEmpty(objValue, objLable,activePage) {    
+    if (objValue == "" || objValue == null) {        
+        setActivePage(activePage);//切換至當前相對應的頁面    
+        $.messager.alert(window['msg_system_prompt'], objLable);
+        return true;
+    }
+    return false;
 }
 
 //function AddList() {

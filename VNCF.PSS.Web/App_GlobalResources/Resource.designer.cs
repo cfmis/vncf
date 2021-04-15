@@ -673,6 +673,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot be empty..
+        /// </summary>
+        internal static string msg_cannot_be_empty {
+            get {
+                return ResourceManager.GetString("msg_cannot_be_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot be greater than..
         /// </summary>
         internal static string msg_cannot_be_greater_than {
