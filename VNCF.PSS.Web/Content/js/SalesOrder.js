@@ -22,8 +22,11 @@ function setCustomerInfo(result) {
 }
 
 //貨幣匯率
-function getCurrencyRate(id) {
-    Ajax.call('GetCurrencyRate', '&strCurrencyID=' + id, setCurrencyRate, 'GET', 'JSON');
+function getCurrencyRate(obj) {   
+    var id = $(obj).combobox("getValue");    
+    if (id) {
+        Ajax.call('GetCurrencyRate', '&strCurrencyID=' + id, setCurrencyRate, 'GET', 'JSON');
+    }    
 }
 function setCurrencyRate(result) {
     $("#CurrencyRate").textbox('setValue', result);

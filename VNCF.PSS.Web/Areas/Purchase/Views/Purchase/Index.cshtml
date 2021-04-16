@@ -71,7 +71,7 @@
                     <li class="lb-std"><span class="input-group">@Resource.Packing：</span>@Html.TextBoxFor(m => m.Packing, "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
                     <!--備注-->
                     <li class="lb-std"><span class="input-group">@Resource.Remark：</span>@Html.TextBoxFor(m => m.Remark, "", new { @class = "easyui-textbox ", @data_options = "validType:'length[1,200]'", @style = "width:72%" })</li>
-                     <!--狀態-->
+                    <!--狀態-->
                     <li class="lb-std"><span class="input-group">@Resource.State：</span>@Html.TextBoxFor(m => m.State, "0", new { @class = "easyui-combobox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li> 
                     <!--總金額-->
                     <li class="lb-std"><span class="input-group">@Resource.TotalAmount：</span>@Html.TextBoxFor(m => m.TotalAmt, "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "readonly: true,min:0,precision:2", @style = "width:72%" })</li>                   
@@ -205,8 +205,8 @@
 </div>
 
 @section PageSpecificJavascriptIncludes{
-    @*<script src="~/Content/js/SalesOrder.js?v=20210412000003"></script>*@
-    <script src="~/Content/js/SalesOrder.js"></script>
+    <script src="~/Content/js/SalesOrder.js?v=20210416000003"></script>
+    @*<script src="~/Content/js/SalesOrder.js"></script>*@
     <script src="~/Content/js/BaseData.js"></script>
     
     <script type="text/javascript">
@@ -260,19 +260,18 @@
             //    }
             //});
 
+           
+
+            //初始化下拉列表框
+            initBaseInfoByName('bs_vendor', '#VendorID'); //供應商
+            initBaseInfo('bs_money', '#CurrencyID'); //貨幣
+            
             //根據當前貨幣取匯率
             $('#CurrencyID').combobox({
                 onHidePanel: function () {
-                    var tmp = $("#CurrencyID").combobox("getValue");
-                    if (tmp == null || tmp == undefined || tmp == "") {
-                    } else {
-                        getCurrencyRate(tmp);
-                    }
+                    getCurrencyRate("#CurrencyID");
                 }
             });
-
-            //初始化下拉列表框
-            initBaseInfo('bs_vendor', '#VendorID'); //區域
 
 
         });

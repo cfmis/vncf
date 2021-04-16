@@ -67,9 +67,10 @@
                     <!--跟單員郵件-->
                     <li class="lb-std"><span class="input-group">@Resource.MerchandisersEmail：</span>@Html.TextBox("MerchandisersEmail", "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
                     <!--貨幣代號-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.CurrencyID：</span>@Html.TextBox("CurrencyID", "", new { @class = "easyui-combobox", @data_options = "required:true", @style = "width:72%" })</li>
-                    <!--貨幣匯率,比率-->
-                    <li class="lb-std"><span class="input-group">@Resource.CurrencyRate：</span>@Html.TextBox("CurrencyRate", "", new { @class = "easyui-numberbox myReadonly ", @data_options = "readonly:true,min:0,precision:4", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group font_color_required">@Resource.CurrencyID：</span>
+                        @Html.TextBox("CurrencyID", "", new { @class = "easyui-combobox", @data_options = "required:true", @style = "width:40%" })
+                        @Html.TextBox("CurrencyRate", "", new { @class = "easyui-numberbox myReadonly ", @data_options = "readonly:true,min:0,precision:4", @style = "width:30%" })
+                    </li>
                     <!--裝貨港口-->
                     <li class="lb-std"><span class="input-group">@Resource.DeliveredPort：</span>@Html.TextBox("DeliveredPort", "", new { @class = "easyui-combobox", @style = "width:72%" })</li>
                     <!--目的港口-->
@@ -282,7 +283,7 @@
 
 
 @section PageSpecificJavascriptIncludes{
-    <script src="~/Content/js/SalesOrder.js?v=20210412000003"></script>
+    <script src="~/Content/js/SalesOrder.js?v=20210416000004"></script>
     <script src="~/Content/js/BaseData.js?v=20210412000002"></script>
 
     <script type="text/javascript">
@@ -335,8 +336,7 @@
             $('#Area').combobox({
                 onHidePanel: function () {
                     var tmp = $("#Area").combobox("getValue");
-                    if (tmp == null || tmp == undefined || tmp == "") {
-                    } else {
+                    if (tmp) {
                         if ($("#ActionType_H").val() == "NEW") {
                             getMaxOcID(tmp);
                         }
@@ -347,11 +347,7 @@
             //根據當前貨幣取匯率
             $('#CurrencyID').combobox({
                 onHidePanel: function () {
-                    var tmp = $("#CurrencyID").combobox("getValue");
-                    if (tmp == null || tmp == undefined || tmp == "") {
-                    } else {
-                        getCurrencyRate(tmp);
-                    }
+                    getCurrencyRate("#CurrencyID");
                 }
             });
 
@@ -390,7 +386,7 @@
             //客戶編號綁定失去焦點事件
             $("input", $("#CustomerID").next("span")).blur(function () {
                 var result = $("#CustomerID").val();
-                if (result.length > 0) {
+                if (result) {
                     result = result.toLocaleUpperCase();
                     $("#CustomerID").textbox("setValue", result);//賦值
                     getCustomerInfo(result);
@@ -400,7 +396,7 @@
             //貨品編號綁定失去焦點事件,查出貨品描述
             $("input", $("#ProductID").next("span")).blur(function () {
                 var result = $("#ProductID").val();
-                if (result.length > 0) {
+                if (result) {
                     result = result.toUpperCase();
                     $("#ProductID").textbox('setValue', result);//賦值
                     getProductID(result);
