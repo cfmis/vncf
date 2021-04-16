@@ -226,6 +226,55 @@
 
         $(function () {
             //TODO
+            //SearchOcDetails();
+           // InitSearch();//查询
+
+            //$("btnNew").click(NewDocument);
+
+            $("#btnEdit").click(function () {
+                EditMaster("@Resource.sales_order_master");
+            });
+
+            $("#btnItem").click(function () {
+                findItem(null);
+            });
+
+            $("#btnImport").click(function () {
+                //openWin('/Sales/SalesOrder/ImportOrder', '@Resource.btn_import', 850, 560, null);
+                openWin('ImportOrder', '@Resource.btn_import', 850, 560, null);
+            });
+
+            //設置只讀背景色為灰色
+            setReadonlyBackground();
+
+            ////更改區域時生成單據ID
+            //$('#Area').combobox({
+            //    onHidePanel: function () {
+            //        var tmp = $("#Area").combobox("getValue");
+            //        if (tmp == null || tmp == undefined || tmp == "") {
+            //        } else {
+            //            if ($("#ActionType_H").val() == "NEW") {
+            //                getMaxOcID(tmp);
+            //            }
+            //        }
+            //    }
+            //});
+
+            //根據當前貨幣取匯率
+            $('#CurrencyID').combobox({
+                onHidePanel: function () {
+                    var tmp = $("#CurrencyID").combobox("getValue");
+                    if (tmp == null || tmp == undefined || tmp == "") {
+                    } else {
+                        getCurrencyRate(tmp);
+                    }
+                }
+            });
+
+            //初始化下拉列表框
+            initBaseInfo('bs_vendor', '#VendorID'); //區域
+
+
         });
 
     </script>
