@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using VNCF.PSS.Web.Areas.Purchase.DAL;
 using VNCF.PSS.Web.Areas.Sales.DAL;
 
 namespace VNCF.PSS.Web.Areas.Purchase
@@ -20,6 +21,12 @@ namespace VNCF.PSS.Web.Areas.Purchase
         {
             var list = SalesOrderDAL.GetCurrencyRateByID(strCurrencyID);
             return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetVendorData(string strVendorID)
+        {
+            var result = PurchaseDAL.GetVendorByID(strVendorID);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

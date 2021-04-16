@@ -6,6 +6,7 @@ using VNCF.PSS.Web.Areas.Base.DAL;
 using CF.SQLServer.DAL;
 using System.Data.SqlClient;
 using VNCF.PSS.Web.Areas.Purchase.Models;
+using System.Data;
 
 namespace VNCF.PSS.Web.Areas.Purchase.DAL
 {
@@ -38,5 +39,37 @@ namespace VNCF.PSS.Web.Areas.Purchase.DAL
             result = ID;
             return result;
         }
+
+        //返回供應商地址信息等
+        public static BuyHead GetVendorByID(string strVendorID)
+        {
+            string strSql = string.Format(
+                @"Select name as Vendor,
+                isnull(add_address,'') as VendorAddress,
+                isnull(linkman,'') as Contacts,
+                isnull(l_phone,'') as ContactsTel,isnull(fax,'') as ContactsFax
+                From dbo.bs_vendor
+                Where id='{0}' and state ='1'", strVendorID);
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            BuyHead objModel = new BuyHead();
+            if (dt.Rows.Count > 0)
+            {
+                objModel.Vendor = dt.Rows[0]["Vendor"].ToString();
+                objModel.VendorAddress = dt.Rows[0]["VendorAddress"].ToString();
+                objModel.Contacts = dt.Rows[0]["Contacts"].ToString();
+                objModel.ContactsTel = dt.Rows[0]["ContactsTel"].ToString();
+                objModel.ContactsFax = dt.Rows[0]["ContactsFax"].ToString();
+            }
+            else
+            {
+                objModel.Vendor = "";
+                objModel.VendorAddress = "";
+                objModel.Contacts = "";
+                objModel.ContactsTel = "";
+                objModel.ContactsFax = "";
+            }
+            return objModel;
+        }
+
     }
 }

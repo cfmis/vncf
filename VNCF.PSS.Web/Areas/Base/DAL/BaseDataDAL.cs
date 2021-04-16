@@ -121,7 +121,10 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
                 case "bs_type_zd"://取色辦
                     strTableName = "bs_type";
                     strSql = string.Format(@"SELECT  id,id +' ('+{0}+')' as name FROM {1} WHERE group_id='ZD' and state<>'2' order by id", strFieldName, strTableName);
-                    break;               
+                    break;
+                case "bs_vendor"://取採購供應商                    
+                    strSql = string.Format(@"SELECT id,id +' ('+{0}+')' as name FROM {1} WHERE type<>'OP' and state<>'2' order by id", strFieldName, strTableName);
+                    break;
                 default://大多數的
                     strSql = string.Format(@"Select id,id +' ('+{0}+')'as name FROM {1} Where state<>'2' order by id", strFieldName, strTableName);
                     break;
@@ -178,11 +181,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
                             break;
                     }
                     strSql = string.Format(@"SELECT id FROM bs_type WHERE group_id='{0}' and state<>'2' order by id", group_id);
-                    break;
-                case "bs_vendor"://取採購供應商                    
-                    strSql = string.Format(@"SELECT id FROM {0} WHERE type<>'OP' and state<>'2' order by id", strTableName);
-                    break;
-
+                    break;               
                 default:
                     strSql = string.Format("Select english_name as id FROM {0} Where state<>'2' order by id", strTableName);
                     break;
