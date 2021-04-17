@@ -10,8 +10,15 @@ function setMaxOcID(result) {
     $("#OcID").textbox("setValue", result);
 }
 
-function getCustomerInfo(id) {
-    Ajax.call('GetCustomer', '&strCustomerID=' + id, setCustomerInfo, 'GET', 'JSON');
+//提取客戶名稱
+function getCustomerInfo() {
+    var id = $("#CustomerID").val();
+    debugger;
+    if (id) {
+        id = id.toLocaleUpperCase();
+        $("#CustomerID").textbox("setValue", id);//賦值
+        Ajax.call('/SalesOrder/GetCustomer', '&strCustomerID=' + id, setCustomerInfo, 'GET', 'JSON');      
+    }    
 }
 function setCustomerInfo(result) {    
     $("#CustomerCdesc").textbox("setValue", result.Cdesc);
@@ -22,8 +29,8 @@ function setCustomerInfo(result) {
 }
 
 //貨幣匯率
-function getCurrencyRate(obj) {   
-    var id = $(obj).combobox("getValue");    
+function getCurrencyRate() {   
+    var id = $("#CurrencyID").combobox("getValue");
     if (id) {
         Ajax.call('GetCurrencyRate', '&strCurrencyID=' + id, setCurrencyRate, 'GET', 'JSON');
     }    
@@ -32,8 +39,13 @@ function setCurrencyRate(result) {
     $("#CurrencyRate").textbox('setValue', result);
 }
 //貨品名稱
-function getProductID(id) {   
-    Ajax.call('GetProductID', '&strProductID=' + id, setProductDesc, 'GET', 'JSON');
+function getProductID() {
+    var id = $("#ProductID").val();
+    if (id) {
+        id = id.toUpperCase();
+        $("#ProductID").textbox('setValue', id);//賦值
+        Ajax.call('/SalesOrder/GetProductID', '&strProductID=' + id, setProductDesc, 'GET', 'JSON');       
+    }    
 }
 function setProductDesc(result) {
     $("#ProductCdesc").textbox("setValue", result.Cdesc);
@@ -989,7 +1001,8 @@ function findItem(index) {
         edit_status = $("#ActionType_D").val();
     } else {
         edit_status = $("#ActionType_Bom").val();
-    }    
+    }
+    
     if (edit_status != "") {
         //編輯狀態方可彈窗
         if (index == null) {

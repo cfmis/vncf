@@ -332,6 +332,7 @@
     <Content Include="Content\js\jquery.json.js" />
     <Content Include="Content\js\myValidator.js" />
     <Content Include="Content\js\order.js" />
+    <Content Include="Content\js\Purchase.js" />
     <Content Include="Content\js\SalesOrder.js" />
     <Content Include="Content\js\vncf_common.js" />
     <Content Include="Content\js\transport_jquery.js" />

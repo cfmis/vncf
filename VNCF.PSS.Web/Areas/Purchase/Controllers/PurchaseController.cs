@@ -5,10 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using VNCF.PSS.Web.Areas.Purchase.DAL;
 using VNCF.PSS.Web.Areas.Sales.DAL;
+using VNCF.PSS.Web.Common;
 
 namespace VNCF.PSS.Web.Areas.Purchase
 {
-    public class PurchaseController : Controller
+    public class PurchaseController : AdminControllerBase
     {
         // GET: Purchase/Purchase
         public ActionResult Index()
@@ -28,5 +29,12 @@ namespace VNCF.PSS.Web.Areas.Purchase
             var result = PurchaseDAL.GetVendorByID(strVendorID);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult GetBuyerName(string strBuyerID)
+        {
+            var list = PurchaseDAL.GetBuyerByID(strBuyerID);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

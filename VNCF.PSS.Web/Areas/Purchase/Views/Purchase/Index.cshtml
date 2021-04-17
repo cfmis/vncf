@@ -46,7 +46,7 @@
                     <!--傳真-->
                     <li class="lb-std"><span class="input-group">@Resource.ContactsFax：</span>@Html.TextBoxFor(m => m.ContactsFax, "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
                     <!--採購員編號-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.BuyerID：</span>@Html.TextBoxFor(m => m.BuyerID, "", new { @class = "easyui-combobox ", @data_options = "required:true", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group font_color_required">@Resource.BuyerID：</span>@Html.TextBoxFor(m => m.BuyerID, "", new { @class = "easyui-textbox ", @data_options = "required:true", @style = "width:72%" })</li>
                     <!--採購員名稱-->
                     <li class="lb-std"><span class="input-group">@Resource.BuyerName：</span>@Html.TextBoxFor(m => m.BuyerName, "", new { @class = "easyui-textbox myReadonly", @style = "width:72%" })</li>
                     <!--貨幣代號-->
@@ -57,7 +57,7 @@
                     <!--部門-->
                     <li class="lb-std"><span class="input-group font_color_required">@Resource.DeptID：</span>@Html.TextBoxFor(m => m.DepartMentID, "", new { @class = "easyui-combobox", @style = "width:72%" })</li>                    
                     <!--客戶代碼-->
-                    <li class="lb-std"><span class="input-group">@Resource.CustomerID：</span>@Html.TextBoxFor(m => m.CustomerID, "", new { @class = "easyui-combobox", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group">@Resource.CustomerID：</span>@Html.TextBoxFor(m => m.CustomerID, "", new { @class = "easyui-textbox", @data_options = "validType:'length[1,8]'", @style = "width:72%" })</li>
                     <!--客戶名稱-->
                     <li class="lb-std"><span class="input-group">@Resource.CustomerCdesc：</span>@Html.TextBoxFor(m => m.CustomerCdesc, "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>                                                         
                     <!--附加費用金額-->
@@ -204,8 +204,9 @@
 </div>
 
 @section PageSpecificJavascriptIncludes{
-    <script src="~/Content/js/SalesOrder.js?v=20210416000004"></script>
-    @*<script src="~/Content/js/SalesOrder.js"></script>*@
+    @*<script src="~/Content/js/SalesOrder.js?v=20210416000009"></script>*@
+    <script src="~/Content/js/SalesOrder.js"></script>
+    <script src="~/Content/js/Purchase.js"></script>
     <script src="~/Content/js/BaseData.js"></script>
     
     <script type="text/javascript">
@@ -226,7 +227,7 @@
         $(function () {
             //TODO
             //SearchOcDetails();
-           // InitSearch();//查询
+            // InitSearch();//查询
 
             //$("btnNew").click(NewDocument);
 
@@ -238,10 +239,10 @@
                 findItem(null);
             });
 
-            $("#btnImport").click(function () {
+            @*$("#btnImport").click(function () {
                 //openWin('/Sales/SalesOrder/ImportOrder', '@Resource.btn_import', 850, 560, null);
                 openWin('ImportOrder', '@Resource.btn_import', 850, 560, null);
-            });
+            });*@
 
             //設置只讀背景色為灰色
             setReadonlyBackground();        
@@ -251,23 +252,41 @@
             initBaseInfo('bs_vendor', '#VendorID'); //供應商
             initBaseInfo('bs_money', '#CurrencyID'); //貨幣
             initBaseInfo('bs_department', '#DepartMentID');//部門
+            initBaseInfoByName('bs_unit', '#OrderUnit'); //數量單位
+            initBaseInfoByName('bs_unit_wt', '#WeightUnit'); //重量單位
+            initBaseInfoByName('bs_unit_all', '#PriceUnit');//單價單位,數量,重量都有可能
             
             //根據當前貨幣取匯率
             $('#CurrencyID').combobox({
                 onHidePanel: function () {
-                    getCurrencyRate("#CurrencyID");
+                    getCurrencyRate();
                 }
             });            
             $('#VendorID').combobox({
                 onHidePanel: function () {
-                    var id = $("#VendorID").combobox("getValue");
-                    if (id) {
-                       getVendorInfo(id);
-                    }
+                    getVendorInfo();                   
                 }
             });
+            //客戶編號綁定失去焦點事件
+            $("input", $("#CustomerID").next("span")).blur(function () {
+                getCustomerInfo();                
+            });
+            //採購員編號綁定失去焦點事件
+            $("input", $("#BuyerID").next("span")).blur(function () {
+                getBuyerName();
+            });
+            //打開模式窗口,查詢貨品編碼
+            $("#btnItem").click(function () {
+                findItem(null);
+            });
+            //貨品編號綁定失去焦點事件,查出貨品描述
+            $("input", $("#ProductID").next("span")).blur(function () {
+                getProductID();                
+            });
+
 
             ////更改區域時生成單據ID
+
             //$('#Area').combobox({
             //    onHidePanel: function () {
             //        var tmp = $("#Area").combobox("getValue");
@@ -284,20 +303,7 @@
 
         });
 
-        //設置供應商信息
-        function getVendorInfo(id) {
-            Ajax.call('GetVendorData', '&strVendorID=' + id, setVendorInfo, 'GET', 'JSON');
-        }        
-        function setVendorInfo(result) {
-            $("#VendorAddress").textbox("setValue", result.VendorAddress);
-            $("#Contacts").textbox("setValue", result.Contacts);
-            $("#ContactsTel").textbox("setValue", result.ContactsTel);
-            $("#ContactsFax").textbox("setValue", result.ContactsFax);
-            $("#Vendor").val(result.Vendor)
-            //if (result.Cdesc == "") {
-            //    $("#ProductID").textbox("setValue", "");
-            //}
-        }
+
 
     </script>
 }

@@ -284,7 +284,7 @@
 
 @section PageSpecificJavascriptIncludes{
     <script src="~/Content/js/SalesOrder.js?v=20210416000004"></script>
-    <script src="~/Content/js/BaseData.js?v=20210412000002"></script>
+    <script src="~/Content/js/BaseData.js?v=20210412000002"></script>   
 
     <script type="text/javascript">
         //设置全局变量,供其他JS代碼使用
@@ -347,7 +347,7 @@
             //根據當前貨幣取匯率
             $('#CurrencyID').combobox({
                 onHidePanel: function () {
-                    getCurrencyRate("#CurrencyID");
+                    getCurrencyRate();
                 }
             });
 
@@ -385,22 +385,12 @@
 
             //客戶編號綁定失去焦點事件
             $("input", $("#CustomerID").next("span")).blur(function () {
-                var result = $("#CustomerID").val();
-                if (result) {
-                    result = result.toLocaleUpperCase();
-                    $("#CustomerID").textbox("setValue", result);//賦值
-                    getCustomerInfo(result);
-                }
+                getCustomerInfo();
             });
 
             //貨品編號綁定失去焦點事件,查出貨品描述
             $("input", $("#ProductID").next("span")).blur(function () {
-                var result = $("#ProductID").val();
-                if (result) {
-                    result = result.toUpperCase();
-                    $("#ProductID").textbox('setValue', result);//賦值
-                    getProductID(result);
-                }
+                getProductID();
             });
 
             //設置字體大小

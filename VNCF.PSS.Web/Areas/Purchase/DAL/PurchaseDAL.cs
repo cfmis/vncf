@@ -12,6 +12,7 @@ namespace VNCF.PSS.Web.Areas.Purchase.DAL
 {
     public class PurchaseDAL
     {
+        static string strRemoteDB = "DGERP2.cferp.dbo.";
         public static string UpdateBuyHead(BuyHead model)
         {
             string result = "";
@@ -67,6 +68,26 @@ namespace VNCF.PSS.Web.Areas.Purchase.DAL
                 objModel.Contacts = "";
                 objModel.ContactsTel = "";
                 objModel.ContactsFax = "";
+            }
+            return objModel;
+        }
+
+        public static BuyHead GetBuyerByID(string strBuyerID)
+        {
+            strBuyerID = strBuyerID.PadLeft(10,'0');
+            string strSql = string.Format(
+             @"SELECT Top 1 id,Rtrim(name) as name FROM {0}cd_personnel WHERE within_code='0000' and id='{1}' and state<>'2' and Isnull(personnel_state,'')<>'2'", strRemoteDB,strBuyerID);
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            BuyHead objModel = new BuyHead();
+            if (dt.Rows.Count > 0)
+            {
+                objModel.BuyerID = dt.Rows[0]["id"].ToString();
+                objModel.BuyerName = dt.Rows[0]["name"].ToString();
+            }
+            else
+            {
+                objModel.BuyerID = "";
+                objModel.BuyerName = "";
             }
             return objModel;
         }
