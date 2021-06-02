@@ -8,7 +8,7 @@ using VNCF.PSS.Web.Common;
 
 namespace VNCF.PSS.Web.Areas.Base.Controllers
 {
-    public class BaseDataController : Controller
+    public class BaseDataController : AdminControllerBase
     {
         // GET: Base/BaseData
         public ActionResult Index()

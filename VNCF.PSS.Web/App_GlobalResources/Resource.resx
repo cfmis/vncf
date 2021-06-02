@@ -220,10 +220,10 @@
     <value>Cust.Color Desc.</value>
   </data>
   <data name="CustomerCdesc" xml:space="preserve">
-    <value>Product Name</value>
+    <value>Cust. Name</value>
   </data>
   <data name="CustomerEdesc" xml:space="preserve">
-    <value>Product Name(Eng)</value>
+    <value>Cust. Name(En)</value>
   </data>
   <data name="CustomerID" xml:space="preserve">
     <value>CustomerID</value>
@@ -554,5 +554,32 @@
   </data>
   <data name="msg_master_data_is_added_status" xml:space="preserve">
     <value>The master data is in the added status, and the current operation is invalid!</value>
+  </data>
+  <data name="msg_cannot_be_empty" xml:space="preserve">
+    <value>Cannot be empty.</value>
+  </data>
+  <data name="BuyerID" xml:space="preserve">
+    <value>Buyer ID</value>
+  </data>
+  <data name="BuyerName" xml:space="preserve">
+    <value>Buyer Name</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="DeptID" xml:space="preserve">
+    <value>DepartMent ID</value>
+  </data>
+  <data name="OtherFare" xml:space="preserve">
+    <value>Other Fare</value>
+  </data>
+  <data name="Packing" xml:space="preserve">
+    <value>Packing Info</value>
+  </data>
+  <data name="Spec" xml:space="preserve">
+    <value>Spec</value>
+  </data>
+  <data name="VendorAddress" xml:space="preserve">
+    <value>Vendor Address</value>
   </data>
 </root>

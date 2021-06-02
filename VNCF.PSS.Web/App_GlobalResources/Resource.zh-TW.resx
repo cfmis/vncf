@@ -220,10 +220,10 @@
     <value>客顏色名稱</value>
   </data>
   <data name="CustomerCdesc" xml:space="preserve">
-    <value>客戶名稱(中文)</value>
+    <value>客戶名稱</value>
   </data>
   <data name="CustomerEdesc" xml:space="preserve">
-    <value>客戶名稱(英文)</value>
+    <value>客戶名稱(En)</value>
   </data>
   <data name="CustomerID" xml:space="preserve">
     <value>客戶編號</value>
@@ -551,5 +551,32 @@
   </data>
   <data name="msg_master_data_is_added_status" xml:space="preserve">
     <value>主檔資料為新增狀態,當前操作無效!</value>
+  </data>
+  <data name="msg_cannot_be_empty" xml:space="preserve">
+    <value>不可為空!</value>
+  </data>
+  <data name="BuyerID" xml:space="preserve">
+    <value>採購員編號</value>
+  </data>
+  <data name="BuyerName" xml:space="preserve">
+    <value>採購員名稱</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>顏色</value>
+  </data>
+  <data name="DeptID" xml:space="preserve">
+    <value>部門編號</value>
+  </data>
+  <data name="OtherFare" xml:space="preserve">
+    <value>附加費用</value>
+  </data>
+  <data name="Packing" xml:space="preserve">
+    <value>包裝信息</value>
+  </data>
+  <data name="Spec" xml:space="preserve">
+    <value>規格</value>
+  </data>
+  <data name="VendorAddress" xml:space="preserve">
+    <value>供應商地址</value>
   </data>
 </root>
