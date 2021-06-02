@@ -67,5 +67,13 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
             //var result = new { rows = list };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult LoadFormLanguage(string WebFormName)
+        {
+            var result = BaseDataDAL.LoadFormLanguage(WebFormName);
+            var json=Json(result, JsonRequestBehavior.AllowGet);
+            //var result = new { rows = list };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

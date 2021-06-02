@@ -6,6 +6,11 @@ using System.Data;
 using CF.SQLServer.DAL;
 using VNCF.PSS.Web.Areas.Base.Models;
 using VNCF.PSS.Web.Common;
+using System.Data.SqlClient;
+using System.Collections;
+using System.Text;
+using System.Dynamic;
+using Newtonsoft.Json;
 
 namespace VNCF.PSS.Web.Areas.Base.DAL
 {
@@ -213,6 +218,128 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             strSql = "Select ID,Name,flag0,flag1,flag2,fields1,fields2 From bs_DocFlag Where DocType='" + DocType + "' And ID='" + ID + "'";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             return dt;
+        }
+
+        public static dynamic LoadFormLanguage(string WebFormName)//List<List<string>>
+        {
+            string strSql = "p_LoadFormLanguage";
+            SqlParameter[] parameters = {new SqlParameter("@WebFormName", WebFormName)
+                    ,new SqlParameter("@LanguageID", LanguageID)
+                    };
+            DataTable dt = SQLHelper.ExecuteProcedureRetrunDataTable(strSql, parameters);
+            string ReturnValue = string.Empty;
+            ReturnValue = DataTableJsonReturnTable(dt);
+            //return ReturnValue;
+
+            dynamic myclass = new { field1 = "abcd", field2 = 12 };
+            myclass= new { field1 = "abcd", field2 = 12 };
+            return myclass;
+
+            //dynamic obj = new ExpandoObject();
+            //obj.field1 = 123;
+            //obj.CreatedAt = DateTime.Now;
+            //// etc
+            //return obj;
+
+
+
+            //var eobj = new List<ExpandoObject>();
+            //DataRow dr = dt.Rows[0];
+            //var record = new ExpandoObject();
+            //    eobj.Add(record);
+            //    var dic = (IDictionary<string, object>)record;
+            //for (int j = 0; j < dt.Columns.Count; j++)
+            //{
+            //    DataColumn dc = dt.Columns[j];
+            //    dic.Add(dc.ColumnName, dr[dc.ColumnName].ToString());
+            //}
+            //var jsonResult = JsonConvert.SerializeObject(eobj);   //将记录集合转换为json字符串
+
+            //return jsonResult;
+
+            //ArrayList al = new ArrayList();
+            //List<string> idss = new List<string>();
+            //List<List<string>> array = new List<List<string>>();
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            //{
+            //    DataRow dr = dt.Rows[i];
+            //    for (int j = 0; j < dt.Columns.Count; j++)
+            //    {
+            //        DataColumn dc = dt.Columns[j];
+            //        List<string> ids = GetColumnValues<string>(dt, dc.ColumnName);
+            //        al.Add(dc.ColumnName);
+            //        idss.Add(dc.ColumnName);
+
+
+            //        List<string> item = new List<string>(new string[] { dc.ColumnName,dr[dc.ColumnName].ToString() });
+            //        array.Add(item);
+            //        //al.Add(dc(j));
+            //    }
+            //}
+            ////List<string> listJobTitle = (from d in dt.AsEnumerable() select d.Field<string>("WebFormName")).ToList();
+            ////List<string> listJobTitle = (from d in dt.AsEnumerable() select new { WebFormName = d.WebFormName }).ToList();
+            ////var orderDt = from d in dt.AsEnumerable()
+            ////                select new
+            ////                {
+            ////                    WebFormName= d.Field<string>("FieldsID"),
+            ////                    BrandID= d.Field<string>("FieldsName")
+            ////                };
+            ////var orderList = orderDt.ToList();
+            //return array;
+        }
+
+        public static List<T> GetColumnValues<T>(DataTable dtSource, string filedName)
+        {
+            return (from r in dtSource.AsEnumerable() select r.Field<T>(filedName)).ToList<T>();
+        }
+
+        //JASON格式，返回給EasyUI Table使用
+        public static string DataTableJsonReturnTable(DataTable dt)
+        {
+            //StringBuilder jsonBuilder = new StringBuilder();
+            //jsonBuilder.Append("[");
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            //{
+            //    jsonBuilder.Append("{");
+            //    for (int j = 0; j < dt.Columns.Count; j++)
+            //    {
+            //        jsonBuilder.Append("\"");
+            //        jsonBuilder.Append(dt.Columns[j].ColumnName);
+            //        jsonBuilder.Append("\":\"");
+            //        jsonBuilder.Append(dt.Rows[i][j].ToString());
+            //        jsonBuilder.Append("\",");
+            //    }
+            //    jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
+            //    jsonBuilder.Append("},");
+            //}
+            //jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
+            //jsonBuilder.Append("]");
+
+
+            StringBuilder jsonBuilder = new StringBuilder();
+            jsonBuilder.Append("{");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    jsonBuilder.Append("\"");
+                    jsonBuilder.Append(dt.Columns[j].ColumnName);
+                    jsonBuilder.Append("\":\"");
+                    jsonBuilder.Append(dt.Rows[i][j].ToString());
+                    jsonBuilder.Append("\",");
+                }
+                jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
+            }
+            jsonBuilder.Append("}");
+
+            var ts= jsonBuilder.ToString();
+
+
+
+
+
+            //jsonBuilder.Append("}");
+            return jsonBuilder.ToString();
         }
     }
 }

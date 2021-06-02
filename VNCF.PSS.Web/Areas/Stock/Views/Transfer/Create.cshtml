@@ -23,7 +23,7 @@
         }
     </style>
 }
-<div class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;">
+<div id="app" class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;">
     <div data-options="region:'center'">
         <div class="easyui-layout" data-options="fit:true">
             <div class="botbtbx pdb0">
@@ -48,8 +48,8 @@
                 <ul class="formod mgt10" id="ulPanel">
 
                     <li class="lb-std"><div class="input-group"><span>@Resource.OcID：</span>@Html.TextBoxFor(m => m.ID, new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
-                    <li class="lb-std"><div class="input-group"><span>單據日期:</span>@Html.TextBoxFor(m => m.TransferDate, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
-                    <li class="lb-std"><div class="input-group"><span>單據類型:</span>@Html.TextBoxFor(m => m.FlagID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>{{Langs.field1}}:</span>@Html.TextBoxFor(m => m.TransferDate, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>{{Langs.WebFormName}}</span>@Html.TextBoxFor(m => m.FlagID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>倉庫編號:</span>@Html.TextBoxFor(m => m.LocID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>收貨倉庫:</span>@Html.TextBoxFor(m => m.NextLocID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>建立人:</span>@Html.TextBoxFor(m => m.CreateUser, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
@@ -115,6 +115,7 @@
 </div>
 @section PageSpecificJavascriptIncludes{
     @*<script src="~/Content/js/order.js"></script>*@
+    <script src="~/Scripts/vue.js"></script>
     <script type="text/javascript">
         $(function () {
             //var baseUrl = '~/Lib/BaseDataList.ashx/GetItem?';//'/Areas/Base/ASHX/BaseDataList.ashx/GetItem?'
@@ -456,5 +457,33 @@
             edit_mode = '1';
         }
 
+    </script>
+
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id1: "a123",
+                btn_edititem:"",
+                Langs:[]
+            },
+            created: function () {
+                var self = this;
+                $.ajax({
+                    url: "/Base/BaseData/LoadFormLanguage?WebFormName=Sales.Order.Index",
+                    type: 'post',
+                    //data: { 'param': obja }, //参数
+                    dataType: 'json'
+                }).then(function (res) {
+                    //console.log(res);
+                    //把从json获取的数据赋值给数组
+                    debugger;
+                    self.Langs = res;
+                    self.btn_edititem = res.btn_edititem;
+                }).fail(function () {
+                    console.log('失败');
+                })
+            },
+        })
     </script>
 }
