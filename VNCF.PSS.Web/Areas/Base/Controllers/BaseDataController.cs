@@ -68,6 +68,7 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+<<<<<<< HEAD
         //返回當前服務器日期,時間
         public ActionResult GetDBDate()
         {
@@ -76,5 +77,14 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
         }
 
 
+=======
+        public ActionResult LoadFormLanguage(string WebFormName)
+        {
+            var result = BaseDataDAL.LoadFormLanguage(WebFormName);
+            var json=Json(result, JsonRequestBehavior.AllowGet);
+            //var result = new { rows = list };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+>>>>>>> 5c15956e7dae957d77964c23b89d77f8bf6f0856
     }
 }
