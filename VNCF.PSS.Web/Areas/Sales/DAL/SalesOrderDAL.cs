@@ -427,7 +427,10 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         public static decimal GetCurrencyRateByID(string strCurrencyID)
         {
             decimal decRate = 0;
-            string strSql = string.Format("Select exchange_rate FROM bs_exchange_rate Where id='{0}' and state <>'2'", strCurrencyID);
+            string strSql = string.Format(
+                @"SELECT A.exchange_rate FROM bs_exchange_rate A,
+                (Select id, max(days) as days FROM bs_exchange_rate Where state <> '2' group by id) S
+                WHERE A.id = S.id And A.days = S.days AND A.id = '{0}'", strCurrencyID);
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             if (dt.Rows.Count > 0)
             {
@@ -487,17 +490,6 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             string id = dt.Rows.Count > 0 ? dt.Rows[0]["max_id"].ToString() : "";
             return id;
-        }
-
-        //當前服務器日期及時間
-        public static CurrentDateTime GetCurrentDateList()
-        {
-            string strSql = "Select CONVERT(varchar(20),getdate(),23) AS curr_date,CONVERT(varchar(20),getdate(),120) AS curr_datetime";
-            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-            CurrentDateTime objModel = new CurrentDateTime();
-            objModel.current_date = dt.Rows[0]["curr_date"].ToString();
-            objModel.current_datetime = dt.Rows[0]["curr_datetime"].ToString();
-            return objModel;
         }
 
         public static string GetMoSerialNo(string strMoType, string strMoDept, string strMoGroup)

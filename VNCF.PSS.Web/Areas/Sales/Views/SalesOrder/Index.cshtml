@@ -283,8 +283,9 @@
 
 
 @section PageSpecificJavascriptIncludes{
-    <script src="~/Content/js/SalesOrder.js?v=20210416000004"></script>
-    <script src="~/Content/js/BaseData.js?v=20210412000002"></script>   
+    <script src="~/Content/js/SalesOrder.js?v=20210416000005"></script>
+    @*<script src="~/Content/js/SalesOrder.js"></script>*@
+    <script src="~/Content/js/BaseData.js?v=20210423000004"></script>   
 
     <script type="text/javascript">
         //设置全局变量,供其他JS代碼使用
@@ -505,6 +506,7 @@
             disableGenMoAndOcID(false);//GenMO可用
             disableMaster(false);//主表可編輯
             disableDetails(false);//明細可編輯
+
             disableSate();//OC,MO狀態禁用
             getDBDateTime();//獲取服務器系統時間并設落單日期
         }

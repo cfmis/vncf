@@ -224,12 +224,6 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        //返回當前服務器日期,時間
-        public ActionResult GetDBDate()
-        {
-            var list = SalesOrderDAL.GetCurrentDateList();
-            return Json(list, JsonRequestBehavior.AllowGet);
-        }
 
         //返回產品編號描述(返回單行兩列)
         public ActionResult GetProductID(string strProductID)

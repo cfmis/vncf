@@ -215,5 +215,16 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             return dt;
         }
+
+        //當前服務器日期及時間
+        public static CurrentDateTime GetCurrentDateList()
+        {
+            string strSql = "Select CONVERT(varchar(20),getdate(),23) AS curr_date,CONVERT(varchar(20),getdate(),120) AS curr_datetime";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            CurrentDateTime objModel = new CurrentDateTime();
+            objModel.current_date = dt.Rows[0]["curr_date"].ToString();
+            objModel.current_datetime = dt.Rows[0]["curr_datetime"].ToString();
+            return objModel;
+        }
     }
 }

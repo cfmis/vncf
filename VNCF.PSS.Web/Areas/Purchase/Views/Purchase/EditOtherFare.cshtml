@@ -1,0 +1,133 @@
+﻿@using Resources;
+@{
+    ViewBag.Title = "Edit Other Fare";
+}
+
+
+
+<div class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;">
+
+    <div data-options="region:'center'">
+        
+        <div class="botbtbx pdb0" style="margin-top: 5px">            
+            <form id="formFare" method="post" novalidate="novalidate">
+                <ul class="formod mgt10">
+                    <li class="lb-std">
+                        <span class="input-group ">@Resource.OtherFareID：</span>
+                        @Html.TextBox("FareID", "", new { @class = "easyui-textbox ", @style = "width:58%" })
+                        <button type="button" id="btnItem" style="width:10%">...</button>
+                    </li>
+                    <li class="lb-std"><span class="input-group ">@Resource.ProductCdesc：</span>@Html.TextBox("Name", "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group ">數量：</span>@Html.TextBox("Qty", 0, new { @class = "easyui-numberbox  text-align-right ", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group ">@Resource.UnitCode：</span>@Html.TextBox("UnitCode", "", new { @class = "easyui-textbox ", @data_options = "readonly: true", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group ">@Resource.Price：</span>@Html.TextBox("Price", 0, new { @class = "easyui-numberbox text-align-right ", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group ">@Resource.TotalAmount：</span>@Html.TextBox("FareSum", 0, new { @class = "easyui-numberbox myReadonly text-align-right ", @data_options = "readonly: true", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group ">@Resource.ProductID：</span>@Html.TextBox("ProductID", "", new { @class = "easyui-textbox", @data_options = "readonly: true", @style = "width:72%" })</li>
+
+                    <li><input class="text" type="hidden" name="ID" id="ID" /></li>
+                    <li><input class="text" type="hidden" name="Ver" id="Ver" /></li>
+                    <li><input class="" type="hidden" name="ActionType" id="ActionType" /></li>
+                </ul>
+            </form>
+        </div>
+
+        <hr style="height:2px;border:none;border-top:1px dashed #0066CC;" />
+        <div class="botbtbx pdb0" style="text-align: center">
+            <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" id="btnClose" style="margin-left:10px ">@Resource.btn_exit</a>  <!--关闭-->
+            <a href="#" class="easyui-linkbutton" iconcls="icon-save" id="btnSave">@Resource.btn_save</a>
+        </div>
+    </div>
+</div>
+
+@section PageSpecificJavascriptIncludes{
+    <script src="~/Content/js/Purchase.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            Init();
+            $("#btnSave").click(function () {
+               Save();
+            });
+
+            var t = $('#FareID');
+            t.textbox('textbox').bind('keyup', function (e) {
+                t.textbox('setValue', $(this).val().toUpperCase());
+                //this.value = this.value.toUpperCase();
+                //if (e.keyCode == 13) {   // 当按下回车键时接受输入的值。
+                //    t.textbox('setValue', $(this).val());
+                //}
+            });
+            $("#btnClose").click(function () {
+                window.parent.closeWindow();//关闭窗口
+            });
+
+            //綁定訂單數量對象失去焦點事件
+            $("input", $("#Qty,#Price").next("span")).blur(function () {
+                //Purchase.Pur.setItemAmount();
+                alert("test");
+            });
+
+            $("#btnItem").click(function () {
+                if(document.getElementById("ActionType").value == "NEW")
+                {
+                    Purchase.Pur.openWin('FindOtherFareItem', 'Other Fare Item', 850, 530, 0);
+                }
+            });
+
+        });
+
+        function Init() {
+            //var action = window.parent.document.getElementById("ActionType_Fare").value;
+            var action = window.parent.$("#ActionType_Fare").val();           
+            if (action == "NEW") {
+                $("#FareID").textbox('textbox').attr('readonly', false);
+                $("#formFare").form("clear");                
+                document.getElementById("ID").value = window.parent.$("#ID").val();
+                document.getElementById("Ver").value = window.parent.$("#Ver").val();
+                document.getElementById("ActionType").value = "NEW";               
+                $("#ProductID").textbox("setValue",  window.parent.$("#ProductID").val());
+                
+                //$("#my_key input").attr("readonly", false).css("color", "blue");//主鍵不可編輯
+            } else {
+                $("#FareID").textbox('textbox').attr('readonly', true);
+                //var row = window.parent.$('#tbOtherFare').datagrid("getSelections");
+                var row = window.parent.$("#tbOtherFare").datagrid("getSelected");
+                if (row) {                   
+                    $("#formFare").form("load", row);
+                    //url = "UserManage.aspx?id=" + row.ID;
+                    document.getElementById("ActionType").value = "EDIT";
+                };
+                //$("#my_key input").attr("readonly", true).css("color", "blue");//主鍵不可編輯
+            }
+        }
+
+        function Save() {
+            //var queryData = { FareID: $("#FareID").val(), Name: $("#Name").val(), Qty: $("#Qty").val(), UnitCode: $("#UnitCode").val(), FareSum: $("#Name").val(), ProductID: $("#ProductID").val() };
+            //在前台对用户输入的信息做判断，不符合要求时“添加用户”就不能提交给后台
+            var valid = $("#formFare").form('validate');
+            if (valid == false) {
+                return false;
+            }
+            var postData = $("#formFare").serializeArray();
+            //Ajax异步实现加载
+            $.ajax({
+                url: "AddOtherFare",
+                data: postData,
+                type: "post",
+                success: function (data) {
+                    if (data == "OK") {
+                        $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_saved_success");//數據保存成功!
+                        window.parent.closeWindow();//关闭窗口
+                        $('#myTable').datagrid("reload");                        
+                        window.parent.SearchOcDetails();
+                    }
+                    else {
+                        $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_add_failed"); //添加失败
+                    }
+                }
+            })
+        };
+
+
+
+    </script>
+}

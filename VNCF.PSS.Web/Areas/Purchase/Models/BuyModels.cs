@@ -25,7 +25,7 @@ namespace VNCF.PSS.Web.Areas.Purchase.Models
         public string BuyerID { get; set; }//採購員代號
         [Required]
         public string CurrencyID { get; set; }//貨幣
-        public string CurrencyRate { get; set; }//貨幣匯率
+        public decimal CurrencyRate { get; set; }//貨幣匯率
         public string PaymentType { get; set; }//付款方式
         public string PriceType { get; set; }//價格條件
         public decimal PaymentAmt { get; set; }//貨品金額
@@ -66,7 +66,7 @@ namespace VNCF.PSS.Web.Areas.Purchase.Models
         public string Color { get; set; }//顏色
         public string ArriveDate { get; set; }//交貨日期
         public decimal OrderQty { get; set; }//訂單數量
-        public string Unit { get; set; }//訂單單位
+        public string OrderUnit { get; set; }//訂單單位
         public decimal Weight { get; set; }//重量
         public string WeightUnit { get; set; }//重單單位
         public decimal Price { get; set; }//單價
@@ -89,15 +89,33 @@ namespace VNCF.PSS.Web.Areas.Purchase.Models
         [Required]
         public string FareID { get; set; }//附加費用ID
         public string Name { get; set; }//附加費用描述
-        public decimal Qty { get; set; }//數量
+        public int Qty { get; set; }//數量
         public string UnitCode { get; set; }//重單單位
         public decimal Price { get; set; }//單價
         public decimal FareSum { get; set; }//費用金額
         public string ProductID { get; set; }//產品編號
+        public string ActionType { get; set; }//記錄操作當前行臨時狀態
 
     }
 
+    public class FindList
+    {
+        public string ID { get; set; }
+        public string OrderDate { get; set; }
+        public string VendorID { get; set; }
+        public string Seq { get; set; }
+        public string ProductMo { get; set; }
+        public string ProductID { get; set; }
+        public string ProductCdesc { get; set; }
+        public int OrderQty { get; set; }
+        public string OrderUnit { get; set; }
+        public decimal Price { get; set; }
+        public string PriceUnit { get; set; }
+        public decimal TotalSum { get; set; }
+        public string DepartMentID { get; set; }
 
+
+    }
 
 
 }

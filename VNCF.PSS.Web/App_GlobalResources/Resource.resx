@@ -582,4 +582,10 @@
   <data name="VendorAddress" xml:space="preserve">
     <value>Vendor Address</value>
   </data>
+  <data name="ID" xml:space="preserve">
+    <value>ID.</value>
+  </data>
+  <data name="OtherFareID" xml:space="preserve">
+    <value>Other Fare ID</value>
+  </data>
 </root>

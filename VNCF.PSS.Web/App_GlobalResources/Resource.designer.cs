@@ -583,6 +583,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ID..
+        /// </summary>
+        internal static string ID {
+            get {
+                return ResourceManager.GetString("ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invoice Remark.
         /// </summary>
         internal static string InvoiceRemark {
@@ -1065,6 +1074,15 @@ namespace Resources {
         internal static string OtherFare {
             get {
                 return ResourceManager.GetString("OtherFare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other Fare ID.
+        /// </summary>
+        internal static string OtherFareID {
+            get {
+                return ResourceManager.GetString("OtherFareID", resourceCulture);
             }
         }
         

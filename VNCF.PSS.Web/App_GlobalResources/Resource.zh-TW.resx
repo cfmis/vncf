@@ -579,4 +579,10 @@
   <data name="VendorAddress" xml:space="preserve">
     <value>供應商地址</value>
   </data>
+  <data name="ID" xml:space="preserve">
+    <value>編號</value>
+  </data>
+  <data name="OtherFareID" xml:space="preserve">
+    <value>附加費用編號</value>
+  </data>
 </root>

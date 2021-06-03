@@ -1,0 +1,169 @@
+﻿@using Resources;
+@using VNCF.PSS.Web.Areas.Purchase.Models;
+@model BuyHead
+@{
+    ViewBag.Title = "Purchase Find";
+}
+
+<div class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;">
+
+    @using (Html.BeginForm("EditHead", null, FormMethod.Post, new { id = "findFormHead", @clase = "form-inline", @role = "form" }))
+    {
+        <div data-options="region:'center'">
+            <div class="easyui-layout" data-options="fit:true">
+                <div class="botbtbx pdb0">                   
+                    <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" onclick="window.parent.closeWindow()">@Resource.btn_exit</a>  <!--关闭-->
+                    <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach">@Resource.btn_search</a>      <!--查询-->
+                    <a href="#" class="easyui-linkbutton" id="btnConf" iconcls="icon-ok">@Resource.btn_ok</a> <!--确定-->
+                </div>
+            </div>
+        </div>
+        <ul class="formod mgt10">
+            <!--採購日期-->
+            <li class="lb-std"><span class="input-group ">@Resource.OrderDate (From)：</span>@Html.TextBox("OrderDate1", "", new { @class = "easyui-datebox-expand ", @style = "width:72%" })</li>
+            <li class="lb-std"><span class="input-group ">@Resource.OrderDate (To)：</span>@Html.TextBox("OrderDate2", "", new { @class = "easyui-datebox-expand ", @style = "width:72%" })</li>
+            <!--供應商編號-->
+            <li class="lb-std"><span class="input-group ">@Resource.VendorID：</span>@Html.TextBoxFor(m => m.VendorID, "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
+            <!--採購單號-->
+            <li class="lb-std"><span class="input-group ">@Resource.PurchaseID：</span>@Html.TextBoxFor(m => m.ID, "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
+            <!--部門-->
+            <li class="lb-std"><span class="input-group ">@Resource.DeptID：</span>@Html.TextBoxFor(m => m.DepartMentID, "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
+            <!--頁數-->
+            <li class="lb-std"><span class="input-group ">@Resource.ProductMo：</span>@Html.TextBox("ProductMo", "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
+            <!--貨品編碼-->
+            <li class="lb-std"><span class="input-group ">@Resource.ProductID：</span>@Html.TextBox("ProductID", "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
+        </ul>
+    }
+    <div class="areabx_divider"></div>
+    <div data-options="region:'center'">
+        <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
+            <table id="tbDetails" class="easyui-datagrid" title=@Resource.msg_details_info style="width:100%;height:350px"
+                   data-options="singleSelect:true,collapsible:true,method:'get'"></table>
+        </div>
+    </div>
+</div>
+
+
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">
+        $(function () {
+            SearchData();
+
+            $("#btnSerach").click(function () {
+                //還原狀態為只讀,以免父頁頁新增新單時未結束時點查詢,原因主頁面時控件可修改
+                window.parent.Purchase.Pur.disableMaster(true);//只讀
+                window.parent.Purchase.Pur.disableDetails(true);//只讀
+                window.parent.Purchase.Pur.setEditMasterButtonSatus(false);//btnEdit disable
+                window.parent.Purchase.Pur.setEditDetailButtonSatus(false);//btnEditItem disable
+                window.parent.document.getElementById("ActionType_H").value = "";
+                window.parent.document.getElementById("ActionType_D").value = "";
+                SearchData();
+            });
+
+            $("#btnConf").click(function () {
+                SelectData();
+            });
+
+            initDate();//初始化日期
+        });
+
+        //獲取服務器時間
+        function initDate() {
+            Ajax.call('/BaseData/GetDBDate', '', setDate, 'GET', 'JSON');
+        }
+        function setDate(result) {
+            var strDate = result.current_date;
+            $("#OrderDate2").textbox("setValue", strDate);            
+            strDate = window.parent.dateAdd(window.parent.dateParse(strDate), -7);
+            $("#OrderDate1").textbox("setValue", strDate);
+        }
+
+        function initList(queryData) {
+            $('#tbDetails').datagrid({
+                url: 'FindList',   //指向后台的Action来获取当前用户的信息的Json格式的数据
+                iconCls: 'icon-view',//图标
+                //fit: true,//自动适屏功能
+                //fit: true,
+                //width: function () { return document.body.clientWidth * 2 },//自动宽度
+                nowrap: true,
+                autoRowHeight: false,//自动行高
+                striped: true,
+                collapsible: true,
+                //sortName: 'Id',//排序列名为ID
+                sortOrder: 'asc',//排序为将序
+                remoteSort: false,
+                idField: 'ID',//主键值
+                rownumbers: true,//显示行号
+                multiSort: true,//启用排序 sortable: true //启用排序列
+                pagination: true,
+                loadMsg: 'Loading... ',
+                emptyMsg: '<span> No Data</span>',
+                pageSize: 10,
+                pageList: [10, 20, 30, 40, 50],
+                queryParams: queryData, //搜索条件查询
+                columns: [[
+               { field: "ID", title: "@Resource.ID", width: 80 },//OC編號
+               { field: "OrderDate", title: "@Resource.OrderDate", width: 80 },//訂單日期
+               { field: "VendorID", title: "@Resource.VendorID", width: 70 },
+               { field: "Seq", title: "@Resource.Seq", width: 40 },
+               { field: "ProductMo", title: "@Resource.ProductMo", width: 80 },//頁數
+               { field: "ProductID", title: "@Resource.ProductID", width: 120 },//貨品編號
+               { field: "ProductCdesc", title: "@Resource.ProductCdesc", width: 200 },//產品描述
+               { field: "OrderQty", title: "@Resource.OrderQty", width: 70, align: 'right' },//訂單數量
+               { field: "OrderUnit", title: "@Resource.OrderUnit", width: 60, align: 'center' },//單位
+               { field: "Price", title: "@Resource.Price", width: 80, align: 'right' },
+               { field: "PriceUnit", title: "@Resource.PriceUnit", width: 80, align: 'center' },
+               { field: "TotalSum", title: "@Resource.TotalAmount", width: 80, align: 'right' },
+               { field: "DepartMentID", title: "@Resource.DeptID", width: 70, align: 'center' }
+                ]],
+                onDblClickRow: function (index, row) {
+                    SelectData();
+                },
+            });
+        }
+
+        ////初始化搜索框
+        //function InitSearch() {
+        //    //按照条件进行查询，首先我们得到数据
+        //    $("#btnSerach").click(function () {
+        //        //得到用户输入的参数
+        //        SearchData();
+        //    });
+        //    $("#btnConf").click(function () {
+        //        SelectData();
+        //    });
+        //}
+
+        function SearchData() {
+            var queryData = {
+                ID: $("#ID").val(),
+                VendorID: $("#VendorID").val(),
+                OrderDate1: $("#OrderDate1").textbox('getValue'),
+                OrderDate2: $("#OrderDate2").textbox('getValue'),
+                DepartMentID: $("#DepartMentID").val(),
+                ProductMo: $("#ProductMo").val(),
+                ProductID: $("#ProductID").val()
+            };
+            //var queryData = $("#findFormHead").serializeArray();
+
+            initList(queryData);
+            return false;
+        }
+        function SelectData() {
+            var RowFindByID = $('#tbDetails').datagrid('getSelections');
+            if (RowFindByID.length == 1) {
+                //实现绑定数据显示
+                var ID = RowFindByID[0].ID;
+                var obj = window.parent.document.getElementById("ID");
+                obj.value = ID;//父窗頁面中的對象賦值
+                window.parent.Purchase.Pur.SearchBuyHead();
+                window.parent.SearchBuyDetails();
+                window.parent.closeWindow();
+            }
+            else {
+                $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_only_select_one");
+            }
+        }
+
+    </script>
+}
