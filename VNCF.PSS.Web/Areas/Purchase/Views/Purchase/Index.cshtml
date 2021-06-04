@@ -295,11 +295,11 @@
 
             //綁定訂單數量對象失去焦點事件
             $("input", $("#OrderQty,#Weight,#Price,#DiscountRate").next("span")).blur(function () {
-                Purchase.Pur.setItemAmount($("#ActionType_D").val(),$("#Seq").val());               
+                Purchase.Pur.setItemAmount($("#ActionType_D").val(),$("#Seq").val());
             });
             $('#PriceUnit').combobox({
                 onHidePanel: function () {
-                    Purchase.Pur.setItemAmount($("#ActionType_D").val(),$("#Seq").val());                    
+                    Purchase.Pur.setItemAmount($("#ActionType_D").val(),$("#Seq").val());
                 }
             });
 
@@ -319,7 +319,7 @@
             $("#addFormDetails").form("clear");//清空明細表頁面表頭
             $("#tbDetails").datagrid("loadData", { total: 0, rows: [] }); //清空明細表格
             $("#tbOtherFare").datagrid("loadData", { total: 0, rows: [] }); //清空BOM
-
+                        
             $("#CreateBy").textbox("setValue", "@ViewBag.user_id");
             $("#Ver").textbox("setValue", "0");//普通控件賦值
             $("#State").combobox("setValue", "0");//下拉列表框賦值
@@ -335,6 +335,8 @@
             Purchase.Pur.disableDetails(false);//明細可編輯
             Purchase.Pur.disableSate();//狀態禁用
             getDBDateTime();//獲取服務器系統時間并設落單日期
+            $("#CurrencyID").combobox("setValue", "RMB");
+            getCurrencyRate();
         }
 
 
@@ -387,7 +389,7 @@
                { field: "Seq", title: "@Resource.Seq", width: 30, hidden: 'true' }, //序號
                { field: "ProductMo", title: "@Resource.ProductMo", width: 90 },//頁數
                { field: "ProductID", title: "@Resource.ProductID", width: 170 },//產品編號
-               { field: "ProductCdesc", title: "@Resource.ProductCdesc", width: 200 },//產品描述              
+               { field: "ProductCdesc", title: "@Resource.ProductCdesc", width: 200 },//產品描述
                { field: "OrderQty", title: "@Resource.OrderQty", width: 80, align: 'right' },//訂單數量
                { field: "OrderUnit", title: "@Resource.OrderUnit", width: 60, align: 'center' },//數量單位
                { field: "Weight", title: "@Resource.Weight", width: 60, align: 'right' },//重量
