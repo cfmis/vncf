@@ -189,5 +189,53 @@ namespace VNCF.PSS.Web.Areas.Sales.Models
         public string SecUnit { get; set; }//重量單位
         public string OrderDateEnd { get; set; }//訂單日期
     }
-    
+
+    public class OcReport
+    {
+        public string OcID { get; set; }//編號
+        public int Ver { get; set; }//版本      
+        public string OrderDate { get; set; }//落單日期       
+        public string CustomerID { get; set; } //客戶編號
+        public string CustomerCdesc { get; set; }//客戶描述
+        public string Contacts { get; set; }//聯繫人
+        public string ContactsTel { get; set; }//聯繫人電話
+        public string ContactsFax { get; set; }//傳真
+        public string PoNo { get; set; } //PO No.
+        public string Season { get; set; }//季度        
+        public string Remark { get; set; }//附帶條款
+        public string ShipMark { get; set; }//船嘜
+        public string ReceivedDate { get; set; }//接單日期       
+        public string CurrencyID { get; set; }//貨幣          
+        public string SallerID { get; set; }//營業員
+        public string SallerName { get; set; }
+        public string Merchandisers { get; set; }//營業員
+        public string MerchandisersTel { get; set; }//營業員電話
+        public string MerchandisersEmail { get; set; }//營業員郵箱
+        public string CreateBy { get; set; }
+        public string BankAccount { get; set; }//銀行賬號
+        public string Sign{ get; set; }//貨幣符號 
+        //明細
+        public string Seq { get; set; }//序號
+        public string ProductMo { get; set; }//頁數
+        public string ProductID { get; set; }//產品編號
+        public string ProductCdesc { get; set; }//產品描述
+        public string BrandID { get; set; }//牌子編號
+        public string StyleNo { get; set; }//款號
+        public string ContractID { get; set; }//po
+        public string CustProductID { get; set; }//客戶產品編號        
+        public string CustColorID { get; set; }//客戶顏色編號
+        public string ArriveDate { get; set; }//交貨日期
+        public string FactoryShipOutDate { get; set; }//交客日期
+        public decimal OrderQty { get; set; }//訂單數量
+        public string OrderUnit { get; set; }//訂單數量單位              
+        public decimal Price { get; set; }//單價     
+        public string PriceUnit { get; set; }//單價單位           
+        public decimal AmountProduct { get; set; }//貨品金額
+        public string DeliveryMode { get; set; }//送貨方式
+        public string OcRemark { get; set; }//OC備註
+        public string ArtImage { get; set; }//圖樣路徑
+
+
+    }
+
 }

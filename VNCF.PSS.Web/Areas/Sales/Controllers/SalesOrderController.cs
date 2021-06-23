@@ -7,6 +7,8 @@ using VNCF.PSS.Web.Areas.Sales.Models;
 using VNCF.PSS.Web.Areas.Sales.DAL;
 using VNCF.PSS.Web.Common;
 using System.IO;
+using Microsoft.Reporting.WebForms;
+using FastReport.Web;
 
 namespace VNCF.PSS.Web.Areas.Sales.Controllers
 {
@@ -292,7 +294,49 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
 
         }
 
+        //Print
+        public ActionResult Report(string ID)
+        {
+            //ReportViewerMVC方式
+            var list = SalesOrderDAL.GetReportReturnList("ECO210413003");            
+            ReportViewer rpv = new ReportViewer();//建立ReportViewer物建           
+            rpv.ProcessingMode = ProcessingMode.Local; //設定處理模式
+            rpv.SizeToReportContent = true;
+            //rpv.ZoomMode = FullPage;//rpv.AsyncRendering = false//rpvZoomMode = FullPage
+            //設定RDLC實體位置
+            rpv.LocalReport.ReportPath = $"{Request.MapPath(Request.ApplicationPath)}Areas\\Sales\\RDLCReports\\So.rdlc";
+            //設定報表資料來源
+            rpv.LocalReport.DataSources.Add(new ReportDataSource("ReportDataSource1", list));           
 
+            return View(rpv);
+        }
+
+        private WebReport webReport = new WebReport();
+        public ActionResult PrintFastReport(string ID)
+        {
+            SetReport();
+            webReport.Width = 1024;
+            webReport.Height = 800;
+            webReport.ToolbarIconsStyle = ToolbarIconsStyle.Black;
+            ViewBag.WebReport = webReport;
+            return View();
+        }
+
+        private void SetReport()
+        {
+            var list = SalesOrderDAL.GetReportReturnList("ECO210413003");
+            //string report_path = AppDomain.CurrentDomain.BaseDirectory;
+            //webReport.ReportFile = this.Server.MapPath("~/App_Data/report.frx"); //从文件中加载报表
+            string report_path = $"{Request.MapPath(Request.ApplicationPath)}Reports\\so.frx";
+            //传递数据
+            webReport.Report.RegisterData(list, "SoData");
+            //调用模板
+            webReport.Report.Load(report_path);
+        }      
 
     }
+
+
 }
+
+        
