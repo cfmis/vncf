@@ -124,4 +124,25 @@ namespace VNCF.PSS.Web.Areas.Base.Models
         public string current_date { get; set; }
         public string current_datetime { get; set; }
     }
+    public class GoodsEntity
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public int Type { get; set; }
+        public float Price { get; set; }
+    }
+
+    public class ReturnJsonInfo
+    {
+        public int Code { get; set; }
+        public string Message { get; set; }
+        public object Entity { get; set; }
+        public ReturnJsonInfo(int code, string message, object obj)
+        {
+            this.Code = code;
+            this.Message = message;
+            this.Entity = obj;
+        }
+    }
+
 }

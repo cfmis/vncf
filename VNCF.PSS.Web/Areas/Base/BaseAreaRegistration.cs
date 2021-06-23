@@ -18,6 +18,9 @@ namespace VNCF.PSS.Web.Areas.Base
                 "Base_default",
                 "Base/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
+                //"Base_default",
+                //"Base/{controller}/{action}/{id}",
+                //new { action = "Index", id = UrlParameter.Optional }
             );
         }
     }

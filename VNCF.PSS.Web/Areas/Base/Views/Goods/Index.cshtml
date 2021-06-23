@@ -1,0 +1,394 @@
+﻿
+@{
+    ViewBag.Title = "";// "Goods IndexPage";
+}
+@*@{@Html.Raw("@");}*@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script type="text/javascript" src="~/Scripts/vue.js"></script>
+    <script type="text/javascript" src="~/Scripts/vue-resource.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/axios.js"></script>*@
+</head>
+<body>
+    <div id="app">
+    <div class="head-item">
+        <div class="content-left f1">
+            <button class="btn btn-sm btn-primary" type="button" id="btn-invt-reset">
+                <i class="fa fa-plus"></i>&nbsp;button1
+            </button>
+            <button class="btn btn-sm btn-primary" type="button" id="btn-invt-save">
+                <i class="fa fa-save"></i>&nbsp;button2
+            </button>
+            <button class="btn btn-sm btn-primary" type="button" id="btn-invt-delete" disabled="disabled">
+                <i class="fa fa-trash"></i>&nbsp;button3
+            </button>
+            <button class="btn btn-sm btn-primary" type="button" id="btn-invt-import" onclick="importExcelData()" disabled>
+                <i class="glyphicon glyphicon-import"></i>&nbsp;button4
+            </button>
+        </div>
+
+    </div>
+
+    <div style="padding-top: 28px;">
+        <div id="attachTab" class="tab-pane">
+
+            <!-- �渽���� ҳ�� -->
+            <!-- <div id="acmpRLContent" style="display: none; margin: 20px auto;"> -->
+            <div style="padding:5px 2px 2px 2px">
+                <form id="acmp_form">
+                    <div style="position: relative;">
+                        <table class="percent-100">
+                            <tr>
+                                <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;物料編號</td>
+                                <td colspan="4">
+                                    <div class="input-group">
+                                        <input type="hidden" id="blsType" name="blsType">
+                                        <input type="text" v-on:keyup.enter="searchGoods" v-model="newGoods.goods_id" placeholder="请输入物料編號" />
+                                    </div>
+                                </td>
+                                <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;物料描述</td>
+                                <td colspan="4">
+                                    <input type="text" v-model="newGoods.goods_cname" />
+                                </td>
+                                <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;英文描述</td>
+                                <td colspan="4">
+                                    <input type="text" v-model="newGoods.goods_ename" />
+                                </td>
+                                <td class="text-align-right th-bg" colspan="4">越文描述1</td>
+                                <td colspan="4">
+                                    <input type="text" v-model="newGoods.goods_vname1" />
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;越文描述2</td>
+                                <td colspan="4">
+                                    <div class="input-group">
+                                        <input type="hidden" id="acmpFormFmt" name="acmpFormFmt">
+                                        <input type="text" v-model="newGoods.goods_vname2" />
+                                    </div>
+                                </td>
+                                <td class="text-align-right th-bg" colspan="4">越文描述3</td>
+                                <td colspan="20">
+                                    <div class="input-group">
+                                        <input type="hidden" id="acmpFormTypeCD" name="acmpFormTypeCD">
+                                        <input type="text" v-model="newGoods.goods_vname3" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </form>
+                    <div class="bootTable-content bor-line" style="margin-top: 2px;">
+                        <div style="margin-top: 2px;">
+                            <table id="acmpRLTalbe" class="table-fixed text-nowrap" data-id-field="acmpFormSeqNo" data-mobile-responsive="true"
+                                   data-resizable="true" style="margin-top: 20px;" data-uniqueId="acmpFormSeqNo" data-sortName="acmpFormSeqNo">
+                                <thead>
+                                    <tr>
+                                        <th style="background-color:#64a5eb" data-field="acmpFormSeqNo" data-visible="true">物料編號</th>
+                                        <th style="background-color:#64a5eb" data-field="acmpFormFileNm">物料描述</th>
+                                        <th style="background-color:#64a5eb" data-field="acmpFormTypeCDname">英文描述</th>
+                                        <th style="background-color:#64a5eb" data-field="acmpFormNo">越文描述1</th>
+                                        <th style="background-color:#64a5eb" data-field="acmpBlsStatusname">越文描述2</th>
+                                        <th style="background-color:#64a5eb" data-field="invtGdsSeqNo">越文描述3</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+</div>
+
+        </div>
+    </div>
+    </div>
+
+        <h2>Index</h2>
+        <div id="demo">
+            <table>
+                <tr>
+                    <td><label>编号：</label></td>
+                    <td><input type="text" v-model="newGoods.id" /></td>
+                    <td><label>名称：</label></td>
+                    <td><input type="text" v-model="newGoods.name" /></td>
+                    <td><label>类型：</label></td>
+                    <td><input type="text" v-model="newGoods.type" /></td>
+                    <td><label>售价：</label></td>
+                    <td><input type="text" v-model="newGoods.price" /></td>
+                    @*<td><a onclick="GetAllGoods1()">查詢</a></td>*@
+                    @*<td><input type="submit" value="查询" v-on:click="GetGoods(newGoods.id)" /></td>*@
+                    <td><a href="#" v-on:click="GetGoods(newGoods.id)">查詢</a></td>
+                    <td><a href="#" v-on:click="UpdateGoods(newGoods.id,newGoods.name,newGoods.type,newGoods.price)">修改</a></td>
+                </tr>
+            </table>
+            <table v-show="goodsList.length">
+                <tr>
+                    <td>编号</td>
+                    <td>名称</td>
+                    <td>类型</td>
+                    <td>售价</td>
+                </tr>
+                <tr v-for="item in goodsList">
+                    <td>{{item.ID}}</td>
+                    <td>{{item.Name}}</td>
+                    <td>{{item.Type}}</td>
+                    <td>{{item.Price}}</td>
+                    <td><a href="#" v-on:click="GetGoodsDetails(item.ID)">明細</a></td>
+                </tr>
+            </table>
+        </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                goodsList: [],
+                newGoods:{goods_id:'',goods_cname:'',goods_ename:'',goods_vname1:'',goods_vname:'',goods_vname:''}
+            },
+            created: function () {
+                this.InIt();
+                
+            },
+            methods: {
+                InIt: function () {
+                    this.newGoods.goods_id = "111";
+                    this.newGoods.goods_cname = "222";
+                },
+                searchGoods:function(e){
+
+                    var keyCode = window.event? e.keyCode:e.which;
+
+                    // console.log('回车搜索',keyCode,e); && this.input
+                    var obj = this.input;
+                    if(keyCode == 13){
+                        var _self = this;
+                        _self.$http.get("GetGoodsDetails").then(
+                                //////// Lambda写法
+                                (response) => {
+                                    ////successCallback
+                                    for (var i = 0; i < response.data.length; i++) {
+                                        _self.goodsList.push(response.data[i]);
+                                    }
+                                },
+                                (response) => {
+                                    //errorCallback
+                                }
+                            ).catch(function (response) {
+                                alert(response);
+                            });
+                    }
+
+                }
+            }
+        });
+    </script>
+        <script type="text/javascript">
+            var view = new Vue(
+                {
+                    el: "#demo",
+                    data: {
+                        goodsList: [],
+                        newGoods: { id: '', name: '', type: '', price: '' }
+                    },
+                    created: function () {
+                        this.InIt();
+                    },
+                    methods: {
+                        InIt: function () {
+                            //初始化
+                            this.GetAllGoods();
+                        },
+                        GetAllGoods: function () {
+                            var _self = this;//'@Url.Action("GetAllGoods", "Goods")'
+                            var url = window.location.href;
+                            _self.$http.get("GetAllGoods").then(
+                                //////// Lambda写法
+                                (response) => {
+                                    ////successCallback
+                                    for (var i = 0; i < response.data.length; i++) {
+                                        _self.goodsList.push(response.data[i]);
+                                    }
+                                },
+                                (response) => {
+                                    //errorCallback
+                                }
+                                //function (response) {
+                                //    //successCallback
+                                //    _self.goodsList = response.data;
+                                //        //for (var i = 0; i < response.data.length; i++) {
+                                //        //    _self.goodsList.push(response.data[i]);
+                                //        //}
+                                //    //if (response.data.Code == 500) {
+                                //    //    _self.goodsList.push(response.data.Entity);
+                                //    //}
+                                //    //else {
+                                //    //    alert(response.data.Message);
+                                //    //}
+                                //}
+                            ).catch(function (response) {
+                                alert(response);
+                            });
+
+                            // axios.get("GetAllGoods"
+                            //).then(
+                            //    function (response) {
+                            //        _self.goodsList = response.data;
+                            //    },
+                            //    function (response) {
+                            //        alert(response.status);
+                            //    }
+                            //).catch(function (response) {
+                            //    alert(response);
+                            //});
+
+
+
+                            //debugger;
+                            //$.ajax({
+                            //    url: "GetAllGoods",///Areas/Base/Goods/GetAllGoods
+                            //    /////Base/BaseData/LoadFormLanguage?WebFormName=Sales.Order.Index
+                            //    type: 'post',
+                            //    ////data: { 'param': obja }, //参数
+                            //    dataType: 'json'
+                            //}).then(function (res) {
+                            //    console.log(res);
+                            //    ////把从json获取的数据赋值给数组
+                            //    _self.goodsList = res;
+                            //}).fail(function () {
+                            //    console.log('失败');
+                            //})
+
+                        },
+                        GetGoods: function (_id) {
+                            var _self = this;
+                            _self.goodsList = [];
+                            if (_id.length > 0) {
+                                _self.$http.post("GetGoods", { id: _id }).then(
+                                    // 传统写法
+                                    function (response) {
+                                        //successCallback
+                                        if (response.data.Code == 500) {
+                                            _self.goodsList.push(response.data.Entity);
+                                        }
+                                        else {
+                                            alert(response.data.Message);
+                                        }
+                                    },
+                                    function (response) {
+                                        //errorCallback
+                                    }
+                                )
+                                    .catch(function (response) {
+                                        console.log(response);
+                                    });
+                            }
+                            else {
+                                _self.GetAllGoods();
+                            }
+                        },
+
+                        GetGoodsDetails: function (_id) {
+                            var _self = this;
+                            if (_id > 0) {
+                                //_self.goodsList.some((item, i) => {
+                                //    if (item.ID == _id) {
+                                //        //_self.goodsList.splice(i, 1);
+                                //        _self.newGoods.id = item.ID;
+                                //        _self.newGoods.name = item.Name;
+                                //        _self.newGoods.type = item.Type;
+                                //        _self.newGoods.price = item.Price;
+                                //        return true;
+                                //    }
+                                //})
+
+                                var index = _self.goodsList.findIndex(item=> {
+                                    if (item.ID == _id) {
+                                        _self.newGoods.id = item.ID;
+                                        _self.newGoods.name = item.Name;
+                                        _self.newGoods.type = item.Type;
+                                        _self.newGoods.price = item.Price;
+                                        return true;
+                                    }
+                                })
+                                _self.goodsList.splice(index, 1);
+                                //_self.$http.post("GetGoods", { id: _id }).then(
+                                //    // 传统写法
+                                //    function (response) {
+                                //        //successCallback
+                                //        if (response.data.Code == 500) {
+                                //            //_self.goodsList.push(response.data.Entity);
+                                //            _self.newGoods.id = response.data.Entity.ID;
+                                //            _self.newGoods.name = response.data.Entity.Name;
+                                //            _self.newGoods.type = response.data.Entity.Type;
+                                //            _self.newGoods.price = response.data.Entity.Price;
+                                //        }
+                                //        else {
+                                //            alert(response.data.Message);
+                                //        }
+                                //    },
+                                //    function (response) {
+                                //        //errorCallback
+                                //    }
+                                //)
+                                //    .catch(function (response) {
+                                //        console.log(response);
+                                //    });
+                            }
+                            else {
+                                _self.GetAllGoods();
+                            }
+                        },
+
+                        UpdateGoods: function (Id, Name, Type, Price) {
+                            if (Id == "") {
+                                alert("編號不能為空!");
+                                return;
+                            }
+                            var _self = this;
+                            _self.$http.post("UpdateGoods", { entity: { Id: Id, Name: Name, Type: Type, Price: Price } }).then(
+                                function (response) {
+                                    //successCallback
+                                    if (response.data.Code == 500) {
+                                        _self.goodsList = response.data.Entity;
+                                    }
+                                    else {
+                                        alert(response.data.Message);
+                                    }
+                                },
+                                    function (response) {
+                                        //errorCallback
+                                    }
+                                ).catch(function (response) {
+                                    console.log(response);
+                                });
+                        }
+                    }
+                }
+            );
+
+            //function GetAllGoods1() {
+            //    var url = window.location.href;
+            //    $.ajax({
+            //        url: "Goods/GetAllGoods",///Areas/Base/Goods/GetAllGoods
+            //        /////Base/BaseData/LoadFormLanguage?WebFormName=Sales.Order.Index
+            //        type: 'post',
+            //        ////data: { 'param': obja }, //参数
+            //        dataType: 'json'
+            //    }).then(function (res) {
+            //        console.log(res);
+            //        debugger;
+            //        ////把从json获取的数据赋值给数组
+            //        _self.goodsList = res;
+            //    }).fail(function () {
+            //        console.log('失败');
+            //    })
+            //}
+        </script>
+
+
+
+</body>
+</html>

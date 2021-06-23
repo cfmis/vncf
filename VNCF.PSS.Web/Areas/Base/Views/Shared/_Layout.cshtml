@@ -1,25 +1,20 @@
 ﻿<!DOCTYPE html>
 <html lang="zh">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <title>财务管理 @ViewBag.Title</title>
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width" />
-    @*      @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")*@
-    <link href="~/Content/sharestyle.css" rel="stylesheet" />
-    <link href="~/Content/main.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="~/Lib/jquery-easyui-1.5/themes/default/easyui.css" />
-    <link rel="stylesheet" type="text/css" href="~/Lib/jquery-easyui-1.5/themes/icon.css" />
-    <link rel="stylesheet" type="text/css" href="~/Lib/jquery-easyui-1.5/demo/demo.css" />
-    <script src="~/Scripts/jquery-1.8.3.min.js"></script>
-    <script src="~/Lib/lhgdialog/lhgdialog.min.js?self=true&skin=iblue"></script>
-    @*<script type="text/javascript" src="~/Lib/jquery-easyui-1.5/jquery.min.js"></script>*@
-    <script type="text/javascript" src="~/Lib/jquery-easyui-1.5/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="~/Lib/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js"></script>
-    <script type="text/javascript" src="~/Lib/jquery-easyui-1.5/easyuiDatePicker.js"></script>
-    <script type="text/javascript" src="~/Lib/My97DatePicker/WdatePicker.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单录入</title>
+    <link rel="shortcut icon" href="https&#x3a;&#x2f;&#x2f;swapp.singlewindow.cn&#x3a;443&#x2f;sasserver&#x2f;static/favicon.ico">
+
+
+
+    <link href="~/Content/Bootstrap-3.3.7/css/bootstrap.min.css?v=3.3.7" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/newStyle.css?v=20201029102416153">
+    <style>
+        .percent-100 tr1 {
+            height: 30px;
+        }
+    </style>
 </head>
 <body>
     @*  @RenderSection("featured", required: false)*@
@@ -36,5 +31,8 @@
         </footer>*@
     @*        @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)*@
+    <script src="~/Content/Hg/js/jquery.min.js?v=3.4.0"></script>
+    <script src="~/Content/bootstrap-3.3.7/js/bootstrap.min.js?v=3.3.7"></script>
+    <script src="~/Content/Hg/static/js/enter.js?v=20201029102416153"></script>
 </body>
 </html>

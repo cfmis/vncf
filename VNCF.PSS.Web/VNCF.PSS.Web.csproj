@@ -257,6 +257,7 @@
     <Compile Include="Areas\Base\Controllers\CountryController.cs" />
     <Compile Include="Areas\Base\Controllers\DepController.cs" />
     <Compile Include="Areas\Base\Controllers\DeptController.cs" />
+    <Compile Include="Areas\Base\Controllers\GoodsController.cs" />
     <Compile Include="Areas\Base\Controllers\ProductTypeController.cs" />
     <Compile Include="Areas\Base\Controllers\VendorController.cs" />
     <Compile Include="Areas\Base\DAL\BaseDAL.cs" />
@@ -511,6 +512,8 @@
     <Content Include="Areas\Purchase\Views\Purchase\Index.cshtml" />
     <Content Include="Areas\Purchase\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Purchase\Views\web.config" />
+    <Content Include="Areas\Base\Views\Goods\Index.cshtml" />
+    <Content Include="Areas\Base\Views\Shared\_Layout.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -577,7 +580,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Base\Views\BaseData\" />
-    <Folder Include="Areas\Base\Views\Shared\" />
     <Folder Include="Areas\Purchase\Views\Shared\" />
     <Folder Include="Areas\Stock\Views\Shared\" />
     <Folder Include="Content\Hg\" />
