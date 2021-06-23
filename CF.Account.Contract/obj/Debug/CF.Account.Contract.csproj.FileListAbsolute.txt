@@ -34,3 +34,17 @@ C:\Workspace\VNCF\CF.Account.Contract\bin\Debug\System.Web.Mvc.xml
 C:\Workspace\VNCF\CF.Account.Contract\obj\Debug\CF.Account.Contract.dll
 C:\Workspace\VNCF\CF.Account.Contract\obj\Debug\CF.Account.Contract.pdb
 C:\Workspace\VNCF\CF.Account.Contract\obj\Debug\CF.Account.Contract.csprojResolveAssemblyReference.cache
+D:\Workspace\vncf\CF.Account.Contract\bin\Debug\CF.Account.Contract.dll
+D:\Workspace\vncf\CF.Account.Contract\bin\Debug\CF.Account.Contract.pdb
+D:\Workspace\vncf\CF.Account.Contract\bin\Debug\CF.Framework.Contract.dll
+D:\Workspace\vncf\CF.Account.Contract\bin\Debug\CF.Framework.Utility.dll
+D:\Workspace\vncf\CF.Account.Contract\bin\Debug\System.Web.Mvc.dll
+D:\Workspace\vncf\CF.Account.Contract\bin\Debug\Newtonsoft.Json.dll
+D:\Workspace\vncf\CF.Account.Contract\bin\Debug\Microsoft.Web.Infrastructure.dll
+D:\Workspace\vncf\CF.Account.Contract\bin\Debug\CF.Framework.Contract.pdb
+D:\Workspace\vncf\CF.Account.Contract\bin\Debug\CF.Framework.Utility.pdb
+D:\Workspace\vncf\CF.Account.Contract\bin\Debug\System.Web.Mvc.xml
+D:\Workspace\vncf\CF.Account.Contract\bin\Debug\Microsoft.Web.Infrastructure.xml
+D:\Workspace\vncf\CF.Account.Contract\obj\Debug\CF.Account.Contract.csprojResolveAssemblyReference.cache
+D:\Workspace\vncf\CF.Account.Contract\obj\Debug\CF.Account.Contract.dll
+D:\Workspace\vncf\CF.Account.Contract\obj\Debug\CF.Account.Contract.pdb

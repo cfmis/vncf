@@ -12,8 +12,7 @@ function setMaxOcID(result) {
 
 //提取客戶名稱
 function getCustomerInfo() {
-    var id = $("#CustomerID").val();
-    debugger;
+    var id = $("#CustomerID").val();    
     if (id) {
         id = id.toLocaleUpperCase();
         $("#CustomerID").textbox("setValue", id);//賦值
@@ -98,13 +97,13 @@ function disableArea(isDisabled) {
     }
 }
 
-//單據狀態,頁數狀態只讀
-function disableSate() {
-    $('#State').combobox('readonly', false).combobox('textbox').prev().show();//
-    $('#State').combobox('readonly', true).combobox('textbox').prev().hide();
-    $('#MoState').combobox('readonly', false).combobox('textbox').prev().show();//
-    $('#MoState').combobox('readonly', true).combobox('textbox').prev().hide();
-}
+////單據狀態,頁數狀態只讀
+//function disableSate() {
+//    $('#State').combobox('readonly', false).combobox('textbox').prev().show();//
+//    $('#State').combobox('readonly', true).combobox('textbox').prev().hide();
+//    $('#MoState').combobox('readonly', false).combobox('textbox').prev().show();//
+//    $('#MoState').combobox('readonly', true).combobox('textbox').prev().hide();
+//}
 
 //產生mo流水號
 function getMoSerialNo() {
@@ -148,14 +147,7 @@ function setReadonlyBackground() {
     });
 }
 
-function getDBDateTime() {
-    Ajax.call('GetDBDate', '', setDBDateTime, 'GET', 'JSON');
-}
-function setDBDateTime(result) {
-    $("#OrderDate").textbox("setValue", result.current_date);
-    $("#ReceivedDate").textbox("setValue", result.current_date);
-    $("#CreateAt").textbox("setValue", result.current_datetime);
-}
+
 
 //*****可以直接輸入下拉列表框中存在的值,輸入下拉列表框中不存在的值,回車自動清空
 function check_input_unit(obj) {
@@ -462,6 +454,13 @@ function clearDetailHead()
     disableSate();//設置狀態只讀
 }
 
+//單據狀態,頁數狀態只讀
+function disableSate() {
+    $('#State').combobox('readonly', false).combobox('textbox').prev().show();//
+    $('#State').combobox('readonly', true).combobox('textbox').prev().hide();
+    $('#MoState').combobox('readonly', false).combobox('textbox').prev().show();//
+    $('#MoState').combobox('readonly', true).combobox('textbox').prev().hide();
+}
 
 /**
  * 日期解析，字符串转日期
@@ -1008,6 +1007,8 @@ function findItem(index) {
         if (index == null) {
             //OC明細表頭調用 
             openWin('FindItem', 'FindItem', 850, 530, index);
+            //openWin('//../Sales/Views/SalesOrder/FindItem', 'FindItem', 850, 530, index);
+            
             return;
         }
         var temp_index = $("#CurrentRowIndex").val();
@@ -1041,7 +1042,7 @@ function openWin(url, title, width, height,rowIndex, shadow) {
                     //OC明細的主檔查貨品編號的按鈕
                     $("#ProductID").val(strItem);//賦值
                     $('#ProductID').next('span').find('input').focus();//获取焦点
-                    $('#CustProductName').next('span').find('input').focus();//获取焦点觸發事件使描述刷新
+                    $('#ProductCdesc').next('span').find('input').focus();//获取焦点觸發事件使描述刷新
                     $('#ProductID').next('span').find('input').focus();
                 } else {
                     //BOM表格的查詢

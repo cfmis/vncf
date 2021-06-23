@@ -221,6 +221,18 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             return dt;
         }
 
+
+        //當前服務器日期及時間
+        public static CurrentDateTime GetCurrentDateList()
+        {
+            string strSql = "Select CONVERT(varchar(20),getdate(),23) AS curr_date,CONVERT(varchar(20),getdate(),120) AS curr_datetime";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            CurrentDateTime objModel = new CurrentDateTime();
+            objModel.current_date = dt.Rows[0]["curr_date"].ToString();
+            objModel.current_datetime = dt.Rows[0]["curr_datetime"].ToString();
+            return objModel;
+        }
+
         public static dynamic LoadFormLanguage(string WebFormName)//List<List<string>>
         {
             string strSql = "p_LoadFormLanguage";
@@ -235,58 +247,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             dynamic myclass = new { field1 = "abcd", field2 = 12 };
             myclass= new { field1 = "abcd", field2 = 12 };
             return myclass;
-
-            //dynamic obj = new ExpandoObject();
-            //obj.field1 = 123;
-            //obj.CreatedAt = DateTime.Now;
-            //// etc
-            //return obj;
-
-
-
-            //var eobj = new List<ExpandoObject>();
-            //DataRow dr = dt.Rows[0];
-            //var record = new ExpandoObject();
-            //    eobj.Add(record);
-            //    var dic = (IDictionary<string, object>)record;
-            //for (int j = 0; j < dt.Columns.Count; j++)
-            //{
-            //    DataColumn dc = dt.Columns[j];
-            //    dic.Add(dc.ColumnName, dr[dc.ColumnName].ToString());
-            //}
-            //var jsonResult = JsonConvert.SerializeObject(eobj);   //将记录集合转换为json字符串
-
-            //return jsonResult;
-
-            //ArrayList al = new ArrayList();
-            //List<string> idss = new List<string>();
-            //List<List<string>> array = new List<List<string>>();
-            //for (int i = 0; i < dt.Rows.Count; i++)
-            //{
-            //    DataRow dr = dt.Rows[i];
-            //    for (int j = 0; j < dt.Columns.Count; j++)
-            //    {
-            //        DataColumn dc = dt.Columns[j];
-            //        List<string> ids = GetColumnValues<string>(dt, dc.ColumnName);
-            //        al.Add(dc.ColumnName);
-            //        idss.Add(dc.ColumnName);
-
-
-            //        List<string> item = new List<string>(new string[] { dc.ColumnName,dr[dc.ColumnName].ToString() });
-            //        array.Add(item);
-            //        //al.Add(dc(j));
-            //    }
-            //}
-            ////List<string> listJobTitle = (from d in dt.AsEnumerable() select d.Field<string>("WebFormName")).ToList();
-            ////List<string> listJobTitle = (from d in dt.AsEnumerable() select new { WebFormName = d.WebFormName }).ToList();
-            ////var orderDt = from d in dt.AsEnumerable()
-            ////                select new
-            ////                {
-            ////                    WebFormName= d.Field<string>("FieldsID"),
-            ////                    BrandID= d.Field<string>("FieldsName")
-            ////                };
-            ////var orderList = orderDt.ToList();
-            //return array;
+            
         }
 
         public static List<T> GetColumnValues<T>(DataTable dtSource, string filedName)
@@ -297,26 +258,6 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
         //JASON格式，返回給EasyUI Table使用
         public static string DataTableJsonReturnTable(DataTable dt)
         {
-            //StringBuilder jsonBuilder = new StringBuilder();
-            //jsonBuilder.Append("[");
-            //for (int i = 0; i < dt.Rows.Count; i++)
-            //{
-            //    jsonBuilder.Append("{");
-            //    for (int j = 0; j < dt.Columns.Count; j++)
-            //    {
-            //        jsonBuilder.Append("\"");
-            //        jsonBuilder.Append(dt.Columns[j].ColumnName);
-            //        jsonBuilder.Append("\":\"");
-            //        jsonBuilder.Append(dt.Rows[i][j].ToString());
-            //        jsonBuilder.Append("\",");
-            //    }
-            //    jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
-            //    jsonBuilder.Append("},");
-            //}
-            //jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
-            //jsonBuilder.Append("]");
-
-
             StringBuilder jsonBuilder = new StringBuilder();
             jsonBuilder.Append("{");
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -334,13 +275,9 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             jsonBuilder.Append("}");
 
             var ts= jsonBuilder.ToString();
-
-
-
-
-
             //jsonBuilder.Append("}");
             return jsonBuilder.ToString();
+
         }
     }
 }

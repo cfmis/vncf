@@ -15,7 +15,7 @@
                 <a href="#" class="easyui-linkbutton" iconcls="icon-undo" id="btnUndo" onclick="UndoEditMaster()">@Resource.btn_undo</a>
                 <a href="#" class="easyui-linkbutton" iconcls="icon-import" id="btnImport">@Resource.btn_import</a><!--訂單匯入-->
                 <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach" onclick="showMessageDialog('Find', '@Resource.btn_search', 850, 680)">@Resource.btn_search</a><!--查找-->
-                <a href="#" class="easyui-linkbutton" id="btnPrint" iconcls="icon-print" onclick="showMessageDialog('@Url.Action("Print")','列印',800,600,true);">@Resource.btn_print</a><!--列印-->
+                <a href="#" class="easyui-linkbutton" id="btnPrint" iconcls="icon-print" onclick="showMessageDialog('@Url.Action("PrintFastReport")','列印',1024,768,true);">@Resource.btn_print</a><!--列印-->                
             </div>
         </div>
     </div>
@@ -283,8 +283,9 @@
 
 
 @section PageSpecificJavascriptIncludes{
-    <script src="~/Content/js/SalesOrder.js?v=20210416000004"></script>
-    <script src="~/Content/js/BaseData.js?v=20210412000002"></script>   
+    <script src="~/Content/js/SalesOrder.js?v=20210416000005"></script>
+    @*<script src="~/Content/js/SalesOrder.js"></script>*@
+    <script src="~/Content/js/BaseData.js?v=20210423000004"></script>   
 
     <script type="text/javascript">
         //设置全局变量,供其他JS代碼使用
@@ -505,6 +506,7 @@
             disableGenMoAndOcID(false);//GenMO可用
             disableMaster(false);//主表可編輯
             disableDetails(false);//明細可編輯
+
             disableSate();//OC,MO狀態禁用
             getDBDateTime();//獲取服務器系統時間并設落單日期
         }

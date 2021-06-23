@@ -68,6 +68,15 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
+        //返回當前服務器日期,時間
+        public ActionResult GetDBDate()
+        {
+            var list = BaseDataDAL.GetCurrentDateList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+
         public ActionResult LoadFormLanguage(string WebFormName)
         {
             var result = BaseDataDAL.LoadFormLanguage(WebFormName);
@@ -75,5 +84,6 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
             //var result = new { rows = list };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
     }
 }
