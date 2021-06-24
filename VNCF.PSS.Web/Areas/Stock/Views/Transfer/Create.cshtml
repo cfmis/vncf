@@ -6,6 +6,7 @@
 //Layout = null;
 }
 @section PageSpecificStyleSheetIncludes{
+<link rel="stylesheet" href="../css/vue/demo.css" />
     @*<link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416263">*@
     <style type="text/css">
         .percent-100 tr {
@@ -41,15 +42,15 @@
         <input id="mdInput" />
     </div>
     <div class="easyui-tabs" style="width:99%;height:auto;">
-        <div title="First Tab" style="padding:10px;">
+        <div title="First Tab" style="padding:10px;" v-for="(item, index) in Langs" :key="index">
             @using (Html.BeginForm("EditHead", null, FormMethod.Post, new { id = "addFormHead", @clase = "form-inline", @role = "form" }))
             {
 
                 <ul class="formod mgt10" id="ulPanel">
 
                     <li class="lb-std"><div class="input-group"><span>@Resource.OcID：</span>@Html.TextBoxFor(m => m.ID, new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
-                    <li class="lb-std"><div class="input-group"><span>{{Langs.field1}}:</span>@Html.TextBoxFor(m => m.TransferDate, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
-                    <li class="lb-std"><div class="input-group"><span>{{Langs.WebFormName}}</span>@Html.TextBoxFor(m => m.FlagID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>{{id1}}:</span>@Html.TextBoxFor(m => m.TransferDate, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>{{item.WebFormName}}</span>@Html.TextBoxFor(m => m.FlagID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>倉庫編號:</span>@Html.TextBoxFor(m => m.LocID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>收貨倉庫:</span>@Html.TextBoxFor(m => m.NextLocID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
                     <li class="lb-std"><div class="input-group"><span>建立人:</span>@Html.TextBoxFor(m => m.CreateUser, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>

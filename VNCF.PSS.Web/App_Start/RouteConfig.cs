@@ -17,6 +17,17 @@ namespace VNCF.PSS.Web
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+
+            //name: "Default",
+            //url: "{controller}/{action}/{id}",
+            //defaults: new {controller = "Goods", action = "Index", id = UrlParameter.Optional }
+            //namespaces: new[] { "MvcApplication1.Controllers" }
+
+            ////defaults: new { controller = "/Areas/Base/Goods", action = "Index", id = UrlParameter.Optional },
+            ////namespaces: new[] { "MvcApplication1.Controllers" }
+            //name: "Default",
+            //url: "{controller}/{action}/{id}",
+            //defaults:  new {Area="Base", controller = "Goods", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
