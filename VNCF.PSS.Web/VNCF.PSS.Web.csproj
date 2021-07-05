@@ -310,6 +310,7 @@
     <Compile Include="Common\AdminControllerBase.cs" />
     <Compile Include="Common\AdminCookieContext.cs" />
     <Compile Include="Common\AdminUserContext.cs" />
+    <Compile Include="Common\CommonUtils.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -535,6 +536,7 @@
     <Content Include="Areas\Purchase\Views\Purchase\EditOtherFare.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\Report.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\Print.cshtml" />
+    <Content Include="Areas\Purchase\Views\Purchase\Print.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

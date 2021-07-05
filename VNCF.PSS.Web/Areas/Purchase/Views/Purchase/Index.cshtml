@@ -16,8 +16,8 @@
                 <a href="#" class="easyui-linkbutton" iconcls="icon-edit" id="btnEdit">@Resource.btn_edit</a> <!--修改主表-->
                 <a href="#" class="easyui-linkbutton" iconcls="icon-save" id="btnSave" onclick="SaveEditMaster()">@Resource.btn_save</a> <!--保存主表更改-->
                 <a href="#" class="easyui-linkbutton" iconcls="icon-undo" id="btnUndo" onclick="UndoEditMaster()">@Resource.btn_undo</a>               
-                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach" onclick="showMessageDialog('Find', 'Resource.btn_search', 850, 680)">@Resource.btn_search</a><!--查找-->                
-                <a href="#" class="easyui-linkbutton" id="btnPrint" iconcls="icon-print" onclick="showMessageDialog('@Url.Action("Print")','列印',800,600,true);">@Resource.btn_print</a><!--列印-->
+                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach" onclick="showMessageDialog('Find', 'Resource.btn_search', 850, 680)">@Resource.btn_search</a><!--查找-->               
+                <a href="#" class="easyui-linkbutton" iconcls="icon-print" id="btnPrint">@Resource.btn_print</a>  <!--列印-->
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
                     <li class="lb-std"><span class="input-group font_color_required">@Resource.ID：</span>
                         @Html.TextBoxFor(m => m.ID, new { @class = "easyui-textbox myReadonly font_group ", @data_options = "required:true,validType:'length[1,20]',readonly: true", @style = "width:60%" })
                         @Html.TextBoxFor(m => m.Ver, "0", new { @class = "easyui-textbox myReadonly", @data_options = "readonly: true", @style = "width:10%" })
-                    </li>                    
+                    </li>
                     <!--訂單日期-->
                     <li class="lb-std"><span class="input-group font_color_required">@Resource.OrderDate：</span>@Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand ", @data_options = "required:true,validType:'length[1,10]'", @style = "width:72%" })</li>
                     <!--供應商編號-->
@@ -291,6 +291,12 @@
                     id = id.toUpperCase();
                     $("#ProductMo").textbox('setValue', id);//賦值
                 }
+            });
+            //列印
+            $("#btnPrint").click(function () {
+                //url: "AddList?ID=" + $("#ID").val() + "&Ver=" + $("#Ver").val()//请求后台Action 并传多个参数的写法
+                var url = "Print?ID=" + $("#ID").val();
+                showMessageDialog(url, '@Resource.btn_print', 1024, 768, true);
             });
 
             //綁定訂單數量對象失去焦點事件

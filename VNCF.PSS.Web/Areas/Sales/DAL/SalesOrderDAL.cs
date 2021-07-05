@@ -749,64 +749,66 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         {
             List<OcReport> lstModel = new List<OcReport>();
             string strSql = string.Format(
-                @"SELECT A.*,B.* 
+                @"SELECT A.*,dbo.fn_GetMoneySign(A.CustomerID) AS Sign,B.* 
                 FROM oc_OrderHead A with(nolock)
                 INNER JOIN oc_OrderDetails B with(nolock) ON A.OcID=B.OcID and A.Ver=B.Ver
                 WHERE A.OcID='{0}'", ID);
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-            string CurrencyID = "";
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                OcReport objModel = new OcReport();
-                objModel.OcID = dt.Rows[i]["OcID"].ToString();
-                objModel.Ver = int.Parse(dt.Rows[i]["Ver"].ToString());
-                objModel.CustomerID = dt.Rows[i]["CustomerID"].ToString();
-                objModel.CustomerCdesc = dt.Rows[i]["CustomerCdesc"].ToString();
-                //objModel.OrderDate =DateTime.Parse(dt.Rows[i]["OrderDate"].ToString()).ToShortDateString().ToString();
-                //objModel.OrderDate = string.Format("{0:d}", dt.Rows[i]["OrderDate"]);//2005-11-5
-                objModel.OrderDate = string.Format("{0:u}", dt.Rows[i]["OrderDate"]).Substring(0,10);//2005-11-05 14:23:23Z
-                objModel.ProductMo = dt.Rows[i]["ProductMo"].ToString();
-                objModel.ProductID = dt.Rows[i]["ProductID"].ToString();
-                objModel.ProductCdesc = dt.Rows[i]["ProductCdesc"].ToString();
-                objModel.CustProductID = dt.Rows[i]["CustProductID"].ToString();
-                objModel.OrderQty = int.Parse(dt.Rows[i]["OrderQty"].ToString());
-                objModel.Price = Decimal.Parse(dt.Rows[i]["Price"].ToString());
-                objModel.CustColorID = dt.Rows[i]["CustColorID"].ToString();
-                objModel.Contacts = dt.Rows[i]["Contacts"].ToString();
-                objModel.ContactsTel = dt.Rows[i]["ContactsTel"].ToString();
-                objModel.ContactsFax = dt.Rows[i]["ContactsFax"].ToString();
-                objModel.PoNo = dt.Rows[i]["PoNo"].ToString();
-                objModel.Season = dt.Rows[i]["Season"].ToString();
-                objModel.Merchandisers = dt.Rows[i]["Merchandisers"].ToString();
-                objModel.MerchandisersTel = dt.Rows[i]["MerchandisersTel"].ToString();
-                objModel.MerchandisersEmail = dt.Rows[i]["MerchandisersEmail"].ToString();
-                objModel.StyleNo = dt.Rows[i]["StyleNo"].ToString();
-                objModel.AmountProduct = decimal.Parse(dt.Rows[i]["AmountProduct"].ToString());
-                objModel.CurrencyID = dt.Rows[i]["CurrencyID"].ToString();
-                objModel.OrderUnit = dt.Rows[i]["OrderUnit"].ToString();
-                objModel.PriceUnit = dt.Rows[i]["PriceUnit"].ToString();
-                objModel.ArriveDate = string.Format("{0:u}", dt.Rows[i]["ArriveDate"]).Substring(0, 10);
-                objModel.FactoryShipOutDate = string.Format("{0:u}", dt.Rows[i]["FactoryShipOutDate"]).Substring(0, 10);
-                objModel.CreateBy = dt.Rows[i]["CreateBy"].ToString();
-                CurrencyID = dt.Rows[i]["CurrencyID"].ToString();
-                switch(CurrencyID)
-                {
-                    case "HKD":
-                        objModel.Sign = "$";
-                        break;
-                    case "USD":
-                        objModel.Sign = "$";
-                        break;
-                    case "RMB":
-                        objModel.Sign = "￥";
-                        break;
-                    default:
-                        objModel.Sign = "";
-                        break;
-                }                
-                lstModel.Add(objModel);
-            }
-            return lstModel;
+            List<OcReport> list = CommonUtils.DataTableToList<OcReport>(dt);
+            return list;
+            //string CurrencyID = "";
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            //{
+            //    OcReport objModel = new OcReport();
+            //    objModel.OcID = dt.Rows[i]["OcID"].ToString();
+            //    objModel.Ver = int.Parse(dt.Rows[i]["Ver"].ToString());
+            //    objModel.CustomerID = dt.Rows[i]["CustomerID"].ToString();
+            //    objModel.CustomerCdesc = dt.Rows[i]["CustomerCdesc"].ToString();
+            //    //objModel.OrderDate =DateTime.Parse(dt.Rows[i]["OrderDate"].ToString()).ToShortDateString().ToString();
+            //    //objModel.OrderDate = string.Format("{0:d}", dt.Rows[i]["OrderDate"]);//2005-11-5
+            //    objModel.OrderDate = string.Format("{0:u}", dt.Rows[i]["OrderDate"]).Substring(0,10);//2005-11-05 14:23:23Z
+            //    objModel.ProductMo = dt.Rows[i]["ProductMo"].ToString();
+            //    objModel.ProductID = dt.Rows[i]["ProductID"].ToString();
+            //    objModel.ProductCdesc = dt.Rows[i]["ProductCdesc"].ToString();
+            //    objModel.CustProductID = dt.Rows[i]["CustProductID"].ToString();
+            //    objModel.OrderQty = int.Parse(dt.Rows[i]["OrderQty"].ToString());
+            //    objModel.Price = Decimal.Parse(dt.Rows[i]["Price"].ToString());
+            //    objModel.CustColorID = dt.Rows[i]["CustColorID"].ToString();
+            //    objModel.Contacts = dt.Rows[i]["Contacts"].ToString();
+            //    objModel.ContactsTel = dt.Rows[i]["ContactsTel"].ToString();
+            //    objModel.ContactsFax = dt.Rows[i]["ContactsFax"].ToString();
+            //    objModel.PoNo = dt.Rows[i]["PoNo"].ToString();
+            //    objModel.Season = dt.Rows[i]["Season"].ToString();
+            //    objModel.Merchandisers = dt.Rows[i]["Merchandisers"].ToString();
+            //    objModel.MerchandisersTel = dt.Rows[i]["MerchandisersTel"].ToString();
+            //    objModel.MerchandisersEmail = dt.Rows[i]["MerchandisersEmail"].ToString();
+            //    objModel.StyleNo = dt.Rows[i]["StyleNo"].ToString();
+            //    objModel.AmountProduct = decimal.Parse(dt.Rows[i]["AmountProduct"].ToString());
+            //    objModel.CurrencyID = dt.Rows[i]["CurrencyID"].ToString();
+            //    objModel.OrderUnit = dt.Rows[i]["OrderUnit"].ToString();
+            //    objModel.PriceUnit = dt.Rows[i]["PriceUnit"].ToString();
+            //    objModel.ArriveDate = string.Format("{0:u}", dt.Rows[i]["ArriveDate"]).Substring(0, 10);
+            //    objModel.FactoryShipOutDate = string.Format("{0:u}", dt.Rows[i]["FactoryShipOutDate"]).Substring(0, 10);
+            //    objModel.CreateBy = dt.Rows[i]["CreateBy"].ToString();
+            //    CurrencyID = dt.Rows[i]["CurrencyID"].ToString();
+            //    switch(CurrencyID)
+            //    {
+            //        case "HKD":
+            //            objModel.Sign = "$";
+            //            break;
+            //        case "USD":
+            //            objModel.Sign = "$";
+            //            break;
+            //        case "RMB":
+            //            objModel.Sign = "￥";
+            //            break;
+            //        default:
+            //            objModel.Sign = "";
+            //            break;
+            //    }                
+            //    lstModel.Add(objModel);
+            //}
+            //return lstModel;
 
         }
 

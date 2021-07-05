@@ -311,12 +311,12 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         //}
       
         public ActionResult Print(string ID)
-        {
-            WebReport webReport = new WebReport();
+        {            
             //string report_path = AppDomain.CurrentDomain.BaseDirectory;
             //webReport.ReportFile = this.Server.MapPath("~/App_Data/so.frx"); //从文件中加载报表
             string report_path = $"{Request.MapPath(Request.ApplicationPath)}Reports\\so.frx";
             var list = SalesOrderDAL.GetReportReturnList(ID);
+            WebReport webReport = new WebReport();
             webReport.Report.RegisterData(list, "SoData");//注冊數據
             webReport.Report.Load(report_path);//調用報表模板
             webReport.Width = 1024;

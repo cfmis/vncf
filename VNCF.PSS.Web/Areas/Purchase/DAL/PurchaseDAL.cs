@@ -516,7 +516,36 @@ namespace VNCF.PSS.Web.Areas.Purchase.DAL
             return objModel;
         }
 
+        public static List<PurReport> GetReportReturnList(string ID)
+        {
+            List<PurReport> lstModel = new List<PurReport>();
+            string strSql = string.Format(
+            @"SELECT S.* FROM
+            (SELECT a.ID,CONVERT(VARCHAR(10),a.OrderDate,120) AS OrderDate,a.CurrencyID,dbo.fn_GetMoneySign(a.CurrencyID) AS Sign,a.Contacts,a.DepartMentID,a.CreateBy,Convert(varchar(10),a.CreateAt,120) AS CreateAt,
+            b.ProductMo,b.ProductID,b.ProductCdesc,b.Spec,Convert(int,b.OrderQty) AS OrderQty,b.OrderUnit,b.Weight,b.WeightUnit,b.Color,b.Price,b.PriceUnit,
+            b.TotalSum,CASE WHEN ISNULL(b.ArriveDate,'')<>'' THEN CONVERT(VARCHAR(10),b.ArriveDate,120) ELSE '' END AS ArriveDate,b.Remarks,
+            c.name AS VendorName,d.name AS DeptName,b.Seq
+            FROM dbo.pu_BuyHead a 
+            INNER JOIN dbo.pu_BuyDetails b ON a.ID=b.ID AND a.Ver=b.Ver 
+            INNER JOIN bs_vendor c ON a.VendorID=c.id
+            INNER JOIN bs_department d ON a.DepartMentID=d.id 
+            WHERE a.ID='{0}' AND a.State<>'2'
+            UNION ALL
+            SELECT a.ID,CONVERT(VARCHAR(10),a.OrderDate,120) AS OrderDate,a.CurrencyID,dbo.fn_GetMoneySign(a.CurrencyID) AS Sign,a.Contacts,a.DepartMentID,a.CreateBy,Convert(varchar(10),a.CreateAt,120) AS CreateAt,
+            '' AS ProductMo,b.FareID AS ProductID,b.name AS ProductCdesc,'' AS Spec,Convert(int,b.Qty) AS OrderQty,'' AS OrderUnit,0 AS Weight,'' AS WeightUnit,'' AS Color,b.Price,b.UnitCode AS PriceUnit,
+            b.FareSum,'' AS ArriveDate,'' AS Remarks,c.name AS VendorName,d.name AS DeptName,'ZZZ' AS Seq
+            FROM dbo.pu_BuyHead a
+            INNER JOIN dbo.pu_BuyFare b ON a.ID=b.ID AND a.Ver=b.Ver 
+            INNER JOIN bs_vendor c ON a.VendorID=c.id
+            INNER JOIN bs_department d ON a.DepartMentID=d.id 
+            WHERE a.ID='{0}' AND a.State<>'2') S
+            ORDER BY S.ID,Seq", ID);
+            //DataSet dts = SQLHelper.ExecuteSqlReturnDataSet(strSql);
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
 
+            List<PurReport> list = CommonUtils.DataTableToList<PurReport>(dt);
+            return list;            
+        }
 
         //private static string GetMaxSeq(string OcID, int Ver, string UpperSeq)
         //{
