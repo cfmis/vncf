@@ -10,7 +10,7 @@ namespace VNCF.PSS.Web.Common
     public class CommonUtils
     {
         /// <summary> 
-        /// 利用反射将DataTable转换为List<T>对象
+        /// 利用反射將DataTable转换为List<T>对象
         /// </summary> 
         /// <param name="dt">DataTable 对象</param> 
         /// <returns>List<T>集合</returns> 
@@ -29,8 +29,9 @@ namespace VNCF.PSS.Web.Common
                 //遍历该对象的所有属性 
                 foreach (PropertyInfo pi in propertys)
                 {
-                    tempName = pi.Name;//将属性名称赋值给临时变量 
-                                       //检查DataTable是否包含此列（列名==对象的属性名）  
+                    //將属性名称赋值给临时变量 
+                    tempName = pi.Name;
+                    //检查DataTable是否包含此列（列名==对象的属性名）  
                     if (dt.Columns.Contains(tempName))
                     {
                         //取值 
@@ -46,8 +47,8 @@ namespace VNCF.PSS.Web.Common
                 ts.Add(t);
             }
             return ts;
-            //使用方式：
-            //List<Entity> list = CommonUtils.ConvertToEx<Entity>(dt);
+            //使用方式：Entity即為要轉成List的數據模型,必須預先定義,省不了
+            //List<Entity> list = CommonUtils.DataTableToList<Entity>(dt);
         }
 
     }

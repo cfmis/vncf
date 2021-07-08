@@ -194,13 +194,9 @@ namespace VNCF.PSS.Web.Areas.Purchase
         }
 
         public ActionResult Print(string ID)
-        {
-            //string report_path = AppDomain.CurrentDomain.BaseDirectory;
-            //webReport.ReportFile = this.Server.MapPath("~/App_Data/so.frx"); //从文件中加载报表
-            string report_path = $"{Request.MapPath(Request.ApplicationPath)}Reports\\purchase.frx";
-            //System.Data.DataSet dts = PurchaseDAL.GetReportReturnList(ID);
-            var list= PurchaseDAL.GetReportReturnList(ID);
-            //dts.Tables[0].TableName = "PurData";    
+        {            
+            string report_path = $"{Request.MapPath(Request.ApplicationPath)}Reports\\purchase.frx";           
+            var list= PurchaseDAL.GetReportReturnList(ID);            
             WebReport webReport = new WebReport();
             webReport.Report.RegisterData(list, "PurData");//注冊數據
             webReport.Report.Load(report_path);//調用報表模板

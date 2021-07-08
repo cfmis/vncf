@@ -540,9 +540,7 @@ namespace VNCF.PSS.Web.Areas.Purchase.DAL
             INNER JOIN bs_department d ON a.DepartMentID=d.id 
             WHERE a.ID='{0}' AND a.State<>'2') S
             ORDER BY S.ID,Seq", ID);
-            //DataSet dts = SQLHelper.ExecuteSqlReturnDataSet(strSql);
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-
             List<PurReport> list = CommonUtils.DataTableToList<PurReport>(dt);
             return list;            
         }

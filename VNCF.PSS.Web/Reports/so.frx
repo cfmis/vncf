@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="06/15/2021 17:18:22" ReportInfo.Modified="07/05/2021 16:10:11" ReportInfo.CreatorVersion="2019.1.15.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="06/15/2021 17:18:22" ReportInfo.Modified="07/06/2021 09:03:28" ReportInfo.CreatorVersion="2019.1.15.0">
   <Dictionary>
     <BusinessObjectDataSource Name="SoData" ReferenceName="SoData" DataType="System.Int32" Enabled="true">
       <Column Name="OcID" DataType="System.String"/>
@@ -82,10 +82,10 @@
           <TableCell Name="Cell8" Border.Lines="Right, Bottom" Border.RightLine.Style="Dash" Border.BottomLine.Style="Dash" Text="Fax NO. :&#13;&#10;傳真號碼:" VertAlign="Center" Font="SimSun, 9pt"/>
           <TableCell Name="Cell9" Border.Lines="Right, Bottom" Border.RightLine.Style="Dash" Border.BottomLine.Style="Dash" Text="[SoData.ContactsFax]" VertAlign="Center" Font="SimSun, 9pt"/>
           <TableCell Name="Cell10" Border.Lines="Right, Bottom" Border.RightLine.Style="Dash" Border.BottomLine.Style="Dash" Text="P/I. DATE.：&#13;&#10;銷售確認書日期:" VertAlign="Center" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell30" Border.Lines="Right, Bottom" Border.RightLine.Style="Dash" Border.BottomLine.Style="Dash" Text="[SoData.OrderDate]" Format="Date" Format.Format="d" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell30" Border.Lines="Right, Bottom" Border.RightLine.Style="Dash" Border.BottomLine.Style="Dash" Text="[FormatDateTime([SoData.OrderDate],&quot;yyyy-MM-dd&quot;)]" Format="Date" Format.Format="d" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt"/>
           <TableCell Name="Cell31" Border.Lines="Right, Bottom" Border.RightLine.Style="Dash" Border.BottomLine.Style="Dash" Text="RECEIVED P/O DATE：&#13;&#10;訂貨單到達日期:" VertAlign="Center" Font="SimSun, 9pt" ColSpan="2"/>
           <TableCell Name="Cell32" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell33" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[SoData.OrderDate]" Format="Date" Format.Format="d" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt" ColSpan="2"/>
+          <TableCell Name="Cell33" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[FormatDateTime([SoData.OrderDate],&quot;yyyy-MM-dd&quot;)]" Format="Date" Format.Format="d" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt" ColSpan="2"/>
           <TableCell Name="Cell47" Font="SimSun, 9pt"/>
         </TableRow>
         <TableRow Name="Row3" Height="32.13">
@@ -195,7 +195,7 @@
           <TableRow Name="Row7" Height="20.79">
             <TableCell Name="Cell67" Text="[SoData.ProductMo]" VertAlign="Center" Font="SimSun, 9pt"/>
             <TableCell Name="Cell68" Text="[SoData.ProductCdesc]" Padding="2, 3, 2, 1" Font="SimSun, 9pt" RowSpan="3"/>
-            <TableCell Name="Cell69" Text="[SoData.ArriveDate] ～" Format="Date" Format.Format="d" VertAlign="Center" Font="SimSun, 9pt"/>
+            <TableCell Name="Cell69" Text="[FormatDateTime([SoData.ArriveDate],&quot;yyyy-MM-dd&quot;)] ～" Format="Date" Format.Format="d" VertAlign="Center" Font="SimSun, 9pt"/>
             <TableCell Name="Cell70" Text="[SoData.OrderQty]" Padding="0, 1, 0, 1" HorzAlign="Right" VertAlign="Center" Font="SimSun, 9pt" RowSpan="2"/>
             <TableCell Name="Cell97" Text="/[SoData.OrderUnit]" Padding="0, 1, 0, 1" VertAlign="Center" Font="SimSun, 9pt" RowSpan="2"/>
             <TableCell Name="Cell71" Text="[SoData.Price]" Padding="0, 1, 0, 1" HorzAlign="Right" VertAlign="Center" Font="SimSun, 9pt" RowSpan="2"/>
@@ -210,7 +210,7 @@
           <TableRow Name="Row8" Height="20.79">
             <TableCell Name="Cell72" Text="[SoData.ProductID]" VertAlign="Center" Font="SimSun, 9pt"/>
             <TableCell Name="Cell73" Font="SimSun, 9pt"/>
-            <TableCell Name="Cell74" Text="[SoData.FactoryShipOutDate]" Format="Date" Format.Format="d" VertAlign="Center" Font="SimSun, 9pt"/>
+            <TableCell Name="Cell74" Text="[FormatDateTime([SoData.FactoryShipOutDate],&quot;yyyy-MM-dd&quot;)] " Format="Date" Format.Format="d" VertAlign="Center" Font="SimSun, 9pt"/>
             <TableCell Name="Cell75" Font="SimSun, 9pt"/>
             <TableCell Name="Cell98" Font="SimSun, 9pt"/>
             <TableCell Name="Cell76" Font="SimSun, 9pt"/>
