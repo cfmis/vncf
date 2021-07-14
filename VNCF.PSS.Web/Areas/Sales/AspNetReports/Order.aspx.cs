@@ -18,7 +18,7 @@ namespace VNCF.PSS.Web.AspNetReports
                 //Data_Binding();
             }
         }
-<<<<<<< HEAD
+
         private void Data_Binding()
         {
             //string ID = Request.QueryString["ID"];
@@ -64,7 +64,6 @@ namespace VNCF.PSS.Web.AspNetReports
             
             //this.ReportViewer1.LocalReport.Refresh();
         }
-=======
         //private void Data_Binding()
         //{
         //    string ID = Request.QueryString["ID"];
@@ -110,6 +109,6 @@ namespace VNCF.PSS.Web.AspNetReports
             
         //    this.ReportViewer1.LocalReport.Refresh();
         //}
->>>>>>> 9b62ed985747e5b6ba5fc7d60bdfefaaabacaa94
+
     }
 }

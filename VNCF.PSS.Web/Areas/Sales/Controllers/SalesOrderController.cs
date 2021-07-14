@@ -298,11 +298,10 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         //public ActionResult Report(string ID)
         //{
         //    //ReportViewerMVC方式
-<<<<<<< HEAD
+
         //    var list = SalesOrderDAL.GetReportReturnList("ECO210413003");
-=======
+
         //    var list = SalesOrderDAL.GetReportReturnList("ECO210413003");            
->>>>>>> 9b62ed985747e5b6ba5fc7d60bdfefaaabacaa94
         //    ReportViewer rpv = new ReportViewer();//建立ReportViewer物建           
         //    rpv.ProcessingMode = ProcessingMode.Local; //設定處理模式
         //    rpv.SizeToReportContent = true;
@@ -310,7 +309,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         //    //設定RDLC實體位置
         //    rpv.LocalReport.ReportPath = $"{Request.MapPath(Request.ApplicationPath)}Areas\\Sales\\RDLCReports\\So.rdlc";
         //    //設定報表資料來源
-<<<<<<< HEAD
+
         //    rpv.LocalReport.DataSources.Add(new ReportDataSource("ReportDataSource1", list));
 
         //    return View(rpv);
@@ -342,7 +341,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             //调用模板
             webReport.Report.Load(report_path);
         }      
-=======
+
         //    rpv.LocalReport.DataSources.Add(new ReportDataSource("ReportDataSource1", list)); 
         //    return View(rpv);
         //}
@@ -363,7 +362,6 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             return View();
         }
                
->>>>>>> 9b62ed985747e5b6ba5fc7d60bdfefaaabacaa94
 
     }
 

@@ -536,15 +536,12 @@
     <Content Include="Areas\Purchase\Views\Purchase\Find.cshtml" />
     <Content Include="Areas\Purchase\Views\Purchase\EditOtherFare.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\Report.cshtml" />
-<<<<<<< HEAD
     <Content Include="Areas\Sales\Views\SalesOrder\PrintFastReport.cshtml" />
     <Content Include="Areas\Base\Views\Goods\Edit.cshtml" />
     <Content Include="Areas\Base\Views\Goods\Create.cshtml" />
     <Content Include="Areas\Base\Views\Goods\Vue.cshtml" />
-=======
     <Content Include="Areas\Sales\Views\SalesOrder\Print.cshtml" />
     <Content Include="Areas\Purchase\Views\Purchase\Print.cshtml" />
->>>>>>> 9b62ed985747e5b6ba5fc7d60bdfefaaabacaa94
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
