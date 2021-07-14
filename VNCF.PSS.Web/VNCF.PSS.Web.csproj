@@ -80,20 +80,17 @@
     <Reference Include="CF.Web">
       <HintPath>..\CF.Web\bin\Debug\CF.Web.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="FastReport, Version=2019.1.15.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\FastReport.dll</HintPath>
+      <HintPath>..\packages\FastReport\FastReport.dll</HintPath>
     </Reference>
     <Reference Include="FastReport.Bars, Version=2019.1.15.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\FastReport.Bars.dll</HintPath>
+      <HintPath>..\packages\FastReport\FastReport.Bars.dll</HintPath>
     </Reference>
     <Reference Include="FastReport.Web, Version=2019.1.15.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\FastReport.Web.dll</HintPath>
+      <HintPath>..\packages\FastReport\FastReport.Web.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
@@ -128,42 +125,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.ReportViewer.Common, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.ReportViewer.Design, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.ReportViewer.WebDesign, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.WebDesign.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.ReportViewer.WebForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.WebForms.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.ReportViewer.WinForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="ReportViewerForMvc, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ReportViewerForMvc14.140.1000.523\lib\net45\ReportViewerForMvc.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -309,6 +270,7 @@
     <Compile Include="Areas\Base\DAL\BaseDAL.cs" />
     <Compile Include="Areas\Base\DAL\BaseDataDAL.cs" />
     <Compile Include="Areas\Base\DAL\DeptDAL.cs" />
+    <Compile Include="Areas\Base\DAL\NewBaseDAL.cs" />
     <Compile Include="Areas\Base\Models\BaseDataModels.cs" />
     <Compile Include="Areas\Base\Models\BaseInfo.cs" />
     <Compile Include="Areas\Base\Models\DepInfo.cs" />
@@ -576,6 +538,9 @@
     <Content Include="Areas\Purchase\Views\Purchase\EditOtherFare.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\Report.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\PrintFastReport.cshtml" />
+    <Content Include="Areas\Base\Views\Goods\Edit.cshtml" />
+    <Content Include="Areas\Base\Views\Goods\Create.cshtml" />
+    <Content Include="Areas\Base\Views\Goods\Vue.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

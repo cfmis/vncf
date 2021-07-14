@@ -7,16 +7,16 @@ using CF.SQLServer.DAL;
 using VNCF.PSS.Web.Areas.Base.Models;
 using VNCF.PSS.Web.Common;
 using System.Data.SqlClient;
-using System.Collections;
 using System.Text;
-using System.Dynamic;
-using Newtonsoft.Json;
 
 namespace VNCF.PSS.Web.Areas.Base.DAL
 {
     public class BaseDataDAL
     {
         public static string LanguageID = AdminUserContext.Current.LoginInfo.LanguageID;
+
+
+        
         public static List<BaseDataModels> GetLoc()
         {
             string strSql = "Select ID,Name,Engname,VieName " +
@@ -70,6 +70,23 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             mdj.ProductID = dr["id"].ToString();
             mdj.ProductCdesc = dr["name"].ToString();
             return mdj;
+        }
+        public static List<Goods> GetGoods(string ProductID)
+        {
+            string strSql = "Select top 10 id,name,english_name " +
+            " FROM it_goods Where type='" + "0001" + "' AND id Like '" + "%" + ProductID + "%" + "'";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            DataRow dr = dt.Rows[0];
+            List<Goods> lsGoods = new List<Goods>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                Goods mdj = new Goods();
+                mdj.goods_id = dr["id"].ToString();
+                mdj.goods_cname = dr["name"].ToString();
+                mdj.goods_ename = dr["english_name"].ToString();
+                lsGoods.Add(mdj);
+            }
+            return lsGoods;
         }
         public static List<BaseDataModels> GetUnit(string kind)
         {

@@ -132,6 +132,15 @@ namespace VNCF.PSS.Web.Areas.Base.Models
         public float Price { get; set; }
     }
 
+    public class Goods
+    {
+        public string goods_id { get; set; }
+        public string goods_cname { get; set; }
+        public string goods_ename { get; set; }
+        public string goods_vname1 { get; set; }
+        public string goods_vname2 { get; set; }
+        public string goods_vname3 { get; set; }
+    }
     public class ReturnJsonInfo
     {
         public int Code { get; set; }

@@ -1,0 +1,260 @@
+﻿
+@{
+    ViewBag.Title = "物料描述";// "Goods IndexPage";
+}
+@*@{@Html.Raw("@");}*@
+
+<div id="app">
+
+    <vxe-form :data="searchParas" @@submit="submitSearch">
+        <vxe-form-item span="24">
+            <template #default>
+                <vxe-button type="submit" status="primary">查询</vxe-button>
+                <vxe-button type="reset">重置</vxe-button>
+            </template>
+        </vxe-form-item>
+        <vxe-form-item title="物料編號" field="goods_id" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入編號'}}"></vxe-form-item>
+        <vxe-form-item title="物料描述" field="goods_cname" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入物料描述'}}"></vxe-form-item>
+        <vxe-form-item title="英文描述" field="goods_ename" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入英文描述'}}"></vxe-form-item>
+        <vxe-form-item title="越文描述1" field="goods_vname1" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述1'}}"></vxe-form-item>
+        <vxe-form-item title="越文描述2" field="goods_vname2" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述2'}}"></vxe-form-item>
+        <vxe-form-item title="越文描述3" field="goods_vname3" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述3'}}"></vxe-form-item>
+    </vxe-form>
+
+    <vxe-table border
+               resizable
+               highlight-hover-row
+               show-overflow
+               height="500"
+               row-id="id"
+               size="small"
+               :loading="loading3"
+               :data="goodsListPart"
+               highlight-current-row
+               :keyboard-config="{isArrow: true}">
+        <vxe-table-column type="seq" title="序號" width="60"></vxe-table-column>
+        <vxe-table-column field="goods_id" title="物料編號" width="160" sortable></vxe-table-column>
+        <vxe-table-column field="goods_cname" title="物料描述" width="260"></vxe-table-column>
+        <vxe-table-column field="goods_ename" title="英文描述" width="260"></vxe-table-column>
+        <vxe-table-column field="goods_vname1" title="越文描述1" width="200"></vxe-table-column>
+        <vxe-table-column field="goods_vname2" title="越文描述2" width="200"></vxe-table-column>
+        <vxe-table-column field="goods_vname3" title="越文描述3" width="200"></vxe-table-column>
+        <vxe-table-column title="修改" width="60" :resizable="false" show-overflow>
+            <template #default="{ row }">
+                <vxe-button type="text" icon="fa fa-edit" @@click="editEvent(row)"></vxe-button>
+            </template>
+        </vxe-table-column>
+        <template #empty>
+            <span style="color: red;">
+                <img src="/Images/no_data_img.gif">
+                <p>没有更多数据了！</p>
+            </span>
+        </template>
+    </vxe-table>
+
+    <vxe-pager background
+               size="small"
+               :loading="loading3"
+               :current-page="tablePage3.currentPage"
+               :page-size="tablePage3.pageSize"
+               :total="tablePage3.totalResult"
+               :page-sizes="[10, 20, 100, {label: '大量数据', value: 1000}, {label: '全量数据', value: -1}]"
+               :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']"
+               @@page-change="handlePageChange3">
+    </vxe-pager>
+    @*<form id="editGoods">*@
+    <vxe-modal ref="xModal" v-model="showEdit" title="编辑&保存" width="800" resize destroy-on-close>
+        <template #default>
+            <vxe-form :data="newGoods" :rules="formRules" title-align="right" title-width="100" @@submit="submitEvent">
+                <vxe-form-item title="Edit Goods Description" span="24" title-align="left" title-width="200px" :title-prefix="{icon: 'fa fa-address-book'}"></vxe-form-item>
+                <vxe-form-item title="物料編號" field="goods_id" span="12"  :item-render="{name: 'input', attrs: {placeholder: '请输入編號'}}"></vxe-form-item>
+                <vxe-form-item title="物料描述" field="goods_cname" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入物料描述'}}"></vxe-form-item>
+                <vxe-form-item title="英文描述" field="goods_ename" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入英文描述'}}"></vxe-form-item>
+                <vxe-form-item title="越文描述1" field="goods_vname1" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述1'}}"></vxe-form-item>
+                <vxe-form-item title="越文描述2" field="goods_vname2" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述2'}}"></vxe-form-item>
+                <vxe-form-item title="越文描述3" field="goods_vname3" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述3'}}"></vxe-form-item>
+                <vxe-form-item align="center" span="24">
+                    <template #default>
+                        <vxe-button type="submit" status="primary">保存</vxe-button>
+                        <vxe-button type="reset">重置</vxe-button>
+                        <vxe-button @@click="$refs.xModal.close()">取消</vxe-button>
+                    </template>
+                </vxe-form-item>
+            </vxe-form>
+        </template>
+    </vxe-modal>
+
+</div>
+
+
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                goodsList: [],
+                goodsListPart:[],
+                newGoods: { goods_id: '', goods_cname: '', goods_ename: '', goods_vname1: '', goods_vname2: '', goods_vname3: '' },
+                searchParas: { goods_id: '', goods_cname: '', goods_ename: '', goods_vname1: '', goods_vname2: '', goods_vname3: '' },
+                loading3: false,
+                tablePage3: {
+                    currentPage: 1,
+                    pageSize: 10,
+                    totalResult: 0
+                },
+                selectRow: null,
+                showEdit: false,
+                formRules: {
+                    goods_vname1: [
+                      { required: false, message: '请输入名称' },
+                      //{ min: 3, max: 5, message: '长度在 3 到 5 个字符' }
+                    ],
+                    goods_vname2: [
+                      { required: false, message: '请输入越文2' }
+                    ],
+                    goods_vname3: [
+                      { required: false, message: '请輸入越文3' }
+                    ]
+                },
+            },
+            created: function () {
+                this.InIt();
+                //this.findList3();
+            },
+            methods: {
+                InIt: function () {
+                    this.newGoods.goods_id = "111";
+                    this.newGoods.goods_cname = "222";
+                    this.fillData();
+                },
+                submitSearch(){
+                    this.searchGoods(this.searchParas);
+                },
+                searchGoods:function(searchParas){
+                    // console.log('回车搜索',keyCode,e); && this.input
+                        this.loading3 = true
+                        var _self = this;
+                        _self.goodsList = [];
+                        //if (_id.length > 0) {
+
+
+                            //_self.$http.post("GetGoodsDetails", { goods_id: _id }).then(
+                            //    // 传统写法
+                            //    //////// Lambda写法
+                            //    (response) => {
+                            //        ////successCallback
+                            //        for (var i = 0; i < response.data.length; i++) {
+                            //            _self.goodsList.push(response.data[i]);
+                            //        }
+                            //    },
+                            //    (response) => {
+                            //        //errorCallback
+                            //    }
+                            //)
+                            //    .catch(function (response) {
+                            //        console.log(response);
+                            //    });
+
+                        var searchParams={
+                            goods_id:searchParas.goods_id,
+                            goods_cname:searchParas.goods_cname,
+                            goods_ename:searchParas.goods_ename,
+                            goods_vname1:searchParas.goods_vname1,
+                            goods_vname2:searchParas.goods_vname2,
+                            goods_vname3:searchParas.goods_vname3,
+                            pageSize:10,
+                            status:[1,3]
+                        }//_self.goodsList = res.data;//也可以直接賦值給數組
+                        //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
+                        axios.get("SearchGoods", { params: searchParams }).then(
+                        (response) => {
+                            this.contactsList = [];
+                            for (var i = 0; i < response.data.length; i++) {
+                                _self.goodsList.push(response.data[i]);
+                            }
+                            //_self.goodsList.push({ goods_id:"",goods_cname:"" });
+                            _self.fillData();
+                        },
+                        (response) => {
+                            alert(response.status);
+                        }
+                    ).catch(function (response) {
+                        alert(response);
+                    });
+
+                },
+                addRow: function (newGoods) {
+                    //this.facilities.push(this.newRow);
+                    //this.newGoods = {};
+
+                    var _self = this;
+
+                    var updateParams={
+                        goods_id:newGoods.goods_id,
+                        goods_cname:newGoods.goods_cname,
+                        goods_ename:newGoods.goods_ename,
+                        goods_vname1:newGoods.goods_vname1,
+                        goods_vname2:newGoods.goods_vname2,
+                        goods_vname3:newGoods.goods_vname3,
+
+                    }//_self.goodsList = res.data;//也可以直接賦值給數組
+                    //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
+                    //axios.get("AddGoods", { params: updateParams }).then(
+                    //axios.post('', { contact: { Id: id, Name: name, PhoneNo: phoneno, EmailAddress: emailaddress} }).then(
+                    axios.post("AddGoods", { updateParams }).then(
+                    (response) => {
+                        this.newGoods={
+                            goods_id:"",
+                            goods_cname:"",
+                            goods_ename:"",
+                            goods_vname1:"",
+                            goods_vname2:"",
+                            goods_vname3:"",
+                        };
+                        alert("更新成功!");
+                    },
+                    (response) => {
+                        alert(response.status);
+                    }
+                ).catch(function (response) {
+                    alert(response);
+                });
+
+                },
+                fillData:function(){
+                    this.goodsListPart = [];
+                    this.tablePage3.totalResult = this.goodsList.length;
+                    this.goodsListPart = this.goodsList.slice((this.tablePage3.currentPage - 1) * this.tablePage3.pageSize, this.tablePage3.currentPage * this.tablePage3.pageSize);
+                    this.loading3 = false;
+                },
+                editEvent (row) {
+                    this.newGoods = {
+                        goods_id: row.goods_id,
+                        goods_cname: row.goods_cname,
+                        goods_ename: row.goods_ename,
+                        goods_vname1: row.goods_vname1,
+                        goods_vname2: row.goods_vname2,
+                        goods_vname3: row.goods_vname3
+                    }
+                    this.selectRow = row
+                    this.showEdit = true
+                },
+                submitEvent () {
+                    this.showEdit = false;
+                    //this.$XModal.message({ content: '保存成功', status: 'success' })
+                    //Object.assign(this.selectRow, this.newGoods)
+                    this.addRow(this.newGoods);
+                },
+                handlePageChange3:function({ currentPage, pageSize} ) {
+                    this.loading3 = true;
+                    this.tablePage3.currentPage = currentPage;
+                    this.tablePage3.pageSize = pageSize;
+                    //this.findList3()
+                    this.fillData();
+                },
+
+            }
+        });
+    </script>
+
+}

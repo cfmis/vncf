@@ -33,7 +33,6 @@ C:\Workspace\VNCF\CF.Account.Contract\bin\Debug\CF.Framework.Utility.pdb
 C:\Workspace\VNCF\CF.Account.Contract\bin\Debug\System.Web.Mvc.xml
 C:\Workspace\VNCF\CF.Account.Contract\obj\Debug\CF.Account.Contract.dll
 C:\Workspace\VNCF\CF.Account.Contract\obj\Debug\CF.Account.Contract.pdb
-C:\Workspace\VNCF\CF.Account.Contract\obj\Debug\CF.Account.Contract.csprojResolveAssemblyReference.cache
 D:\Workspace\vncf\CF.Account.Contract\bin\Debug\CF.Account.Contract.dll
 D:\Workspace\vncf\CF.Account.Contract\bin\Debug\CF.Account.Contract.pdb
 D:\Workspace\vncf\CF.Account.Contract\bin\Debug\CF.Framework.Contract.dll

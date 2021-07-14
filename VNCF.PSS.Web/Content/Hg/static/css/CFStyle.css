@@ -5,6 +5,13 @@ body {
 
 ol,ul {list-style:none;}
 
+.head-item {
+	position: fixed;
+	width: 100%;
+	z-index: 999;
+	background: #e8ebed;
+	padding: 2px;
+}
 
 .percent-100{
 	width: 100%; 

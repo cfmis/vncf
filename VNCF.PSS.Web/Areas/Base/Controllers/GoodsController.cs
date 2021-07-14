@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using VNCF.PSS.Web.Areas.Base.Models;
 using VNCF.PSS.Web.Common;
+using VNCF.PSS.Web.Areas.Base.DAL;
 
 namespace VNCF.PSS.Web.Areas.Base.Controllers
 {
@@ -20,11 +21,28 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
         // GET: Base/Goods
         public ActionResult Index()
         {
-            return View();
+            //return View();
+            //return View("Create");
+            return View("Edit");
         }
         public ActionResult List()
         {
-            return View("Index");
+            //return View("Index");
+            return View("Edit");
+            //return View("Create");
+            //return View("Vue");
+        }
+        public ActionResult Edit()
+        {
+            return View();
+        }
+        public ActionResult Create()
+        {
+            return View();
+        }
+        public ActionResult Vue()
+        {
+            return View();
         }
         [HttpGet]
         public JsonResult GetGoodsType()
@@ -44,9 +62,20 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
         {
             return Json(goosdList, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetGoodsDetails()
+        public JsonResult SearchGoods(Goods searchParams)
         {
-            return Json(goosdList, JsonRequestBehavior.AllowGet);
+            NewBaseDAL nbd = new NewBaseDAL();
+            //var goodsList = BaseDataDAL.GetGoods("");
+            var goodsList = nbd.SearchGoods(searchParams);
+            return Json(goodsList, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult AddGoods(Goods updateParams)
+        {
+            NewBaseDAL nbd = new NewBaseDAL();
+            //var goodsList = BaseDataDAL.GetGoods("");
+            var goodsList = nbd.UpdateGoods(updateParams);
+            return Json(goodsList, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
          public JsonResult GetGoods(int id)

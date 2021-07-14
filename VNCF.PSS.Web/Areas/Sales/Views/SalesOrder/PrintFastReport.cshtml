@@ -1,11 +1,12 @@
 ﻿
 
 @{
-    ViewBag.Title="打印";
+    ViewBag.Title = "打印";
     Layout = null;
+
 }
 
-@WebReportGlobals.Scripts()
 @WebReportGlobals.Styles()
+@WebReportGlobals.Scripts()
 
 @ViewBag.WebReport.GetHtml()

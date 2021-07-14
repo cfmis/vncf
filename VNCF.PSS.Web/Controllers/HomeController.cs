@@ -11,8 +11,8 @@ namespace VNCF.PSS.Web.Controllers
     {
         public ActionResult Index()
         {
-            //return RedirectToAction("Index", "Auth", new { Area = "Account" });
-            return RedirectToAction("List", "Goods", new { Area = "Base" });
+            return RedirectToAction("Index", "Auth", new { Area = "Account" });
+            //return RedirectToAction("List", "Goods", new { Area = "Base" });
             //return View();
         }
 
