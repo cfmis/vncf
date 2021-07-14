@@ -529,7 +529,7 @@
     <Content Include="Areas\Purchase\Views\Purchase\Index.cshtml" />
     <Content Include="Areas\Purchase\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Purchase\Views\web.config" />
-    <Content Include="Areas\Base\Views\Goods\Index.cshtml" />
+    <Content Include="Areas\Base\Views\Goods\Index_bak.cshtml" />
     <Content Include="Areas\Base\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Purchase\Views\Purchase\FindItem.cshtml" />
     <Content Include="Areas\Purchase\Views\Purchase\FindOtherFareItem.cshtml" />
@@ -537,9 +537,8 @@
     <Content Include="Areas\Purchase\Views\Purchase\EditOtherFare.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\Report.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\PrintFastReport.cshtml" />
-    <Content Include="Areas\Base\Views\Goods\Edit.cshtml" />
+    <Content Include="Areas\Base\Views\Goods\Index.cshtml" />
     <Content Include="Areas\Base\Views\Goods\Create.cshtml" />
-    <Content Include="Areas\Base\Views\Goods\Vue.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\Print.cshtml" />
     <Content Include="Areas\Purchase\Views\Purchase\Print.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />

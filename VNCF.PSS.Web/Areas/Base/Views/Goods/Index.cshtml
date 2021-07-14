@@ -1,262 +1,138 @@
 ﻿
 @{
-    ViewBag.Title = "--物料描述";// "Goods IndexPage";
+    ViewBag.Title = "物料描述";// "Goods IndexPage";
 }
 @*@{@Html.Raw("@");}*@
-@section PageSpecificStyleSheetIncludes{ 
-<style>
-    .table tr td {
-height: 30px;
-max-height: 30px;
-}
-    </style>
-}
-    <div id="app">
-    <div class="head-item">
-        <div class="content-left f1">
-            <button class="btn btn-sm btn-primary" type="button" id="btn-invt-reset" data-toggle="modal" data-target="#myModal">
-                <i class="fa fa-plus"></i>&nbsp;button1
-            </button>
-            <button class="btn btn-sm btn-primary" type="button" id="btn-invt-save">
-                <i class="fa fa-save"></i>&nbsp;button2
-            </button>
-            <button class="btn btn-sm btn-primary" type="button" id="btn-invt-delete" disabled="disabled">
-                <i class="fa fa-trash"></i>&nbsp;button3
-            </button>
-            <button class="btn btn-sm btn-primary" type="button" id="btn-invt-import" onclick="importExcelData()" disabled>
-                <i class="fa fa-search"></i>&nbsp;button4
-            </button>
-        </div>
 
-    </div>
+<div id="app">
 
-    <div style="padding-top: 28px;">
-        <div class="tabs-container-dec">
-            @*<div class="tab-content" style="padding-top:27px">*@
-                <div id="attachTab" class="tab-pane">
+    <vxe-form :data="searchParas" @@submit="submitSearch">
+        <vxe-form-item span="24">
+            <template #default>
+                <vxe-button type="submit" status="primary">查询</vxe-button>
+                <vxe-button type="reset">重置</vxe-button>
+            </template>
+        </vxe-form-item>
+        <vxe-form-item title="物料編號" field="goods_id" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入編號'}}"></vxe-form-item>
+        <vxe-form-item title="物料描述" field="goods_cname" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入物料描述'}}"></vxe-form-item>
+        <vxe-form-item title="英文描述" field="goods_ename" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入英文描述'}}"></vxe-form-item>
+        <vxe-form-item title="越文描述1" field="goods_vname1" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述1'}}"></vxe-form-item>
+        <vxe-form-item title="越文描述2" field="goods_vname2" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述2'}}"></vxe-form-item>
+        <vxe-form-item title="越文描述3" field="goods_vname3" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述3'}}"></vxe-form-item>
+    </vxe-form>
 
-                    <!-- �渽���� ҳ�� -->
-                    <!-- <div id="acmpRLContent" style="display: none; margin: 20px auto;"> -->
-                    <div style="padding:5px 2px 2px 2px">
-                        <form id="acmp_form">
-                            <div style="position: relative;">
-                                <table class="percent-100">
-                                    <tr>
-                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;物料編號</td>
-                                        <td colspan="4">
-                                            <div class="input-group">
-                                                <input type="hidden" id="blsType" name="blsType">
-                                                <input type="text" v-on:keyup.enter="searchGoods(newGoods.goods_id)" v-model="newGoods.goods_id" placeholder="请输入物料編號" />
-                                            </div>
-                                        </td>
-                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;物料描述</td>
-                                        <td colspan="4">
-                                            <input type="text" v-model="newGoods.goods_cname" />
-                                        </td>
-                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;英文描述</td>
-                                        <td colspan="4">
-                                            <input type="text" v-model="newGoods.goods_ename" />
-                                        </td>
-                                        <td class="text-align-right th-bg" colspan="4">越文描述1</td>
-                                        <td colspan="4">
-                                            <input type="text" v-model="newGoods.goods_vname1" />
-                                        </td>
-                                    </tr>
-                                    <tr>
+    <vxe-table border
+               resizable
+               highlight-hover-row
+               show-overflow
+               height="500"
+               row-id="id"
+               size="small"
+               :loading="loading3"
+               :data="goodsListPart"
+               highlight-current-row
+               :keyboard-config="{isArrow: true}">
+        <vxe-table-column type="seq" title="序號" width="60"></vxe-table-column>
+        <vxe-table-column field="goods_id" title="物料編號" width="160" sortable></vxe-table-column>
+        <vxe-table-column field="goods_cname" title="物料描述" width="260"></vxe-table-column>
+        <vxe-table-column field="goods_ename" title="英文描述" width="260"></vxe-table-column>
+        <vxe-table-column field="goods_vname1" title="越文描述1" width="200"></vxe-table-column>
+        <vxe-table-column field="goods_vname2" title="越文描述2" width="200"></vxe-table-column>
+        <vxe-table-column field="goods_vname3" title="越文描述3" width="200"></vxe-table-column>
+        <vxe-table-column title="修改" width="60" :resizable="false" show-overflow>
+            <template #default="{ row }">
+                <vxe-button type="text" icon="fa fa-edit" @@click="editEvent(row)"></vxe-button>
+            </template>
+        </vxe-table-column>
+        <template #empty>
+            <span style="color: red;">
+                <img src="/Images/no_data_img.gif">
+                <p>没有更多数据了！</p>
+            </span>
+        </template>
+    </vxe-table>
 
-                                        <td class="text-align-right th-bg" colspan="4"><i style="color: red;">*</i>&nbsp;越文描述2</td>
-                                        <td colspan="4">
-                                            <div class="input-group">
-                                                <input type="hidden" id="acmpFormFmt" name="acmpFormFmt">
-                                                <input type="text" v-model="newGoods.goods_vname2" />
-                                            </div>
-                                        </td>
-                                        <td class="text-align-right th-bg" colspan="4">越文描述3</td>
-                                        <td colspan="20">
-                                            <div class="input-group">
-                                                <input type="hidden" id="acmpFormTypeCD" name="acmpFormTypeCD">
-                                                <input type="text" v-model="newGoods.goods_vname3" />
-                                            </div>
-                                        </td>
-                                    </tr>
+    <vxe-pager background
+               size="small"
+               :loading="loading3"
+               :current-page="tablePage3.currentPage"
+               :page-size="tablePage3.pageSize"
+               :total="tablePage3.totalResult"
+               :page-sizes="[10, 20, 100, {label: '大量数据', value: 1000}, {label: '全量数据', value: -1}]"
+               :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']"
+               @@page-change="handlePageChange3">
+    </vxe-pager>
+    @*<form id="editGoods">*@
+    <vxe-modal ref="xModal" v-model="showEdit" title="编辑&保存" width="800" resize destroy-on-close>
+        <template #default>
+            <vxe-form :data="newGoods" :rules="formRules" title-align="right" title-width="100" @@submit="submitEvent">
+                <vxe-form-item title="Edit Goods Description" span="24" title-align="left" title-width="200px" :title-prefix="{icon: 'fa fa-address-book'}"></vxe-form-item>
+                <vxe-form-item title="物料編號" field="goods_id" span="12"  :item-render="{name: 'input', attrs: {placeholder: '请输入編號'}}"></vxe-form-item>
+                <vxe-form-item title="物料描述" field="goods_cname" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入物料描述'}}"></vxe-form-item>
+                <vxe-form-item title="英文描述" field="goods_ename" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入英文描述'}}"></vxe-form-item>
+                <vxe-form-item title="越文描述1" field="goods_vname1" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述1'}}"></vxe-form-item>
+                <vxe-form-item title="越文描述2" field="goods_vname2" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述2'}}"></vxe-form-item>
+                <vxe-form-item title="越文描述3" field="goods_vname3" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述3'}}"></vxe-form-item>
+                <vxe-form-item align="center" span="24">
+                    <template #default>
+                        <vxe-button type="submit" status="primary">保存</vxe-button>
+                        <vxe-button type="reset">重置</vxe-button>
+                        <vxe-button @@click="$refs.xModal.close()">取消</vxe-button>
+                    </template>
+                </vxe-form-item>
+            </vxe-form>
+        </template>
+    </vxe-modal>
 
-                                </table>
-                            </div>
-                        </form>
-                        <div class="bootTable-content" style="margin-top: 2px;">
-                            @*table table-striped table-hover table-bordered*@
-                            <div style="margin-top: 2px;">
-                                @*class="table-fixed text-nowrap"*@@*table-fixed text-nowrap*@@*table table-hover table-success*@
-                                <table id="acmpRLTalbe" class="table table-hover table-success1" border="1" data-id-field="acmpFormSeqNo" data-mobile-responsive="true"
-                                       data-resizable="true" style="margin-top: 5px;" data-uniqueId="acmpFormSeqNo" data-sortName="acmpFormSeqNo" v-show="goodsList.length">
-                                    <thead>
-                                        <tr>
-                                            <th style="background-color:#64a5eb" data-field="acmpFormSeqNo" data-visible="true">物料編號</th>
-                                            <th style="background-color:#64a5eb" data-field="acmpFormFileNm">物料描述</th>
-                                            <th style="background-color:#64a5eb" data-field="acmpFormTypeCDname">英文描述</th>
-                                            <th style="background-color:#64a5eb" data-field="acmpFormNo">越文描述1</th>
-                                            <th style="background-color:#64a5eb" data-field="acmpBlsStatusname">越文描述2</th>
-                                            <th style="background-color:#64a5eb" data-field="invtGdsSeqNo">越文描述3</th>
-                                            <th style="background-color:#64a5eb" data-field="invtGdsSeqNo">操作</th>
-                                        </tr>
-                                    </thead>
-                                    <tr v-for="item in goodsList">
-                                        <td>{{item.goods_id}}</td>
-                                        <td>{{item.goods_cname}}</td>
-                                        <td>{{item.goods_ename}}</td>
-                                        <td>{{item.goods_vname1}}</td>
-                                        <td>{{item.goods_vname2}}</td>
-                                        <td>{{item.goods_vname3}}</td>
-                                        <td>
-                                            <div v-if="item.goods_id!=''">
-                                                <a href="#" v-on:click="updateContact(item.goods_id,item.goods_cname,item.goods_ename,item.goods_vname1)">修改</a>
-                                                <a href="#" v-on:click="deleteContactById(item.goods_id)">删除</a>
-                                            </div>
-                                            <div v-else>
-                                                <a href="#" v-on:click="addContact(item.goods_id,item.goods_cname,item.goods_ename,item.goods_vname1)">添加</a>
-                                            </div>
-                                        </td>
-                                        @*<td><a href="#" v-on:click="GetGoodsDetails(item.ID)">明細</a></td>*@
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="modal fade" id="myModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h6 class="modal-title">修改物料描述</h6>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="acmp_form1">
-                                    <div style="position: relative;">
-                                        <table class="percent-100">
-                                            <tr>
-                                                <td class="text-align-right th-bg"><i style="color: red;">*</i>&nbsp;物料編號</td>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <input type="hidden" id="blsType" name="blsType">
-                                                        <input type="text" v-on:keyup.enter="searchGoods(newGoods.goods_id)" v-model="newGoods.goods_id" placeholder="请输入物料編號" />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-align-right th-bg"><i style="color: red;">*</i>&nbsp;物料描述</td>
-                                                <td>
-                                                    <input type="text" v-model="newGoods.goods_cname" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-align-right th-bg"><i style="color: red;">*</i>&nbsp;英文描述</td>
-                                                <td>
-                                                    <input type="text" v-model="newGoods.goods_ename" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-align-right th-bg">越文描述1</td>
-                                                <td>
-                                                    <input type="text" v-model="newGoods.goods_vname1" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-
-                                                <td class="text-align-right th-bg"><i style="color: red;">*</i>&nbsp;越文描述2</td>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <input type="hidden" id="acmpFormFmt" name="acmpFormFmt">
-                                                        <input type="text" v-model="newGoods.goods_vname2" />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-align-right th-bg">越文描述3</td>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <input type="hidden" id="acmpFormTypeCD" name="acmpFormTypeCD">
-                                                        <input type="text" v-model="newGoods.goods_vname3" />
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                        </table>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal" v-on:click="addRow">确认</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @*</div>*@
-        </div>
-    </div>
 </div>
 
 
-        <h2>Index</h2>
-        <div id="demo">
-            <table>
-                <tr>
-                    <td><label>编号：</label></td>
-                    <td><input type="text" v-model="newGoods.id" /></td>
-                    <td><label>名称：</label></td>
-                    <td><input type="text" v-model="newGoods.name" /></td>
-                    <td><label>类型：</label></td>
-                    <td><input type="text" v-model="newGoods.type" /></td>
-                    <td><label>售价：</label></td>
-                    <td><input type="text" v-model="newGoods.price" /></td>
-                    @*<td><a onclick="GetAllGoods1()">查詢</a></td>*@
-                    @*<td><input type="submit" value="查询" v-on:click="GetGoods(newGoods.id)" /></td>*@
-                    <td><a href="#" v-on:click="GetGoods(newGoods.id)">查詢</a></td>
-                    <td><a href="#" v-on:click="UpdateGoods(newGoods.id,newGoods.name,newGoods.type,newGoods.price)">修改</a></td>
-                </tr>
-            </table>
-            <table v-show="goodsList.length">
-                <tr>
-                    <td>编号</td>
-                    <td>名称</td>
-                    <td>类型</td>
-                    <td>售价</td>
-                </tr>
-                <tr v-for="item in goodsList">
-                    <td>{{item.ID}}</td>
-                    <td>{{item.Name}}</td>
-                    <td>{{item.Type}}</td>
-                    <td>{{item.Price}}</td>
-                    <td><a href="#" v-on:click="GetGoodsDetails(item.ID)">明細</a></td>
-                </tr>
-            </table>
-        </div>
 @section PageSpecificJavascriptIncludes{
     <script type="text/javascript">
         var vm = new Vue({
             el: "#app",
             data: {
                 goodsList: [],
-                newGoods:{goods_id:'',goods_cname:'',goods_ename:'',goods_vname1:'',goods_vname2:'',goods_vname3:''}
+                goodsListPart:[],
+                newGoods: { goods_id: '', goods_cname: '', goods_ename: '', goods_vname1: '', goods_vname2: '', goods_vname3: '' },
+                searchParas: { goods_id: '', goods_cname: '', goods_ename: '', goods_vname1: '', goods_vname2: '', goods_vname3: '' },
+                loading3: false,
+                tablePage3: {
+                    currentPage: 1,
+                    pageSize: 10,
+                    totalResult: 0
+                },
+                selectRow: null,
+                showEdit: false,
+                formRules: {
+                    goods_vname1: [
+                      { required: false, message: '请输入名称' },
+                      //{ min: 3, max: 5, message: '长度在 3 到 5 个字符' }
+                    ],
+                    goods_vname2: [
+                      { required: false, message: '请输入越文2' }
+                    ],
+                    goods_vname3: [
+                      { required: false, message: '请輸入越文3' }
+                    ]
+                },
             },
             created: function () {
                 this.InIt();
-
+                //this.findList3();
             },
             methods: {
                 InIt: function () {
                     this.newGoods.goods_id = "111";
                     this.newGoods.goods_cname = "222";
-                    this.searchGoods();
+                    this.fillData();
                 },
-                searchGoods:function(_id){
-
-                    var keyCode = 13;//window.event? e.keyCode:e.which;
+                submitSearch(){
+                    this.searchGoods(this.searchParas);
+                },
+                searchGoods:function(searchParas){
                     // console.log('回车搜索',keyCode,e); && this.input
-                    var obj = this.input;
-                    if(keyCode == 13){
+                        this.loading3 = true
                         var _self = this;
                         _self.goodsList = [];
                         //if (_id.length > 0) {
@@ -280,7 +156,12 @@ max-height: 30px;
                             //    });
 
                         var searchParams={
-                            goods_id:_id,
+                            goods_id:searchParas.goods_id,
+                            goods_cname:searchParas.goods_cname,
+                            goods_ename:searchParas.goods_ename,
+                            goods_vname1:searchParas.goods_vname1,
+                            goods_vname2:searchParas.goods_vname2,
+                            goods_vname3:searchParas.goods_vname3,
                             pageSize:10,
                             status:[1,3]
                         }//_self.goodsList = res.data;//也可以直接賦值給數組
@@ -291,7 +172,8 @@ max-height: 30px;
                             for (var i = 0; i < response.data.length; i++) {
                                 _self.goodsList.push(response.data[i]);
                             }
-                            _self.goodsList.push({ goods_id:"",goods_cname:"" });
+                            //_self.goodsList.push({ goods_id:"",goods_cname:"" });
+                            _self.fillData();
                         },
                         (response) => {
                             alert(response.status);
@@ -299,216 +181,80 @@ max-height: 30px;
                     ).catch(function (response) {
                         alert(response);
                     });
-                    }
 
                 },
-                addRow: function () {
+                addRow: function (newGoods) {
                     //this.facilities.push(this.newRow);
-                    this.newGoods = {};
+                    //this.newGoods = {};
+
+                    var _self = this;
+
+                    var updateParams={
+                        goods_id:newGoods.goods_id,
+                        goods_cname:newGoods.goods_cname,
+                        goods_ename:newGoods.goods_ename,
+                        goods_vname1:newGoods.goods_vname1,
+                        goods_vname2:newGoods.goods_vname2,
+                        goods_vname3:newGoods.goods_vname3,
+
+                    }//_self.goodsList = res.data;//也可以直接賦值給數組
+                    //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
+                    //axios.get("AddGoods", { params: updateParams }).then(
+                    //axios.post('', { contact: { Id: id, Name: name, PhoneNo: phoneno, EmailAddress: emailaddress} }).then(
+                    axios.post("AddGoods", { updateParams }).then(
+                    (response) => {
+                        this.newGoods={
+                            goods_id:"",
+                            goods_cname:"",
+                            goods_ename:"",
+                            goods_vname1:"",
+                            goods_vname2:"",
+                            goods_vname3:"",
+                        };
+                        alert("更新成功!");
+                    },
+                    (response) => {
+                        alert(response.status);
+                    }
+                ).catch(function (response) {
+                    alert(response);
+                });
+
                 },
+                fillData:function(){
+                    this.goodsListPart = [];
+                    this.tablePage3.totalResult = this.goodsList.length;
+                    this.goodsListPart = this.goodsList.slice((this.tablePage3.currentPage - 1) * this.tablePage3.pageSize, this.tablePage3.currentPage * this.tablePage3.pageSize);
+                    this.loading3 = false;
+                },
+                editEvent (row) {
+                    this.newGoods = {
+                        goods_id: row.goods_id,
+                        goods_cname: row.goods_cname,
+                        goods_ename: row.goods_ename,
+                        goods_vname1: row.goods_vname1,
+                        goods_vname2: row.goods_vname2,
+                        goods_vname3: row.goods_vname3
+                    }
+                    this.selectRow = row
+                    this.showEdit = true
+                },
+                submitEvent () {
+                    this.showEdit = false;
+                    //this.$XModal.message({ content: '保存成功', status: 'success' })
+                    //Object.assign(this.selectRow, this.newGoods)
+                    this.addRow(this.newGoods);
+                },
+                handlePageChange3:function({ currentPage, pageSize} ) {
+                    this.loading3 = true;
+                    this.tablePage3.currentPage = currentPage;
+                    this.tablePage3.pageSize = pageSize;
+                    //this.findList3()
+                    this.fillData();
+                },
+
             }
         });
     </script>
-        <script type="text/javascript">
-            var view = new Vue(
-                {
-                    el: "#demo",
-                    data: {
-                        goodsList: [],
-                        newGoods: { id: '', name: '', type: '', price: '' }
-                    },
-                    created: function () {
-                        this.InIt();
-                    },
-                    methods: {
-                        InIt: function () {
-                            //初始化
-                            this.GetAllGoods();
-                        },
-                        GetAllGoods: function () {
-                            var _self = this;//'@Url.Action("GetAllGoods", "Goods")'
-                            var url = window.location.href;
-                            //_self.$http.get("GetAllGoods").then(
-                            //    //////// Lambda写法
-                            //    (response) => {
-                            //        ////successCallback
-                            //        for (var i = 0; i < response.data.length; i++) {
-                            //            _self.goodsList.push(response.data[i]);
-                            //        }
-                            //    },
-                            //    (response) => {
-                            //        //errorCallback
-                            //    }
-                            //    //function (response) {
-                            //    //    //successCallback
-                            //    //    _self.goodsList = response.data;
-                            //    //        //for (var i = 0; i < response.data.length; i++) {
-                            //    //        //    _self.goodsList.push(response.data[i]);
-                            //    //        //}
-                            //    //    //if (response.data.Code == 500) {
-                            //    //    //    _self.goodsList.push(response.data.Entity);
-                            //    //    //}
-                            //    //    //else {
-                            //    //    //    alert(response.data.Message);
-                            //    //    //}
-                            //    //}
-                            //).catch(function (response) {
-                            //    alert(response);
-                            //});
 
-
-                            axios.get("GetAllGoods"
-                            ).then(
-                                function (response) {
-                                    _self.goodsList = response.data;
-                                },
-                                function (response) {
-                                    alert(response.status);
-                                }
-                            ).catch(function (response) {
-                                alert(response);
-                            });
-
-
-                            //debugger;
-                            //$.ajax({
-                            //    url: "GetAllGoods",///Areas/Base/Goods/GetAllGoods
-                            //    /////Base/BaseData/LoadFormLanguage?WebFormName=Sales.Order.Index
-                            //    type: 'post',
-                            //    ////data: { 'param': obja }, //参数
-                            //    dataType: 'json'
-                            //}).then(function (res) {
-                            //    console.log(res);
-                            //    ////把从json获取的数据赋值给数组
-                            //    _self.goodsList = res;
-                            //}).fail(function () {
-                            //    console.log('失败');
-                            //})
-
-                        },
-                        GetGoods: function (_id) {
-                            var _self = this;
-                            _self.goodsList = [];
-                            if (_id.length > 0) {
-                                _self.$http.post("GetGoods", { id: _id }).then(
-                                    // 传统写法
-                                    function (response) {
-                                        //successCallback
-                                        if (response.data.Code == 500) {
-                                            _self.goodsList.push(response.data.Entity);
-                                        }
-                                        else {
-                                            alert(response.data.Message);
-                                        }
-                                    },
-                                    function (response) {
-                                        //errorCallback
-                                    }
-                                )
-                                    .catch(function (response) {
-                                        console.log(response);
-                                    });
-                            }
-                            else {
-                                _self.GetAllGoods();
-                            }
-                        },
-
-                        GetGoodsDetails: function (_id) {
-                            var _self = this;
-                            if (_id > 0) {
-                                //_self.goodsList.some((item, i) => {
-                                //    if (item.ID == _id) {
-                                //        //_self.goodsList.splice(i, 1);
-                                //        _self.newGoods.id = item.ID;
-                                //        _self.newGoods.name = item.Name;
-                                //        _self.newGoods.type = item.Type;
-                                //        _self.newGoods.price = item.Price;
-                                //        return true;
-                                //    }
-                                //})
-
-                                var index = _self.goodsList.findIndex(item=> {
-                                    if (item.ID == _id) {
-                                        _self.newGoods.id = item.ID;
-                                        _self.newGoods.name = item.Name;
-                                        _self.newGoods.type = item.Type;
-                                        _self.newGoods.price = item.Price;
-                                        return true;
-                                    }
-                                })
-                                _self.goodsList.splice(index, 1);
-                                _self.$http.post("GetGoods", { id: _id }).then(
-                                    // 传统写法
-                                    function (response) {
-                                        //successCallback
-                                        if (response.data.Code == 500) {
-                                            //_self.goodsList.push(response.data.Entity);
-                                            _self.newGoods.id = response.data.Entity.ID;
-                                            _self.newGoods.name = response.data.Entity.Name;
-                                            _self.newGoods.type = response.data.Entity.Type;
-                                            _self.newGoods.price = response.data.Entity.Price;
-                                        }
-                                        else {
-                                            alert(response.data.Message);
-                                        }
-                                    },
-                                    function (response) {
-                                        //errorCallback
-                                    }
-                                )
-                                    .catch(function (response) {
-                                        console.log(response);
-                                    });
-                            }
-                            else {
-                                _self.GetAllGoods();
-                            }
-                        },
-
-                        UpdateGoods: function (Id, Name, Type, Price) {
-                            if (Id == "") {
-                                alert("編號不能為空!");
-                                return;
-                            }
-                            var _self = this;
-                            _self.$http.post("UpdateGoods", { entity: { Id: Id, Name: Name, Type: Type, Price: Price } }).then(
-                                function (response) {
-                                    //successCallback
-                                    if (response.data.Code == 500) {
-                                        _self.goodsList = response.data.Entity;
-                                    }
-                                    else {
-                                        alert(response.data.Message);
-                                    }
-                                },
-                                    function (response) {
-                                        //errorCallback
-                                    }
-                                ).catch(function (response) {
-                                    console.log(response);
-                                });
-                        }
-                    }
-                }
-            );
-
-            //function GetAllGoods1() {
-            //    var url = window.location.href;
-            //    $.ajax({
-            //        url: "Goods/GetAllGoods",///Areas/Base/Goods/GetAllGoods
-            //        /////Base/BaseData/LoadFormLanguage?WebFormName=Sales.Order.Index
-            //        type: 'post',
-            //        ////data: { 'param': obja }, //参数
-            //        dataType: 'json'
-            //    }).then(function (res) {
-            //        console.log(res);
-            //        debugger;
-            //        ////把从json获取的数据赋值给数组
-            //        _self.goodsList = res;
-            //    }).fail(function () {
-            //        console.log('失败');
-            //    })
-            //}
-        </script>
 }

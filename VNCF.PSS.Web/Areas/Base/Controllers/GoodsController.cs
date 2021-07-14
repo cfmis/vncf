@@ -21,14 +21,14 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
         // GET: Base/Goods
         public ActionResult Index()
         {
-            //return View();
+            return View();
             //return View("Create");
-            return View("Edit");
+            //return View("Edit");
         }
         public ActionResult List()
         {
-            //return View("Index");
-            return View("Edit");
+            return View("Index");
+            //return View("Edit");
             //return View("Create");
             //return View("Vue");
         }
