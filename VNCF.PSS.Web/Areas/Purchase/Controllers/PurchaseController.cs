@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FastReport.Web;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -192,8 +193,19 @@ namespace VNCF.PSS.Web.Areas.Purchase
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-       
-
+        public ActionResult Print(string ID)
+        {            
+            string report_path = $"{Request.MapPath(Request.ApplicationPath)}Reports\\purchase.frx";           
+            var list= PurchaseDAL.GetReportReturnList(ID);            
+            WebReport webReport = new WebReport();
+            webReport.Report.RegisterData(list, "PurData");//注冊數據
+            webReport.Report.Load(report_path);//調用報表模板
+            webReport.Width = 1024;
+            webReport.Height = 800;
+            webReport.ToolbarIconsStyle = ToolbarIconsStyle.Black;
+            ViewBag.WebReport = webReport;
+            return View();
+        }
 
         //public ActionResult test()
         //{

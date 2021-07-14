@@ -216,6 +216,27 @@ namespace CF.SQLServer.DAL
         }
 
         /// <summary>
+        /// 執行SQL，返回 dataSet 類型
+        /// </summary>
+        /// <returns></returns>
+        public static DataSet ExecuteSqlReturnDataSet(string strSQL)
+        {
+            using (SqlConnection connection = new SqlConnection(strCon))
+            {
+                DataSet dataSet = new DataSet();
+                connection.Open();
+                SqlDataAdapter sda = new SqlDataAdapter(strSQL, connection);
+                sda.Fill(dataSet);
+                sda.Dispose();
+                connection.Close();
+                return dataSet;
+            }
+
+
+            
+        }
+
+        /// <summary>
         ///執行存儲過程，返回dataTable 
         /// </summary>
         /// <param name="strSql"></param>

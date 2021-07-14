@@ -311,6 +311,7 @@
     <Compile Include="Common\AdminControllerBase.cs" />
     <Compile Include="Common\AdminCookieContext.cs" />
     <Compile Include="Common\AdminUserContext.cs" />
+    <Compile Include="Common\CommonUtils.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -323,7 +324,6 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="VNCFPSSDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -473,7 +473,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="ReportViewerWebForm.aspx" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -537,10 +536,15 @@
     <Content Include="Areas\Purchase\Views\Purchase\Find.cshtml" />
     <Content Include="Areas\Purchase\Views\Purchase\EditOtherFare.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\Report.cshtml" />
+<<<<<<< HEAD
     <Content Include="Areas\Sales\Views\SalesOrder\PrintFastReport.cshtml" />
     <Content Include="Areas\Base\Views\Goods\Edit.cshtml" />
     <Content Include="Areas\Base\Views\Goods\Create.cshtml" />
     <Content Include="Areas\Base\Views\Goods\Vue.cshtml" />
+=======
+    <Content Include="Areas\Sales\Views\SalesOrder\Print.cshtml" />
+    <Content Include="Areas\Purchase\Views\Purchase\Print.cshtml" />
+>>>>>>> 9b62ed985747e5b6ba5fc7d60bdfefaaabacaa94
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -557,19 +561,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="SqlServerTypes\readme.htm" />
-    <Content Include="SqlServerTypes\x64\msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x86\msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

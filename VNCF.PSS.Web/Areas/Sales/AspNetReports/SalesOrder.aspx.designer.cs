@@ -38,7 +38,7 @@ namespace VNCF.PSS.Web.Areas.Sales.AspNetReports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
+
         /// <summary>
         /// ReportViewer1 control.
         /// </summary>
@@ -46,6 +46,10 @@ namespace VNCF.PSS.Web.Areas.Sales.AspNetReports {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9b62ed985747e5b6ba5fc7d60bdfefaaabacaa94
         //protected global::Microsoft.Reporting.WebForms.ReportViewer ReportViewer1;
     }
 }

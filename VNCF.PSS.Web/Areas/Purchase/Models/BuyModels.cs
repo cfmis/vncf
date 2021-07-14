@@ -117,5 +117,34 @@ namespace VNCF.PSS.Web.Areas.Purchase.Models
 
     }
 
+    public class PurReport
+    {
+        public string ID { get; set; }
+        public string OrderDate { get; set; }
+        public string CurrencyID { get; set; }
+        public string Contacts { get; set; }
+        public string DepartMentID { get; set; }
+        public string CreateBy { get; set; }
+        public string CreateAt { get; set; }
+        public string ProductMo { get; set; }
+        public string ProductID { get; set; }
+        public string ProductCdesc { get; set; }
+        public string Spec { get; set; }
+        public int OrderQty { get; set; }
+        public string OrderUnit { get; set; }
+        public decimal Weight { get; set; }
+        public string WeightUnit { get; set; }
+        public string Color { get; set; }
+        public decimal Price { get; set; }
+        public string PriceUnit { get; set; }
+        public decimal TotalSum { get; set; }
+        public string ArriveDate { get; set; }
+        public string Remarks { get; set; }
+        public string VendorName { get; set; }
+        public string DeptName { get; set; }
+        public string Seq { get; set; }
+        public string Sign { get; set; }
+    }
+
 
 }
