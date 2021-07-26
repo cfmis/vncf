@@ -16,4 +16,9 @@ namespace VNCF.PSS.Web.Areas.Base.Models
         public string Msg { get; set; }
         public string ReturnValue { get; set; }
     }
+    public class ListDataModels
+    {
+        public string value { get; set; }
+        public string label { get; set; }
+    }
 }

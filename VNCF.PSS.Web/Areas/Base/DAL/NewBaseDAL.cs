@@ -75,5 +75,53 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             result= SQLHelper.ExecuteSqlUpdate(strSql);
             return result;
         }
+
+        public Goods GetGoodsByID(string goods_id)
+        {
+            string LangID = LanguageID;
+            string strSql = "Select top 100 a.id,";
+            if (LangID == "0")
+                strSql += "a.name ";
+            else
+                if (LangID == "1")
+                strSql += "a.english_name ";
+            else
+                strSql += "b.vn_name1 ";
+            strSql+=" AS name,a.english_name,b.vn_name1,b.vn_name2,b.vn_name3 " +
+            " FROM it_goods a " +
+            " LEFT JOIN it_goods_vn b ON a.id=b.id" +
+            " Where a.type='" + "0001" + "'";
+            strSql += " AND a.id = '" + goods_id + "'";
+            
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            Goods mdjGoods = new Goods();
+            if(dt.Rows.Count>0)
+            {
+                DataRow dr = dt.Rows[0];
+                mdjGoods.goods_id = dr["id"].ToString();
+                mdjGoods.goods_cname = dr["name"].ToString();
+                mdjGoods.goods_ename = dr["english_name"].ToString();
+                mdjGoods.goods_vname1 = dr["vn_name1"].ToString();
+                mdjGoods.goods_vname2 = dr["vn_name2"].ToString();
+                mdjGoods.goods_vname3 = dr["vn_name3"].ToString();
+             }
+            return mdjGoods;
+        }
+        public List<ListDataModels> GetLoc()
+        {
+            string strSql = "Select ID,Name,Engname,VieName " +
+            " FROM bs_Loc Order By ID";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            List<ListDataModels> lsModel = new List<ListDataModels>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                ListDataModels mdj = new ListDataModels();
+                mdj.value = dr["id"].ToString();
+                mdj.label = dr["name"].ToString();
+                lsModel.Add(mdj);
+            }
+            return lsModel;
+        }
     }
 }
