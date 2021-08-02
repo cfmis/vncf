@@ -22,7 +22,6 @@ namespace VNCF.PSS.Web.Areas.Prod.Models
         public string CustomerID { get; set; }
         public string RequestDate { get; set; }
         public string DeliveryDate { get; set; }
-        public string GoodsID { get; set; }
         public string ProductRemark { get; set; }
         public string MoRemark { get; set; }
         public string PlanRemark { get; set; }
@@ -30,12 +29,10 @@ namespace VNCF.PSS.Web.Areas.Prod.Models
     public class PlanDetails : PlanModelBase
     {
         public string Seq { get; set; }
-        public string GoodsID { get; set; }
         public decimal RequestQty { get; set; }
         public string RequestDate { get; set; }
         public string WipID { get; set; }
         public string NextWipID { get; set; }
-        public string GoodsCname { get; set; }
-
+        
     }
 }

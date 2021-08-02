@@ -11,6 +11,7 @@ namespace VNCF.PSS.Web.Areas.Prod.Controllers
 {
     public class PlanController : Controller
     {
+        private PlanDAL clsPlanDAL = new PlanDAL();
         // GET: Prod/Plan
         public ActionResult Index()
         {
@@ -22,8 +23,8 @@ namespace VNCF.PSS.Web.Areas.Prod.Controllers
         }
         public JsonResult GetOrderByMo(string ProductMo)
         {
-            PlanDAL clsPlanDAL = new PlanDAL();
-            var PlanHead = clsPlanDAL.GetOrderByMo(ProductMo);
+            //PlanDAL clsPlanDAL = new PlanDAL();
+            var PlanHead = clsPlanDAL.GetPlanFromOrderByMo(ProductMo);
             return Json(PlanHead, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetGoodsByID(string GoodsID)
@@ -42,11 +43,22 @@ namespace VNCF.PSS.Web.Areas.Prod.Controllers
         [HttpPost]
         public JsonResult SavePlan(PlanHead PlanHead,List<PlanDetails> PlanDetails)
         {
-            NewBaseDAL nbd = new NewBaseDAL();
-            //var goodsList = BaseDataDAL.GetGoods("");
-            //var goodsList = nbd.UpdateGoods(updateParams);
-            var result="";
+            //PlanDAL clsPlanDAL = new PlanDAL();
+            var result = clsPlanDAL.UpdatePlan(PlanHead, PlanDetails);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetPlanHeadByMo(string ProductMo)
+        {
+            //PlanDAL clsPlanDAL = new PlanDAL();
+            var PlanHead = clsPlanDAL.GetPlanHeadByMo(ProductMo);
+            return Json(PlanHead, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetPlanDetailsByMo(string ProductMo)
+        {
+            //PlanDAL clsPlanDAL = new PlanDAL();
+            var PlanDetails = clsPlanDAL.GetPlanDetailsByMo(ProductMo);
+            return Json(PlanDetails, JsonRequestBehavior.AllowGet);
+        }
+        //
     }
 }

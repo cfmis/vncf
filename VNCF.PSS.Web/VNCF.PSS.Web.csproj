@@ -317,6 +317,7 @@
     <Compile Include="Common\AdminCookieContext.cs" />
     <Compile Include="Common\AdminUserContext.cs" />
     <Compile Include="Common\CommonUtils.cs" />
+    <Compile Include="Common\DBUtility.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />

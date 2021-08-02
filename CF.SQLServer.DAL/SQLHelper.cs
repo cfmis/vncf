@@ -161,39 +161,39 @@ namespace CF.SQLServer.DAL
         /// <returns></returns>
         public static DataTable ExecuteSqlReturnDataTable(string strSQL)
         {
-            using (SqlConnection connection = new SqlConnection(strCon))
-            {
-                DataTable dtData = new DataTable();
-                connection.Open();
-                SqlDataAdapter sda = new SqlDataAdapter(strSQL, connection);
-                sda.Fill(dtData);
-                sda.Dispose();
-                connection.Close();
-                return dtData;
-            }
-
-
-            //DataTable dtData = new DataTable();
-            //Conn = new SqlConnection(strCon);
-            //string err_str;
-            //try
+            //using (SqlConnection connection = new SqlConnection(strCon))
             //{
-            //    SqlDataAdapter sda = new SqlDataAdapter(strSQL, Conn);
+            //    DataTable dtData = new DataTable();
+            //    connection.Open();
+            //    SqlDataAdapter sda = new SqlDataAdapter(strSQL, connection);
             //    sda.Fill(dtData);
-            //    Conn.Close();
             //    sda.Dispose();
+            //    connection.Close();
+            //    return dtData;
             //}
-            //catch (Exception ex)
-            //{
 
-            //    //MessageBox.Show(ex.Message);
-            //    err_str = ex.Message;
-            //}
-            //finally
-            //{
-            //    Conn.Close();
-            //}
-            //return dtData;
+
+            DataTable dtData = new DataTable();
+            Conn = new SqlConnection(strCon);
+            string err_str;
+            try
+            {
+                SqlDataAdapter sda = new SqlDataAdapter(strSQL, Conn);
+                sda.Fill(dtData);
+                Conn.Close();
+                sda.Dispose();
+            }
+            catch (Exception ex)
+            {
+
+                //MessageBox.Show(ex.Message);
+                err_str = ex.Message;
+            }
+            finally
+            {
+                Conn.Close();
+            }
+            return dtData;
 
             //string err_str;
             //DataTable dtData = new DataTable();
