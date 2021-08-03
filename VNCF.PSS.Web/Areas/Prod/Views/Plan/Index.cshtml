@@ -38,11 +38,13 @@
             <vxe-button type="text" icon="fa fa-plus" content="新增" @@click="addNew()"></vxe-button>
             <vxe-button type="text" icon="fa fa-trash-o" content="删除"></vxe-button>
             <vxe-button type="text" icon="fa fa-save" content="儲存" @@click="saveEvent()"></vxe-button>
-            <vxe-input v-model="searchProductMo" class="my-search" placeholder="輸入制單編號" style="height:30px;margin:105px,0px;">
+            @*<vxe-input v-model="searchProductMo" class="my-search" placeholder="輸入制單編號" style="height:30px;margin:105px,0px;">
                 <template #suffix>
                     <i class="fa fa-search" @@click="searchByProductMo(searchProductMo)"></i>
                 </template>
-            </vxe-input>
+            </vxe-input>*@
+            <vxe-input v-model="searchProductMo" placeholder="搜索"></vxe-input>
+            <vxe-button status="primary" icon="fa fa-search" @@click="searchByProductMo(searchProductMo)">搜索</vxe-button>
         </template>
     </vxe-toolbar>
     @*<p style="background-color:aqua;margin:0;">abc</p>*@
@@ -51,7 +53,7 @@
                 <vxe-radio-group v-model="selectTab" style="height:20px;margin:0px;">
                     <vxe-radio-button label="tab1" content="生產主表"></vxe-radio-button>
                     <vxe-radio-button label="tab2" content="生產明細表"></vxe-radio-button>
-                    <vxe-radio-button label="tab3" content="制單配件"></vxe-radio-button>
+                    @*<vxe-radio-button label="tab3" content="制單配件"></vxe-radio-button>*@
                     
                 </vxe-radio-group>
             </p>
@@ -188,9 +190,11 @@
             <vxe-table-column field="NextWipID" title="收貨部門" width="160"></vxe-table-column>
             <vxe-table-column field="RequestQty" title="要求數量" width="160"></vxe-table-column>
             <vxe-table-column field="RequestDate" title="要求完成日期" width="160"></vxe-table-column>
+            <vxe-table-column field="CompleteQty" title="完成數量" width="160"></vxe-table-column>
+            <vxe-table-column field="CompleteDate" title="完成日期" width="160"></vxe-table-column>
             <vxe-table-column title="修改" width="60" :resizable="false" show-overflow>
                 <template #default="{ row }">
-                    <vxe-button type="text" icon="fa fa-edit" @@click="editEvent(row)"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-edit" @@click="editRowEvent(row)"></vxe-button>
                 </template>
             </vxe-table-column>
         </vxe-table>
@@ -199,7 +203,7 @@
             
                 <template #default>
                     @*<div class="div-cont">*@
-                        <vxe-form :data="editPlanDetails" title-align="right" title-width="100" @@submit="insertEvent">
+                        <vxe-form :data="editPlanDetails" title-align="right" title-width="100" @@submit="updateEvent">
                             <vxe-form-item title="物料編號" field="GoodsID" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入名称'}, events: {blur: getGoodsByID}}"></vxe-form-item>
                             <vxe-form-item title="物料描述" field="GoodsCname" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入昵称'}}"></vxe-form-item>
                             <vxe-form-item title="負責部門" field="WipID" span="12" :item-render="{name: '$select', options: wipList}"></vxe-form-item>
@@ -222,7 +226,7 @@
 
     </div>
 
-    <div v-show="selectTab === 'tab3'">
+    @*<div v-show="selectTab === 'tab3'">
         <vxe-table border
                    show-overflow
                    height="400"
@@ -236,7 +240,7 @@
             <vxe-table-column field="region" title="Region"></vxe-table-column>
             <vxe-table-column field="rate" title="Rate"></vxe-table-column>
         </vxe-table>
-    </div>
+    </div>*@
 </div>
 @section PageSpecificJavascriptIncludes{
 <script src="/Content/js/common.js"></script>
@@ -250,7 +254,8 @@
                 showEdit: false,
                 selectRow: null,
                 tablePlanDetails: [],
-                editPlanDetails: null,
+                editPlanDetails: {},
+                prevEditPlanDetails:{},
                 searchProductMo: '',
                 loading3: false,
                 //ArtImageUrl: '/Images/photo.png',
@@ -368,7 +373,11 @@
                             MoRemark: response.data.MoRemark,
                             PlanRemark: response.data.PlanRemark,
                             ProductRemark: response.data.ProductRemark,
-                            ArtImageUrl:response.data.ArtImageUrl,
+                            ArtImageUrl: response.data.ArtImageUrl,
+                            CreateUser: response.data.CreateUser,
+                            CreateTime: response.data.CreateTime,
+                            AmendUser: response.data.AmendUser,
+                            AmendTime: response.data.AmendTime,
                         }
                         //深度複製一個對象，用來判斷數據是否有修改
                         this.prevForm = JSON.parse(JSON.stringify(this.formData));
@@ -432,11 +441,7 @@
                         NextWipID: ''
                     },
                    this.selectRow = null
-                    this.showEdit = true
-                    //this.getWipID()
-                    ////var dd =comm.getWipID()
-                    ////this.wipList.push(dd)
-                    ////var ddd = dd
+                   this.showEdit = true
 
                 },
                 getWipID() {
@@ -444,8 +449,6 @@
                     axios.get("GetWipID").then(
                         (response) => {
                             this.wipList = response.data;
-                            var sexList1 = this.sexList;
-                            var Wpid = "";
                         },
                         (response) => {
                             alert(response.status);
@@ -454,17 +457,23 @@
                         alert(response);
                     });
                 },
-                insertEvent() {
+                updateEvent() {
                     //this.showEdit = false
                     //this.$XModal.message({ content: '保存成功', status: 'success' })
                     //Object.assign(this.selectRow, this.tablePlanDetails)
-                    this.editPlanDetails.EditFlag = 1;
+                    //return;
                     if (this.selectRow) {
                         this.showEdit = false
                         //this.$XModal.message({ content: '保存成功', status: 'success' })
-                        
+                        for (let i in this.editPlanDetails) {
+                            if (this.editPlanDetails[i] != this.prevEditPlanDetails[i]) {
+                                this.editPlanDetails.EditFlag = 1;
+                                break;
+                            }
+                        }
                         Object.assign(this.selectRow, this.editPlanDetails)
                     } else {
+                        this.editPlanDetails.EditFlag = 1;
                         this.tablePlanDetails.push(this.editPlanDetails);
                         //this.editPlanDetails = {};
                         this.editPlanDetails = {
@@ -495,7 +504,7 @@
                     });
                     }
                 },
-                editEvent (row) {
+                editRowEvent (row) {
                     this.editPlanDetails = {
                         EditFlag: 0,
                         GoodsID: row.GoodsID,
@@ -505,6 +514,8 @@
                         WipID: row.WipID,
                         NextWipID: row.NextWipID
                     }
+                    //深度複製一個對象，用來判斷數據是否有修改
+                    this.prevEditPlanDetails = JSON.parse(JSON.stringify(this.editPlanDetails));
                     this.selectRow = row
                     this.showEdit = true
                 },
@@ -534,8 +545,18 @@
                             break;
                         }
                     }
-                }
+                },
+                deleteEvent() {
+                    let selectRecords = this.$refs.xTable.getCheckboxRecords()
+                    if (selectRecords.length) {
+                        this.$refs.xTable.removeCheckboxRow()
+                    } else {
+                        alert('请至少选择一条数据！')
+                        //this.$xDetails.message({ content: 'warning 提示框', status: 'warning' })
+                    }
+                },
             },
+            
             watch: {
                 //// watch监听 判断是否修改  
                 //formData: {

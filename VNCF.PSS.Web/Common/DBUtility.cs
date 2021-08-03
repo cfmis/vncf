@@ -23,5 +23,30 @@ namespace VNCF.PSS.Web.Common
             }
             return LanguageID;
         }
+        public static string GetDetaultUserID()
+        {
+            string LoginName = "0";
+            try
+            {
+                LoginName = AdminUserContext.Current.LoginInfo.LoginName;
+            }
+            catch
+            {
+                LoginName = "admin";
+            }
+            return LoginName;
+        }
+        public static string ConvertDateFormat(DateTime OrgDateTime)
+        {
+            string result = OrgDateTime.ToString("yyyy/MM/dd");
+            
+            return result;
+        }
+        public static string ConvertDateTimeFormat(DateTime OrgDateTime)
+        {
+            string result = OrgDateTime.ToString("yyyy/MM/dd hh:MM:ss");
+
+            return result;
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using VNCF.PSS.Web.Common;
 
 namespace VNCF.PSS.Web.Areas.Prod.Models
 {
@@ -10,8 +11,8 @@ namespace VNCF.PSS.Web.Areas.Prod.Models
     {
         public PlanModelBase()
         {
-            CreateTime = DateTime.Now;
-            AmendTime = DateTime.Now;
+            CreateTime = DBUtility.ConvertDateTimeFormat(DateTime.Now);
+            AmendTime = DBUtility.ConvertDateTimeFormat(DateTime.Now);
         }
 
  
@@ -20,10 +21,10 @@ namespace VNCF.PSS.Web.Areas.Prod.Models
         public virtual string CreateUser { get; set; }
         public virtual string GoodsID { get; set; }
         public virtual string GoodsCname { get; set; }
-        public virtual DateTime CreateTime { get; set; }
+        public virtual string CreateTime { get; set; }
         public virtual string AmendUser { get; set; }
-        public virtual DateTime AmendTime { get; set; }
-        public virtual DateTime ApprovedDate { get; set; }
+        public virtual string AmendTime { get; set; }
+        public virtual string ApprovedDate { get; set; }
         public virtual string ApprovedUser { get; set; }
         public virtual int EditFlag { get; set; }
         public virtual string ArtImageUrl { get; set; }

@@ -100,21 +100,26 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
         {
             string result = "";
             string strSql = "";
+            string UserID = DBUtility.GetDetaultUserID();
+            string OpDateTime = DBUtility.ConvertDateTimeFormat(System.DateTime.Now);
             strSql += string.Format(@" SET XACT_ABORT  ON ");
             strSql += string.Format(@" BEGIN TRANSACTION ");
             if (modelPlan.EditFlag == 1)
             {
                 if (!CheckPlanHead(modelPlan.ProductMo, modelPlan.Ver))
-                    strSql += string.Format(@" Insert Into pd_PlanHead (ProductMo,Ver,CustomerID,PlanDate,OrderQty,OrderUnit,ProductRemark,MoRemark,PlanRemark)" +
-                            " Values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')"
+                    strSql += string.Format(@" Insert Into pd_PlanHead (ProductMo,Ver,CustomerID,PlanDate,OrderQty,OrderUnit,ProductRemark
+                            ,MoRemark,PlanRemark,CreateUser,CreateTime,AmendUser,AmendTime)" +
+                            " Values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}')"
                                 , modelPlan.ProductMo, modelPlan.Ver, modelPlan.CustomerID, modelPlan.PlanDate, modelPlan.OrderQty, modelPlan.OrderUnit
-                                , modelPlan.ProductRemark, modelPlan.MoRemark, modelPlan.PlanRemark);
+                                , modelPlan.ProductRemark, modelPlan.MoRemark, modelPlan.PlanRemark, UserID, OpDateTime, UserID, OpDateTime);
                 else
                     strSql += string.Format(@" Update pd_PlanHead Set CustomerID='{2}',PlanDate='{3}',OrderQty='{4}',OrderUnit='{5}' " +
                                 ",ProductRemark='{6}',MoRemark='{7}',PlanRemark='{8}'" +
+                                ",CreateUser='{9}',CreateTime='{10}',AmendUser='{11}',AmendTime='{12}'" +
                                 " Where ProductMo='{0}' And Ver='{1}' "
                                 , modelPlan.ProductMo, modelPlan.Ver, modelPlan.CustomerID, modelPlan.PlanDate
-                                , modelPlan.OrderQty, modelPlan.OrderUnit);
+                                , modelPlan.OrderQty, modelPlan.OrderUnit, modelPlan.ProductRemark, modelPlan.MoRemark, modelPlan.PlanRemark
+                                , UserID, OpDateTime, UserID, OpDateTime);
             }
             if (listPlan != null)
             {
@@ -132,15 +137,17 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                         else
                             Seq = listPlan[i].Seq;
                         if (!CheckPlanDetails(listPlan[i].ProductMo, listPlan[i].Ver, Seq))
-                            strSql += string.Format(@" Insert Into pd_PlanDetails (ProductMo,Ver,Seq,GoodsID,RequestQty,RequestDate,WipID,NextWipID)" +
-                                " Values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')"
+                            strSql += string.Format(@" Insert Into pd_PlanDetails (ProductMo,Ver,Seq,GoodsID,RequestQty,RequestDate,WipID,NextWipID" +
+                                ",CreateUser,CreateTime,AmendUser,AmendTime )" +
+                                " Values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}')"
                                     , listPlan[i].ProductMo, listPlan[i].Ver, Seq, listPlan[i].GoodsID, listPlan[i].RequestQty, listPlan[i].RequestDate
-                                    , listPlan[i].WipID, listPlan[i].NextWipID);
+                                    , listPlan[i].WipID, listPlan[i].NextWipID, UserID, OpDateTime, UserID, OpDateTime);
                         else
                             strSql += string.Format(@" Update pd_PlanDetails Set GoodsID='{3}',RequestQty='{4}',RequestDate='{5}',WipID='{6}',NextWipID='{7}' " +
+                                ",CreateUser='{8}',CreateTime='{9}',AmendUser='{10}',AmendTime='{11}'" +
                                 " Where ProductMo='{0}' And Ver='{1}' And Seq='{2}' "
                                     , listPlan[i].ProductMo, listPlan[i].Ver, Seq, listPlan[i].GoodsID, listPlan[i].RequestQty, listPlan[i].RequestDate
-                                    , listPlan[i].WipID, listPlan[i].NextWipID);
+                                    , listPlan[i].WipID, listPlan[i].NextWipID, UserID, OpDateTime, UserID, OpDateTime);
                     }
                 }
             }
@@ -212,15 +219,29 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 mdjPlan.GoodsID = dr["GoodsID"].ToString();
                 mdjPlan.GoodsCname = dr["GoodsCname"].ToString();
                 mdjPlan.OrderQty = Convert.ToInt32(dr["OrderQty"].ToString());
-                mdjPlan.OrderUnit = dr["OrderUnit"].ToString();//
+                mdjPlan.OrderUnit = dr["OrderUnit"].ToString();
+                mdjPlan.CreateUser = dr["CreateUser"].ToString();
+                mdjPlan.CreateTime = dr["CreateTime"].ToString().Trim() != "" ? DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["CreateTime"])) : "";
+                mdjPlan.AmendUser = dr["AmendUser"].ToString();
+                mdjPlan.AmendTime = dr["AmendTime"].ToString().Trim() != "" ? DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["AmendTime"])) : "";
                 mdjPlan.ArtImageUrl = ArtImagePath + (dr["picture_name"] != null ? dr["picture_name"].ToString().Trim().Replace("\\", "/") : "");//"AAAA/A888020.bmp";// 
             }
             return mdjPlan;
          }
         public List<PlanDetails> GetPlanDetailsByMo(string ProductMo)
         {
-            
-            string strSql = "Select * FROM pd_PlanDetails Where ProductMo='" + ProductMo + "'";
+
+            string strSql = "Select a.*,";
+            if (LanguageID == "0")
+                strSql += "b.name AS GoodsCname";
+            else if (LanguageID == "1")
+                strSql += "b.english_name AS GoodsCname";
+            else
+                strSql += "c.vn_name1 AS GoodsCname";
+            strSql+=" FROM pd_PlanDetails a "+
+                " Left Join it_goods b ON a.GoodsID=b.id " +
+                " Left Join it_goods_vn c ON a.GoodsID=c.id";
+            strSql +=" Where ProductMo='" + ProductMo + "'";
             strSql += " Order By Seq ";
             var len = ProductMo.Length;
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
@@ -233,10 +254,15 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 mdjPlanDetails.Ver = Convert.ToInt32(dr["Ver"].ToString());
                 mdjPlanDetails.Seq = dr["Seq"].ToString();
                 mdjPlanDetails.GoodsID = dr["GoodsID"].ToString();
+                mdjPlanDetails.GoodsCname = dr["GoodsCname"].ToString();
                 mdjPlanDetails.WipID = dr["WipID"].ToString();
                 mdjPlanDetails.NextWipID = dr["NextWipID"].ToString();
                 mdjPlanDetails.RequestQty = Convert.ToInt32(dr["RequestQty"].ToString());
                 mdjPlanDetails.RequestDate = dr["RequestDate"].ToString();
+                mdjPlanDetails.CreateUser = dr["CreateUser"].ToString();
+                mdjPlanDetails.CreateTime = dr["CreateTime"].ToString().Trim() != "" ? DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["CreateTime"])) : "";
+                mdjPlanDetails.AmendUser = dr["AmendUser"].ToString();
+                mdjPlanDetails.AmendTime = dr["AmendTime"].ToString().Trim() != "" ? DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["AmendTime"])) : "";
                 lsPlanDetails.Add(mdjPlanDetails);
             }
             return lsPlanDetails;
