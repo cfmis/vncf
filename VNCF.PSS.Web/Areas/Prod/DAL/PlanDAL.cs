@@ -36,7 +36,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             else if (LanguageID == "1")
                 strSql += "c.english_name AS GoodsCname";
             else
-                strSql += "d.vn_name1 AS GoodsCname";
+                strSql += "e.vn_name1 AS GoodsCname";
             strSql+=" From oc_OrderHead a " +
             " Inner Join oc_OrderDetails b ON a.OcID=b.OcID" +
             " Left Join it_goods c ON b.ProductID=c.id " +
@@ -44,7 +44,6 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             " Left Join it_goods_vn e ON b.ProductID=e.id" +
             " Where a.OcID>='" + "" + "'";
             strSql += " AND b.ProductMo= '" + ProductMo + "'";
-            string LangID = LanguageID;
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             DataRow dr = dt.Rows[0];
             PlanHead mdj = new PlanHead();

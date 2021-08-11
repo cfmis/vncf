@@ -275,7 +275,9 @@
     <Compile Include="Areas\Base\Models\BaseInfo.cs" />
     <Compile Include="Areas\Base\Models\DepInfo.cs" />
     <Compile Include="Areas\Prod\Controllers\PlanController.cs" />
+    <Compile Include="Areas\Prod\Controllers\ProcController.cs" />
     <Compile Include="Areas\Prod\DAL\PlanDAL.cs" />
+    <Compile Include="Areas\Prod\DAL\ProcDAL.cs" />
     <Compile Include="Areas\Prod\Models\PlanModelBase.cs" />
     <Compile Include="Areas\Prod\Models\PlanModels.cs" />
     <Compile Include="Areas\Prod\ProdAreaRegistration.cs" />
@@ -551,6 +553,7 @@
     <Content Include="Areas\Prod\Views\Plan\Index.cshtml" />
     <Content Include="Areas\Prod\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Prod\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Prod\Views\Proc\Index.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

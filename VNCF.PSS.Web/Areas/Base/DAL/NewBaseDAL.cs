@@ -13,20 +13,8 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
 {
     public class NewBaseDAL
     {
-        public string LanguageID = "";
-        public NewBaseDAL()
-        {
-            //string LangID = "0";
-            try
-            {
-                LanguageID = AdminUserContext.Current.LoginInfo.LanguageID;
-            }
-            catch
-            {
-                LanguageID = "0";
-            }
-        }
-
+        public string LanguageID = DBUtility.GetDetaultLang();
+        private string ArtImagePath = DBUtility.ArtImagePath;
         public List<Goods> SearchGoods(Goods searchParams)
         {
             string strSql = "Select top 100 a.id,a.name,a.english_name,b.vn_name1,b.vn_name2,b.vn_name3 " +
@@ -79,7 +67,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
         public Goods GetGoodsByID(string goods_id)
         {
             string LangID = LanguageID;
-            string strSql = "Select top 100 a.id,";
+            string strSql = "Select top 100 a.id,c.picture_name,";
             if (LangID == "0")
                 strSql += "a.name ";
             else
@@ -90,6 +78,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             strSql+=" AS name,a.english_name,b.vn_name1,b.vn_name2,b.vn_name3 " +
             " FROM it_goods a " +
             " LEFT JOIN it_goods_vn b ON a.id=b.id" +
+            " Left Join cd_pattern_details c ON a.blueprint_id=c.id " +
             " Where a.type='" + "0001" + "'";
             strSql += " AND a.id = '" + goods_id + "'";
             
@@ -104,13 +93,42 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
                 mdjGoods.goods_vname1 = dr["vn_name1"].ToString();
                 mdjGoods.goods_vname2 = dr["vn_name2"].ToString();
                 mdjGoods.goods_vname3 = dr["vn_name3"].ToString();
-             }
+                mdjGoods.ArtImageUrl = ArtImagePath + (dr["picture_name"] != null ? dr["picture_name"].ToString().Trim().Replace("\\", "/") : "");//"AAAA/A888020.bmp";// 
+            }
             return mdjGoods;
         }
         public List<ListDataModels> GetLoc()
         {
-            string strSql = "Select ID,Name,Engname,VieName " +
-            " FROM bs_Loc Order By ID";
+            string strSql = "Select ID,";
+            if (LanguageID == "0")
+                strSql += "Name";
+            else if (LanguageID == "1")
+                strSql += "Engname As Name";
+            else
+                strSql += "VieName As Name";
+            strSql += " FROM bs_Loc Order By ID";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            List<ListDataModels> lsModel = new List<ListDataModels>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                ListDataModels mdj = new ListDataModels();
+                mdj.value = dr["id"].ToString();
+                mdj.label = dr["name"].ToString();
+                lsModel.Add(mdj);
+            }
+            return lsModel;
+        }
+        public List<ListDataModels> GetWorkType()
+        {
+            string strSql = "Select ID,";
+            if (LanguageID == "0")
+                strSql += "Name";
+            else if (LanguageID == "1")
+                strSql += "Engname As Name";
+            else
+                strSql += "VieName As Name";
+            strSql += " FROM bs_WorkType Order By ID";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<ListDataModels> lsModel = new List<ListDataModels>();
             for (int i = 0; i < dt.Rows.Count; i++)

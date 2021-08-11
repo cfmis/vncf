@@ -1,0 +1,566 @@
+﻿
+@{
+    ViewBag.Title = "生產記錄";
+}
+
+@section PageSpecificStyleSheetIncludes{
+    @*<link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416261">*@
+    <style type="text/css">
+        .div-cont {
+            float: left;
+            width: 80%;
+            border: 0px solid #F00;
+        }
+
+        .divcss5-cent {
+            margin: 0 auto;
+            width: 80%;
+            height: 80%;
+            border: 1px solid #F00;
+        }
+
+        .div-left {
+            float: left;
+            width: 80%;
+            background-color: aqua;
+        }
+
+        .div-right {
+            float: right;
+            width: 20%;
+            /*background-color:yellow;*/
+        }
+
+        .div-none {
+            float: none;
+            width: 20%;
+            /*background-color:yellow;*/
+        }
+
+        .img-plan {
+            border: thick;
+            width: 80%;
+        }
+    </style>
+}
+
+    
+
+
+<div id="app" style="float: left;width:100%">
+
+    <div style="float: left;width:100%">
+        <vxe-toolbar perfect size="medium" style="height:35px;">
+            <template #buttons>
+                <vxe-button type="text" icon="fa fa-plus" content="新增" @@click="addNew()"></vxe-button>
+                <vxe-button type="text" icon="fa fa-trash-o" content="删除"></vxe-button>
+                <vxe-button type="text" icon="fa fa-save" content="儲存" @@click="saveEvent()"></vxe-button>
+            </template>
+        </vxe-toolbar>
+    </div>
+    
+    <div style="float: left;width:100%">
+        <p style="height:25px;margin:0px;">
+            <vxe-radio-group v-model="selectTab" style="height:20px;margin:0px;">
+                <vxe-radio-button label="tab1" content="生產錄入"></vxe-radio-button>
+                <vxe-radio-button label="tab2" content="生產明細表"></vxe-radio-button>
+            </vxe-radio-group>
+        </p>
+
+        <div class="div-cont" style="margin:15px 0px;">
+            <div class="div-left" style="margin:0px 0px;">
+                <vxe-form :data="formData" @@submit="submitSearch" size="mini">
+                    <vxe-form-item title="條形碼" field="BarCode" :item-render="{}" span="12">
+                        <template #default="{ data }">
+                            <vxe-input v-model="data.BarCode" placeholder="请掃描條形碼" @@keyup.enter.native="showMsg()"></vxe-input>
+                        </template>
+                    </vxe-form-item>
+                    <vxe-form-item title="生產部門" field="Prd_dep" :item-render="{}" span="6">
+                        <template #default="{ data }">
+                            <vxe-select v-model="data.Prd_dep" placeholder="請輸入生產部門" :options="wipList"></vxe-select>
+                        </template>
+                    </vxe-form-item>
+                    <vxe-form-item title="生產日期" field="Prd_date" :item-render="{}" span="6">
+                        <template #default="{ data }">
+                            <vxe-input v-model="data.Prd_date" placeholder="请輸入生產日期" type="date"></vxe-input>
+                        </template>
+                    </vxe-form-item>
+                </vxe-form>
+            </div>
+        </div>
+        @*<div style="float:left;width:100%;height:30px;margin:0px 0px;background-color:yellow;">
+            sdafsdafd
+        </div>*@
+
+        <div v-show="selectTab === 'tab1'" style="margin:0px 0px;">
+
+            <div class="div-cont" style="margin:15px 0px;">
+
+                <div class="div-left">
+
+                    <vxe-form :data="formData" @@submit="submitSearch" size="mini">
+                        <vxe-form-item title="制單編號" field="ProductMo" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.ProductMo" placeholder="请输入制單編號" @@blur="productMoBlurEvent()"></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="物料編號" field="GoodsID" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-select v-model="data.GoodsID" placeholder="请输入物料編號" :options="goodsList" @@change="getGoodsByID(data.GoodsID)"></vxe-select>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="物料描述" field="GoodsCname" :item-render="{}" span="12">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.GoodsCname" disabled></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="工作類型" field="WorkType" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-select v-model="data.WorkType" :options="workTypeList"></vxe-select>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="生產機器" field="MachineID" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.MachineID"></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="員工工號" field="WorkerID" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.WorkerID"></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="生產數量" field="PrdQty" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.PrdQty" type="number"></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        
+                        <vxe-form-item title="開始時間" field="StartTime" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.StartTime" type="time" clearable></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="結束時間" field="EndTime" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.EndTime" type="time" clearable></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="正常班時數" field="WorkHours" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.WorkHours" type="number"></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="加班時數" field="OtHours" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.OtHours" type="number"></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="每行碑數" field="EachLineNum" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.EachLineNum" type="number"></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="每小時碑數" field="HourRunNum" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.HourRunNum" type="number"></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="每小時標準數" field="HourStdQty" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.HourStdQty" type="number"></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="標準編碼" field="WorkCode" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.WorkCode"></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="開始碑數" field="StartRunQty" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.StartRunQty" type="number" @@blur="countRunQty()"></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="結束碑數" field="EndRunQty" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.EndRunQty" type="number" @@blur="countRunQty()"></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="實際碑數" field="RunQty" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.RunQty" type="number"></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="難度" field="DifficultyLevel" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.DifficultyLevel"></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        
+                        <vxe-form-item title="修改人" field="AmendUser" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.AmendUser" disabled></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="修改日期" field="AmendTime" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.AmendTime" disabled></vxe-input>
+                            </template>
+                        </vxe-form-item>
+
+                    </vxe-form>
+
+                </div>
+                <div class="div-right">
+                    <p>
+                        @*<img id="ArtImage" class="plan-img" src="~/Images/photo.png" />*@
+                        <img :src="this.formData.ArtImageUrl" alt="..." class="img-plan">
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <div v-show="selectTab === 'tab2'" style="margin:15px 0px;">
+            <div style="float: left;width:100%">
+                <vxe-table border
+                           show-overflow
+                           height="350"
+                           size="small"
+                           highlight-current-row
+                           ref="xTable"
+                           :loading="loading3"
+                           :sync-resize="selectTab"
+                           :checkbox-config="{highlight: true, range: true}"
+                           :data="tableDetails"
+                           :keyboard-config="{isArrow: true}"
+                           :edit-config="{trigger: 'click', mode: 'cell', icon: 'fa fa-pencil', showStatus: true}">
+                    <vxe-table-column type="seq" title="序號" width="60"></vxe-table-column>
+                    <vxe-table-column field="GoodsID" title="物料編號" width="200" :edit-render="{name: '$input', events: {blur: showMsg}}"></vxe-table-column>
+                    <vxe-table-column field="GoodsCname" title="物料描述" width="260"></vxe-table-column>
+                    <vxe-table-column field="WipID" title="負責部門" width="160"></vxe-table-column>
+                    <vxe-table-column field="NextWipID" title="收貨部門" width="160"></vxe-table-column>
+                    <vxe-table-column field="RequestQty" title="要求數量" width="160"></vxe-table-column>
+                    <vxe-table-column field="RequestDate" title="要求完成日期" width="160"></vxe-table-column>
+                    <vxe-table-column field="CompleteQty" title="完成數量" width="160"></vxe-table-column>
+                    <vxe-table-column field="CompleteDate" title="完成日期" width="160"></vxe-table-column>
+                    <vxe-table-column title="修改" width="60" :resizable="false" show-overflow>
+                        <template #default="{ row }">
+                            <vxe-button type="text" icon="fa fa-edit" @@click="editRowEvent(row)"></vxe-button>
+                        </template>
+                    </vxe-table-column>
+                </vxe-table>
+
+
+            </div>
+        </div>
+
+        @*<div v-show="selectTab === 'tab3'">
+                <vxe-table border
+                           show-overflow
+                           height="400"
+                           :sync-resize="selectTab"
+                           :data="tablePlanDetails">
+                    <vxe-table-column type="checkbox" width="60"></vxe-table-column>
+                    <vxe-table-column field="nickname" title="nickname"></vxe-table-column>
+                    <vxe-table-column field="sex" title="Sex"></vxe-table-column>
+                    <vxe-table-column field="age" title="Age"></vxe-table-column>
+                    <vxe-table-column field="date12" title="Date"></vxe-table-column>
+                    <vxe-table-column field="region" title="Region"></vxe-table-column>
+                    <vxe-table-column field="rate" title="Rate"></vxe-table-column>
+                </vxe-table>
+            </div>*@
+    </div>
+</div>
+        @section PageSpecificJavascriptIncludes{
+            <script src="/Content/js/common.js"></script>
+            <script type="text/javascript">
+
+                var vm = new Vue({
+                    el: "#app",
+                    data: {
+                        selectTab: 'tab1',
+                        edit_mode: 0,
+                        showEdit: false,
+                        selectRow: null,
+                        tableDetails: [],
+                        searchProductMo: '',
+                        loading3: false,
+                        formData: {},
+                        prevForm: {},
+                        editFormChanged: false, // 是否修改标识
+                        wipList: [],
+                        goodsList:[],
+                        workTypeList: [],
+                    },
+                    created: function () {
+                        this.getWipID();
+                        this.getWorkType();
+                        //this.findList3();
+                    },
+                    methods: {
+                        showMsg() {
+                            //if (this.name.length >= 9)
+                            alert("ok");
+                            //var vl = value;
+                        },
+                        addNew() {
+                            this.edit_mode = 1;
+                            nowDateTime = comm.getCurrentTime();
+                            this.formData = {
+                                EditFlag: 1,
+                                BarCode: '',
+                                PrdDep: '',
+                                ProductMo: '',
+                                PrdDate: comm.getCurrentDate(),
+                                GoodsID: '',
+                                PrdQty: 0,
+                                PrdWeg:0.00,
+                                StartRunQty:0,
+                                EndRunQty:0,
+                                RunQty: 0,
+                                MachineID: '',
+                                WorkType: '',
+                                WorkerID: '',
+                                PrdClass: '',
+                                PrdGroup: '',
+                                StartTime: '',
+                                EndTime: '',
+                                WorkHours: 0,
+                                OtHours: 0,
+                                LineNum: 0,
+                                HourRunNum: 0,
+                                HourStdQty: 0,
+                                RequestTime: '',
+                                PerKgPcs: 0,
+                                QcFlag: '',
+                                MatGoodsID: '',
+                                MatGoodsLot: '',
+                                NextDepID: '',
+                                DifficultyLevel: '',
+                                WorkCode: '',
+                                JobType:'',
+                                CreateUser: '',
+                                CreateTime: nowDateTime,
+                                AmendUser: '',
+                                AmendTime: nowDateTime,
+                                ArtImageUrl: '/Images/photo.png',
+                            };
+                            //深度複製一個對象，用來判斷數據是否有修改
+                            this.prevForm = JSON.parse(JSON.stringify(this.formData));
+                        },
+                        productMoBlurEvent() {
+                            if (this.formData.ProductMo == "")
+                                return;
+                            if (this.edit_mode == 1)
+                                this.getGoodsFromPlan();
+                        },
+                        searchByProductMo(_ProductMo) {
+                            this.edit_mode = 0,
+                            this.loading3 = true;
+                            setTimeout(() => {
+                                this.getPlanHead(_ProductMo);
+                                this.getPlanDetails(_ProductMo);
+                                this.loading3 = false;
+                            }, 500);
+
+                        },
+                        getPlanHead(_ProductMo) {
+                            var _self = this;
+                            //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
+                            axios.get("GetPlanHeadByMo", { params: { ProductMo: _ProductMo } }).then(
+                            (response) => {
+                                //this.formData.ProductMo = response.data.ProductMo,
+                                //    this.formData.Ver = response.data.Ver,
+                                //    this.formData.PlanDate = response.data.PlanDate,
+                                //    this.formData.CustomerID = response.data.CustomerID,
+                                //    this.formData.GoodsID = response.data.GoodsID,
+                                //    this.formData.OrderQty = response.data.OrderQty,
+                                //    this.formData.OrderUnit = response.data.OrderUnit,
+                                //    this.formData.MoRemark = response.data.MoRemark,
+                                //    this.formData.PlanRemark = response.data.PlanRemark,
+                                //    this.formData.ProductRemark = response.data.ProductRemark
+                                this.formData = {
+                                    ProductMo: response.data.ProductMo,
+                                    Ver: response.data.Ver,
+                                    PlanDate: response.data.PlanDate,
+                                    CustomerID: response.data.CustomerID,
+                                    GoodsID: response.data.GoodsID,
+                                    OrderQty: response.data.OrderQty,
+                                    OrderUnit: response.data.OrderUnit,
+                                    MoRemark: response.data.MoRemark,
+                                    PlanRemark: response.data.PlanRemark,
+                                    ProductRemark: response.data.ProductRemark,
+                                    ArtImageUrl: response.data.ArtImageUrl,
+                                    CreateUser: response.data.CreateUser,
+                                    CreateTime: response.data.CreateTime,
+                                    AmendUser: response.data.AmendUser,
+                                    AmendTime: response.data.AmendTime,
+                                }
+                                //深度複製一個對象，用來判斷數據是否有修改
+                                this.prevForm = JSON.parse(JSON.stringify(this.formData));
+                                //var ImagePath = "/art/artwork/" + "AAAA/A888020.bmp";
+                                //this.ArtImageUrl = ImagePath;
+                            },
+                            (response) => {
+                                alert(response.status);
+                            }
+                        ).catch(function (response) {
+                            alert(response);
+                        });
+                        },
+                        getPlanDetails(_ProductMo) {
+                            var _self = this;
+                            axios.get("GetPlanDetailsByMo", { params: { ProductMo: _ProductMo } }).then(
+                            (response) => {
+                                this.tablePlanDetails = response.data;
+                            },
+                            (response) => {
+                                alert(response.status);
+                            }
+                        ).catch(function (response) {
+                            alert(response);
+                        });
+                        },
+                        getGoodsFromPlan() {
+                            var _self = this;
+                            //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
+                            axios.get("GetGoodsFromPlan", { params: { ProductMo: _self.formData.ProductMo } }).then(
+                            (response) => {
+                                this.goodsList = response.data
+                            },
+                            (response) => {
+                                alert(response.status);
+                            }
+                        ).catch(function (response) {
+                            alert(response);
+                        });
+                        },
+                        submitSearch() {
+
+                        },
+                        getWipID() {
+                            var _self = this;///Base/BaseData///, { params: { ProductMo: this.editPlanDetails.GoodsID } }
+                            axios.get("GetWipID").then(
+                                (response) => {
+                                    this.wipList = response.data;
+                                }
+                            );
+                        },
+                        getWorkType() {
+                            axios.get("GetWorkType").then(
+                                (response) => {
+                                    this.workTypeList = response.data;
+                                })
+                        },
+                        updateEvent() {
+                            //this.showEdit = false
+                            //this.$XModal.message({ content: '保存成功', status: 'success' })
+                            //Object.assign(this.selectRow, this.tablePlanDetails)
+                            //return;
+                            if (this.selectRow) {
+                                this.showEdit = false
+                                //this.$XModal.message({ content: '保存成功', status: 'success' })
+                                for (let i in this.editPlanDetails) {
+                                    if (this.editPlanDetails[i] != this.prevEditPlanDetails[i]) {
+                                        this.editPlanDetails.EditFlag = 1;
+                                        break;
+                                    }
+                                }
+                                Object.assign(this.selectRow, this.editPlanDetails)
+                            } else {
+                                this.editPlanDetails.EditFlag = 1;
+                                this.tablePlanDetails.push(this.editPlanDetails);
+                                //this.editPlanDetails = {};
+                                this.editPlanDetails = {
+                                    EditFlag: 0,
+                                    ProductMo: this.formData.ProductMo,
+                                    Ver: this.formData.Ver,
+                                    GoodsID: '',
+                                    GoodsCname: '',
+                                    RequestQty: '',
+                                    RequestDate: '',
+                                    WipID: '',
+                                    NextWipID: ''
+                                };
+                            }
+                        },
+                        getGoodsByID(_GoodsID) {
+                            axios.get("GetGoodsByID", { params: { GoodsID: _GoodsID } }).then(
+                            (response) => {
+                                this.formData.GoodsCname = response.data.goods_cname
+                                this.formData.ArtImageUrl = response.data.ArtImageUrl
+                            }
+                            )
+                        },
+                        countRunQty() {
+                            if (this.edit_mode == 1) {
+                                this.formData.RunQty = this.formData.EndRunQty - this.formData.StartRunQty;
+                                if (this.formData.RunQty < 0)
+                                    this.formData.RunQty = 0;
+                            }
+                        },
+                        editRowEvent (row) {
+                            this.editPlanDetails = {
+                                EditFlag: 0,
+                                GoodsID: row.GoodsID,
+                                GoodsCname: row.GoodsCname,
+                                RequestQty: row.RequestQty,
+                                RequestDate: row.RequestDate,
+                                WipID: row.WipID,
+                                NextWipID: row.NextWipID
+                            }
+                            //深度複製一個對象，用來判斷數據是否有修改
+                            this.prevEditPlanDetails = JSON.parse(JSON.stringify(this.editPlanDetails));
+                            this.selectRow = row
+                            this.showEdit = true
+                        },
+                        saveEvent() {
+                            this.validData();
+                            var _self = this;
+                            var PlanHead = _self.formData;
+                            var PlanDetails = _self.tablePlanDetails;
+                            axios.post("SavePlan", { PlanHead, PlanDetails }).then(
+                            (response) => {
+                                this.SavePlan = {
+                                    ProductMo: "",
+                            };
+                                alert("更新成功!");
+                            },
+                            (response) => {
+                                alert(response.status);
+                            }
+                        ).catch(function (response) {
+                            alert(response);
+                        });
+                        },
+                        validData() {
+                            for (let i in this.formData) {
+                                if (this.formData[i] != this.prevForm[i]) {
+                                    this.formData.EditFlag = 1;
+                                    break;
+                                }
+                            }
+                        }
+                    },
+
+                    watch: {
+                        //// watch监听 判断是否修改
+                        //formData: {
+                        //    handler (val, oldVal) {
+                        //        for (let i in this.formData) {
+                        //            if (val[i] != this.prevForm[i]) {
+                        //                this.editFormChanged = true;
+                        //                break;
+                        //            } else {
+                        //                this.editFormChanged = false;
+                        //            }
+                        //        }
+                        //        console.log(this.editFormChanged);
+                        //    },
+                        //    deep: true
+                        //}
+
+                    }
+                })
+            </script>
+        }
