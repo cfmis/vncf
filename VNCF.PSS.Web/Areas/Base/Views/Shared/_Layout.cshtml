@@ -13,9 +13,10 @@
     <link rel="stylesheet" href="~/Content/bootstrap-4.0/css/fonts/font-awesome.css">
     <link href="~/Content/vxe-table/css/vxe-table-style.css" rel="stylesheet">
 
-    @RenderSection("PageSpecificStyleSheetIncludes", required: false)
+   @* @RenderSection("PageSpecificStyleSheetIncludes", required: false)*@
 </head>
 <body>
+    @RenderSection("PageSpecificStyleSheetIncludes", required: false)
     @*  @RenderSection("featured", required: false)*@
     <section class="content-wrapper main-content clear-fix">
         @RenderBody()

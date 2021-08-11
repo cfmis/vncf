@@ -85,5 +85,11 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetPermissions(string AuthorityID)
+        {
+            var PermissionList = BaseDataDAL.GetPermission(AuthorityID);
+            return Json(PermissionList, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

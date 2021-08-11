@@ -6,21 +6,23 @@
 
 <div id="app">
 
-    <vxe-form :data="searchParas" @@submit="submitSearch">
+    <vxe-form :data="searchParas" @@submit="submitSearch"  title-align="right" title-width="100px" >
         <vxe-form-item span="24">
             <template #default>
-                <vxe-button type="submit" status="primary">查询</vxe-button>
+                <vxe-button type="submit" status="primary" v-if="Common_Find">查询</vxe-button>                
                 <vxe-button type="reset">重置</vxe-button>
             </template>
         </vxe-form-item>
+        
         <vxe-form-item title="物料編號" field="goods_id" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入編號'}}"></vxe-form-item>
         <vxe-form-item title="物料描述" field="goods_cname" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入物料描述'}}"></vxe-form-item>
         <vxe-form-item title="英文描述" field="goods_ename" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入英文描述'}}"></vxe-form-item>
         <vxe-form-item title="越文描述1" field="goods_vname1" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述1'}}"></vxe-form-item>
         <vxe-form-item title="越文描述2" field="goods_vname2" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述2'}}"></vxe-form-item>
-        <vxe-form-item title="越文描述3" field="goods_vname3" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述3'}}"></vxe-form-item>
+        <vxe-form-item title="越文描述3" field="goods_vname3" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述3'}}"></vxe-form-item>       
+       
     </vxe-form>
-
+   
     <vxe-table border
                resizable
                highlight-hover-row
@@ -28,7 +30,7 @@
                height="500"
                row-id="id"
                size="small"
-               :loading="loading3"
+               :loading="loadingStatus"
                :data="goodsListPart"
                highlight-current-row
                :keyboard-config="{isArrow: true}">
@@ -40,13 +42,13 @@
         <vxe-table-column field="goods_vname2" title="越文描述2" width="200"></vxe-table-column>
         <vxe-table-column field="goods_vname3" title="越文描述3" width="200"></vxe-table-column>
         <vxe-table-column title="修改" width="60" :resizable="false" show-overflow>
-            <template #default="{ row }">
+            <template #default="{ row }">            
                 <vxe-button type="text" icon="fa fa-edit" @@click="editEvent(row)"></vxe-button>
             </template>
         </vxe-table-column>
         <template #empty>
             <span style="color: red;">
-                <img src="/Images/no_data_img.gif">
+                @*<img src="/Images/no_data_img.gif">*@
                 <p>没有更多数据了！</p>
             </span>
         </template>
@@ -54,14 +56,15 @@
 
     <vxe-pager background
                size="small"
-               :loading="loading3"
-               :current-page="tablePage3.currentPage"
-               :page-size="tablePage3.pageSize"
-               :total="tablePage3.totalResult"
+               :loading="loadingStatus"
+               :current-page="tablePage.currentPage"
+               :page-size="tablePage.pageSize"
+               :total="tablePage.totalResult"
                :page-sizes="[10, 20, 100, {label: '大量数据', value: 1000}, {label: '全量数据', value: -1}]"
                :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']"
                @@page-change="handlePageChange3">
     </vxe-pager>
+
     @*<form id="editGoods">*@
     <vxe-modal ref="xModal" v-model="showEdit" title="编辑&保存" width="800" resize destroy-on-close>
         <template #default>
@@ -75,7 +78,7 @@
                 <vxe-form-item title="越文描述3" field="goods_vname3" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述3'}}"></vxe-form-item>
                 <vxe-form-item align="center" span="24">
                     <template #default>
-                        <vxe-button type="submit" status="primary">保存</vxe-button>
+                        <vxe-button type="submit" status="primary" v-if="Common_Add">保存</vxe-button>
                         <vxe-button type="reset">重置</vxe-button>
                         <vxe-button @@click="$refs.xModal.close()">取消</vxe-button>
                     </template>
@@ -91,19 +94,21 @@
     <script type="text/javascript">
         var vm = new Vue({
             el: "#app",
-            data: {
+            data: {                
                 goodsList: [],
                 goodsListPart:[],
                 newGoods: { goods_id: '', goods_cname: '', goods_ename: '', goods_vname1: '', goods_vname2: '', goods_vname3: '' },
                 searchParas: { goods_id: '', goods_cname: '', goods_ename: '', goods_vname1: '', goods_vname2: '', goods_vname3: '' },
-                loading3: false,
-                tablePage3: {
+                loadingStatus: false,
+                tablePage: {
                     currentPage: 1,
                     pageSize: 10,
                     totalResult: 0
                 },
                 selectRow: null,
-                showEdit: false,
+                showEdit: false,//是否顯示編輯窗體,此值v-model雙向綁定
+                Common_Find:false,
+                Common_Add:false,
                 formRules: {
                     goods_vname1: [
                       { required: false, message: '请输入名称' },
@@ -120,6 +125,7 @@
             created: function () {
                 this.InIt();
                 //this.findList3();
+                this.getPermissions();
             },
             methods: {
                 InIt: function () {
@@ -130,9 +136,30 @@
                 submitSearch(){
                     this.searchGoods(this.searchParas);
                 },
+                getPermissions:function(){                   
+                    //AuthorityID:"20012"//物料種類菜單
+                    axios.get("/BaseData/GetPermissions?AuthorityID=20012").then(
+                        (response) => {                                                   
+                            for (var i = 0; i < response.data.length; i++) {
+                                var permiss = response.data[i]['PermissionID'];
+                                switch(permiss)
+                                {
+                                    case 'Common_Find':
+                                        this.Common_Find=true;
+                                        break;
+                                    case 'Common_Add':
+                                        this.Common_Add=true;
+                                        break;
+                                }
+                            }
+                        }
+                    ).catch(function (response) {
+                        alert(response);
+                    });
+                },
                 searchGoods:function(searchParas){
                     // console.log('回车搜索',keyCode,e); && this.input
-                        this.loading3 = true
+                    this.loadingStatus = true
                         var _self = this;
                         _self.goodsList = [];
                         //if (_id.length > 0) {
@@ -154,7 +181,7 @@
                             //    .catch(function (response) {
                             //        console.log(response);
                             //    });
-
+                      
                         var searchParams={
                             goods_id:searchParas.goods_id,
                             goods_cname:searchParas.goods_cname,
@@ -223,9 +250,9 @@
                 },
                 fillData:function(){
                     this.goodsListPart = [];
-                    this.tablePage3.totalResult = this.goodsList.length;
-                    this.goodsListPart = this.goodsList.slice((this.tablePage3.currentPage - 1) * this.tablePage3.pageSize, this.tablePage3.currentPage * this.tablePage3.pageSize);
-                    this.loading3 = false;
+                    this.tablePage.totalResult = this.goodsList.length;
+                    this.goodsListPart = this.goodsList.slice((this.tablePage.currentPage - 1) * this.tablePage.pageSize, this.tablePage.currentPage * this.tablePage.pageSize);
+                    this.loadingStatus = false;
                 },
                 editEvent (row) {
                     this.newGoods = {
@@ -245,10 +272,10 @@
                     //Object.assign(this.selectRow, this.newGoods)
                     this.addRow(this.newGoods);
                 },
-                handlePageChange3:function({ currentPage, pageSize} ) {
-                    this.loading3 = true;
-                    this.tablePage3.currentPage = currentPage;
-                    this.tablePage3.pageSize = pageSize;
+                handlePageChange3:function( {currentPage, pageSize }) {
+                    this.loadingStatus = true;
+                    this.tablePage.currentPage = currentPage;
+                    this.tablePage.pageSize = pageSize;
                     //this.findList3()
                     this.fillData();
                 },

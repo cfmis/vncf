@@ -296,7 +296,21 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             return jsonBuilder.ToString();
 
         }
-       
 
+        public static List<PermissonModels> GetPermission(string AuthorityID)
+        {             
+            string strUserName = AdminUserContext.Current.LoginInfo.LoginName; 
+            string strSql = string.Format(@"Select Power AS PermissionID From v_powers Where LoginName ='{0}' and AuthorityID='{1}'", strUserName, AuthorityID);           
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            List<PermissonModels> lstPermission = new List<PermissonModels>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                PermissonModels mdj = new PermissonModels();
+                mdj.PermissionID = dr["PermissionID"].ToString();                
+                lstPermission.Add(mdj);
+            }
+            return lstPermission;
+        }
     }
 }

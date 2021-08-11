@@ -16,4 +16,10 @@ namespace VNCF.PSS.Web.Areas.Base.Models
         public string Msg { get; set; }
         public string ReturnValue { get; set; }
     }
+
+    public class PermissonModels
+    {
+        public string PermissionID { get; set; }
+        public bool isPermission { get; set; }
+    }
 }
