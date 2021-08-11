@@ -274,6 +274,11 @@
     <Compile Include="Areas\Base\Models\BaseDataModels.cs" />
     <Compile Include="Areas\Base\Models\BaseInfo.cs" />
     <Compile Include="Areas\Base\Models\DepInfo.cs" />
+    <Compile Include="Areas\Prod\Controllers\PlanController.cs" />
+    <Compile Include="Areas\Prod\DAL\PlanDAL.cs" />
+    <Compile Include="Areas\Prod\Models\PlanModelBase.cs" />
+    <Compile Include="Areas\Prod\Models\PlanModels.cs" />
+    <Compile Include="Areas\Prod\ProdAreaRegistration.cs" />
     <Compile Include="Areas\Purchase\Controllers\PurchaseController.cs" />
     <Compile Include="Areas\Purchase\DAL\PurchaseDAL.cs" />
     <Compile Include="Areas\Purchase\Models\BuyModels.cs" />
@@ -312,6 +317,7 @@
     <Compile Include="Common\AdminCookieContext.cs" />
     <Compile Include="Common\AdminUserContext.cs" />
     <Compile Include="Common\CommonUtils.cs" />
+    <Compile Include="Common\DBUtility.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -541,6 +547,10 @@
     <Content Include="Areas\Base\Views\Goods\Create.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\Print.cshtml" />
     <Content Include="Areas\Purchase\Views\Purchase\Print.cshtml" />
+    <Content Include="Areas\Prod\Views\web.config" />
+    <Content Include="Areas\Prod\Views\Plan\Index.cshtml" />
+    <Content Include="Areas\Prod\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Prod\Views\Shared\_Layout.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

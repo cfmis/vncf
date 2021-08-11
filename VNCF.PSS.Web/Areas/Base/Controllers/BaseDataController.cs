@@ -8,7 +8,7 @@ using VNCF.PSS.Web.Common;
 
 namespace VNCF.PSS.Web.Areas.Base.Controllers
 {
-    public class BaseDataController : AdminControllerBase
+    public class BaseDataController  : AdminControllerBase//: Controller//
     {
         // GET: Base/BaseData
         public ActionResult Index()
@@ -39,7 +39,13 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
             //var result = new { rows = list };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
+        public JsonResult GetWipID()
+        {
+            NewBaseDAL nbdal = new NewBaseDAL();
+            var result = nbdal.GetLoc();
+            //var result = new { rows = list };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         //下拉列表框基礎信息,返回ID,Name
         public ActionResult GetBaseInfo(string strTableName)
         {            
