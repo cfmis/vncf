@@ -78,7 +78,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             strSql+=" AS name,a.english_name,b.vn_name1,b.vn_name2,b.vn_name3 " +
             " FROM it_goods a " +
             " LEFT JOIN it_goods_vn b ON a.id=b.id" +
-            " Left Join cd_pattern_details c ON a.blueprint_id=c.id " +
+            " Left Join cd_pattern c ON a.blueprint_id=c.id " +
             " Where a.type='" + "0001" + "'";
             strSql += " AND a.id = '" + goods_id + "'";
             

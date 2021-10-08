@@ -34,7 +34,7 @@ var comm= {
   formatJson: function(filterVal, jsonData) {
     return jsonData.map(v => filterVal.map(j => v[j]))
   },
-// 获取当前时间
+// 获取当前日期
 getCurrentDate:function() {
   const date = new Date();
   let year = date.getFullYear();
@@ -44,8 +44,8 @@ getCurrentDate:function() {
   day = day < 10 ? "0" + day : day; //day小于10，加0
   return `${year}-${month}-${day}`;
   },
- //獲取當前日期時間
-getCurrentTime: function() {
+ //獲取當前時間
+getCurrentDateTime: function() {
         //获取当前时间并打印
         var _this = this;
 		var dateTime="";
@@ -58,7 +58,20 @@ getCurrentTime: function() {
     　　dateTime = yy+'/'+mm+'/'+dd+' '+hh+':'+mf+':'+ss;
     　　return (dateTime)
 },
-
+ //獲取當前日期時間
+getCurrentTime: function() {
+        //获取当前时间并打印
+        var _this = this;
+		var dateTime="";
+    　　let yy = new Date().getFullYear();
+    　　let mm = new Date().getMonth()+1;
+    　　let dd = new Date().getDate();
+    　　let hh = new Date().getHours();
+    　　let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
+    　　let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
+    　　dateTime = hh+':'+mf+':'+ss;
+    　　return (dateTime)
+},
 //獲取當前日期時間
 getWipID: async  function() {
 	var result='aaa';

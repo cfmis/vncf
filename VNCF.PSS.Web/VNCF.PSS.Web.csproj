@@ -280,6 +280,7 @@
     <Compile Include="Areas\Prod\DAL\ProcDAL.cs" />
     <Compile Include="Areas\Prod\Models\PlanModelBase.cs" />
     <Compile Include="Areas\Prod\Models\PlanModels.cs" />
+    <Compile Include="Areas\Prod\Models\ProcModels.cs" />
     <Compile Include="Areas\Prod\ProdAreaRegistration.cs" />
     <Compile Include="Areas\Purchase\Controllers\PurchaseController.cs" />
     <Compile Include="Areas\Purchase\DAL\PurchaseDAL.cs" />

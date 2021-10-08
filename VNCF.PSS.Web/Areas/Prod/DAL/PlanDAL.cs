@@ -242,7 +242,6 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 " Left Join it_goods_vn c ON a.GoodsID=c.id";
             strSql +=" Where ProductMo='" + ProductMo + "'";
             strSql += " Order By Seq ";
-            var len = ProductMo.Length;
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<PlanDetails> lsPlanDetails = new List<PlanDetails>();
             for (int i = 0; i < dt.Rows.Count; i++)

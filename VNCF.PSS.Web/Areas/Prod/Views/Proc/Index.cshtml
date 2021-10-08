@@ -53,8 +53,9 @@
         <vxe-toolbar perfect size="medium" style="height:35px;">
             <template #buttons>
                 <vxe-button type="text" icon="fa fa-plus" content="新增" @@click="addNew()"></vxe-button>
-                <vxe-button type="text" icon="fa fa-trash-o" content="删除"></vxe-button>
                 <vxe-button type="text" icon="fa fa-save" content="儲存" @@click="saveEvent()"></vxe-button>
+                <vxe-button type="text" icon="fa fa-trash-o" content="删除"></vxe-button>
+                <vxe-button type="text" icon="fa fa-search" content="查詢" @@click="searchData(formData.PrdDep,formData.PrdDate)"></vxe-button>
             </template>
         </vxe-toolbar>
     </div>
@@ -75,14 +76,14 @@
                             <vxe-input v-model="data.BarCode" placeholder="请掃描條形碼" @@keyup.enter.native="showMsg()"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="生產部門" field="Prd_dep" :item-render="{}" span="6">
+                    <vxe-form-item title="生產部門" field="PrdDep" :item-render="{}" span="6">
                         <template #default="{ data }">
-                            <vxe-select v-model="data.Prd_dep" placeholder="請輸入生產部門" :options="wipList"></vxe-select>
+                            <vxe-select v-model="data.PrdDep" placeholder="請輸入生產部門" :options="wipList"></vxe-select>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="生產日期" field="Prd_date" :item-render="{}" span="6">
+                    <vxe-form-item title="生產日期" field="PrdDate" :item-render="{}" span="6">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.Prd_date" placeholder="请輸入生產日期" type="date"></vxe-input>
+                            <vxe-input v-model="data.PrdDate" placeholder="请輸入生產日期" type="date"></vxe-input>
                         </template>
                     </vxe-form-item>
                 </vxe-form>
@@ -137,12 +138,12 @@
                         
                         <vxe-form-item title="開始時間" field="StartTime" :item-render="{}" span="6">
                             <template #default="{ data }">
-                                <vxe-input v-model="data.StartTime" type="time" clearable></vxe-input>
+                                <vxe-input v-model="data.StartTime" type="time" clearable @@blur="StartTimeBlurEvent()"></vxe-input>
                             </template>
                         </vxe-form-item>
                         <vxe-form-item title="結束時間" field="EndTime" :item-render="{}" span="6">
                             <template #default="{ data }">
-                                <vxe-input v-model="data.EndTime" type="time" clearable></vxe-input>
+                                <vxe-input v-model="data.EndTime" type="time" clearable @@blur="EndTimeBlurEvent()" @@click="EndTimeClickEvent()"></vxe-input>
                             </template>
                         </vxe-form-item>
                         <vxe-form-item title="正常班時數" field="WorkHours" :item-render="{}" span="6">
@@ -155,9 +156,9 @@
                                 <vxe-input v-model="data.OtHours" type="number"></vxe-input>
                             </template>
                         </vxe-form-item>
-                        <vxe-form-item title="每行碑數" field="EachLineNum" :item-render="{}" span="6">
+                        <vxe-form-item title="每行碑數" field="LineNum" :item-render="{}" span="6">
                             <template #default="{ data }">
-                                <vxe-input v-model="data.EachLineNum" type="number"></vxe-input>
+                                <vxe-input v-model="data.LineNum" type="number"></vxe-input>
                             </template>
                         </vxe-form-item>
                         <vxe-form-item title="每小時碑數" field="HourRunNum" :item-render="{}" span="6">
@@ -195,7 +196,16 @@
                                 <vxe-input v-model="data.DifficultyLevel"></vxe-input>
                             </template>
                         </vxe-form-item>
-                        
+                        <vxe-form-item title="建立人" field="CreateUser" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.CreateUser" disabled></vxe-input>
+                            </template>
+                        </vxe-form-item>
+                        <vxe-form-item title="建立日期" field="CreateTime" :item-render="{}" span="6">
+                            <template #default="{ data }">
+                                <vxe-input v-model="data.CreateTime" disabled></vxe-input>
+                            </template>
+                        </vxe-form-item>
                         <vxe-form-item title="修改人" field="AmendUser" :item-render="{}" span="6">
                             <template #default="{ data }">
                                 <vxe-input v-model="data.AmendUser" disabled></vxe-input>
@@ -233,21 +243,19 @@
                            :checkbox-config="{highlight: true, range: true}"
                            :data="tableDetails"
                            :keyboard-config="{isArrow: true}"
-                           :edit-config="{trigger: 'click', mode: 'cell', icon: 'fa fa-pencil', showStatus: true}">
+                           :edit-config="{trigger: 'click', mode: 'cell', icon: 'fa fa-pencil', showStatus: true}"
+                           @@cell-click="cellClickEvent"
+                           >
                     <vxe-table-column type="seq" title="序號" width="60"></vxe-table-column>
                     <vxe-table-column field="GoodsID" title="物料編號" width="200" :edit-render="{name: '$input', events: {blur: showMsg}}"></vxe-table-column>
                     <vxe-table-column field="GoodsCname" title="物料描述" width="260"></vxe-table-column>
-                    <vxe-table-column field="WipID" title="負責部門" width="160"></vxe-table-column>
-                    <vxe-table-column field="NextWipID" title="收貨部門" width="160"></vxe-table-column>
-                    <vxe-table-column field="RequestQty" title="要求數量" width="160"></vxe-table-column>
-                    <vxe-table-column field="RequestDate" title="要求完成日期" width="160"></vxe-table-column>
-                    <vxe-table-column field="CompleteQty" title="完成數量" width="160"></vxe-table-column>
-                    <vxe-table-column field="CompleteDate" title="完成日期" width="160"></vxe-table-column>
-                    <vxe-table-column title="修改" width="60" :resizable="false" show-overflow>
-                        <template #default="{ row }">
-                            <vxe-button type="text" icon="fa fa-edit" @@click="editRowEvent(row)"></vxe-button>
-                        </template>
-                    </vxe-table-column>
+                    <vxe-table-column field="PrdDep" title="生產部門" width="160"></vxe-table-column>
+                    <vxe-table-column field="PrdDate" title="生產日期" width="160"></vxe-table-column>
+                    <vxe-table-column field="PrdQty" title="生產數量" width="160"></vxe-table-column>
+                    <vxe-table-column field="PrdWeg" title="生產重量" width="160"></vxe-table-column>
+                    <vxe-table-column field="StartTime" title="開始時間" width="160"></vxe-table-column>
+                    <vxe-table-column field="EndTime" title="結束時間" width="160"></vxe-table-column>
+                    <vxe-table-column field="ID" title="記錄號" width="60"></vxe-table-column>
                 </vxe-table>
 
 
@@ -271,9 +279,9 @@
             </div>*@
     </div>
 </div>
-        @section PageSpecificJavascriptIncludes{
-            <script src="/Content/js/common.js"></script>
-            <script type="text/javascript">
+@section PageSpecificJavascriptIncludes{
+    <script src="/Content/js/common.js"></script>
+    <script type="text/javascript">
 
                 var vm = new Vue({
                     el: "#app",
@@ -305,14 +313,16 @@
                         },
                         addNew() {
                             this.edit_mode = 1;
-                            nowDateTime = comm.getCurrentTime();
+                            nowDateTime = comm.getCurrentDateTime();
                             this.formData = {
+                                ID:0,
                                 EditFlag: 1,
                                 BarCode: '',
                                 PrdDep: '',
                                 ProductMo: '',
                                 PrdDate: comm.getCurrentDate(),
                                 GoodsID: '',
+                                GoodsCname:'',
                                 PrdQty: 0,
                                 PrdWeg:0.00,
                                 StartRunQty:0,
@@ -323,7 +333,7 @@
                                 WorkerID: '',
                                 PrdClass: '',
                                 PrdGroup: '',
-                                StartTime: '',
+                                StartTime: comm.getCurrentTime(),
                                 EndTime: '',
                                 WorkHours: 0,
                                 OtHours: 0,
@@ -351,51 +361,105 @@
                         productMoBlurEvent() {
                             if (this.formData.ProductMo == "")
                                 return;
-                            if (this.edit_mode == 1)
-                                this.getGoodsFromPlan();
+                            //if (this.edit_mode == 1)
+                            this.getGoodsFromPlan();
                         },
-                        searchByProductMo(_ProductMo) {
+                        getGoodsFromPlan() {
+
+                            setTimeout(() => {
+                                var _self = this;
+                                axios.get("GetGoodsFromPlan", { params: { ProductMo: this.formData.ProductMo } }).then(
+                                (response) => {
+                                    this.goodsList = response.data;
+                                },
+                                (response) => {
+                                    alert(response.status);
+                                });
+                            }, 500);
+
+                        },
+                        searchData(_PrdDep,_PrdDate) {
                             this.edit_mode = 0,
                             this.loading3 = true;
                             setTimeout(() => {
-                                this.getPlanHead(_ProductMo);
-                                this.getPlanDetails(_ProductMo);
+                                var _self = this;
+                                axios.get("SearchData", { params: { PrdDep: _PrdDep, PrdDate: _PrdDate } }).then(
+                                (response) => {
+                                    this.tableDetails = response.data;
+                                },
+                                (response) => {
+                                    alert(response.status);
+                                });
                                 this.loading3 = false;
                             }, 500);
 
                         },
-                        getPlanHead(_ProductMo) {
+                        StartTimeBlurEvent(){
+                            this.countProductTimes();
+                        },
+                        EndTimeBlurEvent(){
+                            this.countProductTimes();
+                        },
+                        EndTimeClickEvent(){
+                            var te=comm.getCurrentTime();
+                            if(this.formData.EndTime=='')
+                                this.formData.EndTime=comm.getCurrentTime();
+                        },
+                        countProductTimes(){
+                            if(this.formData.StartTime!=''&&this.formData.EndTime!='')
+                            {
+                                var startTime=this.formData.StartTime;
+                                var endTime=this.formData.EndTime;
+                                var hours= Number(endTime)+Number(startTime);
+                                this.formData.WorkHours=0;
+                            }
+                        },
+                        searchDataByID(_ID) {
                             var _self = this;
                             //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
-                            axios.get("GetPlanHeadByMo", { params: { ProductMo: _ProductMo } }).then(
+                            axios.get("SearchDataByID", { params: { ID: _ID } }).then(
                             (response) => {
-                                //this.formData.ProductMo = response.data.ProductMo,
-                                //    this.formData.Ver = response.data.Ver,
-                                //    this.formData.PlanDate = response.data.PlanDate,
-                                //    this.formData.CustomerID = response.data.CustomerID,
-                                //    this.formData.GoodsID = response.data.GoodsID,
-                                //    this.formData.OrderQty = response.data.OrderQty,
-                                //    this.formData.OrderUnit = response.data.OrderUnit,
-                                //    this.formData.MoRemark = response.data.MoRemark,
-                                //    this.formData.PlanRemark = response.data.PlanRemark,
-                                //    this.formData.ProductRemark = response.data.ProductRemark
                                 this.formData = {
-                                    ProductMo: response.data.ProductMo,
-                                    Ver: response.data.Ver,
-                                    PlanDate: response.data.PlanDate,
-                                    CustomerID: response.data.CustomerID,
-                                    GoodsID: response.data.GoodsID,
-                                    OrderQty: response.data.OrderQty,
-                                    OrderUnit: response.data.OrderUnit,
-                                    MoRemark: response.data.MoRemark,
-                                    PlanRemark: response.data.PlanRemark,
-                                    ProductRemark: response.data.ProductRemark,
-                                    ArtImageUrl: response.data.ArtImageUrl,
-                                    CreateUser: response.data.CreateUser,
-                                    CreateTime: response.data.CreateTime,
-                                    AmendUser: response.data.AmendUser,
-                                    AmendTime: response.data.AmendTime,
+                                    EditFlag:0,
+                                    ID:response.data[0].ID,
+                                    ProductMo: response.data[0].ProductMo,
+                                    PrdDep: response.data[0].PrdDep,
+                                    GoodsID:response.data[0].GoodsID,
+                                    GoodsCname:response.data[0].GoodsCname,
+                                    PrdDate: response.data[0].PrdDate,
+                                    StartTime: response.data[0].StartTime,
+                                    EndTime: response.data[0].EndTime,
+                                    PrdQty: response.data[0].PrdQty,
+                                    PrdWeg: response.data[0].PrdWeg,
+                                    StartRunQty:response.data[0].StartRunQty,
+                                    EndRunQty:response.data[0].EndRunQty,
+                                    RunQty: response.data[0].RunQty,
+                                    MachineID: response.data[0].MachineID,
+                                    WorkType: response.data[0].WorkType,
+                                    WorkerID: response.data[0].WorkerID,
+                                    PrdClass: response.data[0].PrdClass,
+                                    PrdGroup: response.data[0].PrdGroup,
+                                    StartTime: response.data[0].StartTime,
+                                    EndTime: response.data[0].EndTime,
+                                    WorkHours: response.data[0].WorkHours,
+                                    OtHours: response.data[0].OtHours,
+                                    LineNum: response.data[0].LineNum,
+                                    HourRunNum: response.data[0].HourRunNum,
+                                    HourStdQty: response.data[0].HourStdQty,
+                                    PerKgPcs: response.data[0].PerKgPcs,
+                                    QcFlag: response.data[0].QcFlag,
+                                    MatGoodsID: response.data[0].MatGoodsID,
+                                    MatGoodsLot: response.data[0].MatGoodsLot,
+                                    NextDepID: response.data[0].NextDepID,
+                                    DifficultyLevel: response.data[0].DifficultyLevel,
+                                    WorkCode: response.data[0].WorkCode,
+                                    JobType:response.data[0].JobType,
+                                    CreateUser: response.data[0].CreateUser,
+                                    CreateTime: response.data[0].CreateTime,
+                                    AmendUser: response.data[0].AmendUser,
+                                    AmendTime: response.data[0].AmendTime,
                                 }
+                                //this.getGoodsFromPlan();
                                 //深度複製一個對象，用來判斷數據是否有修改
                                 this.prevForm = JSON.parse(JSON.stringify(this.formData));
                                 //var ImagePath = "/art/artwork/" + "AAAA/A888020.bmp";
@@ -408,34 +472,7 @@
                             alert(response);
                         });
                         },
-                        getPlanDetails(_ProductMo) {
-                            var _self = this;
-                            axios.get("GetPlanDetailsByMo", { params: { ProductMo: _ProductMo } }).then(
-                            (response) => {
-                                this.tablePlanDetails = response.data;
-                            },
-                            (response) => {
-                                alert(response.status);
-                            }
-                        ).catch(function (response) {
-                            alert(response);
-                        });
-                        },
-                        getGoodsFromPlan() {
-                            var _self = this;
-                            //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
-                            axios.get("GetGoodsFromPlan", { params: { ProductMo: _self.formData.ProductMo } }).then(
-                            (response) => {
-                                this.goodsList = response.data
-                            },
-                            (response) => {
-                                alert(response.status);
-                            }
-                        ).catch(function (response) {
-                            alert(response);
-                        });
-                        },
-                        submitSearch() {
+                submitSearch() {
 
                         },
                         getWipID() {
@@ -499,27 +536,17 @@
                                     this.formData.RunQty = 0;
                             }
                         },
-                        editRowEvent (row) {
-                            this.editPlanDetails = {
-                                EditFlag: 0,
-                                GoodsID: row.GoodsID,
-                                GoodsCname: row.GoodsCname,
-                                RequestQty: row.RequestQty,
-                                RequestDate: row.RequestDate,
-                                WipID: row.WipID,
-                                NextWipID: row.NextWipID
-                            }
-                            //深度複製一個對象，用來判斷數據是否有修改
-                            this.prevEditPlanDetails = JSON.parse(JSON.stringify(this.editPlanDetails));
-                            this.selectRow = row
-                            this.showEdit = true
-                        },
+
                         saveEvent() {
                             this.validData();
+                            if(this.formData.EditFlag==0)
+                            {
+                                alert("沒有要儲存的記錄!");
+                                return;
+                            }
                             var _self = this;
-                            var PlanHead = _self.formData;
-                            var PlanDetails = _self.tablePlanDetails;
-                            axios.post("SavePlan", { PlanHead, PlanDetails }).then(
+                            var objProc = _self.formData;
+                            axios.post("SaveProc", { objProc }).then(
                             (response) => {
                                 this.SavePlan = {
                                     ProductMo: "",
@@ -540,9 +567,16 @@
                                     break;
                                 }
                             }
-                        }
+                        },
+                        cellClickEvent({row,column}) {
+                            //if(column.property=="PrdDep")
+                            //{
+                            //    alert("ok");
+                            //}
+                            this.searchDataByID(row.ID);
+                        },
                     },
-
+                    
                     watch: {
                         //// watch监听 判断是否修改
                         //formData: {
@@ -561,6 +595,7 @@
                         //}
 
                     }
+                    
                 })
-            </script>
-        }
+    </script>
+}
