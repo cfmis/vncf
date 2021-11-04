@@ -8,6 +8,7 @@ using VNCF.PSS.Web.Areas.Base.Models;
 using VNCF.PSS.Web.Common;
 using System.Data.SqlClient;
 using System.Text;
+using VNCF.PSS.Web.Areas.Sales.Models;
 
 namespace VNCF.PSS.Web.Areas.Base.DAL
 {
@@ -122,6 +123,54 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
                 lsModel.Add(mdj);
             }
             return lsModel;
+        }
+
+        public List<RoleAuthorityPowersModels> GetRoleAuthorityPowers(RoleAuthorityPowersModels searchParams)
+        {
+            string strSql = @"Select Distinct ID,RoleID,RoleName,AuthorityID,AuthorityName,PowersID,Powers,PowersDesc,Remark FROM v_powers WHERE RoleID>0 ";
+            if(searchParams.RoleID>0)
+            {
+                strSql += string.Format(" AND RoleID={0}", searchParams.RoleID);
+            }
+            if (searchParams.AuthorityID>0)
+            {
+                strSql += string.Format(" AND AuthorityID={0}", searchParams.AuthorityID);
+            }
+            if (searchParams.PowersID>0)
+            {
+                strSql += string.Format(" AND PowersID={0}", searchParams.PowersID);
+            }
+            strSql += " Order by RoleID,AuthorityID,PowersID";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            List<RoleAuthorityPowersModels> lst = CommonUtils.DataTableToList<RoleAuthorityPowersModels>(dt);
+            return lst;
+                       
+        }
+
+        public string UpdateRoleAuthorityPowers(RoleAuthorityPowersModels updateParams)
+        {
+            string result = "";
+            string strSql = "";
+            string user_id = DBUtility.GetDetaultUserID();
+            if (updateParams.ID == 0)
+                strSql = string.Format(" Insert Into RoleAuthorityPowers(RoleID,AuthorityID,PowersID,Remark,CreateBy,CreateAt) Values ('{0}','{1}','{2}','{3}','{4}',getdate())"
+                    , updateParams.RoleID, updateParams.AuthorityID, updateParams.PowersID, updateParams.Remark, user_id);
+            else
+                strSql = string.Format(" Update RoleAuthorityPowers Set RoleID={0},AuthorityID={1},PowersID={2},Remark='{3}',UpdateBy='{4}',UpdateAt=getdate() Where ID={5}"
+                    , updateParams.RoleID, updateParams.AuthorityID, updateParams.PowersID, updateParams.Remark, user_id, updateParams.ID);
+            result = SQLHelper.ExecuteSqlUpdate(strSql);
+            return result;
+        }
+        public string DelRoleAuthorityPowersByID(int ID)
+        {
+            string result = "";
+            string strSql = "";
+            if (ID > 0)
+            {
+                strSql = string.Format("Delete FROM RoleAuthorityPowers WHERE ID={0}", ID);
+                result = SQLHelper.ExecuteSqlUpdate(strSql);
+            }
+            return result;
         }
     }
 }

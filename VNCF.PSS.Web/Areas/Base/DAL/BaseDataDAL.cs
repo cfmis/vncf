@@ -147,8 +147,26 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
                 case "bs_vendor"://取採購供應商                    
                     strSql = string.Format(@"SELECT id,id +' ('+{0}+')' as name FROM {1} WHERE type<>'OP' and state<>'2' order by id", strFieldName, strTableName);
                     break;
+                case "bs_type_1"://制單種類
+                case "bs_type_2"://做貨部門
+                case "bs_type_3"://營業員組別
+                    string group_id = "";
+                    switch (strTableName)
+                    {
+                        case "bs_type_1":
+                            group_id = "1";
+                            break;
+                        case "bs_type_2":
+                            group_id = "2";
+                            break;
+                        case "bs_type_3":
+                            group_id = "3";
+                            break;
+                    }
+                    strSql = string.Format(@"SELECT id,id+'('+name+')' as name FROM bs_type WHERE group_id='{0}' and state<>'2' order by id", group_id);
+                    break;
                 default://大多數的
-                    strSql = string.Format(@"Select id,id +' ('+{0}+')'as name FROM {1} Where state<>'2' order by id", strFieldName, strTableName);
+                    strSql = string.Format(@"Select id,id +' ('+{0}+')' as name FROM {1} Where state<>'2' order by id", strFieldName, strTableName);
                     break;
             }
 
@@ -213,11 +231,12 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 BaseDataModels objModel = new BaseDataModels();
-                objModel.ID = dt.Rows[i]["id"].ToString();           
+                objModel.ID = dt.Rows[i]["id"].ToString();
+                objModel.Name = "";               
                 lstBase.Add(objModel);
             }
             return lstBase;
-        }
+        }              
 
         public static string GetSystemMessage(string ID)
         {
@@ -300,7 +319,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
         public static List<PermissonModels> GetPermission(string AuthorityID)
         {             
             string strUserName = AdminUserContext.Current.LoginInfo.LoginName; 
-            string strSql = string.Format(@"Select Power AS PermissionID From v_powers Where LoginName ='{0}' and AuthorityID='{1}'", strUserName, AuthorityID);           
+            string strSql = string.Format(@"Select Powers AS PermissionID From v_powers Where LoginName ='{0}' and AuthorityID='{1}'", strUserName, AuthorityID);           
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<PermissonModels> lstPermission = new List<PermissonModels>();
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -312,5 +331,34 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             }
             return lstPermission;
         }
+        public static List<ListDataModels> GetBasePermissionList(string TableName)
+        {           
+            string strSql = "";
+            switch (TableName) {
+                case "Role":
+                    strSql = @"Select ID as value,name as label From Role Order by ID";
+                     break;
+                case "Authority":
+                    strSql = @"Select AuthorityID as value,AuthorityName as label 
+                            From Authority WHERE ISNULL(WebUrl,'')<>'' Order by AuthorityID";
+                    break;
+                case "sy_Powers":
+                    strSql = @"Select ID as value,Powers as label From sy_Powers Order by Powers";
+                    break;
+            }
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            List<ListDataModels> lst = new List<ListDataModels>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                ListDataModels mdj = new ListDataModels();
+                mdj.value = dr["value"].ToString();
+                mdj.label = dr["label"].ToString();
+                lst.Add(mdj);
+            }
+            return lst;
+        }
+       
+
     }
 }

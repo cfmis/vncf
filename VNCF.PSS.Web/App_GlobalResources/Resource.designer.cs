@@ -142,6 +142,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Browse Data.
+        /// </summary>
+        internal static string btn_browse {
+            get {
+                return ResourceManager.GetString("btn_browse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string btn_cancel {
@@ -291,6 +300,15 @@ namespace Resources {
         internal static string BuyerName {
             get {
                 return ResourceManager.GetString("BuyerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
             }
         }
         
@@ -484,6 +502,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delivered Port.
         /// </summary>
         internal static string DeliveredPort {
@@ -615,6 +642,15 @@ namespace Resources {
         internal static string IsPrint {
             get {
                 return ResourceManager.GetString("IsPrint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item Cancel.
+        /// </summary>
+        internal static string ItemCancel {
+            get {
+                return ResourceManager.GetString("ItemCancel", resourceCulture);
             }
         }
         

@@ -90,8 +90,9 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         public ActionResult FindItemReturnList(string ProductID, string type)
         {
             var list = SalesOrderDAL.FindItemReturnList(ProductID, type);
-            var result = new { rows = list };
-            return Json(result, JsonRequestBehavior.AllowGet);
+            //var result = new { rows = list };
+            //return Json(result, JsonRequestBehavior.AllowGet);//2021.09.27 CANCEL
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ImportOrder()
@@ -122,15 +123,37 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         }
         public ActionResult DeleteList(string OcID, int Ver, string Seq)
         {
-            SalesOrderDAL.DeleteOcDetails(OcID, Ver, Seq);
-            return Json("OK");
+            string result = SalesOrderDAL.DeleteOcDetails(OcID, Ver, Seq);
+            //return Json("OK");
+            if (result == "")
+                return Json("OK");
+            else
+                return Json("Error");
         }
 
+
+        //注銷頁數
+        [HttpPost]
+        public ActionResult CancelItem(string OcID, int Ver, string Seq)
+        {
+            string result = SalesOrderDAL.CancelOcDetails(OcID, Ver, Seq);
+            if (result == "")
+                return Json("OK");
+            else
+                return Json("Error");
+        }
         //更新主表
         [HttpPost]
         public ActionResult AddHead(Order_Head model)
         {
             string result = SalesOrderDAL.UpdateOcHead(model);
+            return Json(result);
+        }
+        //理新主表金額2021.10.19新增
+        [HttpPost]
+        public ActionResult UpdateHeadAmount(Order_Head model)
+        {
+            string result = SalesOrderDAL.UpdateHeadAmountByID(model);
             return Json(result);
         }
 
@@ -141,8 +164,10 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             //listOrderInfo.Add(model);
             //var result = new { total = 100, rows = listOrderInfo };
             //return Json(result, JsonRequestBehavior.AllowGet);
-            string OcID = Request["OcID"] == null ? "" : Request["OcID"].ToString();
-            model.OcID = OcID;
+
+            //===CANCEL old Code 2021.10.20
+            //string OcID = (Request["OcID"] == null) ? "" : Request["OcID"].ToString();
+            //model.OcID = OcID;           
             string result = SalesOrderDAL.UpdateOcDetails(model);
             if (result == "")
                 return Json("OK");
@@ -166,7 +191,6 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
                 return Json("Error");
         }
 
-
         public ActionResult DeleteListSalesBom(string OcID, int Ver, string UpperSeq, string Seq)
         {
             string result = SalesOrderDAL.DeleteSalesBomByID(OcID, Ver, UpperSeq, Seq);
@@ -179,10 +203,10 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         public ActionResult GetOcHead(string OcID)
         {
             var list = SalesOrderDAL.GetOcHeadByID(OcID);
-            var result = new { rows = list };
-            return Json(result, JsonRequestBehavior.AllowGet);
+            //var result = new { rows = list };//2021/09/12 cancel
+            //return Json(result, JsonRequestBehavior.AllowGet);//2021/09/12 cancel
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
-
       
         public ActionResult GetOcHeadReturnList(Order_Head model)
         {
@@ -222,7 +246,8 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
         //返回客戶中英文描述(返回單行兩列)
         public ActionResult GetCustomer(string strCustomerID)
         {
-            var result = SalesOrderDAL.GetCustomerByID(strCustomerID);
+            //var result = SalesOrderDAL.GetCustomerByID(strCustomerID);//2021/10/12 cancel
+            var result = SalesOrderDAL.GetCustomerInfoByID(strCustomerID);//2021/10/12 add
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

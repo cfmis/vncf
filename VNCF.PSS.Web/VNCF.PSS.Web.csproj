@@ -266,6 +266,7 @@
     <Compile Include="Areas\Base\Controllers\DeptController.cs" />
     <Compile Include="Areas\Base\Controllers\GoodsController.cs" />
     <Compile Include="Areas\Base\Controllers\ProductTypeController.cs" />
+    <Compile Include="Areas\Base\Controllers\RoleAuthorityPowersController.cs" />
     <Compile Include="Areas\Base\Controllers\VendorController.cs" />
     <Compile Include="Areas\Base\DAL\BaseDAL.cs" />
     <Compile Include="Areas\Base\DAL\BaseDataDAL.cs" />
@@ -528,7 +529,7 @@
     <Content Include="Areas\Sales\Views\SalesOrder\Find.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\FindItem.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\ImportOrder.cshtml" />
-    <Content Include="Areas\Sales\Views\SalesOrder\Index.cshtml" />
+    <Content Include="Areas\Sales\Views\SalesOrder\Index_bak.cshtml" />
     <Content Include="Areas\Stock\Views\Transfer\Find.cshtml" />
     <Content Include="Areas\Stock\Views\Transfer\Index.cshtml" />
     <Content Include="Areas\Stock\Views\Transfer\StockList.cshtml" />
@@ -551,6 +552,10 @@
     <Content Include="Areas\Prod\Views\Plan\Index.cshtml" />
     <Content Include="Areas\Prod\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Prod\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Base\Views\RoleAuthorityPowers\Index.cshtml" />
+    <Content Include="Areas\Base\Views\RoleAuthorityPowers\Index2.cshtml" />
+    <Content Include="Areas\Base\Views\RoleAuthorityPowers\Index3.cshtml" />
+    <Content Include="Areas\Sales\Views\SalesOrder\Index.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -566,6 +571,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\vue.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

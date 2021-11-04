@@ -29,11 +29,13 @@
         .img-plan{
             border:thick;
             width:80%;
-        }
+        }        
+
+        
     </style>
 }
 <div id="app">
-    <vxe-toolbar perfect size="medium" style="height:35px;">
+    <vxe-toolbar perfect size="medium" style="height:35px;" >
         <template #buttons>
             <vxe-button type="text" icon="fa fa-plus" content="新增" @@click="addNew()"></vxe-button>
             <vxe-button type="text" icon="fa fa-trash-o" content="删除"></vxe-button>
@@ -61,7 +63,7 @@
     <div v-show="selectTab === 'tab1'" style="margin:15px 0px;">
         <div class="div-cont">
             <div class="div-left">
-                <vxe-form :data="formData" @@submit="submitSearch" size="mini">
+                <vxe-form :data="formData" @@submit="submitSearch" size="mini"  title-align="right" title-width="100px">@**@
                     <vxe-form-item title="制單編號" field="ProductMo" :item-render="{}" span="6">
                         <template #default="{ data }">
                             <vxe-input v-model="data.ProductMo" placeholder="请输入制單編號" @@blur="productMoBlurEvent()"></vxe-input>

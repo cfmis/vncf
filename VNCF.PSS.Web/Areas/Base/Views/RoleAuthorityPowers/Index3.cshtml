@@ -1,0 +1,185 @@
+﻿
+@{
+    ViewBag.Title = "角色,菜單及權限";
+}
+
+<script src="~/Scripts/vue.js"></script>
+<link rel="stylesheet" href="~/Content/ElementUI/css/element-ui.css" />
+<script src="~/Content/ElementUI/js/element-ui.js"></script>
+
+@*@Scripts.Render("~/bundles/vue")
+@Scripts.Render("~/bundles/element")
+@Styles.Render("~/Content/elementcss")*@
+
+<div id="app">
+    <h1>test</h1>
+    <el-button type="primary">Login</el-button>
+    <template>
+        <el-select v-model="value" placeholder="请选择">
+            <el-option v-for="item in options"
+                       :key="item.value"
+                       :label="item.label"
+                       :value="item.value">
+            </el-option>
+        </el-select>
+    </template>
+
+    <el-form  @@submit="submitSearch" label-width="80px" size="mini">
+        <el-row>
+            <el-col span="8">
+                <el-form-item prop="RoleID" label="角色">
+                    @*<el-input v-model="dengmiQueryForm.mimian"></el-input>*@
+                    <template>
+                        <el-select v-model="value" placeholder="请选择">
+                            <el-option v-for="item in dengmiQueryForm"
+                                       :key="item.value"
+                                       :label="item.label"
+                                       :value="item.value">
+                            </el-option>
+                        </el-select>    
+                    </template>
+                </el-form-item>            
+            </el-col>
+            
+         </el-row>
+            @*<vxe-form-item title="角色" field="RoleID" item-render="{name: '$select', options: roleDatas}" span="6"></vxe-form-item>
+            <vxe-form-item title="菜單" field="AuthorityID" item-render="{name: '$select', options: menuDatas}" span="6"></vxe-form-item>
+            <vxe-form-item title="操作權限" field="PowersID" item-render="{name: '$select', options: powerDatas}" span="6"></vxe-form-item>
+            <vxe-form-item span="6">
+                <template #default>
+                    <vxe-button type="submit" status="primary">查询</vxe-button>
+                    <vxe-button type="reset">重置</vxe-button>
+                </template>
+            </vxe-form-item>*@
+    </el-form>
+</div>
+
+
+@*@section PageSpecificJavascriptIncludes{*@
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                value12: null,
+                value: '',
+                loadingStatus: false,
+                selectRow: null,
+                showEdit: false,//是否顯示編輯窗體,此值v-model雙向綁定
+                searchParas: { RoleID: '', AuthorityID: '', PowersID: '' },//查詢條件數組
+                newPower: { RoleID: '', AuthorityID: '', PowersID: '', Remark: '' },//新增或編輯數組
+                powerList: [],//權限數組
+                //定義分頁參數
+                tablePage: {
+                    currentPage: 1,
+                    pageSize: 10,
+                    totalResult: 0
+                },
+                edit_mode: 0,
+                //下拉框數據
+                roleDatas: [{ value: 1, label: '系统管理员' }, { value: 2, label: '高级工程师' }, { value: 3, label: '测试工程师' }],
+                menuDatas: [{ value: 20025, label: "test" }, { value: 20026, label: "test2" }],
+                powerDatas: [{ value: 1, label: 'Common_Add' }, { value: 5, label: 'Common_Find' }],
+                permissionData: [],
+
+            },
+            created: function () {
+                InIt();
+            },
+            methods: {
+                InIt: function () {
+                    this.fillData();
+                },
+                fillData: function () {
+                    this.permissionData = [];
+                    this.tablePage.totalResult = this.powerList.length;
+                    this.permissionData = this.powerList.slice((this.tablePage.currentPage - 1) * this.tablePage.pageSize, this.tablePage.currentPage * this.tablePage.pageSize);
+                    this.loadingStatus = false;
+                },
+                submitSearch() {
+                    this.searchPower(this.searchParas);
+                },
+                searchPower:function(searchParas){
+                    // console.log('回车搜索',keyCode,e); && this.input
+                    this.loadingStatus = true
+                    var _self = this;
+                    _self.powerList = [];
+                    var searchParams={
+                        RoleID:1,//searchParas.RoleID,
+                        AuthorityID:searchParas.AuthorityID,
+                        PowersID:searchParas.PowersID,
+                        pageSize:10,
+                        status:[1,3]
+                    }
+                    //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
+                    axios.get("SearchRoleAuthorityPowers", { params: searchParams }).then(
+                        (response) => {
+                            this.contactsList = [];
+                            for (var i = 0; i < response.data.length; i++) {
+                                _self.powerList.push(response.data[i]);
+                            }
+                            //_self.goodsList.push({ goods_id:"",goods_cname:"" });
+                            _self.fillData();
+                        },
+                        (response) => {
+                            alert(response.status);
+                        }
+                    ).catch(function (response) {
+                        alert(response);
+                    });
+                },
+                handlePageChange:function(currentPage, pageSize ) {
+                    this.loadingStatus = true;
+                    this.tablePage.currentPage = currentPage;
+                    this.tablePage.pageSize = pageSize;
+                    this.fillData();
+                },
+                showInsertEvent() {
+                    this.newPower = {
+                        RoleID: "",
+                        AuthorityID: "",
+                        PowersID: null,
+                        Remark: "test"
+                    }
+                    //this.selectRow = row
+                    this.showEdit = true
+                },
+                editEvent (row) {
+                    this.newPower = {
+                        RoleID: row.RoleID,
+                        AuthorityID: row.AuthorityID,
+                        PowersID: row.PowersID,
+                        Remark: row.Remark
+                    }
+                    this.selectRow = row
+                    this.showEdit = true
+                },
+                dengmiQueryForm: {
+                    mimian: '',
+                    mimu: '',
+                    mige: '',
+                    midi: '',
+                    zuozhe: '',
+                    midiLength: ''
+                },
+                options: [{
+                    value: '选项1',
+                    label: '黄金糕'
+                }, {
+                    value: '选项2',
+                    label: '双皮奶'
+                }, {
+                    value: '选项3',
+                    label: '蚵仔煎'
+                }, {
+                    value: '选项4',
+                    label: '龙须面'
+                }, {
+                    value: '选项5',
+                    label: '北京烤鸭'
+                }],
+            }
+        })
+    </script>
+@*}*@
+
+

@@ -4,1228 +4,1991 @@
 @{
     ViewBag.Title = "Sales Order";
 }
-
-<div class="areabx clear " style="margin-bottom:0px;padding-bottom:0px;">
-    <div data-options="region:'center'" style="padding:5px;" >
-        <div class="easyui-layout" data-options="fit:true">
-            <div class="botbtbx pdb0" >               
-                <a href="#" class="easyui-linkbutton" iconcls="icon-add" id="btnNew" onclick="AddNew()">@Resource.btn_new</a> <!--新單-->
-                <a href="#" class="easyui-linkbutton" iconcls="icon-edit" id="btnEdit">@Resource.btn_edit</a> <!--修改主表--> 
-                <a href="#" class="easyui-linkbutton" iconcls="icon-save" id="btnSave" onclick="SaveEditMaster()">@Resource.btn_save</a> <!--保存主表更改--> 
-                <a href="#" class="easyui-linkbutton" iconcls="icon-undo" id="btnUndo" onclick="UndoEditMaster()">@Resource.btn_undo</a>
-                <a href="#" class="easyui-linkbutton" iconcls="icon-import" id="btnImport">@Resource.btn_import</a><!--訂單匯入-->
-                <!--查找-->
-                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach" onclick="showMessageDialog('Find', '@Resource.btn_search', 850, 680)">@Resource.btn_search</a>                
-                <a href="#" class="easyui-linkbutton" iconcls="icon-print" id="btnPrint">@Resource.btn_print</a>                
-            </div>
-        </div>
-    </div>
-    
-    <div class="easyui-tabs" style="width:99%;height:768px;" id="tabPages"><!--height:760px--> 
-        <!--first tab 銷售訂單主檔資料-->
-        <div title="@Resource.sales_order_master" style="padding:10px; font-size:9px!important;" >
-            @using (Html.BeginForm("EditHead", null, FormMethod.Post, new { id = "addFormHead", @clase = "form-inline", @role = "form" }))
-            {
-                <ul class="formod mgt10" id="ulPanel">
-                    <!--oc編號-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.OcID：</span>
-                        @Html.TextBoxFor(m => m.OcID, new { @class = "easyui-textbox myReadonly font_group ", @data_options = "required:true,validType:'length[1,20]',readonly: true", @style = "width:60%" })
-                        @Html.TextBoxFor(m => m.Ver, "0", new { @class = "easyui-textbox myReadonly", @data_options = "required:true,validType:'length[1,20]',readonly: true", @style = "width:10%" })
-                    </li>                                   
-                    <!--落單日期-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.OrderDate：</span>@Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand ", @data_options = "required:true,validType:'length[1,10]'", @style = "width:72%" })</li>
-                    <!--訂單類型-->
-                    <li class="lb-std"><span class="input-group">@Resource.OrderType：</span>@Html.TextBoxFor(m=>m.OrderType, "", new { @class = "easyui-textbox"})</li>
-                    <!--接單日期-->
-                    <li class="lb-std"><span class="input-group">@Resource.ReceivedDate：</span>@Html.TextBoxFor(m => m.ReceivedDate, "", new { @class = "easyui-datebox-expand ", @data_options = "required:true,validType:'length[1,10]'", @style = "width:72%" })</li>
-                    <!--洋行編號-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.ForeignFirm：</span>@Html.TextBox("ForeignFirm", "", new { @class = "easyui-combobox ", @data_options = "required:true", @style = "width:72%" })</li>
-                    <!--區域-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.Area：</span>@Html.TextBox("Area", "", new { @class = "easyui-combobox ",@data_options = "required:true", @style = "width:72%" })</li>
-                    <!--客戶編號-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.CustomerID：</span>@Html.TextBoxFor(m => m.CustomerID, "", new { @class = "easyui-textbox ", @data_options = "required:true,validType:'customerCheckSub'", @style = "width:72%" })</li>
-                    <!--客戶名稱(中文)-->
-                    <li class="lb-std"><span class="input-group">@Resource.CustomerCdesc：</span>@Html.TextBox("CustomerCdesc", "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
-                    <!--客戶名稱(英文)-->
-                    <li class="lb-std"><span class="input-group">@Resource.CustomerEdesc：</span>@Html.TextBox("CustomerEdesc" ,"", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
-                    <!--營業員-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.SallerID：</span>@Html.TextBox("SallerID", "", new { @class = "easyui-combobox", @data_options = "required:true", @style = "width:72%" })</li>
-                    @*<li><span class="font_color_required">@WebFromElement.SallerID：</span>@Html.TextBox("txtClassIdSerach", "", new { @class = "easyui-combobox" })</li>*@
-                    <!--季度-->
-                    <li class="lb-std"><span class="input-group">@Resource.Season：</span>@Html.TextBox("Season", "", new { @class = "easyui-combobox", @style = "width:72%" })</li>
-                    <!--聯繫人-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.Contacts：</span>@Html.TextBox("Contacts", "", new { @class = "easyui-textbox ", @data_options = "required:true", @style = "width:72%" })</li>
-                    <!--聯繫人電話-->
-                    <li class="lb-std"><span class="input-group">@Resource.ContactsTel：</span>@Html.TextBox("ContactsTel", "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
-                    <!--傳真-->
-                    <li class="lb-std"><span class="input-group">@Resource.ContactsFax：</span>@Html.TextBox("ContactsFax", "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
-                    <!--郵件-->
-                    <li class="lb-std"><span class="input-group">@Resource.ContactsEmail：</span>@Html.TextBox("ContactsEmail", "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
-                    <!--跟單員-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.Merchandisers：</span>@Html.TextBox("Merchandisers", "", new { @class = "easyui-combobox" , @data_options = "required:true", @style = "width:72%" })</li>
-                    <!--跟單員電話-->
-                    <li class="lb-std"><span class="input-group">@Resource.MerchandisersTel：</span>@Html.TextBox("MerchandisersTel", "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
-                    <!--跟單員郵件-->
-                    <li class="lb-std"><span class="input-group">@Resource.MerchandisersEmail：</span>@Html.TextBox("MerchandisersEmail", "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
-                    <!--貨幣代號-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.CurrencyID：</span>
-                        @Html.TextBox("CurrencyID", "", new { @class = "easyui-combobox", @data_options = "required:true", @style = "width:40%" })
-                        @Html.TextBox("CurrencyRate", "", new { @class = "easyui-numberbox myReadonly ", @data_options = "readonly:true,min:0,precision:4", @style = "width:30%" })
-                    </li>
-                    <!--裝貨港口-->
-                    <li class="lb-std"><span class="input-group">@Resource.DeliveredPort：</span>@Html.TextBox("DeliveredPort", "", new { @class = "easyui-combobox", @style = "width:72%" })</li>
-                    <!--目的港口-->
-                    <li class="lb-std"><span class="input-group">@Resource.DestinationPort：</span>@Html.TextBox("DestinationPort", "", new { @class = "easyui-combobox", @style = "width:72%" })</li>
-                    <!--客戶PO-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.PoNo：</span>@Html.TextBox("PoNo", "", new { @class = "easyui-textbox " , @data_options = "required:true", @style = "width:72%" })</li>
-                    <!--付款方式-->
-                    <li class="lb-std"><span class="input-group">@Resource.PaymentType：</span>@Html.TextBox("PaymentType", "", new { @class = "easyui-combobox", @style = "width:72%" })</li>
-                    <!--價格條件-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.PriceType：</span>@Html.TextBox("PriceType", "", new { @class = "easyui-combobox", @data_options = "required:true", @style = "width:72%" })</li>
-                    <!--裝運方式-->
-                    <li class="lb-std"><span class="input-group">@Resource.Transport：</span>@Html.TextBox("Transport", "", new { @class = "easyui-combobox", @style = "width:72%" })</li>
-                    <!--折扣率%*-->
-                    <li class="lb-std"><span class="input-group">@Resource.DiscountRate：</span>@Html.TextBox("DiscountRate", "", new { @class = "easyui-numberbox text-align-right", @data_options = "min:0,precision:2", @style = "width:72%" })</li>
-                    <!--折扣額-->
-                    <li class="lb-std"><span class="input-group">@Resource.Discount：</span>@Html.TextBox("Discount", "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "readonly: true,min:0,precision:2", @style = "width:72%" })</li>
-                    <!--稅款編號-->
-                    <li class="lb-std"><span class="input-group">@Resource.TaxNo：</span>@Html.TextBox("TaxNo", "", new { @class = "easyui-combobox", @style = "width:72%" })</li>
-                    <!--稅款金額-->
-                    <li class="lb-std"><span class="input-group">@Resource.Tax：</span>@Html.TextBox("Tax", "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "min:0,precision:2,readonly: true", @style = "width:72%" })</li>
-                    <!--貨品金額-->
-                    <li class="lb-std"><span class="input-group">@Resource.ProductAmount：</span>@Html.TextBox("ProductAmount", "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "readonly: true,min:0,precision:2", @style = "width:72%" })</li>
-                    <!--總金額-->
-                    <li class="lb-std"><span class="input-group">@Resource.TotalAmount：</span>@Html.TextBox("TotalAmount", "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "readonly: true,min:0,precision:2", @style = "width:72%" })</li>
-                    <!--銀行賬號-->
-                    <li class="lb-std"><span class="input-group">@Resource.BankAccount：</span>@Html.TextBox("BankAccount", "", new { @class = "easyui-combobox", @style = "width:72%" })</li>
-                    <!--狀態-->
-                    <li class="lb-std"><span class="input-group">@Resource.State：</span>@Html.TextBox("State", "0", new { @class = "easyui-combobox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
-                    <!--備注-->
-                    <li class="lb-std"><span class="input-group">@Resource.Remark：</span>@Html.TextBox("Remark", "", new { @class = "easyui-textbox ", @data_options = "validType:'length[1,200]'", @style = "width:72%" })</li>
-                    <!--建檔人-->
-                    <li class="lb-std"><span class="input-group">@Resource.CreateBy：</span>@Html.TextBox("CreateBy", "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
-                    <!--建檔日期-->
-                    <li class="lb-std"><span class="input-group">@Resource.CreateAt：</span>@Html.TextBox("CreateAt", "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
-                    <!--更改人-->
-                    <li class="lb-std"><span class="input-group">@Resource.UpdateBy：</span>@Html.TextBox("UpdateBy", "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
-                    <!--更改日期-->
-                    <li class="lb-std"><span class="input-group">@Resource.UpdateAt：</span>@Html.TextBox("UpdateAt", "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
-                    <!--定義隱藏的臨時變量儲存當前操作是新增或修改-->
-                    @*<li> @Html.TextBox("OperationType", "", new { @class = "easyui-textbox ", type = "hidden"}) </li>*@
-                    <li><input class="" type="hidden" name="ActionType" id="ActionType_H" /></li>                   
-                </ul>
-            }
-        </div>
+@section PageSpecificStyleSheetIncludes{
+    <style>
+        /* el-divider 修改高度實線效果,自動覆蓋原樣式 */
+        .el-divider--horizontal {
+            margin: 8px 0;
+            background: 0 0;
+            border-top: 0px solid #e8eaec;
+        }
+        /*避免el-select控件寬度與input控件寬度不一致 */
+        .el-form .el-select {
+            width: 100%;
+        }
+        /*只讀控件背景色,且文本居中*/
+        .readonly-background .el-input__inner {
+            width: 100%;
+            background-color: #e8e8e8;
+            text-align: center;
+            border-color: #c0c4cc;
+            color: #000;
+        }
+        /* 输入框或下拉选框禁用时字體顏色*/
+        .el-select .el-input.is-disabled .el-input__inner{              
+              color: #606266 !important;
+          }
+        /*用自定義的行高覆蓋原始行高*/
+        .el-row{
+	        margin-bottom: -18px;
+	        display: flex;
+	        flex-wrap: wrap
+        }
+        /*表頭高度*/
+        /*.el-table__header tr,.el-table__header th {
+            padding: 0;
+            height: 10px;
+        }        
+        .el-table__body tr,.el-table__body td {
+            padding: 0;
+            height: 12px;
+        }*/
         
-        <!--second tab 銷售訂單明細資料-->
-        <div id="page2" title="@Resource.sales_order_details" closable="false" style="padding:5px;font-size:9px!important;">
-            @using (Html.BeginForm("EditHead", null, FormMethod.Post, new { id = "addFormDetails", @clase = "form-inline", @role = "form" }))
-            {                  
-                     @*<table id="details_master" class="font_9px" style="border-collapse:separate; border-spacing:0px 1px;">*@
-                     <table id="details_master"  class="percent-100" cellpadding="0" cellspacing="0" border="0">                   
-                           <tbody>
-                           <tr>
-                               <!--moCheckSub,goodsCheckSub為擴展的驗證規則-->                               
-                               <!--制單類型/頁數-->
-                               <td class="td-label font_color_required"><div class="award-name">@Resource.MoType:</div></td>
-                               <td class="td-input">
-                                   <div class="input-group">
-                                       @Html.TextBox("MoType", "", new { @class = "easyui-combobox", @style = "width:17%", @data_options = "required:true,readonly: true" })
-                                       @Html.TextBox("MoDept", "", new { @class = "easyui-combobox", @style = "width:17%", @data_options = "required:true,readonly: true" })
-                                       @Html.TextBox("MoGroup", "", new { @class = "easyui-combobox", @style = "width:17%", @data_options = "required:true,readonly: true" })
-                                       
-                                       @Html.TextBox("ProductMo", "", new { @class = "easyui-textbox myReadonly font_group", @style = "width:32%", @data_options = "required:true,readonly: true,validType:'moCheckSub'" })
-                                       @Html.TextBox("ProductMoVer", "0", new { @class = "easyui-textbox myReadonly font_group", @style = "width:8%", @data_options = "required:true,readonly: true" })
-                                   </div>                               
-                               </td>
-                               <!--產品編號-->
-                               <td class="td-label font_color_required"><div class="award-name">@Resource.ProductID:</div></td> 
-                               <td class="td-input">
-                                   <div class="input-group">
-                                       @*@Html.TextBox("ProductID", "", new { @class = "easyui-textbox", @style = "width:85%", @data_options = "required:true,validType:'goodsCheckSub'" })*@
-                                       @Html.TextBox("ProductID", "", new { @class = "easyui-textbox", @style = "width:85%", @data_options = "required:true" })
-                                       @*<a href="#" class="easyui-linkbutton" id="btnItem">···</a>*@<!--彈窗查詢貨品編號-->
-                                       <button type="button" class="in-button-find" id="btnItem">...</button>
-                                   </div>
-                               </td>                              
-                               <!--產品描述-->
-                               <td class="td-label"><div class="award-name">@Resource.ProductCdesc:</div></td> 
-                               <td class="td-input">                                   
-                                   <div class="input-group">@Html.TextBox("ProductCdesc", "0", new { @class = "easyui-textbox myReadonly", @style = "width:100%", @data_options = "readonly: true" })</div>
-                               </td>
-                               <!--取色辦-->
-                               <td class="td-label"><div class="award-name">@Resource.GetColorSample:</div></td>
-                               <td class="td-input"><div class="input-group">@Html.TextBox("GetColorSample", "", new { @class = "easyui-combobox", @style = "width:100%" })</div></td>
-                               <!--圖樣-->
-                               <td colspan=1 rowspan="4" width="120px">
-                                   <div align="left" style="padding-bottom: 10px;padding-left: 10px">
-                                       <img id="pictrue_name" src="~/Images/D888020.bmp" style="width:110px;height:110px;">
-                                   </div>
-                               </td>
-                           </tr>
-                           <tr>                              
-                               <td class="td-label"><div class="award-name">@Resource.StyleNo:</div></td><!--款號-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("StyleNo", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                               <td class="td-label"><div class="award-name"> @Resource.BrandID</div></td><!--牌子編號-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("BrandID", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
+        /*主檔圖片*/
+        .div-right{
+            /*float:right;            
+            width:20%;*/
+            position:absolute;
+            width:120px;
+            height:120px;
+            position:absolute;            
+            left:80%;
+            top:20px;
+            /*background-color:yellow;*/
+        }
+        .img-plan{
+            border:thick;
+            width:80%;
+        }
+        
+        /*設置el-tabs頁面高度,内容超出高度可滚动*/
+        .el-tabs--card {
+          height: calc(100vh - 110px);
+          /* overflow-y: auto; */
+        }
+        .el-tab-pane {
+          height: calc(100vh - 110px);
+          overflow-y: auto;
+        } 
+        /*模式窗口Title背景條*/
+        .el-dialog__header{
+            padding:12px 20px 10px;
+            background-color: #f5f7fa;
+        }
+        
+        /* 用来设置当前页面element全局table 选中某行时的背景色*/
+        .el-table__body tr.current-row>td{
+            background-color: #87CEFA !important;
+            color: #fff;
+        }
+        /*工具欄按鈕設置產色及邊框*/
+        .tool-bar-color{
+             background-color: #F5F7FA;
+             border:1px solid #e8e8e8;
+        }
+    </style>
+}
 
-                               <td class="td-label"><div class="award-name">@Resource.CustProductID:</div></td><!--客戶產品編號-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("CustProductID", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                               <td class="td-label"><div class="award-name">@Resource.CustProductName:</div></td><!--客戶產品描述-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("CustProductName", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                              
+<div id="app"> 
+    <div class="tool-bar-color" style="margin-top:5px;margin-left:5px;">
+        <template>
+            <el-button type="primary" plain size="small" icon="el-icon-document-add" @@click="addHead" v-if="!(isEditModeHead)">@Resource.btn_new</el-button>
+            <el-button type="danger" plain size="small" icon="el-icon-delete-solid" @@click="cancelHead" v-if="!(isEditModeHead)">@Resource.Delete</el-button>
+            <el-button type="primary" plain size="small" icon="el-icon-edit" @@click="editHead"v-if="!(isEditModeHead)" >@Resource.btn_edit</el-button>
+            <el-button type="primary" plain size="small" icon="el-icon-s-grid" @@click="addItem" v-if="!(isEditModeHead)">@Resource.btn_additem</el-button>
+            <el-button type="success" plain size="small" icon="el-icon-check" @@click="saveHead" v-if="isEditModeHead">@Resource.btn_save</el-button>
+            <el-button type="warning" plain size="small" icon="el-icon-check" @@click="resetHead" v-if="isEditModeHead">@Resource.btn_undo</el-button>
+            <el-button type="success" plain size="small" icon="el-icon-upload2" @@click="importHead" v-if="!(isEditModeHead)">@Resource.btn_import</el-button>
+            <el-button type="warning" plain size="small" icon="el-icon-search" @@click="cancelItem" v-if="!(isEditModeHead)">@Resource.ItemCancel</el-button>
+            <el-button type="primary" plain size="small" icon="el-icon-search" @@click="showSearch" v-if="!(isEditModeHead)">@Resource.btn_search</el-button>
+            <el-button type="primary" plain size="small" icon="el-icon-printer" @@click="printPI" v-if="!(isEditModeHead)">@Resource.btn_print</el-button>
+        </template>           
+    </div> 
 
-                           </tr>
-                           <tr>                               
-                               <td class="td-label"><div class="award-name">@Resource.CustColorID:</div></td><!--客戶顏色編號-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("CustColorID", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                               <td class="td-label"><div class="award-name">@Resource.CustColorName</div></td><!--客戶顏色名稱-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("CustColorName", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                               <td class="td-label"><div class="award-name">@Resource.ContractID:</div></td><!--客戶PO/NO-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("ContractID", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                               <td class="td-label font_color_required"><div class="award-name">@Resource.OrderQty_and_unit:</div></td><!--訂單數量/訂單單位-->
-                               <td class="td-input">
-                                   <div class="input-group">
-                                       @Html.TextBox("OrderQty", "", new { @class = "easyui-numberbox text-align-right", @style = "width:69%", @data_options = "required:true,min:0" })
-                                       @Html.TextBox("OrderUnit", "", new { @class = "easyui-combobox", style = "width:29%", @data_options = "required:true" })
-                                   </div>
-                               </td> 
-                           </tr>
-
-                           <tr>                               
-                               <td class="td-label"><div class="award-name">@Resource.CustSize:</div></td><!--客戶Size-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("CustSize", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                               <td class="td-label font_color_required"><div class="award-name">@Resource.PlanCompleteDate:</div></td> <!--預計日期-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("PlanCompleteDate", "", new { @class = "easyui-datebox-expand", @style = "width:100%", @data_options = "required:true" })</div></td>
-                               <td class="td-label font_color_required"><div class="award-name">@Resource.ArriveDate:</div></td> <!--交貨日期/交客日期-->
-                               <td class="td-input">
-                                   <div class="input-group">
-                                       @Html.TextBox("ArriveDate", "", new { @class = "easyui-datebox-expand", @style = "width:49%", @data_options = "required:true" })
-                                       @Html.TextBox("FactoryShipOutDate", "", new { @class = "easyui-datebox-expand", @style = "width:49%", @data_options = "required:true" })
-                                   </div>
-                               </td>
-                               <td class="td-label font_color_required"><div class="award-name">@Resource.Price_and_unit:</div></td> <!--單價/單位-->
-                               <td class="td-input">
-                                   <div class="input-group">
-                                       @Html.TextBox("Price", "", new { @class = "easyui-numberbox text-align-right", @style = "width:69%", @data_options = "required:true,min:0,precision:3" })
-                                       @Html.TextBox("PriceUnit", "", new { @class = "easyui-combobox", @style = "width:29%", @data_options = "required:true" })
-                                   </div>
-                               </td>                               
-                           </tr>
-
-                           <tr>
-                               <td class="td-label"><div class="award-name">@Resource.Remark:</div></td> <!--備註-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("Remark", "", new { @class = "easyui-textbox", style = "width:100%" })</div></td>                             
-                               <td class="td-label"><div class="award-name">@Resource.OcRemark:</div></td> <!--OC備註-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("OcRemark", "", new { @class = "easyui-textbox", style = "width:100%" })</div></td>                                                            
-                               <td class="td-label"><div class="award-name">@Resource.DiscountRate/@Resource.Discount:</div></td><!--折扣率/折扣額-->
-                               <td clsas="td-input">
-                                   <div class="input-group">
-                                       @Html.TextBox("RateDiscount", 0.00, new { @class = "easyui-numberbox text-align-right", @style = "width:49%;", @data_options = "min:0,precision:3" })
-                                       @Html.TextBox("AmountDiscount", 0.00, new { @class = "easyui-numberbox myReadonly text-align-right", @style = "width:49%", @data_options = "min:0,precision:2" })
-                                   </div>
-                               </td>                               
-                               <td class="td-label"><div class="award-name">@Resource.ProductAmount:</div></td><!--總金額-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("AmountProduct", 0.00, new { @class = "easyui-numberbox myReadonly text-align-right", @style = "width:100%", @data_options = "min:0,precision:2" })</div></td>
-                           </tr>
-                           
-                           <tr>
-                               <td class="td-label"><div class="award-name">@Resource.ProductRemark</div></td> <!--生產備註-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("ProductRemark", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                               <td class="td-label"><div class="award-name">@Resource.PlateRemark:</div></td> <!--電鍍備註-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("PlateRemark", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                               <td class="td-label"><div class="award-name">@Resource.InvoiceRemark:</div></td> <!--發票備註-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("InvoiceRemark", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                               <td class="td-label"><div class="award-name">@Resource.MoState</div></td> <!--頁數狀態-->
-                               <td class="td-input"><div class="input-group">@Html.TextBox("MoState", "0", new { @class = "easyui-combobox myReadonly", @style = "width:100%", @data_options = "readonly:true" })</div></td>
-                           </tr>
-
-                           <tr>
-                               <td class="td-label"><div class="award-name">@Resource.IsFree:</div></td> <!--是否免費-->
-                               @*<td>@Html.CheckBox("IsFree", false, checked "disabled": "disabled")</td>*@
-                               <td><input type="checkbox" name="IsFree" id="IsFree"/></td>
-                               <td class="td-label"><div class="award-name">@Resource.IsPrint:</div></td> <!--是否列印-->
-                               <td><input type="checkbox" name="IsPrint" id="IsPrint"/></td>
-
-                               <!--更新時的主鍵-->
-                               <td> <input type="hidden" name="ActionType" id="ActionType_D" /></td>
-                               <td> <input type="hidden" name="Seq" id="Seq" /></td>
-                               <td> <input type="hidden" name="goods_id" id="goods_id" /></td>   <!--保存貨品編號查詢臨時值-->
-                           </tr>
-
-                       </tbody>
-                   </table>
-                   
-            }
-            <!--間隔條-->
-            @*<div class="areabx_divider"></div>*@
-            <!--OC明細表格-->
-            <div data-options="region:'center'">
-                 <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
-                      <table id="tbDetails" class="easyui-datagrid" title="OC Details" style="width:100%;height:300px"
-                             data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'"></table>
-                 </div>
-            </div>           
-            
-            <!--SalesBOM表格-->
-            <div data-options="region:'center'">
-                <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
-                    <table id="tbSalesBom" class="easyui-datagrid" title="BOM" style="width:100%;height:200px"
-                           data-options="singleSelect:true,collapsible:true,method:'get'"></table>                    
-                </div>
-                <input type="hidden" name="ActionType" id="ActionType_Bom" />
-                <input type="hidden" name="CurrentRowIndex" id="CurrentRowIndex" />
+    <!--查找窗口-->
+    <template v-if="isRenderSearchWindow">
+        <el-dialog :title="title" :visible.sync="showDialogSearch" :close-on-click-modal="false" width="65%" >
+            <div class="tool-bar-color" style="margin-bottom:5px;margin-left:5px">
+                <template>
+                    <el-button type="danger" plain size="small" icon="el-icon-close" @@click="closeDialog('searchForm')">@Resource.btn_exit</el-button>
+                    <el-button type="primary" plain size="small" icon="el-icon-search" @@click="searchData">@Resource.btn_search</el-button>
+                    <el-button type="primary" plain size="small" icon="el-icon-check" @@click="afterSelectOK" >@Resource.btn_ok</el-button>
+                    <el-button type="primary" plain size="small" icon="el-icon-refresh-left" @@click="clearSearch">重置</el-button>
+                </template>
+            </div>            
+            <el-form :model="searchFormData" ref="searchForm" label-width="100px" size="mini">
+                <el-row>
+                    <el-col :span="8">
+                        <el-form-item prop="OcID" label="@Resource.OcID"><el-input v-model="searchFormData.OcID"></el-input></el-form-item><!--OC編號-->
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item prop="OrderDate" label="@Resource.OrderDate">
+                            <el-date-picker v-model="searchFormData.OrderDate" type="date" style="width:100%" ref="Order_Date" @@change="dateChange('Order_Date')"></el-date-picker>                        
+                        </el-form-item><!--落單日期-->
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item prop="ReceivedDate" label="@Resource.ReceivedDate">
+                            <el-date-picker v-model="searchFormData.ReceivedDate" type="date" style="width:100%" ref="Received_Date" @@change="dateChange('Received_Date')"></el-date-picker> 
+                        </el-form-item><!--接單日期-->
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="8">
+                        <el-form-item prop="ForeignFirm" label="@Resource.ForeignFirm"><el-input v-model="searchFormData.ForeignFirm"></el-input></el-form-item><!--洋行編號-->
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item prop="Area" label="@Resource.Area"><el-input v-model="searchFormData.Area"></el-input></el-form-item><!--區域-->
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item prop="CustomerID" label="@Resource.CustomerID"><el-input v-model="searchFormData.CustomerID"></el-input></el-form-item><!--客戶編號-->
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="8">
+                        <el-form-item prop="SallerID" label="@Resource.SallerID"><el-input v-model="searchFormData.SallerID"></el-input></el-form-item><!--營業員-->
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item prop="Season" label="@Resource.Season"><el-input v-model="searchFormData.Season"></el-input></el-form-item><!--季度-->
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item prop="ContractID" label="@Resource.ContractID"><el-input v-model="searchFormData.ContractID"></el-input></el-form-item><!--PO/NO-->
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="8">
+                        <el-form-item prop="BrandID" label="@Resource.BrandID"><el-input v-model="searchFormData.BrandID"></el-input></el-form-item><!--牌子編號-->
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item prop="ProductMo" label="@Resource.ProductMo"><el-input v-model="searchFormData.ProductMo"></el-input></el-form-item><!--頁數-->
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item prop="ProductID" label="@Resource.ProductID"><el-input v-model="searchFormData.ProductID"></el-input></el-form-item><!--貨品編碼-->
+                    </el-col>
+                </el-row>
+            </el-form>
+            <template>
+                <el-table :data="tableDataSearch"
+                          height="300"
+                          :header-cell-style="{background:'#F5F7FA',color:'#606266',height:'25px',padding:'2px'}"
+                          :row-style="{height:'18px'}"
+                          :cell-style="{padding:'0px'}"
+                          border
+                          highlight-current-row
+                          stripe
+                          style="font-size: 12px;width: 100%"                          
+                          @*:default-sort="{prop:'RoleID',order:'descending'}"*@                         
+                          v-loading="isLoading"
+                          element-loading-background="rgba(255, 255, 255, .5)"
+                          element-loading-text="加载中，请稍后..."
+                          element-loading-spinner="el-icon-loading"
+                          @@row-click="rowSearchClick"
+                          @@row-dblclick="rowSearchDoubleClick"
+                          >
+                    <el-table-column prop="OcID" label="@Resource.OcID" width="130"></el-table-column>
+                    <el-table-column prop="Ver" label="@Resource.Ver" width="50"></el-table-column>
+                    <el-table-column prop="OrderDate" label="@Resource.OrderDate" width="100"></el-table-column>                    
+                    <el-table-column prop="CustomerID" label="@Resource.CustomerID" width="90"></el-table-column>
+                    <el-table-column prop="MoState" label="@Resource.State" width="50"></el-table-column>
+                    <el-table-column prop="ProductMo" label="@Resource.ProductMo" width="100"></el-table-column>
+                    <el-table-column prop="ProductID" label="@Resource.ProductID" width="150"></el-table-column>
+                    <el-table-column prop="ProductCdesc" label="@Resource.ProductCdesc" width="150" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="OrderQty" label="@Resource.OrderQty" width="90"></el-table-column>
+                    <el-table-column prop="Price" label="@Resource.Price" width="100"></el-table-column>
+                    <el-table-column prop="PriceUnit" label="@Resource.PriceUnit" width="80"></el-table-column>
+                    <el-table-column prop="RateDiscount" label="@Resource.DiscountRate" width="90"></el-table-column>
+                    <el-table-column prop="AmountDiscount" label="@Resource.Discount" width="90"></el-table-column>
+                    <el-table-column prop="AmountProduct" label="@Resource.ProductAmount" width="100"></el-table-column>    
+                </el-table>
+            </template>
+        </el-dialog>
+    </template><!--查找窗口結束-->
+   
+     <!--查找貨品編碼-->
+    <template v-if="isRenderFindItem">
+        <el-dialog title="Find Item" :visible.sync="showDialogFindItem" :close-on-click-modal="false" width="60%" style="margin-top:0px;">
+            <div style="margin-bottom:10px;margin-left:0px">
+                <template>
+                    <el-button type="danger" plain size="small" icon="el-icon-close" @@click="closeDialog('findItem')">@Resource.btn_exit</el-button>
+                    <el-button type="primary" plain size="small" icon="el-icon-search" @@click="getFindItemData">@Resource.btn_search</el-button>
+                    <el-button type="primary" plain size="small" icon="el-icon-check" @@click="rowFindItemDoubleClick">@Resource.btn_ok</el-button>                    
+                </template>
             </div>
-
-        </div><!--tabpage2-->
+            <el-form :model="findItem" ref="findItem" label-width="100px" size="mini">
+            <el-row>
+                <el-col :span="12" style="width:45%">
+                    <el-form-item label="@Resource.ProductID"><el-input v-model="findItem.ProductID"></el-input></el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12" style="width:60%">
+                    <el-form-item label="@Resource.CodeType">
+                        <template>
+                            <el-radio-group v-model="findItem.type">
+                                <el-radio :label="3">@Resource.FinshedProduct</el-radio><!--成品-->
+                                <el-radio :label="0">@Resource.Made</el-radio><!--自制品-->
+                                <el-radio :label="1">@Resource.Cosign</el-radio><!--委外加工-->
+                                <el-radio :label="2">@Resource.Purcharse</el-radio><!--採購件-->
+                            </el-radio-group>
+                        </template>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            </el-form>
+            <template>
+                <el-table :data="tableDataFindItem"
+                          height="350"
+                          :header-cell-style="{background:'#F5F7FA',color:'#606266',height:'25px',padding:'2px'}"
+                          :row-style="{height:'18px'}"
+                          :cell-style="{padding:'0px'}"
+                          border
+                          highlight-current-row
+                          stripe
+                          style="font-size: 12px;width: 100%"
+                          :default-sort="{prop:'ProductID',order:'ascending'}"
+                          v-loading="isLoading"
+                          element-loading-background="rgba(255, 255, 255, .5)"
+                          element-loading-text="加载中，请稍后..."
+                          element-loading-spinner="el-icon-loading"
+                          @@row-click="rowFindItemClick"
+                          @@row-dblclick="rowFindItemDoubleClick">
+                    <el-table-column prop="ProductID" label="@Resource.ProductID" width="170"></el-table-column>
+                    <el-table-column prop="ProductCdesc" label="@Resource.ProductCdesc" width="250" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="ProductEdesc" label="@Resource.ProductEdesc" width="250" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="Type" label="@Resource.CodeType" width="110">成品</el-table-column>
+                </el-table>
+            </template>
+            <!--分頁全功能-->
+            <div class="block">
+                <el-pagination align="center"
+                               background
+                               @@size-change="handleSizeChange"
+                               @@current-change="handleCurrentChange"
+                               :current-page="tablePage.currentPage"
+                               :page-sizes="[10, 20, 30, 40]"
+                               :page-size="tablePage.pageSize"
+                               layout="total, sizes, prev, pager, next, jumper"
+                               :total="tablePage.totalResult">
+                </el-pagination>
+            </div> 
+        </el-dialog>
+    </template><!--end 查找貨品編碼-->
     
-    </div>
-</div>
+    <template>
+        <!--el-tabs v-model="activeName" type="border-card" @@tab-click="handleClick" :height="autoHeight"-->
+        <!--第一頁-->
+        <!--el-tab-pane label="Resource.sales_order_master" name="first" size="mini" -->
+        <el-form :model="formHeadData" ref="formHead" label-width="100px" size="mini" :rules="rulesHead">
+            <el-row>
+                <el-col :span="6" style="width:20%">
+                    <el-form-item prop="OcID" label="@Resource.OcID">
+                        <el-input v-model="formHeadData.OcID" style="width:65%" readonly ref="ocId"></el-input>
+                        <el-input v-model="formHeadData.Ver" style="width:20%" readonly></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <el-form-item prop="OrderDate" label="@Resource.OrderDate">
+                        <el-date-picker v-model="formHeadData.OrderDate" type="date" style="width:100%" :readonly="isReadonly" ref="OrderDate" @@change="dateChange('OrderDate')">
+                        </el-date-picker>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <el-form-item prop="OrderType" label="@Resource.OrderType"><el-input v-model="formHeadData.OrderType" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--接單日期-->
+                    <el-form-item prop="ReceivedDate" label="@Resource.ReceivedDate">
+                        <el-date-picker v-model="formHeadData.ReceivedDate" type="date" style="width:100%" :readonly="isReadonly" ref="ReceivedDate" @@change="dateChange('ReceivedDate')"></el-date-picker>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="6" style="width:20%">
+                    <!--區域-->
+                    <el-form-item prop="Area" label="@Resource.Area">
+                        @*<el-input v-model="formHeadData.Area"></el-input>*@
+                        <el-select v-model="formHeadData.Area" @@change="onAreaChange" :disabled="isDisableArea">
+                            <el-option v-for="item in arrZone" :key="item.ID" :label="item.Name" :value="item.ID" />
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--洋行編號-->
+                    <el-form-item prop="ForeignFirm" label="@Resource.ForeignFirm">
+                        @*<el-input v-model="formHeadData.ForeignFirm"></el-input>*@
+                        <el-select v-model="formHeadData.ForeignFirm" :disabled="isDisable">                           
+                            <el-option v-for="item in arrForeignFirm" :key="item.ID" :label="item.ID" :value="item.ID"/>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                
+                <el-col :span="6" style="width:20%">
+                    <!--客戶編號-->
+                    <el-form-item prop="CustomerID" label="@Resource.CustomerID"><el-input v-model="formHeadData.CustomerID" @@blur="onCustomerIDBlur" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--客戶名稱(中文)-->
+                    <el-form-item prop="CustomerCdesc" label="@Resource.CustomerCdesc"> <el-input v-model="formHeadData.CustomerCdesc" :disabled="isDisable2"></el-input> </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="6" style="width:20%">
+                    <!--客戶名稱(英文)-->
+                    <el-form-item prop="CustomerEdesc" label="@Resource.CustomerEdesc"><el-input v-model="formHeadData.CustomerEdesc" :disabled="isDisable2"></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--營業員-->
+                    <el-form-item prop="SallerID" label="@Resource.SallerID">                        
+                        <el-select v-model="formHeadData.SallerID" :disabled="isDisable">
+                            <el-option v-for="item in arrSallerID" :key="item.ID" :label="item.Name" :value="item.ID" />   
+                        </el-select>                        
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--季度-->
+                    <el-form-item prop="Season" label="@Resource.Season">                        
+                        <el-select v-model="formHeadData.Season" :disabled="isDisable">
+                            <el-option v-for="item in arrSeason" :key="item.ID" :label="item.ID" :value="item.ID" />
+                        </el-select>   
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--聯繫人-->
+                    <el-form-item prop="Contacts" label="@Resource.Contacts"> <el-input v-model="formHeadData.Contacts" :readonly="isReadonly"></el-input> </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="6" style="width:20%">
+                    <!--聯繫人電話-->
+                    <el-form-item prop="ContactsTel" label="@Resource.ContactsTel"><el-input v-model="formHeadData.ContactsTel" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--傳真-->
+                    <el-form-item prop="ContactsFax" label="@Resource.ContactsFax"><el-input v-model="formHeadData.ContactsFax" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--郵件-->
+                    <el-form-item prop="ContactsEmail" label="@Resource.ContactsEmail"><el-input v-model="formHeadData.ContactsEmail" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--跟單員-->
+                    <el-form-item prop="Merchandisers" label="@Resource.Merchandisers">
+                        <el-select v-model="formHeadData.Merchandisers" :disabled="isDisable">
+                            <el-option v-for="item in arrMerchandisers" :key="item.ID" :label="item.Name" :value="item.ID" />
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="6" style="width:20%">
+                    <!--跟單員電話-->
+                    <el-form-item prop="MerchandisersTel" label="@Resource.MerchandisersTel"><el-input v-model="formHeadData.MerchandisersTel" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--跟單員郵件-->
+                    <el-form-item prop="MerchandisersEmail" label="@Resource.MerchandisersEmail"><el-input v-model="formHeadData.MerchandisersEmail" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--貨幣代號-->
+                    <el-form-item prop="CurrencyID" label="@Resource.CurrencyID">
+                        @*<el-input v-model="formHeadData.CurrencyID" style="width:50%"></el-input>*@
+                        <el-select v-model="formHeadData.CurrencyID" @@change="onCurrencyIDChange" :disabled="isDisable">
+                            <el-option v-for="item in arrMoney" :key="item.ID" :label="item.Name" :value="item.ID"/>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <el-form-item prop="CurrencyRate" label="@Resource.CurrencyRate"><el-input v-model="formHeadData.CurrencyRate" readonly></el-input></el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="6" style="width:20%">
+                    <!--裝貨港口-->
+                    <el-form-item prop="DeliveredPort" label="@Resource.DeliveredPort">              
+                        <el-select v-model="formHeadData.DeliveredPort" :disabled="isDisable">
+                            <el-option v-for="item in arrDeliveredPort" :key="item.ID" :label="item.Name" :value="item.ID" />
+                        </el-select> 
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--目的港口-->
+                    <el-form-item prop="DestinationPort" label="@Resource.DestinationPort">                       
+                        <el-select v-model="formHeadData.DestinationPort" :disabled="isDisable">
+                            <el-option v-for="item in arrDeliveredPort" :key="item.ID" :label="item.Name" :value="item.ID" />
+                        </el-select> 
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--客戶PO-->
+                    <el-form-item prop="PoNo" label="@Resource.PoNo">
+                        <el-input v-model.trim="formHeadData.PoNo" @@blur="onToUpperCaseBlur($event,'PoNo',1)" :readonly="isReadonly"></el-input>
+                    </el-form-item>
+                    
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--付款方式-->
+                    <el-form-item prop="PaymentType" label="@Resource.PaymentType">                       
+                        <el-select v-model="formHeadData.PaymentType" :disabled="isDisable">
+                            <el-option v-for="item in arrPaymentType" :key="item.ID" :label="item.Name" :value="item.ID" />
+                        </el-select> 
+                    </el-form-item>
+                </el-col>                
+            </el-row>
+            <el-row>
+                <el-col :span="6" style="width:20%">
+                    <!--價格條件-->
+                    <el-form-item prop="PriceType" label="@Resource.PriceType">                       
+                        <el-select v-model="formHeadData.PriceType" :disabled="isDisable">
+                            <el-option v-for="item in arrPriceType" :key="item.ID" :label="item.Name":value="item.ID"/>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--裝運方式-->
+                    <el-form-item prop="Transport" label="@Resource.Transport">
+                        <el-select v-model="formHeadData.Transport" :disabled="isDisable">
+                            <el-option v-for="item in arrTransport" :key="item.ID" :label="item.Name" :value="item.ID" />
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--折扣率%-->
+                    <el-form-item prop="DiscountRate" label="@Resource.DiscountRate">
+                        <el-input v-model="formHeadData.DiscountRate" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" @@blur="onDiscountRateBlur" :readonly="isReadonly"></el-input>
+                        @*@@change="checkDiscountRate"*@                        
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--折扣額-->
+                    <el-form-item prop="Discount" label="@Resource.Discount"><el-input v-model="formHeadData.Discount" readonly></el-input></el-form-item>
+                </el-col>                
+            </el-row>
+            <el-row>
+                <el-col :span="6" style="width:20%">
+                    <!--稅款編號-->
+                    <el-form-item prop="TaxNo" label="@Resource.TaxNo"><el-input v-model="formHeadData.TaxNo" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--稅款金額-->
+                    <el-form-item prop="Tax" label="@Resource.Tax"><el-input v-model="formHeadData.Tax" readonly></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--貨品金額-->
+                    <el-form-item prop="ProductAmount" label="@Resource.ProductAmount"><el-input v-model="formHeadData.ProductAmount" readonly></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--總金額-->
+                    <el-form-item prop="TotalAmount" label="@Resource.TotalAmount"><el-input v-model="formHeadData.TotalAmount" readonly></el-input></el-form-item>
+                </el-col>               
+            </el-row>
+            <el-row>
+                <el-col :span="6" style="width:20%">
+                    <!--銀行賬號-->
+                    <el-form-item prop="BankAccount" label="@Resource.BankAccount">      
+                        <el-select v-model="formHeadData.BankAccount" :disabled="isDisable">
+                            <el-option v-for="item in arrBankAccount" :key="item.ID" :label="item.Name" :value="item.ID" />
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12" style="width:40%">
+                    <!--備注-->
+                    <el-form-item prop="Remark" label="@Resource.Remark"><el-input v-model="formHeadData.Remark" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>                
+                <el-col :span="6" style="width:20%">
+                    <!--狀態-->
+                    <el-form-item prop="State" label="@Resource.State">                        
+                        <el-select v-model="formHeadData.State" :disabled="isDisable2">
+                            <el-option v-for="item in arrState" :key="item.ID" :label="item.Name" :value="item.ID" />
+                        </el-select>
+                    </el-form-item> 
+                </el-col>                
+                            
+            </el-row>
+            <el-row>
+                <el-col :span="6" style="width:20%">
+                    <!--建檔人-->
+                    <el-form-item prop="CreateBy" label="@Resource.CreateBy"><el-input v-model="formHeadData.CreateBy" readonly></el-input></el-form-item>
+                </el-col>   
+                <el-col :span="6" style="width:20%">
+                    <!--建檔日期-->
+                    <el-form-item prop="CreateAt" label="@Resource.CreateAt"><el-input v-model="formHeadData.CreateAt" readonly></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--更改人-->
+                    <el-form-item prop="UpdateBy" label="@Resource.UpdateBy"><el-input v-model="formHeadData.UpdateBy" readonly></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--更改日期-->
+                    <el-form-item prop="UpdateAt" label="@Resource.UpdateAt"><el-input v-model="formHeadData.UpdateAt" readonly></el-input></el-form-item>
+                </el-col>
+                @*<el-col ::span="6" style="width:20%">
+                        <el-form-item prop="ActionType" label="隱藏字段"><el-input v-model="formHeadData.ActionType"></el-input></el-form-item>
+                    </el-col>*@
+            </el-row>
+
+            <div class="div-right">
+                <p>
+                    <!--img id="ArtImage" class="plan-img" src="~/Images/photo.png" /-->
+                    @*<img src="this.ArtImageUrl" alt="..." class="img-plan">*@
+                </p>
+            </div>
+        </el-form>
+
+        <!--/el-tab-pane-->
+        <!--第二頁-->
+        <!--el-tab-pane label="@Resource.sales_order_details" name="second"-->
+        <!--公共彈窗 開始-->
+        <template v-if="isRenderEditWindow">            
+            <el-dialog :title="titleMap[dialogStatus]"
+                        :visible.sync="showDialog"
+                        :close-on-click-modal="false"
+                        width="100%" 
+                        :show-close="false">
+                <el-form :model="formDetailData" ref="formDetail" :rules="rulesItem" label-width="110px" size="mini">
+                    <el-row>                        
+                        <!--0-->
+                        <el-col :span="6" style="width:23%">                        
+                            <el-form-item label="@Resource.Seq" prop="Seq"> <el-input v-model="formDetailData.Seq" :disabled="isDisable2"></el-input></el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:21%">                       
+                            <el-form-item label="@Resource.OcID" prop="OcID" v-if="false"> <el-input v-model="formDetailData.OcID"></el-input></el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:20%">                       
+                            <el-form-item label="@Resource.Ver" prop="Ver" v-if="false"> <el-input v-model="formDetailData.Ver"></el-input></el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <!--1-->
+                        <el-col :span="6" style="width:23%">
+                            <!--制單類型-->
+                            <el-form-item label="@Resource.MoType" prop="MoType">                            
+                                <el-select v-model="formDetailData.MoType" @@change="onMoTypeChange" :disabled="isDisableMo">
+                                    <el-option v-for="item in arrMoType" :key="item.ID" :label="item.Name" :value="item.ID"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:21%">
+                            <el-form-item label="做貨部門" prop="MoType">
+                                <el-select v-model="formDetailData.MoDept" @@change="onMoDeptChange" :disabled="isDisableMo">
+                                    <el-option v-for="item in arrMoDept" :key="item.ID" :label="item.Name" :value="item.ID"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:20%">
+                            <el-form-item label="組別" prop="MoGroup">                            
+                                <el-select v-model="formDetailData.MoGroup" @@change="onMoGroupChange" :disabled="isDisableMo">
+                                    <el-option v-for="item in arrMoGroup" :key="item.ID" :label="item.Name" :value="item.ID"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:35%">
+                            <el-form-item label="@Resource.ProductMo" prop="ProductMo">
+                                <el-input v-model="formDetailData.ProductMo" style="width:50%" readonly></el-input>
+                                <el-input v-model="formDetailData.ProductMoVer" style="width:28%" :disabled="isDisable2"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <!--2-->
+                        <el-col :span="6" style="width:23%">
+                            <!--產品編號-->
+                            <el-form-item label="@Resource.ProductID" prop="ProductID">
+                                <el-input v-model="formDetailData.ProductID" 
+                                            :readonly="isReadonly" 
+                                            type="text" maxlength="14"
+                                            onkeyup="this.value = this.value.toUpperCase()" >
+                                    <el-button slot="append" icon="el-icon-search" @@click="openFindItem" v-if="isItemSave"></el-button>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12" style="width:41%">
+                            <!--產品描述-->
+                            <el-form-item label="@Resource.ProductCdesc" prop="ProductCdesc"><el-input v-model="formDetailData.ProductCdesc" :readonly="isReadonly"></el-input></el-form-item>
+                        </el-col>
+                        <!--取色辦-->
+                        <el-col :span="6" style="width:30%">
+                            <el-form-item label="@Resource.GetColorSample" prop="GetColorSample"><el-input v-model="formDetailData.GetColorSample" :readonly="isReadonly"></el-input> </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <!--3-->
+                        <el-col :span="6" style="width:23%">
+                            <!--款號-->
+                            <el-form-item label="@Resource.StyleNo" prop="StyleNo"> 
+                                @*<el-input v-model="formDetailData.StyleNo" onkeyup="value=value.toUpperCase()":readonly="isReadonly"></el-input>*@ 
+                                <el-input v-model="formDetailData.StyleNo" @@blur="onToUpperCaseBlur($event,'StyleNo',2)" :readonly="isReadonly"></el-input> 
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:21%">
+                            <!--牌子編號-->
+                            <el-form-item label="@Resource.BrandID" prop="BrandID">
+                                <el-input v-model="formDetailData.BrandID" @@blur="onToUpperCaseBlur($event,'BrandID',2)" :readonly="isReadonly"></el-input> 
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:20%">
+                            <!--客戶產品編號-->
+                            <el-form-item label="@Resource.CustProductID" prop="CustProductID"> 
+                                <el-input v-model="formDetailData.CustProductID" @@blur="onToUpperCaseBlur($event,'CustProductID',2)" :readonly="isReadonly"></el-input> 
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:30%">
+                            <!--客戶產品描述-->
+                            <el-form-item label="@Resource.CustProductName" prop="CustProductName"> <el-input v-model="formDetailData.CustProductName" :readonly="isReadonly"></el-input> </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <!--4-->
+                        <el-col :span="6" style="width:23%">
+                            <!--客戶顏色編號-->
+                            <el-form-item label="@Resource.CustColorID" prop="CustColorID"> 
+                                <el-input v-model="formDetailData.CustColorID" @@blur="onToUpperCaseBlur($event,'CustColorID',2)" :readonly="isReadonly"></el-input> 
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:21%">
+                            <!--客戶顏色名稱-->
+                            <el-form-item label="@Resource.CustColorName" prop="CustColorName"> <el-input v-model="formDetailData.CustColorName" :readonly="isReadonly"></el-input> </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:20%">
+                            <!--客戶PO/NO-->
+                            <el-form-item label="@Resource.ContractID" prop="ContractID">
+                                <el-input v-model="formDetailData.ContractID" @@blur="onToUpperCaseBlur($event,'ContractID',2)" :readonly="isReadonly"></el-input> 
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:30%">
+                            <!--客戶Size-->
+                            <el-form-item label="@Resource.CustSize" prop="CustSize">
+                                <el-input v-model="formDetailData.CustSize" @@blur="onToUpperCaseBlur($event,'CustSize',2)" :readonly="isReadonly"></el-input> 
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <!--5-->
+                        <el-col :span="6" style="width:23%">
+                            <!--訂單數量-->
+                            <el-form-item label="@Resource.OrderQty" prop="OrderQty">
+                                <el-input v-model.number="formDetailData.OrderQty" onkeyup="value=value.replace(/[^\d]/g,'')" @@blur="onOrderQtyBlur" :readonly="isReadonly"></el-input>      
+                                @*<el-input v-model.number="formDetailData.OrderQty" @@keyup.native="proving" @@blur="onOrderQtyBlur" readonly="isReadonly"></el-input>*@                          
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:21%">
+                            <!--訂單單位-->
+                            <el-form-item label="@Resource.OrderUnit" prop="OrderUnit">
+                                <el-select v-model="formDetailData.OrderUnit" @@change="onOrderUnit" :disabled="isDisable">
+                                    <el-option v-for="item in arrUnit" :key="item.ID" :label="item.Name" :value="item.ID"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:20%">
+                            <!--單價-->
+                            <el-form-item label="@Resource.Price" prop="Price">
+                                <el-input v-model="formDetailData.Price" @@change="checkPrice" @@blur="onPriceBlur" :readonly="isReadonly"></el-input> 
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:30%">
+                            <!--單價單位-->
+                            <el-form-item label="@Resource.PriceUnit" prop="PriceUnit">                           
+                                <el-select v-model="formDetailData.PriceUnit" @@change="onPriceUnit" :disabled="isDisable">
+                                    <el-option v-for="item in arrUnit" :key="item.ID" :label="item.Name" :value="item.ID"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <!--6-->                   
+                        <el-col :span="6" style="width:23%">
+                            <!--折扣率-->
+                            <el-form-item label="@Resource.DiscountRate" prop="RateDiscount">
+                                <el-input v-model="formDetailData.RateDiscount" onkeyup="value=value.replace(/[^\d]/g,'')" @@blur="onRateDiscountBlur" :readonly="isReadonly"></el-input>                            
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:21%">
+                            <!--折扣額-->
+                            <el-form-item label="@Resource.Discount" prop="AmountDiscount">                            
+                                <el-input v-model="formDetailData.AmountDiscount" :disabled="isDisable2"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:20%">
+                            <!--總金額-->
+                            <el-form-item label="@Resource.ProductAmount" prop="AmountProduct"><el-input v-model="formDetailData.AmountProduct" :disabled="isDisable2"></el-input></el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:30%">
+                            <!--是否免費-->
+                            <el-form-item prop="IsFree"><el-checkbox v-model="formDetailData.IsFree" @@change="onIsFreeChange" :disabled="isReadonly">@Resource.IsFree</el-checkbox></el-form-item>                        
+                        </el-col>              
+                    </el-row>
+                    <el-row>
+                        <!--7-->
+                        <el-col :span="6" style="width:23%">
+                            <!--預計完成日期-->
+                            <el-form-item label="@Resource.PlanCompleteDate" prop="PlanCompleteDate">                            
+                                <el-date-picker v-model="formDetailData.PlanCompleteDate" type="date" style="width:100%" ref="PlanCompleteDate" @@change="dateChange('PlanCompleteDate')" :readonly="isReadonly"></el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:21%">
+                            <!--交貨日期-->
+                            <el-form-item label="@Resource.ArriveDate" prop="ArriveDate">                            
+                                <el-date-picker v-model="formDetailData.ArriveDate" type="date" style="width:100%" ref="ArriveDate" @@change="dateChange('ArriveDate')" :readonly="isReadonly"></el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:20%">
+                            <!--交客日期-->
+                            <el-form-item label="@Resource.FactoryShipOutDate" prop="FactoryShipOutDate">
+                                <el-date-picker v-model="formDetailData.FactoryShipOutDate" type="date" style="width:100%" ref="FactoryShipOutDate" @@change="dateChange('FactoryShipOutDate')" :readonly="isReadonly"></el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:30%">
+                            <!--是否列印-->
+                            <el-form-item prop="IsPrint"><el-checkbox v-model="formDetailData.IsPrint" :disabled="isReadonly">@Resource.IsPrint</el-checkbox></el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <!--8-->
+                        <el-col :span="12" style="width:44%">
+                            <!--OC備註-->
+                            <el-form-item label="@Resource.OcRemark" prop="OcRemark"><el-input v-model="formDetailData.OcRemark" :readonly="isReadonly"></el-input> </el-form-item>
+                        </el-col>
+                        <el-col :span="12" style="width:50%">
+                            <!--生產備註-->
+                            <el-form-item label="@Resource.ProductRemark" prop="ProductRemark"><el-input v-model="formDetailData.ProductRemark" :readonly="isReadonly"></el-input> </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>                   
+                        <el-col :span="12" style="width:44%">
+                            <!--電鍍備註-->
+                            <el-form-item label="@Resource.PlateRemark" prop="PlateRemark"><el-input v-model="formDetailData.PlateRemark" :readonly="isReadonly"></el-input> </el-form-item>
+                        </el-col>
+                        <el-col :span="12" style="width:50%">
+                            <!--發票備註-->
+                            <el-form-item label="@Resource.InvoiceRemark" prop="InvoiceRemark"><el-input v-model="formDetailData.InvoiceRemark" :readonly="isReadonly"></el-input> </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12" style="width:44%">
+                            <!--備註-->
+                            <el-form-item label="@Resource.Remark" prop="Remarks"><el-input v-model="formDetailData.Remarks" :readonly="isReadonly"></el-input> </el-form-item>
+                        </el-col>
+                        <el-col :span="6" style="width:20%">
+                            <!--頁數狀態-->
+                            <el-form-item label="@Resource.MoState" prop="MoState">                            
+                                <el-select v-model="formDetailData.MoState" :disabled="isDisable2">
+                                    <el-option v-for="item in arrState" :key="item.ID" :label="item.Name" :value="item.ID"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        @*<el-col :span="6" style="width:30%">                        
+                            <el-form-item label="ArtWork" prop="CustSize">
+                                <el-input v-model="formDetailData.ArtImage" :readonly="isReadonly"></el-input>
+                            </el-form-item>
+                        </el-col>*@
+                    </el-row>
+                </el-form>
+                <el-divider></el-divider>
+                <div style="text-align: center">
+                    <span slot="footer" class="dialog-footer">
+                        <el-button type="primary" @@click="moveUp()" size="small" icon="el-icon-caret-left" v-if="isUpDown" plain>前</el-button>
+                        <el-button type="primary" @@click="moveDown()" size="small" icon="el-icon-caret-right" v-if="isUpDown" plain>后</el-button>
+                        <el-button type="success" @@click="saveItem()" size="small" icon="el-icon-check" v-if="isItemSave" plain>@Resource.btn_save</el-button>
+                        <el-button type="warning" @@click="closeDialog('formDetail')" size="small" icon="el-icon-close" plain>@Resource.btn_exit</el-button>
+                    </span>
+                </div>                
+
+            </el-dialog>
+        </template><!--公共彈窗結束-->
+
+        <!--表格-->
+        <template>
+            <el-table :data="tableData"
+                @*height="200"*@
+                @*<!--设置表头的背景色,字体颜色,行高-->*@
+                :header-cell-style="{background:'#f5f7fa',color:'#606266',height:'25px',padding:'2px'}"
+                :row-style="{height:'18px'}"
+                :cell-style="{padding:'0px'}"
+                border
+                highlight-current-row
+                stripe
+                style="font-size: 12px;width: 100%"                
+                @*:default-sort="{prop:'RoleID',order:'descending'}"*@
+                @*隱藏表頭的第二行*@
+                @*:header-cell-style="handerMethod"*@
+                v-loading="isLoading"
+                element-loading-background="rgba(255, 255, 255, .5)"
+                element-loading-text="加载中，请稍后..."
+                element-loading-spinner="el-icon-loading"
+                @@row-click="rowDetailsClick"                     
+                :row-class-name="tableRowClassName"
+                ref="elTable">
+                <el-table-column prop="OcID" label="@Resource.OcID" width="50" v-if="false"></el-table-column>
+                <el-table-column prop="Ver" label="@Resource.Ver" width="50" v-if="false"></el-table-column>
+                <el-table-column prop="Seq" label="@Resource.Seq" width="50" v-if="true"></el-table-column>                
+                <el-table-column prop="MoType" label="@Resource.MoType" width="70" v-if="false"></el-table-column>
+                <el-table-column prop="MoDept" label="做貨部門" width="70" v-if="false"></el-table-column>
+                <el-table-column prop="MoGroup" label="組別" width="50" v-if="false"></el-table-column>
+                <el-table-column prop="MoState" label="@Resource.State" width="60">
+                    <template slot-scope="scope">                       
+                        <span>{{formatStatus(scope.row.MoState)}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="ProductMo" label="@Resource.ProductMo" width="100"></el-table-column>
+                <el-table-column prop="ProductMoVer" label="@Resource.Ver" width="50"></el-table-column>
+                <el-table-column prop="ProductID" label="@Resource.ProductID" width="140"></el-table-column>
+                <el-table-column prop="ProductCdesc" label="@Resource.ProductCdesc" width="150" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="BrandID" label="@Resource.BrandID" width="80"></el-table-column>
+                <el-table-column prop="StyleNo" label="@Resource.StyleNo" width="80" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="CustProductID" label="@Resource.CustProductID" width="100" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="CustColorID" label="@Resource.CustColorID" width="100" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="ContractID" label="@Resource.ContractID" width="100" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="OrderQty" label="@Resource.OrderQty" width="80"></el-table-column>
+                <el-table-column prop="OrderUnit" label="@Resource.OrderUnit" width="80"></el-table-column>
+                <el-table-column prop="Price" label="@Resource.Price" width="90"></el-table-column>
+                <el-table-column prop="PriceUnit" label="@Resource.PriceUnit" width="80"></el-table-column>
+                <el-table-column prop="RateDiscount" label="@Resource.DiscountRate" width="80"></el-table-column>
+                <el-table-column prop="AmountDiscount" label="@Resource.Discount" width="80"></el-table-column>
+                <el-table-column prop="AmountProduct" label="@Resource.ProductAmount" width="80"></el-table-column>
+
+                <el-table-column prop="GetColorSample" label="@Resource.GetColorSample" width="80"></el-table-column>
+                <el-table-column prop="CustProductName" label="@Resource.CustProductName" width="100"></el-table-column>                
+                <el-table-column prop="CustColorName" label="@Resource.CustColorName" width="100"></el-table-column>                
+                <el-table-column prop="CustSize" label="@Resource.CustSize" width="80"></el-table-column>                
+                <el-table-column prop="PlanCompleteDate" label="@Resource.PlanCompleteDate" width="100"></el-table-column>
+                <el-table-column prop="ArriveDate" label="@Resource.ArriveDate" width="100"></el-table-column>
+                <el-table-column prop="FactoryShipOutDate" label="@Resource.FactoryShipOutDate" width="100"></el-table-column>
+                <el-table-column prop="Remarks" label="@Resource.Remark" width="120" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="OcRemark" label="@Resource.OcRemark" width="120" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="ProductRemark" label="@Resource.ProductRemark" width="120" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="PlateRemark" label="@Resource.PlateRemark" width="120" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="InvoiceRemark" label="@Resource.InvoiceRemark" width="120" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="ArtImage" label="ArtWork" width="120" v-if="false"></el-table-column>
+                <el-table-column prop="IsFree" label="@Resource.IsFree" align="center" width="80">
+                    <template slot-scope="scope">
+                        <el-checkbox :checked="scope.row.IsFree == 1" disabled />                        
+                    </template>
+                </el-table-column>
+                <el-table-column prop="IsPrint" label="@Resource.IsPrint" align="center" width="80">
+                    <template slot-scope="scope">
+                        <el-checkbox :checked="scope.row.IsPrint == 1" disabled />
+                    </template>
+                </el-table-column>
+
+                <el-table-column width="50" align="center" fixed="right">
+                    <template slot-scope="scope">
+                        <el-button type="text" @@click="browseItem(scope.$index,scope.row)" size="mini">瀏覽</el-button>
+                    </template>
+                </el-table-column>
+                <el-table-column width="50" label="操作" align="center" fixed="right">
+                    <template slot-scope="scope">
+                        <el-button type="text" @@click="editItem(scope.$index,scope.row)" size="mini">編輯</el-button>
+                    </template>
+                </el-table-column>
+                <el-table-column width="50" fixed="right">
+                    <template slot-scope="scope">
+                        <el-button type="text" @@click="deleteItem(scope.$index,scope.row)" size="mini"><span style="color: red">刪除</span></el-button>
+                    </template>
+                </el-table-column>
+
+                @*<el-table-column label="操作" width="150" align="center" fixed="right">
+                <el-table-column width="50" align="center">
+                    <template slot-scope="scope">
+                        <el-button type="text" @@click="browseItem(scope.$index,scope.row)" size="mini">瀏覽</el-button>
+                    </template>
+                </el-table-column>
+                <el-table-column width="50" align="center">
+                    <template slot-scope="scope">
+                        <el-button type="text" @@click="editItem(scope.$index,scope.row)" size="mini">編輯</el-button>
+                    </template>
+                </el-table-column>
+                <el-table-column width="50">
+                    <template slot-scope="scope">
+                        <el-button type="text" @@click="deleteItem(scope.$index,scope.row)" size="mini"><span style="color: red">刪除</span></el-button>
+                    </template>
+                </el-table-column>
+                </el-table-column>*@
+            </el-table>
+
+            <!--分頁全功能-->
+            @*<div class="block">
+                    <el-pagination align="center"
+                                   background
+                                   @@size-change="handleSizeChange"
+                                   @@current-change="handleCurrentChange"
+                                   current-page="tablePage.currentPage"
+                                   page-sizes="[10, 20, 30, 40]"
+                                   page-size="tablePage.pageSize"
+                                   layout="total, sizes, prev, pager, next, jumper"
+                                   total="tablePage.totalResult">
+                    </el-pagination>
+                </div>*@
+        </template>
+        <!--/el-tab-pane-->
+        <!--/-el-tabs-->
+
+        <el-divider></el-divider>
+        
+        <!--BOM-->
+        <template>
+            <el-table :data="tableDataBom"
+                      :header-cell-style="{background:'#f5f7fa',color:'#606266',height:'25px',padding:'2px'}"
+                      :row-style="{height:'18px'}"
+                      :cell-style="{padding:'0px'}"
+                      border
+                      highlight-current-row
+                      stripe
+                      style="font-size: 12px;width: 100%"
+                      :default-sort="{prop:'PrimaryKey',order:'descending'}"
+                      v-loading="isLoading"
+                      element-loading-background="rgba(255, 255, 255, .5)"
+                      element-loading-text="加载中，请稍后..."
+                      element-loading-spinner="el-icon-loading">
+                <el-table-column prop="Seq" label="Seq" width="50" v-if="false"></el-table-column>
+                <el-table-column prop="UpperSeq" label="UpperSeq" width="50" v-if="false"></el-table-column>
+                <el-table-column prop="PrimaryKey" label="@Resource.PrimaryKey" width="50">
+                    <template slot-scope="scope">
+                        <el-checkbox :checked="scope.row.PrimaryKey == 1" disabled />
+                    </template>
+                </el-table-column>
+                <el-table-column prop="ProductID" label="@Resource.ProductID" width="170"></el-table-column>
+                <el-table-column prop="ProductCdesc" label="@Resource.ProductCdesc" width="250" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="Dosage" label="@Resource.Dosage" width="80"></el-table-column>
+                <el-table-column prop="UnitCode" label="@Resource.UnitCode" width="80"></el-table-column>
+                <el-table-column prop="Remark" label="@Resource.Remark" width="150" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="DoColor" label="@Resource.DoColor" width="120"></el-table-column>
+                <el-table-column prop="ActualToHKQty" label="@Resource.ActualToHKQty" width="100"></el-table-column>
+                <el-table-column prop="ActualToHKDate" label="@Resource.ActualToHKDate" width="120"></el-table-column>
+            </el-table>
+        </template>
+        
+    </template>
+
+
+</div> 
 
 
 @section PageSpecificJavascriptIncludes{
-    <script src="~/Content/js/SalesOrder.js?v=20210416000005"></script>
-    @*<script src="~/Content/js/SalesOrder.js"></script>*@
-    <script src="~/Content/js/BaseData.js?v=20210423000004"></script>   
+    <script src="~/Content/js/SalesOrder.js?v=20210416000016"></script>
+    <script src="~/Content/js/common.js"></script>
+    <script src="~/Content/js/BaseData.js?v=20211025000024"></script>
 
-    <script type="text/javascript">
-        //设置全局变量,供其他JS代碼使用
-        /**
-        使用方法：
-        设置单个全局变量：
-        setValue('name','pine');
-        设置了1个全局变量：name；值为'pine'
-        设置多个全局变量：參數為Json數據格式
-        */
-        setValue({
-            msg_system_prompt: '@Resource.msg_system_prompt',
-            msg_condition_is_empty: '@Resource.msg_condition_is_empty',
-            msg_data_query: '@Resource.msg_data_query',
-            msg_details_info: '@Resource.msg_details_info',
-            msg_loading_data: '@Resource.msg_loading_data',
-            msg_master_data_is_empty: '@Resource.msg_master_data_is_empty',
-            msg_no_data: '@Resource.msg_no_data',
-            msg_only_select_one: '@Resource.msg_only_select_one',
-            msg_saved_master_success: '@Resource.msg_saved_master_success',
-            msg_saved_success: '@Resource.msg_saved_success',
-            msg_search_condition: '@Resource.msg_search_condition'
-        })
-
-        $(function () {
-
-            SearchOcDetails();
-            InitSearch();//查询
-
-            //$("btnNew").click(NewDocument);
-
-            $("#btnEdit").click(function () {
-                EditMaster("@Resource.sales_order_master");
-            });
-
-            $("#btnItem").click(function () {
-                findItem(null);
-            });
-
-            $("#btnImport").click(function () {
-                //openWin('/Sales/SalesOrder/ImportOrder', '@Resource.btn_import', 850, 560, null);
-                openWin('ImportOrder', '@Resource.btn_import', 850, 560, null);
-            });
-
-            $("#btnPrint").click(function () {
-                //url: "AddList?ID=" + $("#ID").val() + "&Ver=" + $("#Ver").val()//请求后台Action 并传多个参数的写法
-                var url= "Print?ID=" + $("#OcID").val() ;
-                showMessageDialog(url,'@Resource.btn_print',1024,768,true);
-            });
-
-            //設置只讀背景色為灰色
-            setReadonlyBackground();
-
-            //更改區域時生成單據ID
-            $('#Area').combobox({
-                onHidePanel: function () {
-                    var tmp = $("#Area").combobox("getValue");
-                    if (tmp) {
-                        if ($("#ActionType_H").val() == "NEW") {
-                            getMaxOcID(tmp);
-                        }
-                    }
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                activeName: 'first',
+                autoHeight: {
+                    height: '800px'
+                },
+                isEditModeHead:false,
+                showDialog:false,
+                showDialogSearch:false,
+                showDialogFindItem:false,
+                isItemSave:true,
+                isUpDown:false,
+                isLoading:false,
+                isDisable:true,
+                isDisable2:true,
+                isDisableArea:true,
+                isDisableMo:true,
+                isReadonly:true,
+                isCancelItem:false,
+                canAddItem:false,
+                isRenderSearchWindow:false,//是否一開始就渲染窗體
+                isRenderFindItem:false,
+                isRenderEditWindow:false,
+                //labelPosition: 'right',
+                title:'查找',
+                ArtImageUrl:'',
+                searchFormData: {OcID:'',OrderDate:'',ReceivedDate:'',ForeignFirm:'',Area:'',CustomerID:'',SallerID:'',Season:'',ContractID:'',BrandID:'',ProductMo:'',ProductID:''},//查詢條件數據
+                searchDataSelect:{OcID:'',Ver:'0'},                              
+                formHeadData: {
+                    OcID:'',Ver:0,OrderDate:'',CustomerID:'',CustomerCdesc:'',CustomerEdesc:'',CustomerAddress:'',SendAddress:'',CountryID:'',OrderType:'',ReceivedDate:'',
+                    ForeignFirm:'',Area:'',SallerID:'',Season:'',Contacts:'',ContactsTel:'',ContactsFax:'',ContactsEmail:'',Merchandisers:'',MerchandisersTel:'',MerchandisersEmail:'',
+                    CurrencyID:'',CurrencyRate:'',DeliveredPort:'',DestinationPort:'',PoNo:'',PaymentType:'',PriceType:'',Transport:'',DiscountRate:'',Discount:'',TaxNo:'',Tax:'',
+                    ProductAmount:'',TotalAmount:'',BankAccount:'',State:'0',Remark:'',ShipMark:'',CreateBy:'',CreateAt:'',UpdateBy:'',UpdateAt:'',CustomerAddress:'',SendAddress:'',CountryID:''
+                },
+                tempHeadData:{},//用于新增/修改前備份當主檔的值
+                tempTableData:[],//用于新增/修改前備份當明細表格的值
+                tempDetailData:{},//新增,修改前備份當前行的值
+                formDetailData:{},//新增,修改,瀏覽共用
+                tableDataSearch: [],
+                tableData: [],
+                tableDataBom:[],  
+                tableTempList: [],//臨時數組
+                curRow:{},
+                curRowIndex:-1,
+                //定義分頁參數
+                tablePage: {
+                    currentPage: 1,
+                    pageSize: 10,//每頁的數據條數
+                    totalResult: 100
+                },
+                //新增和编辑弹框显示不同标题
+                dialogStatus: "",
+                titleMap: {
+                    byAdd:"@Resource.btn_additem",
+                    byEdit: "@Resource.btn_edititem",
+                    byBrowse:"@Resource.btn_browse"
+                },
+                //初始化下拉列表框
+                arrForeignFirm:[],
+                arrZone:[],
+                arrSallerID:[],
+                arrSeason:[],
+                arrMerchandisers:[],
+                arrMoney:[],
+                arrDeliveredPort:[],
+                arrPaymentType:[],
+                arrPriceType:[],
+                arrTransport:[],
+                arrBankAccount:[],
+                arrState:[],
+                arrMoType:[],
+                arrMoDept:[],
+                arrMoGroup:[],
+                arrUnit:[],
+                findItem:{ProductID:'',type:3},               
+                tableDataFindItem:[],
+                FindItemCurrentRow:{ProductID:'',ProductDesc:''},
+                deleteItemAmount:0.00,
+                cancelItemAmount:0.00,
+                //主表有效性檢查
+                rulesHead: {
+                    OcID:{ required: true, message: 'Oc編號不可為空!', trigger: 'change' },
+                    Ver:{ required: true, message: '版本不可為空!', trigger: 'change' },  
+                    OrderDate:{ required: true, message: '訂單日期不可為空!', trigger: 'change' },
+                    Area:{ required: true, message: '區域不可為空!', trigger: 'change' },  
+                    CustomerID:{ required: true, message: '客戶編號不可為空!', trigger: 'change' },                   
+                    ForeignFirm:{ required: true, message: '洋行編號不可為空!', trigger: 'change' },                    
+                    SallerID:{ required: true, message: '營業員編號不可為空!', trigger: 'change' },                    
+                    Contacts:{ required: true, message: '聯系人不可為空!', trigger: 'change' },
+                    Merchandisers:{ required: true, message: '跟單員不可為空!', trigger: 'change' }, 
+                    CurrencyID:{ required: true, message: '貨幣不可為空!', trigger: 'change' },
+                    PoNo:{ required: true, message: 'PoNo.不可為空!', trigger: 'change' }, 
+                    PriceType:{ required: true, message: '價格條件不可為空!!', trigger: 'change' }                                                     
+                },
+                //明細有效性檢查
+                rulesItem: {
+                    OcID:{ required: true, message: 'Oc編號不可為空!', trigger: 'change' },                   
+                    MoType:{ required: true, message: '制單類型不可為空!', trigger: 'change' },  
+                    MoDept:{ required: true, message: '做貨部門不可為空!', trigger: 'change' },
+                    MoGroup:{ required: true, message: '組別不可為空!', trigger: 'change' },
+                    ProductMo:{ required: true, message: '頁數不可為空!', trigger: 'change' },  
+                    ProductID:{ required: true, message: '產品編號不可為空!', trigger: 'change' },  
+                    ProductCdesc:{ required: true, message: '產品描述不可為空!', trigger: 'change' }, 
+                    OrderQty:{ required: true, message: '訂單數量必須大于0!', trigger: 'change',type:'number' }, 
+                    OrderUnit:{ required: true, message: '訂單單位不可為空!', trigger: 'change' }, 
+                    Price:{ required: true, message: '單價必須大于0!', trigger: 'change' },
+                    PriceUnit:{ required: true, message: '單價單位不可為空!!', trigger: 'change' }, 
+                    PlanCompleteDate:{ required: true, message: '預計完成日期不可為空!', trigger: 'change' },
+                    ArriveDate:{ required: true, message: '交貨日期不可為空!', trigger: 'change' },
+                    FactoryShipOutDate:{ required: true, message: '交客日期不可為空!', trigger: 'change' }                    
+                    //AuthorityID: [
+                    //  { required: true, message: '请选择角色所擁有的菜單!', trigger: 'change',type:'number' }
+                    //  //,{ min: 20001, max: 99999, message: '20001至99999的自然數', trigger: 'change',type:'number' }
+                    //]                      
                 }
-            });
-
-            //根據當前貨幣取匯率
-            $('#CurrencyID').combobox({
-                onHidePanel: function () {
-                    getCurrencyRate();
-                }
-            });
-
-            //生成頁數
-            $("#MoType,#MoDept,#MoGroup").combobox({
-                onHidePanel: function () {
-                    if ($("#ActionType_D").val() == "NEW") {
-                        getMoSerialNo();
+            },
+            computed : {
+                //TODO              
+            },
+            created: function () {
+                this.InIt();
+            },
+            watch : { 
+                //TODO                
+            },
+            methods: {
+                InIt(){
+                    //洋行編號  
+                    this.arrForeignFirm = BaseData.getBaseInfoByName('bs_customer');                    
+                    //區域
+                    this.arrZone = BaseData.getBaseInfo('bs_zone'); 
+                    //營業員
+                    this.arrSallerID = BaseData.getBaseInfo('bs_sales');                    
+                    //季度
+                    this.arrSeason = BaseData.getBaseInfoByName('bs_season');                    
+                    //跟單員
+                    this.arrMerchandisers = BaseData.getBaseInfo('bs_personnel');                    
+                    //貨幣
+                    this.arrMoney = BaseData.getBaseInfo('bs_money');                    
+                    //裝貨港口/目的港口
+                    this.arrDeliveredPort = BaseData.getBaseInfoByName('bs_port');                    
+                    //附款方式
+                    this.arrPaymentType = BaseData.getBaseInfo('bs_payment');                    
+                    //價格條件
+                    this.arrPriceType = BaseData.getBaseInfoByName('bs_payment_condition');
+                    //運輸方式
+                    this.arrTransport = BaseData.getBaseInfo('bs_shipping_mode');
+                    //銀行賬號
+                    this.arrBankAccount = BaseData.getBaseInfoByName('bs_company_accounts');
+                    //狀態
+                    this.arrState = BaseData.getBaseInfo('sy_bill_state');
+                    //制單種類
+                    this.arrMoType = BaseData.getBaseInfo('bs_type_1');
+                    //做貨部門
+                    this.arrMoDept = BaseData.getBaseInfo('bs_type_2');
+                    //組別
+                    this.arrMoGroup = BaseData.getBaseInfo('bs_type_3');
+                    //數量單位/單價單位
+                    this.arrUnit = BaseData.getBaseInfoByName('bs_unit');
+                },                
+                checkPrice(){
+                    var price = this.formDetailData.Price;
+                    var price = '' + (price===''?0.00:price);                    
+                    price = price 
+                        .replace(/[^\d.]/g, '') // 清除“数字”和“.”以外的字符 
+                        .replace(/\.{2,}/g, '.') // 只保留第一个. 清除多余的 
+                        .replace(/^\./g, '') //保证第一个为数字而不是. 
+                        .replace('.', '$#$') 
+                        .replace(/\./g, '') 
+                        .replace('$#$', '.') 
+                        .replace(/^(\-)*(\d+)\.(\d\d\d).*$/, '$1$2.$3'); //只能输入三位小数 
+                    if (price.indexOf('.') < 0 && price != '') { 
+                        //以上已经过滤,此处控制的是如果没有小数点,首位不能为类似于 01、02的金额 
+                        price = parseFloat(price); 
                     }
-                }
-            });
-
-            //初始化下拉列表框
-            initBaseInfo('bs_zone', '#Area'); //區域
-            initBaseInfoByName('bs_season', '#Season'); //季度
-            initBaseInfo('bs_sales', '#SallerID'); //營業員
-            initBaseInfo('bs_money', '#CurrencyID'); //貨幣
-            initBaseInfo('bs_personnel', '#Merchandisers');//跟單員
-            initBaseInfoByName('bs_customer', '#ForeignFirm'); //洋行 以名稱存儲
-            initBaseInfoByName('bs_port', '#DeliveredPort'); //發貨港口 以名稱存儲
-            initBaseInfoByName('bs_port', '#DestinationPort'); //目的港口 以名稱存儲
-            initBaseInfo('bs_payment', '#PaymentType'); //附款方式 以代號存儲
-            initBaseInfoByName('bs_payment_condition', '#PriceType'); //價格條件 以名稱存儲
-            initBaseInfoByName('bs_company_accounts', '#BankAccount'); //銀行賬號
-            initBaseInfo('bs_shipping_mode', '#Transport')//裝運方式
-            initBaseInfo('bs_tax_kind', '#TaxNo');//裝運方式
-            initBaseInfo('sy_bill_state', '#State');//狀態
-            initBaseInfoByName('bs_unit', '#OrderUnit'); //數量單位
-            initBaseInfoByName('bs_unit', '#PriceUnit');//單價單位
-            initBaseInfoByName('bs_type_1', '#MoType');//制單種類
-            initBaseInfoByName('bs_type_2', '#MoDept');//做貨部門
-            initBaseInfoByName('bs_type_3', '#MoGroup');//組別
-            initBaseInfo('bs_type_zd', '#GetColorSample');//取色辦
-            initBaseInfo('sy_bill_state', '#MoState');//MO狀態
-
-            //客戶編號綁定失去焦點事件
-            $("input", $("#CustomerID").next("span")).blur(function () {
-                getCustomerInfo();
-            });
-
-            //貨品編號綁定失去焦點事件,查出貨品描述
-            $("input", $("#ProductID").next("span")).blur(function () {
-                getProductID();
-            });
-
-            //設置字體大小
-            //setFontSize(); //2021-03-12暫時取消
-
-            //更改的是datagrid中的数据
-            $('.datagrid-cell').css('font-size', '9px');
-            //datagrid中的列名称
-            $('.datagrid-header .datagrid-cell span ').css('font-size', '9px');
-            //标题
-            $('.panel-title').css('font-size', '12px');
-            //分页工具栏
-            $('.datagrid-pager').css('display', 'none');
-            //$('.easyui-combobox').css('font-size', '9px');
-
-            //var path = "http://自己的地址";
-            //$("#pictrue_name").attr("src", path + obj.Photo1);
-            //$('details_master').prop('readonly', true);
-
-            disableMaster(true);
-            disableDetails(true);
-            setEditMasterButtonSatus(false);//btnEdit disable
-            setEditDetailButtonSatus(false);////btnEditItem disable
-            //setSalesBomButtonSatus(false);////btnEditItem disable
-
-            $("#ArriveDate").datebox({
-                onSelect: function () {
-                    var strDate = $(this).datebox('getValue');
-                    strDate = dateAdd(dateParse(strDate), 3);
-                    $("#FactoryShipOutDate").textbox("setValue", strDate);
-                    $(this).textbox('textbox').css("font-size", "9px")//需在此單獨設置字體才有效,尚未找到解決辦法
-                }
-            });
-
-
-            //綁定訂單數量對象失去焦點事件
-            $("input", $("#OrderQty,#Price,#RateDiscount").next("span")).blur(function () {
-                countItemAmount("#OrderQty", "#OrderUnit", "#Price", "#PriceUnit", "#RateDiscount");
-            });
-            //綁定對象失去焦點事件
-            $("#OrderUnit,#PriceUnit").combobox({
-                onHidePanel: function () {
-                    countItemAmount();
-                }
-            });
-
-            $("#IsFree").on("click", function () {
-                countItemAmount();
-            });
-
-
-            AddNew();
-
-            //********
-            //$('#tbSalesBom').datagrid({
-            //    onDblClickCell: function (index, field, value) {
-            //        debugger;
-            //        $(this).datagrid('beginEdit', index);
-            //        var ed = $(this).datagrid('getEditor', {index:index,field:field});
-            //        $(ed.target).focus();
-            //    }})
-
-            ////********
-        });
-
-
-
-        var selSetList = [];
-        function clickchk(cb) {
-            //if (cb.checked) {
-            //    if ($.inArray(cb.value, selSetList) < 0) {
-            //        selSetList.push(cb.value);
-            //    }
-            //} else {
-            //    selSetList.splice($.inArray(cb.value, selSetList), 1);
-            //}
-        }
-
-
-        //主表新增按鈕,新增一張新的單據
-        function AddNew() {
-            if ($('#OcID').val().length > 0) {
-                //存在數據,提示是否清除全部頁面,建立新OC?
-                $.messager.confirm("@Resource.msg_system_prompt", "@Resource.msg_confirm_to_do", function (r) {
-                    if (r) {
-                        initAddData();
+                    this.formDetailData.Price = price;
+                },   
+                handleClick(tab, event) {
+                    //console.log(tab, event);
+                },
+                showSearch() {
+                    //顯示查詢窗體
+                    this.isRenderSearchWindow = true;//渲染查詢窗口
+                    this.showDialogSearch = true;
+                    //重置表单数据
+                    //this.$refs["searchForm"].resetFields();
+                    this.tableDataSearch = [];
+                },
+                clearSearch(){
+                    //重置
+                    this.$refs["searchForm"].resetFields();
+                },
+                //不保存直接关闭弹框
+                closeDialog(flag) {
+                    //備用參數flag,此處傳入對應彈窗名稱引用
+                    this.$refs[flag].resetFields();
+                    if(flag =='searchForm'){
+                        this.showDialogSearch = false;
                     }
-                });
-            } else {
-                initAddData();
-            }
-        }
-
-        function initAddData() {
-            setActivePage("@Resource.sales_order_master");//設置主檔TAB為當前活動的
-            //$("#tabPages").tabs("select", "@Resource.sales_order_master");//切換至主檔頁面
-            $("#addFormHead").form("clear");//清空主表頁面
-            $("#addFormDetails").form("clear");//清空明細表頁面表頭
-            $("#tbDetails").datagrid('loadData', { total: 0, rows: [] }); //清空明細表格
-            $("#tbSalesBOM").datagrid('loadData', { total: 0, rows: [] }); //清空BOM
-
-            $("#CreateBy").textbox("setValue", "@ViewBag.user_id");
-            $("#Ver").textbox("setValue", "0");//普通控件賦值
-            $('#State').combobox('setValue', '0');//下拉列表框賦值
-            $('#MoState').combobox('setValue', '0');//下拉列表框賦值
-            $("#IsPrint").attr("checked", true)//选中
-
-            $("#ActionType_H").val("NEW");//隱藏提交某一值給一下表單或后臺
-            $("#ActionType_D").val("NEW");//隱藏提交某一值給一下表單或后臺
-
-            disableArea(false);//區域可編輯
-            disableGenMoAndOcID(false);//GenMO可用
-            disableMaster(false);//主表可編輯
-            disableDetails(false);//明細可編輯
-
-            disableSate();//OC,MO狀態禁用
-            getDBDateTime();//獲取服務器系統時間并設落單日期
-        }
-
-
-        /**
-        *查詢明細
-        */
-        function SearchOcDetails() {
-            var queryData = {
-                OcID: $("#OcID").val(),
-                Ver: $("#Ver").val()
-            };
-            //将值传递给initTable
-            initList(queryData);
-            //initListBom(queryData);//****2021-01-18
-            setEditDetailButtonSatus(false);//init ocdetails toolbar set btnEditItem enable
-            //setSalesBomButtonSatus(false);// init bom toolbar set btnEditItemBom enable
-            if ($("#Seq").val() == "") {
-                //原本空白的,則調用清空函數,使頁面可編輯
-                clearDetailHead();
-                disableSalesBomToolbar(true);//OC明細新增狀態時禁用SalesBom工具欄按鈕
-            }
-            return false;
-        }
-
-        //測試
-        function show() {
-            $("#showWindowWidth").val(window.innerWidth);
-            $("#showTableWidth").val($("#details_master").width());
-            $("#showTdWidth").val(parseInt($(".td-input").css("width")));
-            $("#showDivWidth").val(parseInt($(".td-div-input").css("width")));
-            $("#showProductMo").val(parseInt($("#mdInput").css("width")));
-            $("#showProductMoH").val(parseInt($("#btnCustCode").css("height")));
-        }
-
-        var index_oc_details_flag = undefined;
-        //OC明細表查詢
-        function initList(queryData) {
-            var current_edit_rowindex = undefined;
-            initListBom({ OcID: "", Ver: "", UpperSeq: "" })//初始化SalesBOM
-            $('#tbDetails').datagrid({
-                url: 'List',//指向后台的Action来获取当前用户的信息的Json格式的数据
-                iconCls: 'icon-view',//图标
-                //fit: true,//自动适屏功能
-                //fit: true,
-                width: function () { return document.body.clientWidth * 2 },//自动宽度
-                nowrap: true,
-                //collapsible: true,
-                autoRowHeight: false,//自动行高
-                striped: true,
-                collapsible: true,
-                sortName: 'Seq',//排序列名为ID
-                sortOrder: 'asc',//排序为将序
-                remoteSort: false,
-                idField: 'Seq',//主键值
-                rownumbers: true,//显示行号
-                multiSort: true,//启用排序 sortable: true //启用排序列
-                pagination: true,
-                loadMsg: 'Loading... ',
-                emptyMsg: '<span>@Resource.msg_no_data</span>',//無記錄
-                pageSize: 10,
-                pageList: [10, 20, 30, 40, 50],
-                queryParams: queryData, //搜索条件查询
-                columns: [[
-               { field: "Seq", title: "@Resource.Seq", width: 30, hidden: 'true' }, //序號
-               {
-                   field: "MoState", title: "@Resource.MoState", width: 60, align: 'center',
-                   formatter: function (val, row) {
-                       if (val == 0) {
-                           //未批準
-                           return "@Resource.Unconfirmed";
-                       }
-                       if (val == 1) {
-                           //已批準
-                           return "@Resource.Confirmed";
-                       }
-                       if (val == 2) {
-                           //注銷
-                           return "@Resource.Logout";
-                       }
-                   }
-               }, //狀態
-               { field: "ProductMo", title: "@Resource.ProductMo", width: 90 },//頁數
-               { field: "ProductID", title: "@Resource.ProductID", width: 160 },//產品編號
-               { field: "ProductCdesc", title: "@Resource.ProductCdesc", width: 200 },//產品描述
-               { field: "OrderQty", title: "@Resource.OrderQty", width: 80, align: 'right' },//訂單數量
-               { field: "OrderUnit", title: "@Resource.OrderUnit", width: 60, align: 'center' },//數量單位
-               { field: "Price", title: "@Resource.Price", width: 80, align: 'right' },//單價
-               { field: "PriceUnit", title: "@Resource.PriceUnit", width: 60, align: 'center' },//單價單位
-               { field: "RateDiscount", title: "@Resource.DiscountRate", width: 80, align: 'right' },//折扣率
-               { field: "AmountDiscount", title: "@Resource.Discount", width: 70, align: 'right' },//折扣額
-               { field: "AmountProduct", title: "@Resource.ProductAmount", width: 80, align: 'right' },//貨品金額
-               { field: "BrandID", title: "@Resource.BrandID", width: 60 }, //牌子編號
-               { field: "CustProductID", title: "@Resource.CustProductID", width: 100 } //客戶產品編號
-                ]],
-                toolbar: [{
-                    id: 'btnAddItem',
-                    text: "@Resource.btn_additem",//新增(項目新增),
-                    iconCls: 'icon-add',
-                    handler: function () {
-                        if ($("#ActionType_D").val() == "NEW") {
-                            //保存新增的記錄
-                            Save();//主表,明細表一起保存
-                        } else {
-                            //請首先按清除按鈕,清空表明細表頭信息
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.mst_clear_detail_head_data");
+                    if(flag=='formDetail'){
+                        if(this.dialogStatus==="byEdit"){
+                            //恢復修改前的值
+                            this.formDetailData = JSON.parse(JSON.stringify(this.tempDetailData));
+                            this.formHeadData = JSON.parse(JSON.stringify(this.tempHeadData));
                         }
-                        //disableArea(true);//區域禁用
+                        if(this.dialogStatus==="byAdd"){
+                            //恢復修改前的值
+                            this.formHeadData = JSON.parse(JSON.stringify(this.tempHeadData));
+                        } 
+                        this.showDialog = false;
                     }
-                }, '-', {
-                    id: 'btnBlank',
-                    text: "@Resource.btn_blank",//清除
-                    iconCls: 'icon-mini-edit',
-                    handler: function () {
-                        if ($("#ActionType_D").val() == "NEW") {
-                            //已是新增狀態,無需清空!
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_it_is_already_new_status_no_need_to_empty");
-                            return;
-                        }
-                        clearDetailHead();
-                        disableSalesBomToolbar(true);//禁用SalesBOM工具欄按鈕
+                    if(flag=='findItem'){
+                        this.showDialogFindItem = false;
                     }
-                }, '-', {
-                    id: 'btnEditItem',
-                    text: "@Resource.btn_edititem",//修改
-                    iconCls: 'icon-edit',
-                    handler: function () {
-                        var ocid = $("#OcID").val();
-                        if (ocid == "") {
-                            //主檔資料不可為空
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_master_data_is_empty");
-                            return;
-                        }
-                        if ($("#ActionType_H").val() == "NEW" || $("#ActionType_D").val() == "NEW") {
-                            //當前為新增狀態,此操作無效
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_detail_data_is_added_status");
-                            return;
-                        }
-                        if ($("#Seq").val() != "") {
-                            var rowData = $('#tbDetails').datagrid('getSelected');
-                            var index = $('#tbDetails').datagrid('getRowIndex', rowData);//獲取當前行索引
-                            current_edit_rowindex = index;
-
-                            $("#ActionType_D").val("EDIT");//設置編輯狀態
-                            disableDetails(false);//明細可編輯
-                            disableGenMoAndOcID(true);// GenMo禁用
-                            disableArea(true);//區域禁用
-                            disableSate(true);//Mo狀態禁用
-                            setEditDetailButtonSatus(true);//disable btnEditItem
-                            disableSalesBomToolbar(true);//禁用SalesBOM工具欄按鈕
-                            disableTabs("#tabPages", 2, true);//非活動Tab禁用
-                            disableSate();
-                        }
+                    this.$emit("closeDialog", flag);
+                },
+                rowSearchClick(row, event, column){
+                    //当点击任意一行时都会触发该事件
+                    this.searchDataSelect.OcID = row.OcID;
+                    this.searchDataSelect.Ver = row.Ver;                    
+                },
+                rowSearchDoubleClick(row){
+                    this.afterSelectOK();
+                },
+                afterSelectOK(){
+                    this.getDataHead();
+                    this.showDialogSearch = false;
+                },
+                rowDetailsClick(row, event, column){
+                    this.ArtImageUrl = row.ArtImage;//圖樣路徑
+                    this.curRow = row;//保存當前行
+                    this.curRowIndex = row.index ;//保存當前行索引
+                    var product_id = row.ProductID;
+                    this.getBomData(product_id);
+                },
+                searchData() {//查詢
+                    this.isLoading = true;
+                    //this.tableTempList = [];
+                    var searchParams = {
+                        OcID: this.searchFormData.OcID,
+                        CustomerID: this.searchFormData.CustomerID,
+                        OrderDate: this.searchFormData.OrderDate,
+                        ReceivedDate: this.searchFormData.ReceivedDate,
+                        ForeignFirm: this.searchFormData.ForeignFirm,
+                        Area: this.searchFormData.Area,
+                        SallerID: this.searchFormData.SallerID,
+                        Season: this.searchFormData.Season,
+                        ContractID: this.searchFormData.ContractID,
+                        BrandID: this.searchFormData.BrandID,
+                        ProductMo: this.searchFormData.ProductMo,
+                        ProductID: this.searchFormData.ProductID
                     }
-                }, '-', {
-                    id: 'btnSaveItem',
-                    text: "@Resource.btn_saveitem",//項目保存
-                    iconCls: 'icon-save',
-                    handler: function () {
-                        //檢查主表、明細表資料的完整性
-                        if (!ValidForm()) {   //***begin***
-                            return;
-                        }
-                        var strPlanCompleteDate = $("#PlanCompleteDate").datebox('getValue');
-                        var strArriveDate = $('#ArriveDate').datebox('getValue');
-                        if (strPlanCompleteDate != "" && strArriveDate != "") {
-                            if (strPlanCompleteDate > strArriveDate) {
-                                //日期錯誤,計劃完成日期不可大于交客日期
-                                $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_wrong_date: " + "@Resource.PlanCompleteDate" + "@Resource.msg_cannot_be_greater_than" + "@Resource.ArriveDate");
-                                return;
+                    axios.get("GetOcHeadReturnList", { params: searchParams }).then(
+                        (response) => {
+                            this.tableTempList = [];
+                            for (var i = 0; i < response.data.length; i++) {
+                                this.tableTempList.push(response.data[i]);
                             }
+                            //_self.goodsList.push({ goods_id:"",goods_cname:"" });
+                            //this.fillData();
+                            this.tableDataSearch = this.tableTempList;
+                            this.isLoading = false;
+                        },
+                        (response) => {
+                            alert(response.status);
                         }
+                    ).catch(function (response) {
+                        this.isLoading = false;
+                        alert(response);
+                    });
+                },
+                getDataHead() {
+                    var searchParams = {OcID:this.searchDataSelect.OcID};
+                    //查詢主表
+                    axios.get("GetOcHead", { params: searchParams }).then(
+                       (response) => {
+                           this.formHeadData = {
+                               OcID: response.data.OcID,
+                               Ver: response.data.Ver,
+                               OrderDate: response.data.OrderDate,
+                               CustomerID:response.data.CustomerID,
+                               CustomerCdesc:response.data.CustomerCdesc,
+                               CustomerEdesc:response.data.CustomerEdesc,
+                               OrderType:response.data.OrderType,
+                               ReceivedDate:response.data.ReceivedDate,
+                               ForeignFirm:response.data.ForeignFirm,
+                               Area:response.data.Area,
+                               SallerID:response.data.SallerID,
+                               Season:response.data.Season,
+                               Contacts:response.data.Contacts,
+                               ContactsTel:response.data.ContactsTel,
+                               ContactsFax:response.data.ContactsFax,
+                               ContactsEmail:response.data.ContactsEmail,
+                               Merchandisers:response.data.Merchandisers,
+                               MerchandisersTel:response.data.MerchandisersTel,
+                               MerchandisersEmail:response.data.MerchandisersEmail,
+                               CurrencyID:response.data.CurrencyID,
+                               CurrencyRate:response.data.CurrencyRate,
+                               DeliveredPort:response.data.DeliveredPort,
+                               DestinationPort:response.data.DestinationPort,
+                               PoNo:response.data.PoNo,
+                               PaymentType:response.data.PaymentType,
+                               PriceType:response.data.PriceType,
+                               Transport:response.data.Transport,
+                               DiscountRate:response.data.DiscountRate,
+                               Discount:response.data.Discount,
+                               TaxNo:response.data.TaxNo,
+                               Tax:response.data.Tax,
+                               ProductAmount:response.data.ProductAmount,
+                               TotalAmount:response.data.TotalAmount,
+                               BankAccount:response.data.BankAccount,
+                               State:response.data.State,
+                               Remark:response.data.Remark,
+                               CreateBy:response.data.CreateBy,
+                               CreateAt:response.data.CreateAt,
+                               UpdateBy:response.data.UpdateBy,
+                               UpdateAt:response.data.UpdateAt,
 
-                        var result = SaveMaster();//保存主表
-                        if (result != "OK") {
-                            return;
-                        }
-
-                        //保存更改后的明細表
-                        var postData = $("#addFormDetails").serializeArray();
-                        //Ajax异步实现加载
-                        $.ajax({
-                            url: "AddList?OcID=" + $("#OcID").val(),
-                            data: postData,
-                            //cache: false,
-                            async: true,//改为異步方式
-                            type: "post",
-                            success: function (data) {
-                                if (data == "OK") {
-                                    SearchOcDetails();//重新查詢
-                                    $("#ActionType_D").val("");
-                                    disableDetails(true);//禁止編輯明細
-                                    setEditDetailButtonSatus(false);//enable btnEditItem
-                                    disableSalesBomToolbar(false);//啟用SalesBOM工具欄按鈕
-                                    disableTabs("#tabPages", 2, false);//非活動Tab解禁
-                                    $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_saved_success");//數據保存成功!
-                                    current_edit_rowindex = undefined;
-                                }
-                                else {
-                                    $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_add_failed"); //添加失败
-                                }
+                               CustomerAddress:response.data.CustomerAddress,
+                               SendAddress:response.data.SendAddress,
+                               CountryID:response.data.CountryID
+                           }
+                       },
+                       (response) => {
+                           alert(response.status);
+                       }
+                   ).catch(function (response) {
+                       //this.isLoading = false;
+                       alert(response);
+                   });
+                   //查詢明細
+                   axios.get("List", { params: searchParams }).then(
+                        (response) => {
+                            this.tableTempList = [];
+                            for (var i = 0; i < response.data.length; i++) {
+                                this.tableTempList.push(response.data[i]);
                             }
-                        });
-                    }        //    ***end***
-                }, '-', {
-                    id: 'btnUndoItem',
-                    text: "@Resource.btn_undo",//恢復
-                    iconCls: 'icon-undo',
-                    handler: function () {
-                        SearchOcDetails();
-                        $("#ActionType_D").val("");
-                        setUndo();
-                        disableDetails(true);//禁止編輯明細
-                        setEditDetailButtonSatus(false);//enable btnEditItem
-                        disableSalesBomToolbar(false);//啟用SalesBOM工具欄按鈕
-                        disableTabs("#tabPages", 2, false);//非活動Tab解禁
-                        current_edit_rowindex = undefined;
-                    }
-                }, '-', {
-                    id: 'btnDelete',
-                    text: "@Resource.btn_del",//删除
-                    iconCls: 'icon-remove',
-                    handler: function () {
-                        var RowDeleteByID = $('#tbDetails').datagrid("getSelections");
-                        if (RowDeleteByID.length == 1) {
-                            //doto
-                            //*如已存在計劃單(BillCode)禁止刪除,此功能待完善
-                            if (checkPlan($("#OcID").val(), RowDeleteByID[0].Ver, RowDeleteByID[0].Seq) == false) {
-                                //
-                                $.messager.confirm("@Resource.msg_system_prompt", "@Resource.msg_is_del_current_record", function (deleteClient) {
-                                    if (deleteClient) {
-                                        //$.post("/SalesOrder/DeleteList?r=" + Math.random(), { OcID: $("#OcID").val(), Ver: $("#Ver").val(), Seq: RowDeleteByID[0].Seq }, function (data) {
-                                        $.post("DeleteList", { OcID: $("#OcID").val(), Ver: $("#Ver").val(), Seq: RowDeleteByID[0].Seq }, function (data) {
-                                            if (data == "OK") {
-                                                $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_del_success");//刪除成功
-                                                //这里要将上次删除的Id清空，否则下次再删除的时候会报错
-                                                RowDeleteByID.length = "";
-                                                //$("#tbDetails").datagrid('reload') //重新刷新整个页面
-                                                SearchOcHead();//總金額有改動動,需重查出來
-                                                SearchOcDetails();
-                                            }
-                                            else {
-                                                $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_del_failed");//删除失败
-                                            }
-                                        });
+                            //_self.goodsList.push({ goods_id:"",goods_cname:"" });
+                            //this.fillData();
+                            this.tableData = this.tableTempList;
+                            this.isLoading = false;
+                        },
+                        (response) => {
+                            alert(response.status);
+                        }
+                    ).catch(function (response) {
+                        this.isLoading = false;
+                        alert(response);
+                    });
+                },//end of getDataHead()
+
+                //查詢BOM
+                getBomData(product_id) {
+                    this.isLoading = true;
+                    axios.get("SalesBomList", { params: {ProductID: product_id} }).then(
+                        (response) => {
+                            this.tableTempList = [];
+                            for (var i = 0; i < response.data.length; i++) {
+                                this.tableTempList.push(response.data[i]);
+                            }
+                            this.tableDataBom = this.tableTempList;
+                            this.isLoading = false;
+                        },
+                        (response) => {
+                            alert(response.status);
+                        }
+                    ).catch(function (response) {
+                        this.isLoading = false;
+                        alert(response);
+                    });
+                },
+                setToolBarStatus(blFlag){
+                    this.isEditModeHead=blFlag;
+                    this.isReadonly=!(blFlag);
+                    this.isDisable=!(blFlag);                 
+                },
+                addHead() {
+                    this.backupData();//編輯前首先暫存主檔/明細臨時數據
+                    //清空數據
+                    this.$refs["formHead"].resetFields();//清空所有對象值
+                    this.tableData=[];//清空明細表格數據
+                    this.tableDataBom=[];//清空BOM表格數據
+                    //新增后初始化相關對象的初始值
+                    //var now=new Date();
+                    //var d=now.setDate(now.getDate());
+                    var d = new Date();//生成日期對象:Fri Oct 15 2021 17:51:20 GMT+0800
+                    d = comm.getDate(d,0);//轉成年月日字符串格式
+                    this.$set(this.formHeadData, "OrderDate",d);
+                    this.$set(this.formHeadData, "ReceivedDate",d);
+                    this.$set(this.formHeadData, "Ver",0);
+                    this.setToolBarStatus(true);
+                    this.isDisableArea=false;
+                    this.canAddItem = false;
+                },
+                editHead (){
+                    //編輯主表
+                    this.backupData();//編輯前首先暫存主檔/明細臨時數據
+                    this.setToolBarStatus(true);                    
+                    this.canAddItem=false;
+                    this.isDisableArea=true;
+                },
+                saveHead (){
+                    //儲存主表                   
+                    this.$refs["formHead"].validate((valid) => {
+                        if (valid) {                 
+                            var updateParams = JSON.parse(JSON.stringify(this.formHeadData));
+                            //console.log(updateParams);
+                            axios.post("AddHead", updateParams ).then(
+                                (response) => {                                                                     
+                                    this.$message({
+                                        message: "操作成功！",
+                                        type: "success",
+                                    }); 
+                                    this.setToolBarStatus(false);
+                                    this.canAddItem=true;
+                                    this.isDisableArea=true;
+                                 }
+                            ).catch(function (response) {                                
+                                this.$message({
+                                    message: "保存主檔資料失敗!"+response,
+                                    type: "error",
+                                });  
+                            });                                                       
+                         } else {
+                            this.$message({
+                                message: "請檢查主檔資料的完整性",
+                                type: "warning",
+                            });  
+                            return;
+                         }
+                    });                                    
+                },
+                resetHead (){
+                    //恢復
+                    this.setToolBarStatus(false);
+                    this.formHeadData = JSON.parse(JSON.stringify(this.tempHeadData));//還原主表
+                    this.tableData = JSON.parse(JSON.stringify(this.tempTableData));//還原明細
+                    this.canAddItem = true;
+                    this.isDisableArea = true;
+                },
+                backupData (){
+                    this.tempHeadData = JSON.parse(JSON.stringify(this.formHeadData));//暫存主檔臨時數據
+                    this.tempTableData = JSON.parse(JSON.stringify(this.tableData));//暫存明細臨時數據
+                },
+                cancelHead (){
+                    //TODO注銷
+                },
+                importHead (){
+                    //TODO 
+                },
+                printPI (){
+                    //TODO
+                    var url= "Print?ID=" + this.formHeadData.OcID;
+                    showMessageDialog(url,'@Resource.btn_print',1024,768,true);
+                },
+                //新增明細
+                addItem() {
+                    if(this.formHeadData.OcID ==""){
+                        this.$message({
+                            showClose: true,
+                            message: '主檔資料不可為空,當前操作無效!',
+                            type: 'warning'
+                        });   
+                        return;
+                    };
+                    this.checkHeadDataStatus();    
+                    if(this.canAddItem == false){
+                        return;
+                    } 
+                    this.dialogStatus = "byAdd";
+                    this.tempHeadData = JSON.parse(JSON.stringify(this.formHeadData));//暫存臨時數據
+                    // this.$refs["formDetail"].resetFields();//清空所有對象值
+                    this.formDetailData = { OcID:this.formHeadData.OcID,Ver:this.formHeadData.Ver,Seq:'',MoType:'',MoDept:'',MoGroup:'',ProductMo:'',ProductMoVer:'0',ProductID:'',ProductCdesc:'',GetColorSample:'',
+                        StyleNo:'',BrandID:'',CustProductID:'',CustProductName:'',CustColorID:'',CustColorName:'',ContractID:'',CustSize:'',OrderQty:0,OrderUnit:'PCS',Price:0.00,PriceUnit:'PCS',
+                        RateDiscount:0,AmountDiscount:0.00, AmountProduct:0.00,IsFree:'0',PlanCompleteDate:'',ArriveDate:'',FactoryShipOutDate:'',IsPrint:'1',Remarks:'',OcRemark:'',ProductRemark:'',
+                        PlateRemark:'',InvoiceRemark:'',MoState:'0',ArtImage:'',ActionType:'NEW'
+                    };
+                    var objDate = new Date();//生成日期對象:Fri Oct 15 2021 17:51:20 GMT+0800 
+                    this.$set(this.formDetailData, "ArriveDate",comm.getDate(objDate,0));
+                    this.$set(this.formDetailData, "FactoryShipOutDate",comm.getDate(objDate,3));
+                    this.setCheckBoxStatus();
+                    this.setFormEditButtonStatus(true);
+                    this.isDisableMo = false;   
+                },
+                //編輯明細
+                editItem(index,row) {
+                    this.checkHeadDataStatus();
+                    if(this.canAddItem == false){
+                        return;
+                    }  
+                    this.dialogStatus = "byEdit";
+                    this.tempHeadData = JSON.parse(JSON.stringify(this.formHeadData));//暫存臨時數據
+                    this.curRow = row;
+                    this.curRowIndex = index;                    
+                    this.formDetailData = JSON.parse(JSON.stringify(row));
+                    //Object.assign(this.formDetailData, row);
+                    this.setCheckBoxStatus();//設置CheckBox狀態
+                    this.tempDetailData = this.formDetailData;//暫存編輯前的值,以免修改后不保存直接關閉彈窗,值已改變的問題
+                    this.formDetailData.ActionType ='EDIT';
+                    this.setFormEditButtonStatus(true);                 
+                    this.isDisableMo = true;
+                },                
+                browseItem(index,row){
+                    this.checkHeadDataStatus();
+                    if(this.canAddItem == false){
+                        return;
+                    }                    
+                    this.dialogStatus ="byBrowse";
+                    this.curRow = row;
+                    this.curRowIndex = index;                    
+                    this.formDetailData = JSON.parse(JSON.stringify(row));   
+                    //Object.assign(this.formDetailData, row);
+                    this.setCheckBoxStatus();//設置CheckBox狀態
+                    this.isRenderEditWindow = true;
+                    this.showDialog = true;
+                    this.isItemSave = false;
+                    this.isUpDown = true;
+                    this.isReadonly = true;
+                    this.isDisable = true;
+                    this.isDisableMo = true;
+                },                
+                deleteItem(index,row){
+                    this.checkHeadDataStatus();
+                    if(this.canAddItem == false){
+                        return;
+                    }     
+                    //TODO預留功能
+                    //已轉生產計劃單的不允許刪除,只能注銷
+                    //
+                    this.$confirm('此操作將删除頁數:'+row.ProductMo +'的資料, 是否繼續?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        axios.post("DeleteList", {OcID: row.OcID,Ver:row.Ver,Seq:row.Seq}).then(
+                                (response) => {
+                                    this.dialogStatus = "byDeleteItem";
+                                    this.deleteItemAmount = row.AmountProduct;
+                                    this.$message({message: "刪除操作成功！",type: "success"});
+                                    if(row.IsFree =='0'){//判斷當前刪除的行是不是收費,0是收貨,1是免費
+                                        this.getTotalAmount();//重計算主檔貨品金額,主檔貨品金額中要扣除掉                        
+                                        //更新主檔總金額
+                                        this.updateHeadAmount();                                      
                                     }
-                                });
-                            } else {
-                                //已存在生產計劃,不可以刪除
-                                $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_exists_plan");
-                            }
-                        }
-                        else {
-                            //$.messager.alert("@Resource.msg_system_prompt", "每次只能删除一行，你已经选择了<font color='red' size='6'>" + RowDeleteByID.length + "</font>行");
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_only_select_one");
-                        }
-                    }
-                }, '-', {
-                    id: 'btnReload',
-                    text: "@Resource.btn_reload",//刷新
-                    iconCls: 'icon-reload',
-                    handler: function () {
-                        $("#tbDetails").datagrid("reload");
-                    }
-                }],
-                onClickRow: function (index, row) {
-                    if ($("#ActionType_D").val() == "EDIT" && current_edit_rowindex != undefined) {
-                        //編輯狀態禁止點擊行無效
-                        //$('#tbDetails').datagrid('clearSelections');
-                        $('#tbDetails').datagrid("selectRow", current_edit_rowindex);//鎖定當前編輯行
-                        //return;
-                    } else {
-                        if ($("#ActionType_Bom").val() == "") {
-                            FillOcDetails();
-                            //查詢對應的SalesBOM
-                            //2021-03-12 添加ProductID: $("ProductID").val()此參數,目的查出F0的下的產品列表
-                            initListBom({ OcID: $("#OcID").val(), Ver: $("#Ver").val(), UpperSeq: $("#Seq").val(), ProductID: $("#ProductID").val() })
-                            setSalesBomButtonSatus(false);
-                        } else {
-                            //如果SalesBom處于新增或編輯狀態時單擊OC表格無效
-                            if (index_oc_details_flag != undefined) {
-                                $('#tbDetails').datagrid("selectRow", index_oc_details_flag);
-                            } else {
-                                $('#tbDetails').datagrid('clearSelections');
-                                //return;
-                            }
-                        }
-                    }
-                }
-                //rowStyler: function (index, row) {
-                //    //if (row.listprice > 50) {
-                //    if (index == current_row_index) {
-                //        //return 'background-color:pink;color:blue;font-weight:bold;';
-                //        return 'color:blue;font-weight:bold;';
-                //    } else {
-                //        return 'color:black;font-weight:normal;';
-                //    }
-                //}
-
-            });
-        }
-
-        //SalesBOM明細表
-        function initListBom(queryData) {
-            var editRow = undefined;//當前編輯行索引
-            var current_edit_rowindex = undefined;
-            var editIndex = undefined;
-            $('#tbSalesBom').datagrid({
-                url: 'SalesBomList', //指向后台的Action来获取当前用户的信息的Json格式的数据
-                iconCls: 'icon-view',//图标
-                //fit: true,//自动适屏功能
-                //fit: true,
-                width: function () { return document.body.clientWidth * 2 },//自动宽度
-                nowrap: true,
-                //collapsible: true,
-                autoRowHeight: false,//自动行高
-                striped: true,
-                collapsible: true,
-                sortName: 'PrimaryKey',//排序列名为ID // old seq
-                sortOrder: 'Desc',//排序为将序 //old asc
-                remoteSort: false,
-                idField: 'ProductID',//主键值 //old Seq
-                rownumbers: true,//显示行号
-                multiSort: true,//启用排序 sortable: true //启用排序列
-                pagination: true,
-                loadMsg: 'Loading... ',
-                emptyMsg: '<span>@Resource.msg_no_data</span>',//無記錄
-                //pageSize: 10,
-                //pageList: [10, 20, 30, 40, 50],
-                queryParams: queryData, //搜索条件查询
-                columns: [[
-                { field: "Seq", title: "Seq", width: 30, hidden: 'true' },
-                { field: "UpperSeq", title: "UpperSeq", width: 30, hidden: 'true' },
-                {
-                    //面件
-                    field: "PrimaryKey", title: "@Resource.PrimaryKey", width: 60, align: 'center',
-                    editor: { type: 'checkbox', options: { on: 1, off: 0 } },
-                    //test pass
-                    formatter: function (value, row, index) {
-                        var str = '';
-                        if (row.PrimaryKey == '1') {
-                            str = "<input type=checkbox value='1' checked='checked' id='cbSelSet' disabled='disabled' onclick='clickchk(this)'>";
-                        }
-                        else {
-                            str = "<input type=checkbox value='0' id='cbSelSet' disabled='disabled' onclick='clickchk(this)'>";
-                        }
-                        return str;
-                    }
-                },
-                {
-                    //產品編號
-                    field: "ProductID", title: "@Resource.ProductID", width: 180,
-                    editor: {
-                        type: 'validatebox',//設定編輯格式
-                        options: { required: true }//設定編輯規則屬性
-                    }
-                },
-                {
-                    //給列添加按鈕
-                    field: 'opt', title: '', width: 50, align: 'left',//width:$(this).width()*0.1
-                    formatter: function (value, row, index) {
-                        //var btn='<input type="button" value="···" class="easyui-linkbutton" iconCls="icon-edit" plain="true" style="width:40px;height:22px;background: #D2E9FF;" onclick="findItem(' + "'" + edit_status + "'" + ',' + index + ')"/>';
-                        var btn = '<input type="button" value="···" class="easyui-linkbutton" iconCls="icon-edit" plain="true" style="width:40px;height:22px;background: #D2E9FF;" onclick="findItem(' + index + ')"/>';
-                        return btn;
-                    }
-                },
-                 { field: "ProductCdesc", title: "@Resource.ProductCdesc", width: 280, editor: { type: 'validatebox' } },//產品描述
-                 {
-                     //用量
-                     field: "Dosage", title: "@Resource.Dosage", width: 60, align: 'center',
-                     editor: {//設定其為可編輯
-                         type: 'numberbox',//只能錄入數字
-                         options: { required: true, align: 'center', min: 1, precision: 0 }
-                     }
-                 },
-                 { field: "UnitCode", title: "@Resource.UnitCode", width: 40 },//單位
-                 { field: "Remark", title: "@Resource.Remark", width: 150, editor: { type: 'validatebox' } },//備注
-                 { field: "DoColor", title: "@Resource.DoColor", width: 150 },//顏色做法
-                 { field: "ActualToHKQty", title: "@Resource.ActualToHKQty", width: 100, align: 'right' },//實際返港數量
-                 { field: "ActualToHKDate", title: "@Resource.ActualToHKDate", width: 100 },//實際返港日期
-                ]],
-                toolbar: [{
-                    id: 'btnAddItemBom',
-                    text: "@Resource.btn_additem",//新增(項目新增),
-                    iconCls: 'icon-add',
-                    handler: function () {
-                        if ($("#OcID").val() == "") {
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_master_data_is_empty");//OC資料為空,當前操作無效
-                            return;
-                        }
-                        if ($("#ActionType_D").val() == "NEW") {
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_save_oc_details_first");//請首先保存OC明細資料
-                            return;
-                        }
-                        if ($("#Seq").val() == "") {
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_select_specified_row_in_oc_detail");//OC明細資料中請首先選中指定的行
-                            return;
-                        }
-
-                        if (editRow != undefined) {
-                            $('#tbSalesBom').datagrid('endEdit', editRow);//將當前處于編輯狀態的行關閉,目的一次只可編輯一行
-                        }
-                        if (editRow == undefined) {
-                            var index = $('#tbSalesBom').datagrid('appendRow', {
-                                UpperSeq: $("Seq").val(),
-                                PrimaryKey: '0',
-                                ProductID: '',
-                                ProductCdesc: '',
-                                Dosage: 1,
-                                UnitCode: 'PCS',
-                                Remark: '',
-                                DoColor: ''
-                            }).datagrid('getRows').length - 1;
-                            index_oc_details_flag = getCurrentRowIndex('#tbDetails');//記錄oc明細的當前記錄號
-                            setProductIDblur(index);//給Datagrid某行中的某一列綁定失去焦點事件
-                            editRow = 0;
-                            current_edit_rowindex = index;//記錄當前編輯的行索引
-                            $("#CurrentRowIndex").val(index);//記錄當前編輯的行索引,以確定按鈕單擊事件是否可用
-                            $("#ActionType_Bom").val("NEW");
-                            edit_status = "NEW";
-                            setSalesBomButtonSatus(true);//disable
-                            disableOCToolbar(true);//禁用OC明細表中的工具欄按鈕
-                            disableTabs("#tabPages", 2, true);//非活動Tab禁用
-                        }
-                    }
-                }, '-', {
-                    id: 'btnEditItemBom',
-                    text: "@Resource.btn_edititem",//修改
-                    iconCls: 'icon-edit',
-                    handler: function () {
-                        var ocid = $("#OcID").val();
-                        if (ocid == "") {
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_master_data_is_empty");//請檔資料為空,當前操作無效
-                            return;
-                        }
-                        if ($("#ActionType_H").val() == "NEW" || $("#ActionType_D").val() == "NEW") {
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_master_data_is_added_status");//當前為新增狀態,此操作無效！
-                            return;
-                        }
-                        if ($("#Seq").val() != "") {
-                            //var rowdata1 = $('#tbDetails').datagrid('getSelected');
-                            //var index1 = $('#tbDetails').datagrid('getRowIndex', rowdata1);
-                            index_oc_details_flag = getCurrentRowIndex('#tbDetails');//記錄oc明細的當前記錄號
-                            //var rows = $('#tbSalesBom').datagrid('getSelections');//選中的行對象
-                            var index = getCurrentRowIndex('#tbSalesBom');
-                            //if (rows.length == 1) {
-                            if (index >= 0) {
-                                $("#ActionType_Bom").val("EDIT");//設置編號標識
-                                //var rowData = rows[0];//var row = $('#tbSalesBom').datagrid('getSelected');
-                                //var index = $('#tbSalesBom').datagrid('getRowIndex', rowData);//獲取當前行索引
-                                //var index = getCurrentRowIndex('#tbSalesBom');
-                                setProductIDblur(index);
-                                editRow = 0;
-                                current_edit_rowindex = index;
-                                $("#CurrentRowIndex").val(index);
-                                setSalesBomButtonSatus(true);//disable
-                                disableOCToolbar(true);//禁用OC明細表中的工具欄按鈕
-                                disableTabs("#tabPages", 2, true);//非活動Tab禁用
-                            } else {
-                                $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_select_one_row_before_edit");//請首先選中需要編輯的當前行
-                            }
-                        }
-                    }
-                }, '-', {
-                    id: 'btnSaveItemBom',
-                    text: "@Resource.btn_saveitem",//項目保存
-                    iconCls: 'icon-save',
-                    handler: function () {
-                        //檢查SalesBOM細表資料的完整性
-                        var rowData = $("#tbSalesBom").datagrid('getSelected');
-                        var index = $('#tbSalesBom').datagrid('getRowIndex', rowData);//獲取當前行索引
-                        var editors = $('#tbSalesBom').datagrid('getEditors', index);//獲得當前行編輯列對象(忽略非編輯列)
-                        var edPrimaryKey = editors[0];
-                        var pKey = edPrimaryKey.target[0].checked ? "1" : "0";
-                        var edProductID = editors[1];//editor[1]表示第一列這個控件,即產品編號列
-                        var edDosage = editors[3];//用量
-                        var edRemark = editors[4];
-                        if (edProductID.target.val() == "") {
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_item_code_cannot_be_empty");//貨品編碼不可為空!
-                            return;
-                        }
-                        if (edDosage.target.val() == "") {
-                            //用量不可為空
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_dosage_cannot_be_empty");
-                            return;
-                        }
-
-                        $('#tbSalesBom').datagrid('endEdit', index);//
-                        var rows = $("#tbSalesBom").datagrid('getRows');//取所有行,包括當前編輯行(新增的行)
-                        //檢查是否存在面件
-                        var count_Keys = 0;
-                        for (var i = 0; i < rows.length; i++) {
-                            if (rows[i]['PrimaryKey'] == "1") {
-                                count_Keys += 1;
-                            }
-                        }
-                        if (count_Keys == 0) {
-                            $('#tbSalesBom').datagrid('beginEdit', index);
-                            $('#tbSalesBom').datagrid('selectRow', index);
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_current_mo_needs_specify_key");//當前頁數需指定一個主件
-                            //return;//因一次只可改一行,此處暫不控制
-                        }
-                        //檢查是否存在多個面件
-                        if (count_Keys > 1) {
-                            $('#tbSalesBom').datagrid('beginEdit', index);
-                            $('#tbSalesBom').datagrid('selectRow', index);
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_an_mo_have_one_main_part");//同一頁數只能夠只有一個主件!
-                            return;
-                        }
-                        var postData = {
-                            OcID: $("#OcID").val(),
-                            Ver: $("#Ver").val(),
-                            UpperSeq: $("#Seq").val(),
-                            Seq: rowData.Seq,
-                            PrimaryKey: pKey,
-                            ProductID: edProductID.target.val(),
-                            Dosage: edDosage.target.val(),
-                            UnitCode: 'PCS',
-                            Remark: edRemark.target.val(),
-                            ActionType: $("#ActionType_Bom").val()
-                        };
-
-                        var result = SaveMaster();//保存主表
-                        if (result != "OK") {
-                            return;
-                        }
-                        //保存SalesBOM明細表
-                        $('#tbSalesBom').datagrid('endEdit', index);
-                        result = saveSalesBom(postData);
-                        if (result == "OK") {
-                            SearchOcDetails();//重新查詢OC明細
-                            $("#ActionType_Bom").val("");
-                            editRow = undefined;
-                            current_edit_rowindex = undefined;
-                            $("#CurrentRowIndex").val(-1);
-                            setSalesBomButtonSatus(false);
-                            disableOCToolbar(false);//恢復OC明細表中的工具欄按鈕
-                            disableTabs("#tabPages", 2, false);//非活動Tab解禁
-                        }
-                    }
-                }, '-', {
-                    id: 'btnUndoItemBom',
-                    text: "@Resource.btn_undo",//恢復
-                    iconCls: 'icon-undo',
-                    handler: function () {
-                        editRow = undefined;
-                        current_edit_rowindex = undefined;
-                        $("#CurrentRowIndex").val(-1);
-                        $("#tbSalesBom").datagrid('rejectChanges');
-                        $("#ActionType_Bom").val("");
-                        setSalesBomButtonSatus(false);
-                        disableOCToolbar(false);//恢復OC明細表中的工具欄按鈕
-                        disableTabs("#tabPages", 2, false);//非活動Tab解禁
-                    }
-                }, '-', {
-                    id: 'btnDeleteItemBom',
-                    text: "@Resource.btn_del",//删除
-                    iconCls: 'icon-remove',
-                    handler: function () {
-                        var RowDeleteByID = $('#tbSalesBom').datagrid("getSelections");
-                        if (RowDeleteByID.length == 1) {
-                            //您确认删除该条記錄
-                            $.messager.confirm("@Resource.msg_system_prompt", "@Resource.msg_is_del_current_record", function (isDel) {
-                                if (isDel) {
-                                    //$.post("/SalesOrder/DeleteListSalesBom", { OcID: $("#OcID").val(), Ver: RowDeleteByID[0].Ver, UpperSeq: RowDeleteByID[0].UpperSeq, Seq: RowDeleteByID[0].Seq }, function (data) {
-                                    $.post("DeleteListSalesBom", { OcID: $("#OcID").val(), Ver: RowDeleteByID[0].Ver, UpperSeq: RowDeleteByID[0].UpperSeq, Seq: RowDeleteByID[0].Seq }, function (data) {
-                                        if (data == "OK") {
-                                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_del_success");
-                                            //这里要将上次删除的Id清空，否则下次再删除的时候会报错
-                                            RowDeleteByID.length = "";
-                                            var queryData = {
-                                                OcID: $("#OcID").val(),
-                                                Ver: $("#Ver").val(),
-                                                UpperSeq: $("#Seq").val()
-                                            };
-                                            initListBom(queryData);
-                                        }
-                                        else {
-                                            //刪除當前記錄失敗
-                                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_del_failed");
-                                        }
-                                    });
+                                    this.dialogStatus = "";//清空刪除標識
                                 }
+                            ).catch(function (response) {
+                                alert(response);
                             });
-                        }
-                        else {
-                            //$.messager.alert("提示信息", "每次只能删除一行，你已经选择了<font color='red' size='6'>" + RowDeleteByID.length + "</font>行");
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_only_select_one");
-                        }
-                    }
-                }, '-', {
-                    id: 'btnReloadItemBom',
-                    text: "@Resource.btn_reload",//刷新
-                    iconCls: 'icon-reload',
-                    handler: function () {
-                        $("#ActionType_Bom").val("");
-                        $("#tbSalesBom").datagrid("reload");
-                    }
-                }],
-                onClickRow: function (index, row) {
-                    if ($("#ActionType_Bom").val() != "" && current_edit_rowindex != undefined) {
-                        //鎖定到當前新增或編輯的行
-                        $('#tbSalesBom').datagrid('selectRow', current_edit_rowindex);
+                        this.tableData.splice(index,1);
+                    })
+                },
+                //頁數注銷
+                cancelItem(){                     
+                    if(!(this.curRow.index >= 0)){
+                        this.$message({message: "請指定要注銷的頁數！",type: "error"});
                         return;
                     }
-                }
-            });
-        }
+                    if(this.curRow.MoState =='2'){
+                        this.$message({message: "當前頁數已是注銷狀態！",type: "error"});
+                        return;
+                    }                    
+                    this.$confirm('此操作將註銷頁數:' + this.curRow.ProductMo +', 確定要進行此操作?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        axios.post("CancelItem", {OcID:this.curRow.OcID, Ver:this.curRow.Ver, Seq:this.curRow.Seq}).then(
+                                (response) => {
+                                    this.$set(this.tableData[this.curRow.index],'MoState','2');//更新表格標識
+                                    this.curRow.MoState='2';//設置當前行臨時行的注銷狀態
+                                    this.isCancelItem = true;
+                                    this.cancelItemAmount = this.curRow.AmountProduct;
+                                    this.getTotalAmount();//重計算主檔總金額
+                                    this.isCancelItem = false;
+                                    this.cancelItemAmount = 0.00;
+                                    this.updateHeadAmount(); //保存主檔總金額                                    
+                                }
+                            ).catch(function (response) {
+                                alert(response);
+                            });
+                    })
+                },
+                setFormEditButtonStatus(blFlag){
+                    this.isRenderEditWindow = true;//渲染開關
+                    this.showDialog = blFlag;
 
-        function NewDocument() {
-            //數據添加成功
-            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_add_success");
-        }
+                    this.isItemSave = blFlag;
+                    this.isUpDown = !(blFlag);
+                    this.isReadonly = !(blFlag);
+                    this.isDisable = !(blFlag);                    
+                },
+                setCheckBoxStatus(){//設置CheckBox狀態
+                    if(this.formDetailData.IsFree =='1'){
+                        this.formDetailData.IsFree = true;
+                    }else{
+                        this.formDetailData.IsFree = false;
+                    }
+                    if(this.formDetailData.IsPrint =='1'){
+                        this.formDetailData.IsPrint=true;
+                    }else{
+                        this.formDetailData.IsPrint=false;
+                    }
+                },
+                checkHeadDataStatus(){
+                    if(this.isEditModeHead == true){
+                        this.$message({
+                            showClose: true,
+                            message: '當前操作無效,請首先保存主檔資料!',
+                            type: 'warning'
+                        });                        
+                        this.canAddItem = false;
+                    }else{
+                        this.canAddItem = true;
+                    }
+                },
+                saveItem(){ //保存明細                   
+                    this.$refs["formDetail"].validate((valid) => {                       
+                        if (valid) {
+                            if(this.formDetailData.MoState =="2"){
+                                this.$message.error('頁數為注銷狀態,當前操作無效!');                                
+                                return;
+                            }
+                            if(this.formDetailData.IsFree == true) {
+                                //this.formDetailData.IsFree = '1';
+                                this.$set(this.formDetailData,'IsFree','1')
+                            }else{
+                                this.$set(this.formDetailData,'IsFree','0')
+                                //this.formDetailData.IsFree = '0';
+                            }
+                            if(this.formDetailData.IsPrint == true) {                   
+                                this.formDetailData.IsPrint = '1';
+                            }else{
+                                this.formDetailData.IsPrint='0';
+                            }
+                            var updateParams = JSON.parse(JSON.stringify(this.formDetailData));     
+                            //axios.post("AddList?OcID=" + this.formDetailData.OcID, updateParams ).then(//2021.10.21 CANCEL
+                            axios.post("AddList", updateParams ).then(
+                                    (response) => {                                        
+                                        this.showDialog = false;//關閉彈窗                                       
+                                        //this.certinfoKey = !this.certinfoKey;
+                                        //儲存主檔總金額  
+                                        this.updateHeadAmount();
+                                    }
+                            ).catch(function (response) {
+                                    alert(response);
+                                });
+                        } else {
+                            alert('請返回檢查數據的完整性!');
+                            return false;
+                        }
+                     });
+                }, 
+                //新增,修改,刪除明細時更新主檔中的貨品總金額
+                updateHeadAmount(){
+                    var updateHeadParams = JSON.parse(JSON.stringify(this.formHeadData));                                        
+                    axios.post("UpdateHeadAmount", updateHeadParams ).then(
+                        (response) => {                                                                                            
+                            this.$message({
+                                message: "操作成功！",
+                                type: "success",
+                            });                                                
+                            this.searchDataSelect.OcID = this.formHeadData.OcID;
+                            this.getDataHead();//重查刷新數據
+                        }
+                    ).catch(function (response) {                                
+                        alert(response);
+                    });
+                },
+                moveUp() {
+                    var index = this.curRowIndex;                    
+                    if(index > 0){
+                        var temp = this.tableData[index-1];
+                        this.curRowIndex = index-1;
+                        this.moveCurrentRow(temp);                                         
+                    } else {
+                        this.curRowIndex = 0;
+                        this.$message('已經是第一條記錄!');
+                    }                    
+                },
+                moveDown() {
+                    var index = this.curRowIndex;
+                    if ((index+1) === this.tableData.length){
+                        this.curRowIndex = index;
+                        this.$message('已經是最后一條記錄!');                        
+                    } else {                        
+                        var temp = this.tableData[index+1];
+                        this.curRowIndex = index+1;
+                        this.moveCurrentRow(temp);
+                    }                    
+                },
+                moveCurrentRow(objRow){
+                    //跳轉至目的行
+                    this.$refs.elTable.bodyWrapper.scrollTop = this.$refs.elTable.bodyWrapper.scrollHeight;
+                    this.$refs.elTable.setCurrentRow(objRow);
+                    //目的行轉為Json格式賦值給formDetailData變量
+                    this.formDetailData =JSON.parse(JSON.stringify(objRow));
+                    this.setCheckBoxStatus();
+                },
+                openFindItem(){
+                    this.FindItemCurrentRow.ProductID = '';
+                    this.isRenderFindItem = true;//開始渲染查找貨品編碼頁面
+                    this.showDialogFindItem = true; 
+                },
+                getFindItemData() {//查詢
+                    this.isLoading = true;             
+                    var searchParams = {
+                        ProductID: this.findItem.ProductID,
+                        type: this.findItem.type
+                        //type:3
+                    };                    
+                    axios.get("/SalesOrder/FindItemReturnList", { params: searchParams }).then(
+                        (response) => {
+                            this.tableTempList = [];
+                            for (var i = 0; i < response.data.length; i++) {
+                                this.tableTempList.push(response.data[i]);
+                            }                            
+                            this.fillData();
+                            //this.tableDataFindItem = this.tableTempList;
+                            //this.isLoading = false;
+                        },
+                        (response) => {
+                            alert(response.status);
+                        }
+                    ).catch(function (response) {
+                        this.isLoading = false;
+                        alert(response);
+                    });
+                },                
+                rowFindItemClick(row, event, column){
+                    //当点击任意一行时都会触发该事件                  
+                    this.FindItemCurrentRow.ProductID = row.ProductID;
+                    this.FindItemCurrentRow.ProductCdesc = row.ProductCdesc;
+                },
+                rowFindItemDoubleClick(){
+                    if(this.FindItemCurrentRow.ProductID !=''){                        
+                        this.formDetailData.ProductID = this.FindItemCurrentRow.ProductID;   
+                        this.formDetailData.ProductCdesc = this.FindItemCurrentRow.ProductCdesc;
+                        this.showDialogFindItem = false;
+                    }
+                },
+                handleCurrentChange: function (val) {
+                    this.tablePage.currentPage = val;
+                    this.fillData();
+                },
+                handleSizeChange(val) {
+                    this.tablePage.pageSize = val;
+                },
+                fillData: function () {
+                    this.tableDataFindItem = [];
+                    this.tablePage.totalResult = this.tableTempList.length;
+                    this.tableDataFindItem = this.tableTempList.slice((this.tablePage.currentPage - 1) * this.tablePage.pageSize, this.tablePage.currentPage * this.tablePage.pageSize);
+                    this.isLoading = false;
+                },
+                onAreaChange(){
+                    var area = this.formHeadData.Area;
+                    if(area){                        
+                        this.getMaxiId(area);
+                    }
+                },
+                onCustomerIDBlur(){
+                    if(this.isEditModeHead == false){                       
+                        return;
+                    }
+                    var customerId = this.formHeadData.CustomerID;
+                    if(customerId){
+                        axios.get("/SalesOrder/GetCustomer?strCustomerID=" + customerId).then(
+                           (response) => {                               
+                               if(response.data['Id'] !=""){
+                                   this.formHeadData.CustomerID = response.data['Id']; 
+                                   this.formHeadData.CustomerCdesc = response.data['CustomerCdesc'];
+                                   this.formHeadData.CustomerEdesc = response.data['CustomerEdesc']; 
+                                   this.formHeadData.CustomerAddress = response.data['CustomerAddress']; 
+                                   this.formHeadData.SendAddress = response.data['SendAddress']; 
+                                   this.formHeadData.CountryID = response.data['CountryID'];
+                                   this.formHeadData.Contacts = response.data['Contacts'];
+                                   this.formHeadData.ContactsTel = response.data['ContactsTel'];
+                                   this.formHeadData.ContactsFax = response.data['ContactsFax'];
+                                   this.formHeadData.ContactsEmail = response.data['ContactsEmail'];
+                                   this.formHeadData.CurrencyID = response.data['CurrencyID'];
+                                   this.formHeadData.CurrencyRate = response.data['CurrencyRate'];
+                               }else{
+                                   alert("此客戶編碼不存在!");
+                               }
+                           }
+                        );
+                    }
+                },
+                onCurrencyIDChange(){
+                    var currencyId = this.formHeadData.CurrencyID;
+                    if(currencyId){
+                        axios.get("/SalesOrder/GetCurrencyRate?strCurrencyID="+currencyId).then(
+                           (response) => {                               
+                               this.formHeadData.CurrencyRate=response.data;
+                           }
+                        );
+                    }
+                },
+                onOrderQtyBlur(){                    
+                    this.getAmountProduct();                   
+                },
+                onOrderUnit(){
+                    //change 触发事件onOrderUnit(event, item)
+                    this.getAmountProduct();
+                },                            
+                onPriceBlur(){
+                    this.getAmountProduct();
+                },
+                onPriceUnit(){                    
+                    this.getAmountProduct();
+                },
+                onRateDiscountBlur(){
+                    this.getAmountProduct();
+                },
+                onDiscountRateBlur(){
+                    if(this.isEditModeHead===false){                       
+                        return;
+                    }
+                    //主算主表總金額
+                    this.getTotalAmount();
+                },         
+                onToUpperCaseBlur(el,elName,dataType){
+                    var val=el.target.value||''
+                    val = val.toUpperCase();
+                    el.target.value=val;
+                    if(dataType==1){
+                        this.$set(this.formHeadData, elName,val);                        
+                    }else{
+                        this.$set(this.formDetailData, elName,val);
+                    }
+                },                
+                //計算明細金額
+                getAmountProduct(){
+                    if(this.dialogStatus == "byBrowse"){
+                        return;
+                    }                    
+                    //數量單位與單價單位相同直接相乘 RateDiscount,AmountDiscount
+                    var order_qty = this.formDetailData.OrderQty;
+                    order_qty = (order_qty==undefined || order_qty == "") ? 0 : order_qty;                    
+                    var price = this.formDetailData.Price;
+                    price = (price==undefined || price == "" || price<0) ? 0.00 : price;
+                    var order_unit = this.formDetailData.OrderUnit;
+                    var price_unit = this.formDetailData.PriceUnit;
+                    var rate_price = 1;
+                    var rate_order_qty = 1;
+                    var amount_product = 0.00,Total_Amount=0.00;
+                    var rate_discount = this.formDetailData.RateDiscount;
+                    rate_discount = (rate_discount==undefined || rate_discount == "" ) ? 0 : rate_discount;
+                    this.formDetailData.RateDiscount=rate_discount;                     
+                    var amount_discount=0;
+                    if(order_unit==price_unit){
+                        amount_product = parseFloat(order_qty * price).toFixed(2);
+                    }else{
+                        //轉成與單價相同單位
+                        amount_product = parseFloat((order_qty*so.getRate(order_unit)/so.getRate(price_unit)) * price).toFixed(2);
+                    }                    
+                                        
+                    if(rate_discount>0){
+                        amount_discount = parseFloat(amount_product * (rate_discount / 100)).toFixed(2);
+                        amount_product = parseFloat(amount_product-amount_discount).toFixed(2);//parseFloat(amount_product*(1-rate_discount/100)).toFixed(2);                        
+                    }else{
+                        amount_discount = 0.00;
+                        rate_discount = 0;
+                    }                    
+                    this.formDetailData.AmountDiscount = amount_discount;
+                    this.formDetailData.AmountProduct = amount_product; 
+                    //====以上為明細金額====                    
+                    
+                    //主表總金額,折扣額
+                    var Product_Amount = 0.00;
+                    var Disc_Amount = 0.00;
+                    var Disc_Rate = this.formHeadData.DiscountRate; //主表折扣率 
+                    Disc_Rate = (Disc_Rate==undefined || Disc_Rate=="") ? 0 : parseFloat(Disc_Rate);                    
+                    //加總金額,但排除當前行(seq)
+                    Product_Amount = so.getTotalAmountEdit(this.formHeadData.OcID, this.formHeadData.Ver, this.formDetailData.Seq);                    
+                    Product_Amount = parseFloat(Product_Amount).toFixed(2);
+                    
+                    //加上當前行時需考慮是否免費                    
+                    if ((this.formDetailData.IsFree == undefined) || (this.formDetailData.IsFree == false)) {
+                        //即不打勾代表收費
+                        Product_Amount = Number(Product_Amount) + Number(amount_product);//再加上當前值                       
+                    }
+                    if (Disc_Rate > 0) {
+                        Disc_Amount = parseFloat(Product_Amount * (Disc_Rate / 100)).toFixed(2);
+                        Total_Amount = Product_Amount - Disc_Amount;      
+                    } else {
+                        Disc_Amount = 0;
+                    }
+                    this.formHeadData.Discount = Disc_Amount;
+                    this.formHeadData.ProductAmount = Product_Amount;
+                    this.formHeadData.TotalAmount = Total_Amount;
+                },                
+                //更改主表匯率時計算總金額
+                getTotalAmount(){
+                    //主檔總金額,折扣額
+                    var Product_Amount=0.00;
+                    var Total_Amount=0.00;
+                    var Disc_Amount = 0;
+                    var Disc_Rate = this.formHeadData.DiscountRate;
+                    Disc_Rate = (Disc_Rate==undefined || Disc_Rate=="") ? 0 : parseFloat(Disc_Rate);
+                    //刪除明細中的頁數時,主檔總金額要扣除
+                    if(this.dialogStatus =="byDeleteItem"){
+                        this.formHeadData.ProductAmount = (this.formHeadData.ProductAmount - this.deleteItemAmount);                        
+                    }
+                    //注銷明細中的頁數時,主檔總金額要扣除
+                    if(this.isCancelItem == true){
+                        this.formHeadData.ProductAmount = (this.formHeadData.ProductAmount - this.cancelItemAmount);
+                    }
+                    Product_Amount = this.formHeadData.ProductAmount;
+                    Product_Amount = (Product_Amount==undefined || Product_Amount=="") ? 0 : parseFloat(Product_Amount).toFixed(2);
+                    if (Disc_Rate > 0) {
+                        Disc_Amount = parseFloat(Product_Amount * (Disc_Rate / 100)).toFixed(2);
+                        Total_Amount = Product_Amount - Disc_Amount;      
+                    } else {
+                        Disc_Amount = 0;
+                        Total_Amount = Product_Amount;
+                    }
+                    this.formHeadData.Discount = Disc_Amount;
+                    this.formHeadData.ProductAmount = Product_Amount;
+                    this.formHeadData.TotalAmount = Total_Amount;
+                },                
+                //取最大單據編號
+                getMaxiId(area){                   
+                    axios.get("/SalesOrder/GetMaxOcID?strArea=" + area).then(
+                       (response) => {
+                           this.formHeadData.OcID = response.data;                           
+                       }
+                    );
+                },
+                //日期轉換
+                dateChange(fieldDate){
+                    var objDate = this.$refs[fieldDate].value;//生成日期對象:Fri Oct 15 2021 17:51:20 GMT+0800  
+                    var strDate = comm.getDate(objDate,0);//轉成年月日字符串格式
+                    switch (fieldDate) {
+                        case "OrderDate": case "ReceivedDate":
+                            this.$set(this.formHeadData, fieldDate,strDate);
+                            if(fieldDate=='OrderDate'){
+                                this.$set(this.formHeadData, 'ReceivedDate',strDate);
+                            }
+                            break;
+                        case "ArriveDate": case "FactoryShipOutDate": case "PlanCompleteDate": //匹配多個值                    
+                            this.$set(this.formDetailData, fieldDate,strDate);
+                            if(fieldDate=='ArriveDate'){
+                                this.$set(this.formDetailData, "FactoryShipOutDate",comm.getDate(objDate,3));
+                            }
+                            break;
+                        case "Order_Date": case "Received_Date":
+                            if(fieldDate=='Order_Date'){
+                                this.$set(this.searchFormData, 'OrderDate',strDate);
+                            }
+                            if(fieldDate=='Received_Date'){
+                                this.$set(this.searchFormData, 'ReceivedDate',strDate);
+                            }
+                            break;
+                    }                   
+                },
+                onMoTypeChange(){                    
+                    this.getMoSerialNo();
+                },
+                onMoDeptChange(){                   
+                    this.getMoSerialNo();
+                },
+                onMoGroupChange(){                    
+                    this.getMoSerialNo();
+                },
+                getMoSerialNo(){//生成頁數
+                    var moType = this.formDetailData.MoType;  //当前combobox的值 
+                    var moDept =  this.formDetailData.MoDept;
+                    var moGroup = this.formDetailData.MoGroup;
+                    if (moType > "" && moDept > "" && moGroup > "") {
+                        var searchParams = { strMoType: moType, strMoDept: moDept, strMoGroup: moGroup };                                          
+                        axios.get("GetMoSerialNo",{ params: searchParams }).then(
+                            (response) => {
+                                this.formDetailData.ProductMo=response.data;
+                            },
+                            (response) => {
+                                alert(response.status);
+                            }
+                        ).catch(function (response) {
+                            alert(response);
+                        });
+                    }
+                },
+                onIsFreeChange(){
+                    this.getAmountProduct();//重計算主檔中的金額
+                }, 
+                // 状态过滤
+                formatStatus(val) {                    
+                    switch(val){
+                        case '0':
+                            return '未批準';
+                            break;
+                        case '1':
+                            return '已批準';
+                            break;
+                        case '2':
+                            return '已注銷';
+                            break;
+                        default:
+                            return '未知';
+                            break;  
+                    }
+                },                
+                ////隐藏表头**********
+                //handerMethod({rowIndex}){
+                //    if (rowIndex === 1) {
+                //        //这里为了是将第二列的表头隐藏，就形成了合并表头的效果
+                //        return {display: 'none'};
+                //    }
+                //},
+                //將行索引放進row
+                tableRowClassName({row, rowIndex}){
+                    row.index = rowIndex;
+                    //alert(rowIndex);
+                },
+                //******************
 
-        //初始化搜索框
-        function InitSearch() {
-            //按照条件进行查询，首先我们得到数据
-            $("#btnSerach").click(function () {
-                //得到用户输入的参数
-                SearchOcHead();
-                SearchOcDetails();
-            });
-        }
+            },//methods end
 
-        /*
-        *主表明細表單輸入有效性檢查
-        */
-        function ValidForm() {
-            var not_empty = "@Resource.msg_cannot_be_empty";
-            var active_page = "@Resource.sales_order_master";//主檔頁標題
-            var objValue = null;
-            objValue = $("#Area").combobox('getValue');
-            if (checkEmpty(objValue, "@Resource.Area" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#OcID").val();
-            if (checkEmpty(objValue, "@Resource.OcID" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#OrderDate").datebox('getValue');
-            if (checkEmpty(objValue, "@Resource.OrderDate" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#ForeignFirm").combobox('getValue');
-            if (checkEmpty(objValue, "@Resource.ForeignFirm" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#CustomerID").val();
-            if (checkEmpty(objValue, "@Resource.CustomerID" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#Contacts").val();
-            if (checkEmpty(objValue, "@Resource.Contacts" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#Merchandisers").combobox('getValue');
-            if (checkEmpty(objValue, "@Resource.Merchandisers" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#SallerID").combobox('getValue');
-            if (checkEmpty(objValue, "@Resource.SallerID" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#CurrencyID").combobox('getValue');
-            if (checkEmpty(objValue, "@Resource.CurrencyID" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#PoNo").val();
-            if (checkEmpty(objValue, "@Resource.PoNo", not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#PriceType").combobox('getValue');
-            if (checkEmpty(objValue, "@Resource.PriceType" + not_empty, active_page)) {
-                return false;
-            }
-
-            //檢查明細
-            active_page = "@Resource.sales_order_details";//明細頁標題
-            objValue = $("#ProductMo").val();
-            if (checkEmpty(objValue, "@Resource.ProductMo" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#ProductID").val();
-            if (checkEmpty(objValue, "@Resource.ProductID" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#PlanCompleteDate").datebox('getValue');
-            if (checkEmpty(objValue, "@Resource.PlanCompleteDate" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#ArriveDate").datebox('getValue');
-            if (checkEmpty(objValue, "@Resource.ArriveDate" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#FactoryShipOutDate").datebox('getValue');
-            if (checkEmpty(objValue, "@Resource.FactoryShipOutDate" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#Price").val();
-            if (checkEmpty(objValue, "@Resource.Price" + not_empty, active_page)) {
-                return false;
-            }
-            objValue = $("#PriceUnit").combobox('getValue');
-            if (checkEmpty(objValue, "@Resource.PriceUnit" + not_empty, active_page)) {
-                return false;
-            }
-
-            return true;
-        }
-
+        })//new Vue end      
+        
 
     </script>
-
 }

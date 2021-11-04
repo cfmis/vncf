@@ -55,10 +55,11 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
         //下拉列表框基礎信息,返回Name
         public ActionResult GetBaseInfoByName(string strTableName)
         {
-            var list = BaseDataDAL.GetBaseInfoByNameReturnList(strTableName);
-            return Json(list);
+            var lst = BaseDataDAL.GetBaseInfoByNameReturnList(strTableName);
+            //return Json(lst);//2021/09/21 cancal
+            return Json(lst, JsonRequestBehavior.AllowGet);
         }
-
+                
         public ActionResult GetGoodsInfo(string GoodsID)
         {
             var result = BaseDataDAL.GetGoodsByID(GoodsID);
@@ -97,5 +98,11 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
             return Json(PermissionList, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetBasePermission(string TableName)
+        {
+            var lst = BaseDataDAL.GetBasePermissionList(TableName);
+            return Json(lst, JsonRequestBehavior.AllowGet);
+        }
+        
     }
 }

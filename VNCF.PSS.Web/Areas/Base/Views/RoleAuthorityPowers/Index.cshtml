@@ -1,0 +1,206 @@
+﻿
+@{
+    ViewBag.Title = "角色,菜單及權限";
+}
+
+<div id="app">
+    @*<vxe-select v-model="value12" placeholder="角色" size="medium">
+        <vxe-option v-for="item in roleDatas" :key="item.value" :value="item.value" :label="item.label"></vxe-option>
+    </vxe-select>*@
+    <vxe-form :data="searchParas" @@submit="submitSearch" title-align="right" title-width="100px" size="small">     
+            <vxe-form-item title="角色" field="RoleID" :item-render="{name: '$select', options: roleDatas}" span="6"></vxe-form-item>
+            <vxe-form-item title="菜單" field="AuthorityID" :item-render="{name: '$select', options: menuDatas}" span="6"></vxe-form-item>
+            <vxe-form-item title="操作權限" field="PowersID" :item-render="{name: '$select', options: powerDatas}" span="6"></vxe-form-item>           
+            <vxe-form-item span="6">
+                <template #default>
+                    <vxe-button type="submit" status="primary">查询</vxe-button>
+                    <vxe-button type="reset">重置</vxe-button>
+                </template>
+            </vxe-form-item>                
+    </vxe-form>
+
+
+    @*<vxe-input v-model="searchRole" placeholder="角色"></vxe-input>
+        <vxe-button status="primary" icon="fa fa-search" @@click="searchByProductMo(searchProductMo)">搜索</vxe-button>*@
+    @*分割條*@
+    <vxe-toolbar perfect style="height:1px;"></vxe-toolbar>
+    <vxe-toolbar style="height:35px">
+        <template #buttons>
+            <vxe-button icon="fa fa-plus" @@click="showInsertEvent()" size="mini" status="primary" content="項目新增"></vxe-button>
+            <vxe-button icon="fa fa-trash-o" @@click="deleteEvent()" size="mini" status="danger" content="項目刪除"></vxe-button>
+        </template>
+    </vxe-toolbar>
+    
+
+    <!--新增或編號窗體-->
+    <vxe-modal ref="xModal" v-model="showEdit" title="编辑&保存" width="800" resize destroy-on-close  size="small">
+        @*<template #default>*@
+            <vxe-form :data="newPower" :rules="formRules" title-align="right" title-width="100" @@submit="submitEvent">
+                <vxe-form-item title="Edit Goods Description" span="24" title-align="left" title-width="200px" title-prefix="{icon: 'fa fa-address-book'}"></vxe-form-item>
+                <vxe-form-item title="序號" field="ID" :item-render="{name: '$input'}" span="12" ></vxe-form-item>
+                <vxe-form-item title="角色" field="RoleID" :item-render="{name: '$select', options: roleDatas}" span="12"></vxe-form-item>
+                <vxe-form-item title="菜單" field="AuthorityID" :item-render="{name: '$select', options: menuDatas}" span="12"></vxe-form-item>
+                <vxe-form-item title="操作權限" field="PowersID" :item-render="{name: '$select', options: powerDatas}" span="12"></vxe-form-item>  
+                <vxe-form-item title="備註" field="Remark" :item-render="{name: '$input'}" span="12" ></vxe-form-item>
+
+                <vxe-form-item align="center" span="24">
+                    <template #default>
+                        <vxe-button type="submit" status="primary">保存</vxe-button>
+                        <vxe-button type="reset">重置</vxe-button>
+                        <vxe-button @@click="$refs.xModal.close()">取消</vxe-button>
+                    </template>
+                </vxe-form-item>
+            </vxe-form>
+        @*</template>*@
+    </vxe-modal>
+
+    
+    <vxe-table border
+               resizable
+               highlight-hover-row
+               show-overflow
+               height="500"
+               @*row-id="seq"*@
+               size="small"
+               :loading="loadingStatus"
+               :data="permissionData"
+               highlight-current-row
+               :keyboard-config="{isArrow: true}">
+        <vxe-table-column type="ID" title="序號" width="60" ></vxe-table-column>
+        <vxe-table-column field="RoleID" title="角色編號" width="100" sortable></vxe-table-column>
+        <vxe-table-column field="RoleName" title="角色名稱" width="200"></vxe-table-column>
+        <vxe-table-column field="AuthorityID" title="菜單編號" width="120"></vxe-table-column>
+        <vxe-table-column field="AuthorityName" title="菜單名稱" width="200"></vxe-table-column>
+        <vxe-table-column field="PowersID" title="權限編號" width="120"></vxe-table-column>
+        <vxe-table-column field="Powers" title="操作權限" width="150"></vxe-table-column>
+        <vxe-table-column field="PowersDesc" title="操作描述" width="200"></vxe-table-column>        
+        <vxe-table-column field="remark" title="備註" width="260"></vxe-table-column>
+        <vxe-table-column title="修改" width="60" resizable="false" show-overflow>
+            <template #default="{ row }">
+                <vxe-button type="text" icon="fa fa-edit" @@click="editEvent(row)"></vxe-button>
+            </template>
+        </vxe-table-column>
+        <template #empty>
+            <span style="color: red;">
+                @*<img src="/Images/no_data_img.gif">*@
+                <p>没有更多数据了！</p>
+            </span>
+        </template>
+    </vxe-table>
+
+    @*分頁器*@
+    <vxe-pager background
+               size="small"
+               :loading="loadingStatus"
+               :current-page="tablePage.currentPage"
+               :page-size="tablePage.pageSize"
+               :total="tablePage.totalResult"
+               :page-sizes="[10, 20, 100, {label: '大量数据', value: 1000}, {label: '全量数据', value: -1}]"
+               :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']"
+               @@page-change="handlePageChange">
+    </vxe-pager>
+
+</div>
+
+@section PageSpecificJavascriptIncludes{    
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                value12: null,
+                value: '',
+                loadingStatus: false,
+                selectRow: null,
+                showEdit: false,//是否顯示編輯窗體,此值v-model雙向綁定
+                searchParas: { RoleID: '', AuthorityID: '', PowersID: '' },//查詢條件數組
+                newPower: { RoleID: '', AuthorityID: '', PowersID: '', Remark: '' },//新增或編輯數組
+                powerList: [],//權限數組
+                //定義分頁參數
+                tablePage: {
+                    currentPage: 1,
+                    pageSize: 10,
+                    totalResult: 0
+                },
+                edit_mode: 0,
+                //下拉框數據               
+                roleDatas: [{ value: 1, label: '系统管理员' }, { value: 2, label: '高级工程师' }, { value: 3, label: '测试工程师' }],
+                menuDatas: [{ value: 20025, label: "test" }, { value: 20026, label: "test2" }],
+                powerDatas: [{ value: 1, label: 'Common_Add' }, { value: 5, label: 'Common_Find' }],
+                permissionData: [],
+                
+            },
+            created: function () {
+                InIt();               
+            },
+            methods: {                             
+                InIt: function () {                   
+                    this.fillData();
+                },
+                fillData: function () {
+                    this.permissionData = [];
+                    this.tablePage.totalResult = this.powerList.length;
+                    this.permissionData = this.powerList.slice((this.tablePage.currentPage - 1) * this.tablePage.pageSize, this.tablePage.currentPage * this.tablePage.pageSize);
+                    this.loadingStatus = false;
+                },
+                submitSearch() {
+                    this.searchPower(this.searchParas);
+                },
+                searchPower:function(searchParas){
+                    // console.log('回车搜索',keyCode,e); && this.input
+                    this.loadingStatus = true
+                    var _self = this;
+                    _self.powerList = [];
+                    var searchParams={
+                        RoleID:1,//searchParas.RoleID,
+                        AuthorityID:searchParas.AuthorityID,
+                        PowersID:searchParas.PowersID,                       
+                        pageSize:10,
+                        status:[1,3]
+                    }
+                    //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
+                    axios.get("SearchRoleAuthorityPowers", { params: searchParams }).then(
+                        (response) => {
+                            this.contactsList = [];
+                            for (var i = 0; i < response.data.length; i++) {
+                                _self.powerList.push(response.data[i]);
+                            }
+                            //_self.goodsList.push({ goods_id:"",goods_cname:"" });
+                            _self.fillData();
+                        },
+                        (response) => {
+                            alert(response.status);
+                        }
+                    ).catch(function (response) {
+                        alert(response);
+                    });
+                },
+                handlePageChange:function(currentPage, pageSize ) {
+                    this.loadingStatus = true;
+                    this.tablePage.currentPage = currentPage;
+                    this.tablePage.pageSize = pageSize;                    
+                    this.fillData();
+                },
+                showInsertEvent() {                   
+                    this.newPower = {
+                        RoleID: "",
+                        AuthorityID: "",
+                        PowersID: null,
+                        Remark: "test"
+                    }
+                    //this.selectRow = row
+                    this.showEdit = true
+                },
+                editEvent (row) {                    
+                    this.newPower = {
+                        RoleID: row.RoleID,
+                        AuthorityID: row.AuthorityID,
+                        PowersID: row.PowersID,
+                        Remark: row.Remark
+                    }
+                    this.selectRow = row
+                    this.showEdit = true
+                },
+            }
+        })
+    </script>
+}

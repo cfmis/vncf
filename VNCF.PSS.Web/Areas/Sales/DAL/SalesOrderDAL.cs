@@ -37,25 +37,26 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                   @" Insert Into oc_OrderHead (OcID,Ver,OrderDate,CustomerID,CustomerCdesc,CustomerEdesc,OrderType,ReceivedDate,ForeignFirm,Area,
                   SallerID,Season,Contacts,ContactsTel,ContactsFax,ContactsEmail,Merchandisers,MerchandisersTel,MerchandisersEmail,CurrencyID,CurrencyRate,
                   DeliveredPort,DestinationPort,PoNo,PaymentType,PriceType, Transport,DiscountRate,Discount,TaxNo,Tax,ProductAmount,TotalAmount
-                  ,BankAccount,State,Remark,CreateBy,CreateAt) Values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}',
-                  '{16}','{17}','{18}','{19}','{20}','{21}','{22}','{23}','{24}','{25}','{26}','{27}',{28},'{29}','{30}',{31},{32},'{33}','{34}','{35}','{36}',getdate())",
+                  ,BankAccount,State,Remark,CreateBy,CreateAt, CustomerAddress,SendAddress,CountryID) Values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}',
+                  '{16}','{17}','{18}','{19}','{20}','{21}','{22}','{23}','{24}','{25}','{26}','{27}',{28},'{29}','{30}',{31},{32},'{33}','{34}','{35}','{36}',getdate(),'{37}','{38}','{39}')",
                   OcID, model.Ver, model.OrderDate, model.CustomerID, model.CustomerCdesc, model.CustomerEdesc, model.OrderType, model.ReceivedDate, model.ForeignFirm, model.Area, model.SallerID,
                   model.Season, model.Contacts, model.ContactsTel, model.ContactsFax, model.ContactsEmail, model.Merchandisers, model.MerchandisersTel, model.MerchandisersEmail, model.CurrencyID,
                   model.CurrencyRate, model.DeliveredPort, model.DestinationPort, model.PoNo, model.PaymentType, model.PriceType, model.Transport, model.DiscountRate, model.Discount, model.TaxNo,
-                  model.Tax, model.ProductAmount, model.TotalAmount, model.BankAccount, model.State, model.Remark, user_id);
+                  model.Tax, model.ProductAmount, model.TotalAmount, model.BankAccount, model.State, model.Remark, user_id, model.CustomerAddress, model.SendAddress, model.CountryID);
 
             else
                 strSql += string.Format(
                @"UPDATE oc_OrderHead SET Ver='{0}',OrderDate='{1}',CustomerID='{2}',CustomerCdesc='{3}',CustomerEdesc='{4}',OrderType='{5}',ReceivedDate='{6}',ForeignFirm='{7}',Area='{8}',
                 SallerID='{9}',Season='{10}',Contacts='{11}',ContactsTel='{12}',ContactsFax='{13}',ContactsEmail='{14}',Merchandisers='{15}',MerchandisersTel='{16}',MerchandisersEmail='{17}',
                 CurrencyID='{18}',CurrencyRate={19},DeliveredPort='{20}',DestinationPort='{21}',PoNo='{22}',PaymentType='{23}',PriceType='{24}',Transport='{25}',DiscountRate={26},Discount={27},
-                TaxNo='{28}',Tax={29},ProductAmount={30},TotalAmount={31},BankAccount='{32}',State='{33}',Remark='{34}',UpdateBy='{35}',UpdateAt=getdate() 
-                WHERE OcID='{36}'",
+                TaxNo='{28}',Tax={29},ProductAmount={30},TotalAmount={31},BankAccount='{32}',State='{33}',Remark='{34}',UpdateBy='{35}',UpdateAt=getdate(),
+                CustomerAddress='{36}',SendAddress='{37}',CountryID='{38}'
+                WHERE OcID='{39}'",
                 model.Ver, model.OrderDate, model.CustomerID, model.CustomerCdesc, model.CustomerEdesc, model.OrderType, model.ReceivedDate, model.ForeignFirm, model.Area,
                 model.SallerID, model.Season, model.Contacts, model.ContactsTel, model.ContactsFax, model.ContactsEmail, model.Merchandisers, model.MerchandisersTel,
                 model.MerchandisersEmail, model.CurrencyID, model.CurrencyRate, model.DeliveredPort, model.DestinationPort, model.PoNo, model.PaymentType, model.PriceType,
                 model.Transport, model.DiscountRate, model.Discount, model.TaxNo, model.Tax, model.ProductAmount, model.TotalAmount, model.BankAccount, model.State, model.Remark, user_id,
-                model.OcID);
+                model.CustomerAddress, model.SendAddress, model.CountryID, model.OcID);
 
             strSql += string.Format(@" COMMIT TRANSACTION ");
             result = SQLHelper.ExecuteSqlUpdate(strSql);
@@ -66,6 +67,26 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
 
             return result;
         }
+
+        public static string UpdateHeadAmountByID(Order_Head model)
+        {
+            string result = "";
+            string strSql = "";
+            strSql += string.Format(@" SET XACT_ABORT  ON ");
+            strSql += string.Format(@" BEGIN TRANSACTION ");            
+            string user_id = AdminUserContext.Current.LoginInfo.LoginName;
+            strSql += string.Format(
+                @" Update oc_OrderHead SET TotalAmount={0},ProductAmount={1},Discount={2},UpdateBy='{3}',UpdateAt=GETDATE() 
+                  WHERE OcID='{4}'", model.TotalAmount, model.ProductAmount, model.Discount,user_id, model.OcID);
+            strSql += string.Format(@" COMMIT TRANSACTION ");
+            result = SQLHelper.ExecuteSqlUpdate(strSql);
+            if (result == "")
+                result = "OK";
+            else
+                result = "ERROR";
+            return result;
+        }
+        
         private static bool CheckOcHead(string OcID)
         {
             bool result = true;
@@ -86,11 +107,11 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 a.CustSize,a.OrderQty, a.OrderUnit, a.Price, a.PriceUnit, a.RateDiscount, a.AmountDiscount, a.AmountProduct,a.MoState, a.Remarks, Convert(Varchar(10),a.PlanCompleteDate,111) AS PlanCompleteDate, 
                 Convert(Varchar(10),a.ArriveDate,111) AS ArriveDate, Convert(Varchar(10),a.FactoryShipOutDate,111) AS FactoryShipOutDate, a.MoType, a.MoDept, a.MoGroup, a.StyleNo, 
                 a.ContractID, a.GetColorSample, a.IsFree,a.IsPrint, a.OcRemark, a.InvoiceRemark, a.PlateRemark, a.ProductRemark,b.name,b.english_name,c.picture_name" +
-                " FROM oc_OrderDetails a " +
+                " FROM oc_OrderDetails a with(nolock)" +
                 " Left Join it_goods b ON a.ProductID=b.id" +
-                " Left Join (select id,max(picture_name) as picture_name from cd_pattern_details where Isnull(picture_name,'')<>'' group by id) c On b.blueprint_id=c.id" +
+                " Left Join cd_pattern c On b.blueprint_id=c.id" +
                 " Where a.OcID='" + OcID + "'";
-            strSql += " ORDER BY a.Seq Desc";
+            strSql += " ORDER BY a.Seq Asc";
 
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<Order_Details> lsDetails = new List<Order_Details>();
@@ -135,7 +156,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 mdj.InvoiceRemark = dr["InvoiceRemark"].ToString();
                 mdj.PlateRemark = dr["PlateRemark"].ToString();
                 mdj.ProductRemark = dr["ProductRemark"].ToString();
-                mdj.ArtImage = "file:/" + "/192.168.3.12/cf_artwork/Artwork" + dr["picture_name"].ToString().Trim().Replace("\\", "/");
+                mdj.ArtImage = "file:/" + "/192.168.3.12/cf_artwork/Artwork/" + dr["picture_name"].ToString().Trim().Replace("\\", "/");
                 //file:////192.168.3.12/cf_artwork/ArtworkRRRR/RALP114.BMP
                 lsDetails.Add(mdj);
             }
@@ -199,7 +220,8 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             string strSql =
             @"SELECT OcID,Ver,Convert(Varchar(10),OrderDate,111) AS OrderDate,CustomerID,CustomerCdesc,CustomerEdesc,OrderType,Convert(Varchar(10),ReceivedDate,111) AS ReceivedDate,
             ForeignFirm,Area,SallerID,Season,Contacts,ContactsTel,ContactsFax,ContactsEmail,Merchandisers,MerchandisersTel,MerchandisersEmail,CurrencyID,CurrencyRate,DeliveredPort,DestinationPort,
-            PoNo,PaymentType,PriceType,Transport,DiscountRate,Discount,TaxNo,Tax,ProductAmount,TotalAmount,BankAccount,State,Remark,CreateBy,CreateAt,UpdateBy,UpdateAt  
+            PoNo,PaymentType,PriceType,Transport,DiscountRate,Discount,TaxNo,Tax,ProductAmount,TotalAmount,BankAccount,State,Remark,CreateBy,CreateAt,UpdateBy,UpdateAt, 
+            CustomerAddress,SendAddress,CountryID
             FROM dbo.oc_OrderHead Where OcID='" + OcID + "'";
             Order_Head mdj = new Order_Head();
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
@@ -246,6 +268,10 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 mdj.CreateAt = dr["CreateAt"].ToString();
                 mdj.UpdateBy = dr["UpdateBy"].ToString();
                 mdj.UpdateAt = dr["UpdateAt"].ToString();
+                mdj.CustomerAddress = dr["CustomerAddress"].ToString();
+                mdj.SendAddress = dr["SendAddress"].ToString();
+                mdj.CountryID = dr["CountryID"].ToString();
+
             }
 
             return mdj;
@@ -253,69 +279,71 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         public static List<Order_Head> GetOcHeadReturnList(Order_Head model)
         {
             string strSql =
-                @"Select a.OcID,a.Ver,Convert(varchar(10),a.OrderDate,120) as OrderDate,a.CustomerID,a.State, b.RateDiscount,
-                b.AmountDiscount,b.AmountProduct,b.ProductMo,b.ProductID,b.ProductCdesc,b.OrderQty,b.OrderUnit,b.Price,b.PriceUnit
-                FROM oc_OrderHead a,oc_OrderDetails b Where a.OcID=b.OcID AND a.Ver=b.Ver ";
-            if (string.IsNullOrEmpty(model.OcID) && string.IsNullOrEmpty(model.OrderDate) && string.IsNullOrEmpty(model.ReceivedDate) &&
-                string.IsNullOrEmpty(model.Area) && string.IsNullOrEmpty(model.CustomerID) && string.IsNullOrEmpty(model.ForeignFirm) &&
-                string.IsNullOrEmpty(model.Season) && string.IsNullOrEmpty(model.SallerID) && string.IsNullOrEmpty(model.ContractID) &&
-                string.IsNullOrEmpty(model.BrandID) && string.IsNullOrEmpty(model.ProductMo) && string.IsNullOrEmpty(model.ProductID)
-                )
+                @"Select top 1000 a.OcID,a.Ver,Convert(varchar(10),a.OrderDate,120) as OrderDate,a.CustomerID,a.State, isnull(b.RateDiscount,0) as RateDiscount,
+                Isnull(b.AmountDiscount,0.00) as AmountDiscount,Isnull(b.AmountProduct,0.00) as AmountProduct,b.ProductMo,b.ProductID,b.ProductCdesc,
+                Isnull(b.OrderQty,0) AS OrderQty,b.OrderUnit,Isnull(b.Price,0.00) as Price,b.PriceUnit,b.MoState
+                FROM oc_OrderHead a with(nolock) Left Join oc_OrderDetails b with(nolock) On a.OcID=b.OcID AND a.Ver=b.Ver Where 1>0 ";
+            if (!string.IsNullOrEmpty(model.OcID))
             {
-                strSql += " AND 1=0 ";//返加空數據
+                strSql += " AND a.OcID Like '%" + model.OcID + "%'";
             }
-            else
+            if (!string.IsNullOrEmpty(model.OrderDate))
             {
-                if (!string.IsNullOrEmpty(model.OcID))
-                {
-                    strSql += " AND a.OcID Like '%" + model.OcID + "%'";
-                }
-                if (!string.IsNullOrEmpty(model.OrderDate))
-                {
-                    strSql += " AND a.OrderDate='" + model.OrderDate + "'";
-                }
-                if (!string.IsNullOrEmpty(model.ReceivedDate))
-                {
-                    strSql += " AND a.ReceivedDate='" + model.ReceivedDate + "'";
-                }
-                if (!string.IsNullOrEmpty(model.Area))
-                {
-                    strSql += " AND a.Area Like '%" + model.Area + "%'";
-                }
-                if (!string.IsNullOrEmpty(model.CustomerID))
-                {
-                    strSql += " AND a.CustomerID Like '%" + model.CustomerID + "%'";
-                }
-                if (!string.IsNullOrEmpty(model.ForeignFirm))
-                {
-                    strSql += " AND a.ForeignFirm Like '%" + model.ForeignFirm + "%'";
-                }
-                if (!string.IsNullOrEmpty(model.Season))
-                {
-                    strSql += " AND a.Season Like '%" + model.Season + "%'";
-                }
-                if (!string.IsNullOrEmpty(model.SallerID))
-                {
-                    strSql += " AND a.SallerID Like '%" + model.SallerID + "%'";
-                }
-                strSql += " AND a.state<>'2'";
-                if (!string.IsNullOrEmpty(model.ContractID))
-                {
-                    strSql += " AND b.ContractID Like '%" + model.ContractID + "%'";
-                }
-                if (!string.IsNullOrEmpty(model.BrandID))
-                {
-                    strSql += " AND b.BrandID Like '%" + model.BrandID + "%'";
-                }
-                if (!string.IsNullOrEmpty(model.ProductMo))
-                {
-                    strSql += " AND b.ProductMo Like '%" + model.ProductMo + "%'";
-                }
-                if (!string.IsNullOrEmpty(model.ProductID))
-                {
-                    strSql += " AND b.ProductID Like '%" + model.ProductID + "%'";
-                }
+                strSql += " AND a.OrderDate='" + model.OrderDate + "'";
             }
+            if (!string.IsNullOrEmpty(model.ReceivedDate))
+            {
+                strSql += " AND a.ReceivedDate='" + model.ReceivedDate + "'";
+            }
+            if (!string.IsNullOrEmpty(model.Area))
+            {
+                strSql += " AND a.Area Like '%" + model.Area + "%'";
+            }
+            if (!string.IsNullOrEmpty(model.CustomerID))
+            {
+                strSql += " AND a.CustomerID Like '%" + model.CustomerID + "%'";
+            }
+            if (!string.IsNullOrEmpty(model.ForeignFirm))
+            {
+                strSql += " AND a.ForeignFirm Like '%" + model.ForeignFirm + "%'";
+            }
+            if (!string.IsNullOrEmpty(model.Season))
+            {
+                strSql += " AND a.Season Like '%" + model.Season + "%'";
+            }
+            if (!string.IsNullOrEmpty(model.SallerID))
+            {
+                strSql += " AND a.SallerID Like '%" + model.SallerID + "%'";
+            }
+            strSql += " AND a.state<>'2'";
+            if (!string.IsNullOrEmpty(model.ContractID))
+            {
+                strSql += " AND b.ContractID Like '%" + model.ContractID + "%'";
+            }
+            if (!string.IsNullOrEmpty(model.BrandID))
+            {
+                strSql += " AND b.BrandID Like '%" + model.BrandID + "%'";
+            }
+            if (!string.IsNullOrEmpty(model.ProductMo))
+            {
+                strSql += " AND b.ProductMo Like '%" + model.ProductMo + "%'";
+            }
+            if (!string.IsNullOrEmpty(model.ProductID))
+            {
+                strSql += " AND b.ProductID Like '%" + model.ProductID + "%'";
+            }
+            //if (string.IsNullOrEmpty(model.OcID) && string.IsNullOrEmpty(model.OrderDate) && string.IsNullOrEmpty(model.ReceivedDate) &&
+            //    string.IsNullOrEmpty(model.Area) && string.IsNullOrEmpty(model.CustomerID) && string.IsNullOrEmpty(model.ForeignFirm) &&
+            //    string.IsNullOrEmpty(model.Season) && string.IsNullOrEmpty(model.SallerID) && string.IsNullOrEmpty(model.ContractID) &&
+            //    string.IsNullOrEmpty(model.BrandID) && string.IsNullOrEmpty(model.ProductMo) && string.IsNullOrEmpty(model.ProductID)
+            //    )
+            //{
+            //    strSql += " AND 1=0 ";//返加空數據
+            //}
+            //else
+            //{
+            //
+            //}
 
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<Order_Head> lsOrder = new List<Order_Head>();
@@ -329,6 +357,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 mdj.State = dr["State"].ToString();
                 mdj.CustomerID = dr["CustomerID"].ToString();
                 mdj.ProductMo = dr["ProductMo"].ToString();
+                mdj.MoState = dr["MoState"].ToString();
                 mdj.ProductID = dr["ProductID"].ToString();
                 mdj.ProductCdesc = dr["ProductCdesc"].ToString();
                 mdj.OrderQty = Convert.ToInt32(dr["OrderQty"]);
@@ -356,11 +385,12 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 OrderQty, OrderUnit, Price, PriceUnit, RateDiscount, AmountDiscount, AmountProduct, Remarks, PlanCompleteDate, ArriveDate, FactoryShipOutDate, 
                 MoType, MoDept, MoGroup, StyleNo, ContractID, GetColorSample, IsFree, OcRemark, InvoiceRemark, PlateRemark, ProductRemark,MoState,IsPrint) Values (
                '{0}','{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', {13}, '{14}', {15}, '{16}', {17}, {18}, {19}, 
-               '{20}','{21}', '{22}', '{23}', '{24}', '{25}', '{26}', '{27}', '{28}', '{29}', '{30}', '{31}', '{32}', '{33}', '{34}','{35}','{36}')",
+               '{20}','{21}', '{22}', '{23}', '{24}', '{25}', '{26}', '{27}', '{28}', '{29}', '{30}','{31}', '{32}', '{33}', '{34}','{35}','{36}')",
                model.OcID, model.Ver, Seq, model.ProductMo, model.ProductMoVer, model.ProductID, model.ProductCdesc, model.BrandID, model.CustProductID, model.CustProductName,
                model.CustColorID, model.CustColorName, model.CustSize, model.OrderQty, model.OrderUnit, model.Price, model.PriceUnit, model.RateDiscount, model.AmountDiscount, model.AmountProduct,
                model.Remarks, model.PlanCompleteDate, model.ArriveDate, model.FactoryShipOutDate, model.MoType, model.MoDept, model.MoGroup, model.StyleNo, model.ContractID,
-               model.GetColorSample, model.IsFree == "on" ? "1" : "0", model.OcRemark, model.InvoiceRemark, model.PlateRemark, model.ProductRemark, model.MoState,model.IsPrint == "on" ? "1" : "0");
+               model.GetColorSample, model.IsFree == "1" ? "1" : "0", model.OcRemark, model.InvoiceRemark, model.PlateRemark, model.ProductRemark, model.MoState, model.IsPrint == "1" ? "1" : "0");
+            //model.GetColorSample, model.IsFree == "on" ? "1" : "0", model.OcRemark, model.InvoiceRemark, model.PlateRemark, model.ProductRemark, model.MoState,model.IsPrint == "on" ? "1" : "0");
             /*20210312取消插入新記錄時自動添加SalesBOM
             strSql_i += string.Format(
                @" Insert Into oc_OrderBom(OcID, Ver, UpperSeq,Seq,PrimaryKey,ProductID,Dosage,UnitCode) Values('{0}','{1}', '{2}', '{3}','{4}','{5}',{6},'{7}')",
@@ -377,8 +407,10 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                WHERE OcID='{0}' And Ver='{1}' And Seq='{2}'", model.OcID, model.Ver, model.Seq,
                model.ProductMo, model.ProductMoVer, model.ProductID, model.ProductCdesc, model.BrandID, model.CustProductID, model.CustProductName, model.CustColorID, model.CustColorName, model.CustSize,
                model.OrderQty, model.OrderUnit, model.Price, model.PriceUnit, model.RateDiscount, model.AmountDiscount, model.AmountProduct, model.Remarks, model.PlanCompleteDate, model.ArriveDate,
-               model.FactoryShipOutDate, model.MoType, model.MoDept, model.MoGroup, model.StyleNo, model.ContractID, model.GetColorSample, model.IsFree == "on" ? "1" : "0", model.OcRemark,
-               model.InvoiceRemark, model.PlateRemark, model.ProductRemark, model.MoState, model.IsPrint == "on" ? "1" : "0");
+               model.FactoryShipOutDate, model.MoType, model.MoDept, model.MoGroup, model.StyleNo, model.ContractID, model.GetColorSample, model.IsFree == "1" ? "1" : "0", model.OcRemark,
+               model.InvoiceRemark, model.PlateRemark, model.ProductRemark, model.MoState, model.IsPrint == "1" ? "1" : "0");
+            //model.FactoryShipOutDate, model.MoType, model.MoDept, model.MoGroup, model.StyleNo, model.ContractID, model.GetColorSample, model.IsFree == "on" ? "1" : "0", model.OcRemark,
+            //model.InvoiceRemark, model.PlateRemark, model.ProductRemark, model.MoState, model.IsPrint == "on" ? "1" : "0");
 
             if (model.ActionType == "NEW")
                 result = SQLHelper.ExecuteSqlUpdate(strSql_i);
@@ -403,6 +435,14 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         {
             string result = "";
             string strSql = string.Format(@"Delete FROM oc_OrderDetails Where OcID='{0}' and ver={1} AND Seq='{2}'", OcID, Ver, Seq);
+            result = SQLHelper.ExecuteSqlUpdate(strSql);
+            return result;
+        }
+
+        public static string CancelOcDetails(string OcID, int Ver, string Seq)
+        {
+            string result = "";
+            string strSql = string.Format(@"UPDATE oc_OrderDetails SET MoState='2' WHERE OcID='{0}' and ver={1} AND Seq='{2}'", OcID, Ver, Seq);
             result = SQLHelper.ExecuteSqlUpdate(strSql);
             return result;
         }
@@ -459,6 +499,55 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             {
                 objModel.Cdesc = "";
                 objModel.Edesc = "";
+            }
+            return objModel;
+        }
+
+        //返回客戶信息
+        public static CustomerInfo GetCustomerInfoByID(string strCustomerID)
+        {
+            string strSql = string.Format(
+                @"SELECT A.id, A.name as CustomerCdesc,A.english_name as CustomerEdesc,A.shipment_s_address as CustomerAddress,
+                A.shipment_s_address as SendAddress,A.c_code AS CountryID,A.shipment_linkman AS Contacts,A.shipment_phone AS ContactsTel,
+                A.shipment_fax AS ContactsFax,A.shipment_email AS ContactsEmail,A.money_id as CurrencyID,S.exchange_rate AS CurrencyRate
+                From bs_customer A 
+	                INNER JOIN (SELECT aa.id,aa.exchange_rate      
+				                FROM bs_exchange_rate aa 
+				                INNER JOIN (SELECT id,Max(days) as days FROM bs_exchange_rate group by id) bb on aa.id=bb.id and aa.days=bb.days
+				                ) S ON A.money_id=S.id
+                WHERE A.id='{0}' and A.state <>'2'",strCustomerID);
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+
+            CustomerInfo objModel = new CustomerInfo();
+            if (dt.Rows.Count > 0)
+            {
+                objModel.Id = dt.Rows[0]["id"].ToString();
+                objModel.CustomerCdesc = dt.Rows[0]["CustomerCdesc"].ToString();
+                objModel.CustomerEdesc = dt.Rows[0]["CustomerEdesc"].ToString();
+                objModel.CustomerAddress = dt.Rows[0]["CustomerAddress"].ToString();
+                objModel.SendAddress = dt.Rows[0]["SendAddress"].ToString();
+                objModel.CountryID = dt.Rows[0]["CountryID"].ToString();
+                objModel.Contacts = dt.Rows[0]["Contacts"].ToString();
+                objModel.ContactsTel = dt.Rows[0]["ContactsTel"].ToString();
+                objModel.ContactsFax = dt.Rows[0]["ContactsFax"].ToString();
+                objModel.ContactsEmail = dt.Rows[0]["ContactsEmail"].ToString();
+                objModel.CurrencyID = dt.Rows[0]["CurrencyID"].ToString();
+                objModel.CurrencyRate = string.IsNullOrEmpty(dt.Rows[0]["CurrencyRate"].ToString()) ? 0 : decimal.Parse(dt.Rows[0]["CurrencyRate"].ToString());
+            }
+            else
+            {
+                objModel.Id = "";
+                objModel.CustomerCdesc = "";
+                objModel.CustomerEdesc = "";
+                objModel.CustomerAddress = "";
+                objModel.SendAddress = "";
+                objModel.CountryID = "";
+                objModel.Contacts = "";
+                objModel.ContactsTel = "";
+                objModel.ContactsFax = "";
+                objModel.ContactsEmail = "";
+                objModel.CurrencyID = "";
+                objModel.CurrencyRate = 0;
             }
             return objModel;
         }
@@ -534,7 +623,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         public static decimal GetTotalAmountByID(string strOcID, int Ver, string Seq)
         {
             decimal decTotalAmount = 0;
-            string strSql = string.Format("Select Sum(AmountProduct) As AmountProduct From oc_OrderDetails With(nolock) WHERE OcID='{0}' And Ver={1} And Seq<>'{2}' AND MoState<>'2'", strOcID, Ver, Seq);
+            string strSql = string.Format("Select Sum(AmountProduct) As AmountProduct From oc_OrderDetails With(nolock) WHERE OcID='{0}' And Ver={1} And Seq<>'{2}' AND MoState<>'2' And IsFree=0", strOcID, Ver, Seq);
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             if (dt.Rows.Count > 0)
             {
@@ -619,48 +708,52 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         //產品編碼查詢
         public static List<ItemInfo> FindItemReturnList(string ProductID, string Type)
         {
-
-            List<ItemInfo> lstItem = new List<ItemInfo>();
-            if (ProductID != "")
+            List<ItemInfo> lstItem = new List<ItemInfo>();           
+            //2021-03-13 改為只取BOM數據
+            string strSql = "";
+            if (Type == "3")
             {
-                //2021-03-13 改為只取BOM數據
-                string strSql = "";
-                if (Type == "3")
-                {
-                    //BOM表中提取
-                    strSql = string.Format(
-                    @"Select top 500 A.goods_id as ProductID,B.name as ProductCdesc,B.english_name as ProductEdesc,'成品(Finished Product)' AS Type
-                    From {0}it_bom_mostly A with(nolock) 
-                    INNER JOIN {0}it_goods B With(nolock) ON A.within_code=B.within_code AND A.goods_id=B.id
-                    WHERE A.within_code='0000' AND A.id Like '%{1}%' And A.type='0002' and A.state<>'2'", strRemoteDB, ProductID);
-                }
+                //BOM表中提取
+                strSql = string.Format(
+                @"Select top 500 A.goods_id as ProductID,B.name as ProductCdesc,B.english_name as ProductEdesc,'成品(Finished Product)' AS Type
+                From {0}it_bom_mostly A with(nolock) 
+                INNER JOIN {0}it_goods B With(nolock) ON A.within_code=B.within_code AND A.goods_id=B.id
+                WHERE A.within_code='0000' ", strRemoteDB);
+                if (string.IsNullOrEmpty(ProductID))
+                    strSql += " AND A.id Like 'F0-%' And A.type = '0002' and A.state <> '2'";
                 else
-                {
-                    //基本資料中提取
-                    strSql = string.Format(
-                    @"Select top 500 id as ProductID,name as ProductCdesc,english_name as ProductEdesc,
-                    Case modality
-                        When '0' then '自制(Made)'
-                        When '1' then '委外加工(Consign)'
-                        When '2' then '採購(Purcharse)'
-                        When '3' then '成品(Finished Product)'
-                        ELSE ''
-                    End as Type
-                    From {0}it_goods With(nolock) 
-                    WHERE within_code='0000' and id Like '%{1}%' And modality='{2}' and state<>'2'", strRemoteDB, ProductID, Type);
-                }
-
-                DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    ItemInfo objModel = new ItemInfo();
-                    objModel.ProductID = dt.Rows[i]["ProductID"].ToString();
-                    objModel.ProductCdesc = dt.Rows[i]["ProductCdesc"].ToString();
-                    objModel.ProductEdesc = dt.Rows[i]["ProductEdesc"].ToString();
-                    objModel.Type = dt.Rows[i]["Type"].ToString();
-                    lstItem.Add(objModel);
-                }
+                    strSql += string.Format(" AND A.id Like '%{0}%' And A.type='0002' and A.state<>'2'", ProductID);
             }
+            else
+            {
+                //基本資料中提取
+                strSql = string.Format(
+                @"Select top 500 id as ProductID,name as ProductCdesc,english_name as ProductEdesc,
+                Case modality
+                    When '0' then '自制(Made)'
+                    When '1' then '委外加工(Consign)'
+                    When '2' then '採購(Purcharse)'
+                    When '3' then '成品(Finished Product)'
+                    ELSE ''
+                End as Type
+                From {0}it_goods With(nolock) 
+                WHERE within_code='0000' ", strRemoteDB);
+                if (string.IsNullOrEmpty(ProductID))
+                    strSql += string.Format(" And modality='{0}' and state<>'2'",Type);
+                else
+                    strSql += string.Format(" And id Like '%{0}%' And modality='{1}' and state<>'2'", ProductID, Type);
+            }
+
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ItemInfo objModel = new ItemInfo();
+                objModel.ProductID = dt.Rows[i]["ProductID"].ToString();
+                objModel.ProductCdesc = dt.Rows[i]["ProductCdesc"].ToString();
+                objModel.ProductEdesc = dt.Rows[i]["ProductEdesc"].ToString();
+                objModel.Type = dt.Rows[i]["Type"].ToString();
+                lstItem.Add(objModel);
+            }            
             return lstItem;
         }
 

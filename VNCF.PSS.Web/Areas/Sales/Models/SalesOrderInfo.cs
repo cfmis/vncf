@@ -64,6 +64,11 @@ namespace VNCF.PSS.Web.Areas.Sales.Models
         public string UpdateBy { get; set; }//更改人
         public string UpdateAt { get; set; }//更改日期
 
+        public string CustomerAddress { get; set; }
+        public string SendAddress { get; set; }
+        public string CountryID { get; set; }
+        
+
 
         //增加明細表字段,查詢之用,,
         public string ContractID { get; set; }
@@ -78,6 +83,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Models
         public decimal RateDiscount { get; set; }
         public decimal AmountDiscount { get; set; }
         public decimal AmountProduct { get; set; }
+        public string MoState { get; set; }
 
         public string ActionType { get; set; } //記錄操作當前行的臨時狀態
 

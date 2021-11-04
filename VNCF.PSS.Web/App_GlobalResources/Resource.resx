@@ -588,4 +588,16 @@
   <data name="OtherFareID" xml:space="preserve">
     <value>Other Fare ID</value>
   </data>
+  <data name="btn_browse" xml:space="preserve">
+    <value>Browse Data</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ItemCancel" xml:space="preserve">
+    <value>Item Cancel</value>
+  </data>
 </root>

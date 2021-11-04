@@ -154,4 +154,19 @@ namespace VNCF.PSS.Web.Areas.Base.Models
         }
     }
 
+    public class CustomerInfo
+    {
+        public string Id { get; set; }
+        public string CustomerCdesc { get; set; }
+        public string CustomerEdesc { get; set; }
+        public string CustomerAddress { get; set; }
+        public string SendAddress { get; set; }
+        public string CountryID { get; set; }
+        public string Contacts { get; set; }
+        public string ContactsTel { get; set; }
+        public string ContactsFax { get; set; }
+        public string ContactsEmail { get; set; }
+        public string CurrencyID { get; set; }
+        public decimal CurrencyRate { get; set; }
+    }
 }
