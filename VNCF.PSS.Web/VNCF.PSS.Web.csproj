@@ -276,9 +276,12 @@
     <Compile Include="Areas\Base\Models\BaseInfo.cs" />
     <Compile Include="Areas\Base\Models\DepInfo.cs" />
     <Compile Include="Areas\Prod\Controllers\PlanController.cs" />
+    <Compile Include="Areas\Prod\Controllers\ProcController.cs" />
     <Compile Include="Areas\Prod\DAL\PlanDAL.cs" />
+    <Compile Include="Areas\Prod\DAL\ProcDAL.cs" />
     <Compile Include="Areas\Prod\Models\PlanModelBase.cs" />
     <Compile Include="Areas\Prod\Models\PlanModels.cs" />
+    <Compile Include="Areas\Prod\Models\ProcModels.cs" />
     <Compile Include="Areas\Prod\ProdAreaRegistration.cs" />
     <Compile Include="Areas\Purchase\Controllers\PurchaseController.cs" />
     <Compile Include="Areas\Purchase\DAL\PurchaseDAL.cs" />
@@ -552,10 +555,6 @@
     <Content Include="Areas\Prod\Views\Plan\Index.cshtml" />
     <Content Include="Areas\Prod\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Prod\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Base\Views\RoleAuthorityPowers\Index.cshtml" />
-    <Content Include="Areas\Base\Views\RoleAuthorityPowers\Index2.cshtml" />
-    <Content Include="Areas\Base\Views\RoleAuthorityPowers\Index3.cshtml" />
-    <Content Include="Areas\Sales\Views\SalesOrder\Index.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

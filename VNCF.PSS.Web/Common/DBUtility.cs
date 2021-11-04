@@ -38,13 +38,13 @@ namespace VNCF.PSS.Web.Common
         }
         public static string ConvertDateFormat(DateTime OrgDateTime)
         {
-            string result = OrgDateTime.ToString("yyyy/MM/dd");
+            string result = OrgDateTime.ToString("yyyy-MM-dd");
             
             return result;
         }
         public static string ConvertDateTimeFormat(DateTime OrgDateTime)
         {
-            string result = OrgDateTime.ToString("yyyy/MM/dd hh:MM:ss");
+            string result = OrgDateTime.ToString("yyyy-MM-dd hh:MM:ss");
 
             return result;
         }

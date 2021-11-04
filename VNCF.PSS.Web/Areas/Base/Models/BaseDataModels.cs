@@ -21,29 +21,11 @@ namespace VNCF.PSS.Web.Areas.Base.Models
     {
         public string PermissionID { get; set; }
         public bool isPermission { get; set; }
-    }
-
-    public class RoleAuthorityPowersModels
-    {
-        public int ID { get; set; }
-        public int RoleID { get; set; }
-        public int AuthorityID { get; set; }
-        public int PowersID { get; set; }       
-        public string Remark { get; set; }
-        public string CreateBy { get; set; }
-        public string CreateAt { get; set; }
-        public string UpdateBy { get; set; }
-        public string UpdateAt { get; set; }
-
-        public string RoleName { get; set; }
-        public string AuthorityName { get; set; }
-        public string Powers { get; set; }
-        public string PowersDesc { get; set; }
-    }
-
+=======
     public class ListDataModels
     {
         public string value { get; set; }
         public string label { get; set; }
+>>>>>>> 733d822ff98fc32ae37d6bbb3c877915ca0c6a20
     }
 }

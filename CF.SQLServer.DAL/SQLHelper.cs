@@ -160,25 +160,8 @@ namespace CF.SQLServer.DAL
         /// </summary>
         /// <returns></returns>
         public static DataTable ExecuteSqlReturnDataTable(string strSQL)
-        {           
-
+        {
             //using (SqlConnection connection = new SqlConnection(strCon))
-            //{
-            //    DataTable dtData = new DataTable();
-            //    connection.Open();
-            //    SqlDataAdapter sda = new SqlDataAdapter(strSQL, connection);
-            //    sda.Fill(dtData);
-            //    sda.Dispose();
-            //    connection.Close();
-            //    return dtData;
-            //}
-
-
-
-            //DataTable dtData = new DataTable();
-            //Conn = new SqlConnection(strCon);
-            //string err_str;
-            //try
             //{
             //    SqlDataAdapter sda = new SqlDataAdapter(strSQL, Conn);
             //    sda.Fill(dtData);
@@ -188,31 +171,28 @@ namespace CF.SQLServer.DAL
             //catch (Exception ex)
             //{
 
-            //    //MessageBox.Show(ex.Message);
-            //    err_str = ex.Message;
-            //}
-            //finally
-            //{
-            //    Conn.Close();
-            //}
-            // return dtData;
 
-            using (SqlConnection connection = new SqlConnection(strCon))
+            DataTable dtData = new DataTable();
+            Conn = new SqlConnection(strCon);
+            string err_str;
+            try
             {
-                DataTable dtData = new DataTable();
-                connection.Open();
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = connection;
-                cmd.CommandText = strSQL;
-                //cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandTimeout = 2400;//連接20分鐘
-                //cmd.Parameters.AddRange(paras);
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                SqlDataAdapter sda = new SqlDataAdapter(strSQL, Conn);
                 sda.Fill(dtData);
+                Conn.Close();
                 sda.Dispose();
-                return dtData;
             }
+            catch (Exception ex)
+            {
 
+                //MessageBox.Show(ex.Message);
+                err_str = ex.Message;
+            }
+            finally
+            {
+                Conn.Close();
+            }
+            return dtData;
 
             //string err_str;
             //DataTable dtData = new DataTable();
