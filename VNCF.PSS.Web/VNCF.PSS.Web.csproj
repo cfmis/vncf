@@ -555,6 +555,7 @@
     <Content Include="Areas\Prod\Views\Plan\Index.cshtml" />
     <Content Include="Areas\Prod\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Prod\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Sales\Views\SalesOrder\Index.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
