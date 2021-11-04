@@ -356,7 +356,10 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\DataTablesExt.js" />
+    <Content Include="Content\ElementUI\css\element-ui.css" />
+    <Content Include="Content\ElementUI\js\element-ui.js" />
     <Content Include="Content\js\BaseData.js" />
+    <Content Include="Content\js\common.js" />
     <Content Include="Content\js\jquery.json.js" />
     <Content Include="Content\js\myValidator.js" />
     <Content Include="Content\js\order.js" />
@@ -479,6 +482,10 @@
     <Content Include="Content\layui-v2.5.6\免责声明.txt" />
     <Content Include="Content\main.css" />
     <Content Include="Content\sharestyle.css" />
+    <Content Include="Content\vxe-table\css\vxe-table-style.css" />
+    <Content Include="Content\vxe-table\js\vue.js" />
+    <Content Include="Content\vxe-table\js\vxe-table.js" />
+    <Content Include="Content\vxe-table\js\xe-utils.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -556,6 +563,11 @@
     <Content Include="Areas\Prod\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Prod\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrder\Index.cshtml" />
+    <Content Include="Areas\Base\Views\RoleAuthorityPowers\Index.cshtml" />
+    <Content Include="Areas\Base\Views\RoleAuthorityPowers\Index2.cshtml" />
+    <Content Include="Areas\Base\Views\RoleAuthorityPowers\Index3.cshtml" />
+    <Content Include="Content\ElementUI\css\fonts\element-icons.ttf" />
+    <Content Include="Content\ElementUI\css\fonts\element-icons.woff" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
