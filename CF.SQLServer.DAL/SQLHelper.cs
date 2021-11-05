@@ -161,57 +161,21 @@ namespace CF.SQLServer.DAL
         /// <returns></returns>
         public static DataTable ExecuteSqlReturnDataTable(string strSQL)
         {
-            //using (SqlConnection connection = new SqlConnection(strCon))
-            //{
-            //    SqlDataAdapter sda = new SqlDataAdapter(strSQL, Conn);
-            //    sda.Fill(dtData);
-            //    Conn.Close();
-            //    sda.Dispose();
-            //}
-            //catch (Exception ex)
-            //{
-
-
-            DataTable dtData = new DataTable();
-            Conn = new SqlConnection(strCon);
-            string err_str;
-            try
+            using (SqlConnection connection = new SqlConnection(strCon))
             {
-                SqlDataAdapter sda = new SqlDataAdapter(strSQL, Conn);
+                DataTable dtData = new DataTable();
+                connection.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = connection;
+                cmd.CommandText = strSQL;
+                //cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 2400;//連接20分鐘
+                //cmd.Parameters.AddRange(paras);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 sda.Fill(dtData);
-                Conn.Close();
                 sda.Dispose();
+                return dtData;
             }
-            catch (Exception ex)
-            {
-
-                //MessageBox.Show(ex.Message);
-                err_str = ex.Message;
-            }
-            finally
-            {
-                Conn.Close();
-            }
-            return dtData;
-
-            //string err_str;
-            //DataTable dtData = new DataTable();
-            //try
-            //{
-            //    using (SqlConnection conn = new SqlConnection(strCon))
-            //    {
-
-            //        SqlDataAdapter sda = new SqlDataAdapter(strSQL, conn);
-            //        sda.Fill(dtData);
-            //        sda.Dispose();
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    err_str = ex.Message;
-            //}
-            //return dtData;
         }
 
         /// <summary>
