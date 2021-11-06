@@ -17,6 +17,9 @@ namespace VNCF.PSS.Web.Controllers
             //return RedirectToAction("List", "Plan", new { Area = "Prod" });
             //return RedirectToAction("List", "Proc", new { Area = "Prod" });
             //return View();
+
+            //return RedirectToAction("List", "Proc", new { Area = "Prod" });
+
         }
 
         public ActionResult About()
