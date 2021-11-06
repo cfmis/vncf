@@ -53,7 +53,7 @@
             height:120px;
             position:absolute;            
             left:80%;
-            top:20px;
+            top:40px;
             /*background-color:yellow;*/
         }
         .img-plan{
@@ -528,7 +528,8 @@
             <div class="div-right">
                 <p>
                     <!--img id="ArtImage" class="plan-img" src="~/Images/photo.png" /-->
-                    @*<img src="this.ArtImageUrl" alt="..." class="img-plan">*@
+                    <img :src="this.ArtImageUrl" alt="..." class="img-plan">
+                    @*<img src="~/Images/photo.png" alt="..." class="img-plan">*@
                 </p>
             </div>
         </el-form>
@@ -1197,10 +1198,11 @@
                 },
                 rowDetailsClick(row, event, column){
                     this.ArtImageUrl = row.ArtImage;//圖樣路徑
+                    //$("#picture_name").attr("src", rows.ArtImage);//設置圖樣
                     this.curRow = row;//保存當前行
                     this.curRowIndex = row.index ;//保存當前行索引
-                    var product_id = row.ProductID;
-                    this.getBomData(product_id);
+                    var product_id = row.ProductID;                    
+                    this.getBomData(product_id);//顯示BOM資料
                 },
                 searchData() {//查詢
                     this.isLoading = true;

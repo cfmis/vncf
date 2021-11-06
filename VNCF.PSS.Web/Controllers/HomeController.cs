@@ -11,7 +11,10 @@ namespace VNCF.PSS.Web.Controllers
     {
         public ActionResult Index()
         {
+<<<<<<< HEAD
             //login入口
+=======
+>>>>>>> b808f49583939d7c0cd01e263ec7ca80b2865143
             return RedirectToAction("Index", "Auth", new { Area = "Account" });
             //return RedirectToAction("List", "Goods", new { Area = "Base" });
             //return RedirectToAction("List", "Plan", new { Area = "Prod" });
