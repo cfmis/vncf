@@ -74,8 +74,7 @@
         .el-dialog__header{
             padding:12px 20px 10px;
             background-color: #f5f7fa;
-        }
-        
+        }        
         /* 用来设置当前页面element全局table 选中某行时的背景色*/
         .el-table__body tr.current-row>td{
             background-color: #87CEFA !important;
@@ -83,31 +82,47 @@
         }
         /*工具欄按鈕設置產色及邊框*/
         .tool-bar-color{
-             background-color: #F5F7FA;
-             border:1px solid #e8e8e8;
+            padding: 2px;
+            margin-top:5px;
+            margin-left:2px;
+            background-color: #F5F7FA;
+            border:1px solid #e8e8e8;
         }
+        /*.el-button {
+          border-radius: 2px;
+          padding: 0;
+          margin-left: -25px;
+          width: 100px;
+          height: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size:12px;
+          background-color:#008FD4;
+        }*/
     </style>
 }
 
 <div id="app"> 
-    <div class="tool-bar-color" style="margin-top:5px;margin-left:5px;">
-        <template>
+    <div class="tool-bar-color">        
+        <template>            
             <el-button type="primary" plain size="small" icon="el-icon-document-add" @@click="addHead" v-if="!(isEditModeHead)">@Resource.btn_new</el-button>
-            <el-button type="danger" plain size="small" icon="el-icon-delete-solid" @@click="cancelHead" v-if="!(isEditModeHead)">@Resource.Delete</el-button>
-            <el-button type="primary" plain size="small" icon="el-icon-edit" @@click="editHead"v-if="!(isEditModeHead)" >@Resource.btn_edit</el-button>
-            <el-button type="primary" plain size="small" icon="el-icon-s-grid" @@click="addItem" v-if="!(isEditModeHead)">@Resource.btn_additem</el-button>
-            <el-button type="success" plain size="small" icon="el-icon-check" @@click="saveHead" v-if="isEditModeHead">@Resource.btn_save</el-button>
-            <el-button type="warning" plain size="small" icon="el-icon-check" @@click="resetHead" v-if="isEditModeHead">@Resource.btn_undo</el-button>
-            <el-button type="success" plain size="small" icon="el-icon-upload2" @@click="importHead" v-if="!(isEditModeHead)">@Resource.btn_import</el-button>
-            <el-button type="warning" plain size="small" icon="el-icon-search" @@click="cancelItem" v-if="!(isEditModeHead)">@Resource.ItemCancel</el-button>
-            <el-button type="primary" plain size="small" icon="el-icon-search" @@click="showSearch" v-if="!(isEditModeHead)">@Resource.btn_search</el-button>
-            <el-button type="primary" plain size="small" icon="el-icon-printer" @@click="printPI" v-if="!(isEditModeHead)">@Resource.btn_print</el-button>
-        </template>           
+            <el-button type="danger" plain size="small" icon="el-icon-delete-solid" @@click="cancelHead" v-if="!(isEditModeHead)" style="margin-left: -2px;">@Resource.Delete</el-button>
+            <el-button type="primary" plain size="small" icon="el-icon-edit" @@click="editHead" v-if="!(isEditModeHead)" style="margin-left: -2px;">@Resource.btn_edit</el-button>
+            <el-button type="primary" plain size="small" icon="el-icon-s-grid" @@click="addItem" v-if="!(isEditModeHead)" style="margin-left: -2px;">@Resource.btn_additem</el-button>
+            <el-button type="success" plain size="small" icon="el-icon-check" @@click="saveHead" v-if="isEditModeHead" style="margin-left: -2px;">@Resource.btn_save</el-button>
+            <el-button type="warning" plain size="small" icon="el-icon-check" @@click="resetHead" v-if="isEditModeHead" style="margin-left: -2px;">@Resource.btn_undo</el-button>
+            <el-button type="success" plain size="small" icon="el-icon-upload2" @@click="importHead" v-if="!(isEditModeHead)" style="margin-left: -2px;">@Resource.btn_import</el-button>
+            <el-button type="warning" plain size="small" icon="el-icon-search" @@click="cancelItem" v-if="!(isEditModeHead)" style="margin-left: -2px;">@Resource.ItemCancel</el-button>
+            <el-button type="primary" plain size="small" icon="el-icon-search" @@click="showSearch" v-if="!(isEditModeHead)" >@Resource.btn_search</el-button>
+            <el-button type="primary" plain size="small" icon="el-icon-printer" @@click="printPI" v-if="!(isEditModeHead)" style="margin-left: -2px;">@Resource.btn_print</el-button>            
+        </template>
+         
     </div> 
 
     <!--查找窗口-->
     <template v-if="isRenderSearchWindow">
-        <el-dialog :title="title" :visible.sync="showDialogSearch" :close-on-click-modal="false" width="65%" >
+        <el-dialog :title="title" :visible.sync="showDialogSearch" :close-on-click-modal="false" width="65%" destroy-on-close>
             <div class="tool-bar-color" style="margin-bottom:5px;margin-left:5px">
                 <template>
                     <el-button type="danger" plain size="small" icon="el-icon-close" @@click="closeDialog('searchForm')">@Resource.btn_exit</el-button>
@@ -614,7 +629,7 @@
                         <!--3-->
                         <el-col :span="6" style="width:23%">
                             <!--款號-->
-                            <el-form-item label="@Resource.StyleNo" prop="StyleNo"> 
+                            <el-form-item label="@Resource.StyleNo" prop="StyleNo">
                                 @*<el-input v-model="formDetailData.StyleNo" onkeyup="value=value.toUpperCase()":readonly="isReadonly"></el-input>*@ 
                                 <el-input v-model="formDetailData.StyleNo" @@blur="onToUpperCaseBlur($event,'StyleNo',2)" :readonly="isReadonly"></el-input> 
                             </el-form-item>
@@ -622,7 +637,10 @@
                         <el-col :span="6" style="width:21%">
                             <!--牌子編號-->
                             <el-form-item label="@Resource.BrandID" prop="BrandID">
-                                <el-input v-model="formDetailData.BrandID" @@blur="onToUpperCaseBlur($event,'BrandID',2)" :readonly="isReadonly"></el-input> 
+                                <el-input v-model="formDetailData.BrandID" @@blur="onBrandBlur" :readonly="isReadonly"></el-input> 
+                                @*<el-select v-model="formDetailData.BrandID" :disabled="isDisable">
+                                    <el-option v-for="item in arrBrand" :key="item.ID" :label="item.Name" :value="item.ID"></el-option>
+                                </el-select>*@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6" style="width:20%">
@@ -883,24 +901,6 @@
                         <el-button type="text" @@click="deleteItem(scope.$index,scope.row)" size="mini"><span style="color: red">刪除</span></el-button>
                     </template>
                 </el-table-column>
-
-                @*<el-table-column label="操作" width="150" align="center" fixed="right">
-                <el-table-column width="50" align="center">
-                    <template slot-scope="scope">
-                        <el-button type="text" @@click="browseItem(scope.$index,scope.row)" size="mini">瀏覽</el-button>
-                    </template>
-                </el-table-column>
-                <el-table-column width="50" align="center">
-                    <template slot-scope="scope">
-                        <el-button type="text" @@click="editItem(scope.$index,scope.row)" size="mini">編輯</el-button>
-                    </template>
-                </el-table-column>
-                <el-table-column width="50">
-                    <template slot-scope="scope">
-                        <el-button type="text" @@click="deleteItem(scope.$index,scope.row)" size="mini"><span style="color: red">刪除</span></el-button>
-                    </template>
-                </el-table-column>
-                </el-table-column>*@
             </el-table>
 
             <!--分頁全功能-->
@@ -963,7 +963,7 @@
 
 @section PageSpecificJavascriptIncludes{
     <script src="~/Content/js/SalesOrder.js?v=20210416000016"></script>
-    <script src="~/Content/js/common.js"></script>
+    <script src="~/Content/js/common.js?v=20211108000001"></script>
     <script src="~/Content/js/BaseData.js?v=20211025000024"></script>
 
     <script>
@@ -1042,6 +1042,7 @@
                 arrMoDept:[],
                 arrMoGroup:[],
                 arrUnit:[],
+                arrBrand:[],
                 findItem:{ProductID:'',type:3},               
                 tableDataFindItem:[],
                 FindItemCurrentRow:{ProductID:'',ProductDesc:''},
@@ -1077,11 +1078,7 @@
                     PriceUnit:{ required: true, message: '單價單位不可為空!!', trigger: 'change' }, 
                     PlanCompleteDate:{ required: true, message: '預計完成日期不可為空!', trigger: 'change' },
                     ArriveDate:{ required: true, message: '交貨日期不可為空!', trigger: 'change' },
-                    FactoryShipOutDate:{ required: true, message: '交客日期不可為空!', trigger: 'change' }                    
-                    //AuthorityID: [
-                    //  { required: true, message: '请选择角色所擁有的菜單!', trigger: 'change',type:'number' }
-                    //  //,{ min: 20001, max: 99999, message: '20001至99999的自然數', trigger: 'change',type:'number' }
-                    //]                      
+                    FactoryShipOutDate:{ required: true, message: '交客日期不可為空!', trigger: 'change' }
                 }
             },
             computed : {
@@ -1127,6 +1124,8 @@
                     this.arrMoGroup = BaseData.getBaseInfo('bs_type_3');
                     //數量單位/單價單位
                     this.arrUnit = BaseData.getBaseInfoByName('bs_unit');
+                    //牌子資料
+                    this.arrBrand = BaseData.getBaseInfo('bs_brand');
                 },                
                 checkPrice(){
                     var price = this.formDetailData.Price;
@@ -1244,53 +1243,8 @@
                     var searchParams = {OcID:this.searchDataSelect.OcID};
                     //查詢主表
                     axios.get("GetOcHead", { params: searchParams }).then(
-                       (response) => {
-                           this.formHeadData = {
-                               OcID: response.data.OcID,
-                               Ver: response.data.Ver,
-                               OrderDate: response.data.OrderDate,
-                               CustomerID:response.data.CustomerID,
-                               CustomerCdesc:response.data.CustomerCdesc,
-                               CustomerEdesc:response.data.CustomerEdesc,
-                               OrderType:response.data.OrderType,
-                               ReceivedDate:response.data.ReceivedDate,
-                               ForeignFirm:response.data.ForeignFirm,
-                               Area:response.data.Area,
-                               SallerID:response.data.SallerID,
-                               Season:response.data.Season,
-                               Contacts:response.data.Contacts,
-                               ContactsTel:response.data.ContactsTel,
-                               ContactsFax:response.data.ContactsFax,
-                               ContactsEmail:response.data.ContactsEmail,
-                               Merchandisers:response.data.Merchandisers,
-                               MerchandisersTel:response.data.MerchandisersTel,
-                               MerchandisersEmail:response.data.MerchandisersEmail,
-                               CurrencyID:response.data.CurrencyID,
-                               CurrencyRate:response.data.CurrencyRate,
-                               DeliveredPort:response.data.DeliveredPort,
-                               DestinationPort:response.data.DestinationPort,
-                               PoNo:response.data.PoNo,
-                               PaymentType:response.data.PaymentType,
-                               PriceType:response.data.PriceType,
-                               Transport:response.data.Transport,
-                               DiscountRate:response.data.DiscountRate,
-                               Discount:response.data.Discount,
-                               TaxNo:response.data.TaxNo,
-                               Tax:response.data.Tax,
-                               ProductAmount:response.data.ProductAmount,
-                               TotalAmount:response.data.TotalAmount,
-                               BankAccount:response.data.BankAccount,
-                               State:response.data.State,
-                               Remark:response.data.Remark,
-                               CreateBy:response.data.CreateBy,
-                               CreateAt:response.data.CreateAt,
-                               UpdateBy:response.data.UpdateBy,
-                               UpdateAt:response.data.UpdateAt,
-
-                               CustomerAddress:response.data.CustomerAddress,
-                               SendAddress:response.data.SendAddress,
-                               CountryID:response.data.CountryID
-                           }
+                       (response) => {                           
+                           this.formHeadData=JSON.parse(JSON.stringify(response.data));
                        },
                        (response) => {
                            alert(response.status);
@@ -1437,7 +1391,7 @@
                     this.checkHeadDataStatus();    
                     if(this.canAddItem == false){
                         return;
-                    } 
+                    }                     
                     this.dialogStatus = "byAdd";
                     this.tempHeadData = JSON.parse(JSON.stringify(this.formHeadData));//暫存臨時數據
                     // this.$refs["formDetail"].resetFields();//清空所有對象值
@@ -1449,7 +1403,7 @@
                     var objDate = new Date();//生成日期對象:Fri Oct 15 2021 17:51:20 GMT+0800 
                     this.$set(this.formDetailData, "ArriveDate",comm.getDate(objDate,0));
                     this.$set(this.formDetailData, "FactoryShipOutDate",comm.getDate(objDate,3));
-                    this.setCheckBoxStatus();
+                    this.setCheckBoxStatus();                    
                     this.setFormEditButtonStatus(true);
                     this.isDisableMo = false;   
                 },
@@ -1753,6 +1707,21 @@
                                }else{
                                    alert("此客戶編碼不存在!");
                                }
+                           }
+                        );
+                    }
+                },
+                onBrandBlur(){
+                    var brand = this.formDetailData.BrandID;
+                    if(brand.length>0){                        
+                        axios.get("/BaseData/CheckBrand?strBrand=" + brand).then(
+                           (response) => {
+                               if(response.data.length>0){
+                                   this.$set(this.formDetailData, "BrandID",response.data); 
+                               }else{                                   
+                                   this.$message('牌子編碼['+brand+']'+'不存在!');
+                                   this.$set(this.formDetailData, "BrandID","");
+                               }                                                             
                            }
                         );
                     }

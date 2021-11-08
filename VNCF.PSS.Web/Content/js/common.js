@@ -34,18 +34,18 @@ var comm= {
   formatJson: function(filterVal, jsonData) {
     return jsonData.map(v => filterVal.map(j => v[j]))
   },
-// 获取当前时间
-getCurrentDate:function() {
-  const date = new Date();
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
-  month = month < 10 ? "0" + month : month; //月小于10，加0
-  day = day < 10 ? "0" + day : day; //day小于10，加0
-  return `${year}-${month}-${day}`;
+  // 获取当前时间
+  getCurrentDate:function() {
+      const date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+      month = month < 10 ? "0" + month : month; //月小于10，加0
+      day = day < 10 ? "0" + day : day; //day小于10，加0
+      return `${year}-${month}-${day}`;
   },
- //獲取當前日期時間
-getCurrentTime: function() {
+  //獲取當前日期時間
+  getCurrentTime: function() {
         //获取当前时间并打印
         var _this = this;
 		var dateTime="";
@@ -57,10 +57,23 @@ getCurrentTime: function() {
     　　let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
     　　dateTime = yy+'/'+mm+'/'+dd+' '+hh+':'+mf+':'+ss;
     　　return (dateTime)
-},
+  },
 
-//獲取當前日期時間
-getWipID: async  function() {
+  //返回字符格式日期(yyyy-MM-dd)
+  //date:須是日期格式對象
+  //addDays:天數增加幾天,例如:0則返當前日期,2,返回前日期再加上兩天
+  //參數例子:addDays=0則返當前日期; addDays=2返回前日期再加上兩天
+  getDate: function(date,addDays){
+     var year = date.getFullYear();
+     var month = date.getMonth() + 1;
+     var day = (addDays==0)?date.getDate():date.getDate() + addDays;
+     month = month<10?'0'+ month:month;
+     day = day<10?'0'+ day:day;
+     return (year +'-'+ month +'-'+ day).toString();
+  },
+
+  //獲取當前日期時間
+  getWipID: async  function() {
 	var result='aaa';
         await axios.get("GetWipID").then(
             (response) => {
