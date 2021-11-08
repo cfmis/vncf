@@ -103,9 +103,9 @@
     </style>
 }
 
-<div id="app"> 
-    <div class="tool-bar-color">        
-        <template>            
+<div id="app">     
+    <template> 
+        <div class="tool-bar-color">
             <el-button type="primary" plain size="small" icon="el-icon-document-add" @@click="addHead" v-if="!(isEditModeHead)">@Resource.btn_new</el-button>
             <el-button type="danger" plain size="small" icon="el-icon-delete-solid" @@click="cancelHead" v-if="!(isEditModeHead)" style="margin-left: -2px;">@Resource.Delete</el-button>
             <el-button type="primary" plain size="small" icon="el-icon-edit" @@click="editHead" v-if="!(isEditModeHead)" style="margin-left: -2px;">@Resource.btn_edit</el-button>
@@ -114,11 +114,10 @@
             <el-button type="warning" plain size="small" icon="el-icon-check" @@click="resetHead" v-if="isEditModeHead" style="margin-left: -2px;">@Resource.btn_undo</el-button>
             <el-button type="success" plain size="small" icon="el-icon-upload2" @@click="importHead" v-if="!(isEditModeHead)" style="margin-left: -2px;">@Resource.btn_import</el-button>
             <el-button type="warning" plain size="small" icon="el-icon-search" @@click="cancelItem" v-if="!(isEditModeHead)" style="margin-left: -2px;">@Resource.ItemCancel</el-button>
-            <el-button type="primary" plain size="small" icon="el-icon-search" @@click="showSearch" v-if="!(isEditModeHead)" >@Resource.btn_search</el-button>
-            <el-button type="primary" plain size="small" icon="el-icon-printer" @@click="printPI" v-if="!(isEditModeHead)" style="margin-left: -2px;">@Resource.btn_print</el-button>            
-        </template>
-         
-    </div> 
+            <el-button type="primary" plain size="small" icon="el-icon-search" @@click="showSearch" v-if="!(isEditModeHead)">@Resource.btn_search</el-button>
+            <el-button type="primary" plain size="small" icon="el-icon-printer" @@click="printPI" v-if="!(isEditModeHead)" style="margin-left: -2px;">@Resource.btn_print</el-button>
+        </div>
+    </template>
 
     <!--查找窗口-->
     <template v-if="isRenderSearchWindow">
@@ -1041,8 +1040,7 @@
                 arrMoType:[],
                 arrMoDept:[],
                 arrMoGroup:[],
-                arrUnit:[],
-                arrBrand:[],
+                arrUnit:[],                
                 findItem:{ProductID:'',type:3},               
                 tableDataFindItem:[],
                 FindItemCurrentRow:{ProductID:'',ProductDesc:''},
@@ -1123,9 +1121,7 @@
                     //組別
                     this.arrMoGroup = BaseData.getBaseInfo('bs_type_3');
                     //數量單位/單價單位
-                    this.arrUnit = BaseData.getBaseInfoByName('bs_unit');
-                    //牌子資料
-                    this.arrBrand = BaseData.getBaseInfo('bs_brand');
+                    this.arrUnit = BaseData.getBaseInfoByName('bs_unit');                    
                 },                
                 checkPrice(){
                     var price = this.formDetailData.Price;
