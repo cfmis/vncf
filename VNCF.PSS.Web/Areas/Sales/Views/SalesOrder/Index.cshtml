@@ -542,7 +542,7 @@
             <div class="div-right">
                 <p>
                     <!--img id="ArtImage" class="plan-img" src="~/Images/photo.png" /-->
-                    <img :src="this.ArtImageUrl" alt="..." class="img-plan">
+                    <img :src='ArtImageUrl' alt="..." class="img-plan">
                     @*<img src="~/Images/photo.png" alt="..." class="img-plan">*@
                 </p>
             </div>
@@ -962,7 +962,7 @@
 
 @section PageSpecificJavascriptIncludes{
     <script src="~/Content/js/SalesOrder.js?v=20210416000016"></script>
-    <script src="~/Content/js/common.js?v=20211108000001"></script>
+    <script src="~/Content/js/common.js?v=20211109000001"></script>
     <script src="~/Content/js/BaseData.js?v=20211025000024"></script>
 
     <script>
@@ -1192,8 +1192,8 @@
                     this.showDialogSearch = false;
                 },
                 rowDetailsClick(row, event, column){
-                    this.ArtImageUrl = row.ArtImage;//圖樣路徑
-                    //$("#picture_name").attr("src", rows.ArtImage);//設置圖樣
+                    //alert(row.ArtImage);
+                    this.ArtImageUrl = row.ArtImage;//圖樣路徑 
                     this.curRow = row;//保存當前行
                     this.curRowIndex = row.index ;//保存當前行索引
                     var product_id = row.ProductID;                    

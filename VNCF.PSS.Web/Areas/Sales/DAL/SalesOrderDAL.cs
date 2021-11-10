@@ -156,8 +156,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 mdj.InvoiceRemark = dr["InvoiceRemark"].ToString();
                 mdj.PlateRemark = dr["PlateRemark"].ToString();
                 mdj.ProductRemark = dr["ProductRemark"].ToString();
-                mdj.ArtImage = "file:/" + "/192.168.3.12/cf_artwork/Artwork/" + dr["picture_name"].ToString().Trim().Replace("\\", "/");
-                //file:////192.168.3.12/cf_artwork/ArtworkRRRR/RALP114.BMP
+                mdj.ArtImage = "file:/" + "/192.168.168.15/cf_artwork/Artwork/" + dr["picture_name"].ToString().Trim().Replace("\\", "/");               
                 lsDetails.Add(mdj);
             }
             return lsDetails;
@@ -842,9 +841,13 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         {
             List<OcReport> lstModel = new List<OcReport>();
             string strSql = string.Format(
-                @"SELECT A.*,dbo.fn_GetMoneySign(A.CustomerID) AS Sign,B.* 
+                @"SELECT A.*,dbo.fn_GetMoneySign(A.CustomerID) AS Sign,B.*,
+                CASE WHEN LEN(D.picture_name)>0 THEN E.picture_path_web+REPLACE(D.picture_name,'\','/') ELSE '' END AS ArtImage
                 FROM oc_OrderHead A with(nolock)
                 INNER JOIN oc_OrderDetails B with(nolock) ON A.OcID=B.OcID and A.Ver=B.Ver
+                LEFT JOIN it_goods C ON B.ProductID = C.id
+                LEFT JOIN cd_pattern D On C.blueprint_id=D.id,
+                cd_company E
                 WHERE A.OcID='{0}'", ID);
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<OcReport> list = CommonUtils.DataTableToList<OcReport>(dt);
