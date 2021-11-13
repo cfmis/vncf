@@ -8,11 +8,17 @@ using VNCF.PSS.Web.Areas.Base.Models;
 using CF.SQLServer.DAL;
 using VNCF.PSS.Web.Common;
 
+using System.IO;
+using System.Net.Http;
+using System.Net;
+using System.Net.Http.Headers;
+
 namespace VNCF.PSS.Web.Areas.Sales.DAL
 {
     public class SalesOrderDAL
     {
         static string strRemoteDB = "DGERP2.cferp.dbo.";//SQLHelper.RemoteDB;//
+        static string ArtImagePath = DBUtility.ArtImagePath;
         public static string UpdateOcHead(Order_Head model)
         {
             string result = "";
@@ -156,7 +162,8 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 mdj.InvoiceRemark = dr["InvoiceRemark"].ToString();
                 mdj.PlateRemark = dr["PlateRemark"].ToString();
                 mdj.ProductRemark = dr["ProductRemark"].ToString();
-                mdj.ArtImage = "file:/" + "/192.168.168.15/cf_artwork/Artwork/" + dr["picture_name"].ToString().Trim().Replace("\\", "/");               
+                //mdj.ArtImage = "file:/" + "/192.168.168.15/cf_artwork/Artwork/" + dr["picture_name"].ToString().Trim().Replace("\\", "/");
+                mdj.ArtImage = ArtImagePath + dr["picture_name"].ToString().Trim().Replace("\\", "/");
                 lsDetails.Add(mdj);
             }
             return lsDetails;
@@ -907,6 +914,26 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             //return lstModel;
 
         }
+
+        ///// <summary>
+        ///// 测试是否能访问其他项目目录下的文件
+        ///// </summary>
+        ///// <returns></returns>
+        //public static string GetImage(string artwork)
+        //{
+        //    string path = "";          
+        //    artwork = "TTTT/TOMM002.BMP";
+        //    try
+        //    {
+        //         path = System.Web.HttpContext.Current.Server.MapPath(string.Format("~/art/Artwork/{0}", artwork));
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        path = "报错了！" + ex.ToString();
+        //    }
+        //    return path;            
+        //}
+        
 
     }
 }
