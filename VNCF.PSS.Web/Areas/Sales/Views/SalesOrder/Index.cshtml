@@ -292,7 +292,7 @@
         <!--el-tabs v-model="activeName" type="border-card" @@tab-click="handleClick" :height="autoHeight"-->
         <!--第一頁-->
         <!--el-tab-pane label="Resource.sales_order_master" name="first" size="mini" -->
-        <el-form :model="formHeadData" ref="formHead" label-width="100px" size="mini" :rules="rulesHead">
+        <el-form :model="formHeadData" ref="formHead" label-width="100px" size="mini" :rules="rulesHead" >
             <el-row>
                 <el-col :span="6" style="width:20%">
                     <el-form-item prop="OcID" label="@Resource.OcID">
@@ -831,9 +831,9 @@
                 element-loading-background="rgba(255, 255, 255, .5)"
                 element-loading-text="加载中，请稍后..."
                 element-loading-spinner="el-icon-loading"
-                @@row-click="rowDetailsClick"                     
+                @@row-click="rowDetailsClick"
                 :row-class-name="tableRowClassName"
-                ref="elTable">
+                ref="elTable" :key="keyHead">
                 <el-table-column prop="OcID" label="@Resource.OcID" width="50" v-if="false"></el-table-column>
                 <el-table-column prop="Ver" label="@Resource.Ver" width="50" v-if="false"></el-table-column>
                 <el-table-column prop="Seq" label="@Resource.Seq" width="50" v-if="true"></el-table-column>                
@@ -878,7 +878,7 @@
                 <el-table-column prop="ArtImage" label="ArtWork" width="120" v-if="false"></el-table-column>
                 <el-table-column prop="IsFree" label="@Resource.IsFree" align="center" width="80">
                     <template slot-scope="scope">
-                        <el-checkbox :checked="scope.row.IsFree == 1" disabled />                        
+                        <el-checkbox :checked="scope.row.IsFree == 1" disabled /> 
                     </template>
                 </el-table-column>
                 <el-table-column prop="IsPrint" label="@Resource.IsPrint" align="center" width="80">
@@ -1124,7 +1124,7 @@
                     this.arrMoGroup = BaseData.getBaseInfo('bs_type_3');
                     //數量單位/單價單位
                     this.arrUnit = BaseData.getBaseInfoByName('bs_unit');                    
-                },                
+                },
                 checkPrice(){
                     var price = this.formDetailData.Price;
                     var price = '' + (price===''?0.00:price);                    
@@ -1159,7 +1159,7 @@
                 },
                 //不保存直接关闭弹框
                 closeDialog(flag) {
-                    //備用參數flag,此處傳入對應彈窗名稱引用
+                    //調用參數flag,此處傳入對應彈窗名稱引用
                     this.$refs[flag].resetFields();
                     if(flag =='searchForm'){
                         this.showDialogSearch = false;
@@ -1175,7 +1175,8 @@
                             //恢復修改前的值
                             this.formHeadData = JSON.parse(JSON.stringify(this.tempHeadData));
                         } 
-                        this.isReadonly = true;
+                        this.isReadonly = true;//主檔相關控件設為只讀
+                        this.isDisable = true;//主檔相關下拉列表框禁為不可用                       
                         this.showDialog = false;
                     }
                     if(flag=='findItem'){
@@ -1201,8 +1202,7 @@
                     this.curRowIndex = row.index ;//保存當前行索引
                     var product_id = row.ProductID;                    
                     this.getBomData(product_id);//顯示BOM資料
-                },               
-
+                },
                 searchData() {//查詢
                     this.isLoading = true;
                     //this.tableTempList = [];
@@ -1563,8 +1563,8 @@
                             axios.post("AddList", updateParams ).then(
                                     (response) => {                                        
                                         this.showDialog = false;//關閉彈窗   
-                                        this.isReadonly = true;
-                                        //this.certinfoKey = !this.certinfoKey;
+                                        this.isReadonly = true;//設置主表相關控件的只讀
+                                        this.isDisable = true;//設置主表相關下拉框控件禁用                                       
                                         //儲存主檔總金額  
                                         this.updateHeadAmount();
                                     }
