@@ -833,7 +833,7 @@
                 element-loading-spinner="el-icon-loading"
                 @@row-click="rowDetailsClick"
                 :row-class-name="tableRowClassName"
-                ref="elTable" :key="keyHead">
+                ref="elTable" >
                 <el-table-column prop="OcID" label="@Resource.OcID" width="50" v-if="false"></el-table-column>
                 <el-table-column prop="Ver" label="@Resource.Ver" width="50" v-if="false"></el-table-column>
                 <el-table-column prop="Seq" label="@Resource.Seq" width="50" v-if="true"></el-table-column>                
@@ -878,12 +878,12 @@
                 <el-table-column prop="ArtImage" label="ArtWork" width="120" v-if="false"></el-table-column>
                 <el-table-column prop="IsFree" label="@Resource.IsFree" align="center" width="80">
                     <template slot-scope="scope">
-                        <el-checkbox :checked="scope.row.IsFree == 1" disabled /> 
+                        <el-checkbox :checked="scope.row.IsFree == 1" disabled :key="`${componentKey}-${scope.$index}`"/> 
                     </template>
                 </el-table-column>
                 <el-table-column prop="IsPrint" label="@Resource.IsPrint" align="center" width="80">
                     <template slot-scope="scope">
-                        <el-checkbox :checked="scope.row.IsPrint == 1" disabled />
+                        <el-checkbox :checked="scope.row.IsPrint == 1" disabled :key="`${componentKey}-${scope.$index}`"/>
                     </template>
                 </el-table-column>
 
@@ -1048,6 +1048,7 @@
                 FindItemCurrentRow:{ProductID:'',ProductDesc:''},
                 deleteItemAmount:0.00,
                 cancelItemAmount:0.00,
+                componentKey:0,
                 //主表有效性檢查
                 rulesHead: {
                     OcID:{ required: true, message: 'Oc編號不可為空!', trigger: 'change' },
@@ -1548,23 +1549,28 @@
                             }
                             if(this.formDetailData.IsFree == true) {
                                 //this.formDetailData.IsFree = '1';
-                                this.$set(this.formDetailData,'IsFree','1')
-                            }else{
-                                this.$set(this.formDetailData,'IsFree','0')
+                                this.$set(this.formDetailData,'IsFree','1')   
+                                this.$set(this.tableData[this.curRowIndex],"IsFree",'1');//設置單元格的值
+                            }else{                                
                                 //this.formDetailData.IsFree = '0';
+                                this.$set(this.formDetailData,'IsFree','0')
+                                this.$set(this.tableData[this.curRowIndex],"IsFree",'0');//設置單元格的值
                             }
                             if(this.formDetailData.IsPrint == true) {                   
-                                this.formDetailData.IsPrint = '1';
+                                this.formDetailData.IsPrint = '1';  
+                                this.$set(this.tableData[this.curRowIndex],"IsPrint",'1');
                             }else{
                                 this.formDetailData.IsPrint='0';
+                                this.$set(this.tableData[this.curRowIndex],"IsPrint",'0');
                             }
                             var updateParams = JSON.parse(JSON.stringify(this.formDetailData));     
                             //axios.post("AddList?OcID=" + this.formDetailData.OcID, updateParams ).then(//2021.10.21 CANCEL
                             axios.post("AddList", updateParams ).then(
-                                    (response) => {                                        
+                                    (response) => {
                                         this.showDialog = false;//關閉彈窗   
                                         this.isReadonly = true;//設置主表相關控件的只讀
-                                        this.isDisable = true;//設置主表相關下拉框控件禁用                                       
+                                        this.isDisable = true;//設置主表相關下拉框控件禁用
+                                        this.forceRerender();//強制渲染CheckBox列.
                                         //儲存主檔總金額  
                                         this.updateHeadAmount();
                                     }
@@ -1941,7 +1947,10 @@
                             return '未知';
                             break;  
                     }
-                },                  
+                },       
+                forceRerender() {
+                    this.componentKey += 1;                    
+                },
                 ////隐藏表头**********
                 //handerMethod({rowIndex}){
                 //    if (rowIndex === 1) {

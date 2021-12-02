@@ -855,7 +855,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 LEFT JOIN it_goods C ON B.ProductID = C.id
                 LEFT JOIN cd_pattern D On C.blueprint_id=D.id,
                 cd_company E
-                WHERE A.OcID='{0}'", ID);
+                WHERE A.OcID='{0}' AND B.MoState<>'2' AND B.IsPrint='1'", ID);
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<OcReport> list = CommonUtils.DataTableToList<OcReport>(dt);
             return list;
