@@ -568,6 +568,7 @@
     <Content Include="Areas\Base\Views\RoleAuthorityPowers\Index3.cshtml" />
     <Content Include="Content\ElementUI\css\fonts\element-icons.ttf" />
     <Content Include="Content\ElementUI\css\fonts\element-icons.woff" />
+    <Content Include="Areas\Prod\Views\Proc\Index.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

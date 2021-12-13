@@ -16,7 +16,7 @@ namespace CF.Web
         {
             get
             {
-                //var gt= CacheHelper.GetItem<ServiceContext>("ServiceContext", () => new ServiceContext());
+                //var gt = CacheHelper.GetItem<ServiceContext>("ServiceContext", () => new ServiceContext());
                 return CacheHelper.GetItem<ServiceContext>("ServiceContext", () => new ServiceContext());
             }
         }
