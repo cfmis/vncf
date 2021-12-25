@@ -6,9 +6,9 @@ using System.Web.Mvc;
 using VNCF.PSS.Web.Areas.Sales.Models;
 using VNCF.PSS.Web.Areas.Sales.DAL;
 using VNCF.PSS.Web.Common;
-using System.IO;
 //using Microsoft.Reporting.WebForms;
 using FastReport.Web;
+
 
 namespace VNCF.PSS.Web.Areas.Sales.Controllers
 {
@@ -149,7 +149,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             string result = SalesOrderDAL.UpdateOcHead(model);
             return Json(result);
         }
-        //理新主表金額2021.10.19新增
+        //更新主表金額2021.10.19新增
         [HttpPost]
         public ActionResult UpdateHeadAmount(Order_Head model)
         {
@@ -386,7 +386,7 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             ViewBag.WebReport = webReport;
             return View();
         }
-               
+
 
     }
 

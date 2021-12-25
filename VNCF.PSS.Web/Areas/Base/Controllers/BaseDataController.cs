@@ -103,6 +103,12 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
             var lst = BaseDataDAL.GetBasePermissionList(TableName);
             return Json(lst, JsonRequestBehavior.AllowGet);
         }
-        
+
+        //檢查牌子是否存在
+        public ActionResult CheckBrand(string strBrand)
+        {
+            var list = BaseDataDAL.GetBrandById(strBrand);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
     }
 }

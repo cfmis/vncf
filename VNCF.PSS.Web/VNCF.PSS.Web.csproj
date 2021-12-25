@@ -258,6 +258,12 @@
     <Compile Include="Areas\Account\DAL\Factory.cs" />
     <Compile Include="Areas\Account\DAL\GenAdminiMenu.cs" />
     <Compile Include="Areas\Account\Models\AdminMenuConfig.cs" />
+    <Compile Include="Areas\Base\ASHX\BaseDataList.ashx.cs">
+      <DependentUpon>BaseDataList.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Base\ASHX\ShowArtWork.ashx.cs">
+      <DependentUpon>ShowArtwork.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Base\BaseAreaRegistration.cs" />
     <Compile Include="Areas\Base\Controllers\BaseDataController.cs" />
     <Compile Include="Areas\Base\Controllers\BrandController.cs" />
@@ -568,7 +574,6 @@
     <Content Include="Areas\Base\Views\RoleAuthorityPowers\Index3.cshtml" />
     <Content Include="Content\ElementUI\css\fonts\element-icons.ttf" />
     <Content Include="Content\ElementUI\css\fonts\element-icons.woff" />
-    <Content Include="Areas\Prod\Views\Proc\Index.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

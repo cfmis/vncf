@@ -8,11 +8,17 @@ using VNCF.PSS.Web.Areas.Base.Models;
 using CF.SQLServer.DAL;
 using VNCF.PSS.Web.Common;
 
+using System.IO;
+using System.Net.Http;
+using System.Net;
+using System.Net.Http.Headers;
+
 namespace VNCF.PSS.Web.Areas.Sales.DAL
 {
     public class SalesOrderDAL
     {
         static string strRemoteDB = "DGERP2.cferp.dbo.";//SQLHelper.RemoteDB;//
+        static string ArtImagePath = DBUtility.ArtImagePath;
         public static string UpdateOcHead(Order_Head model)
         {
             string result = "";
@@ -156,8 +162,8 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 mdj.InvoiceRemark = dr["InvoiceRemark"].ToString();
                 mdj.PlateRemark = dr["PlateRemark"].ToString();
                 mdj.ProductRemark = dr["ProductRemark"].ToString();
-                mdj.ArtImage = "file:/" + "/192.168.3.12/cf_artwork/Artwork/" + dr["picture_name"].ToString().Trim().Replace("\\", "/");
-                //file:////192.168.3.12/cf_artwork/ArtworkRRRR/RALP114.BMP
+                //mdj.ArtImage = "file:/" + "/192.168.168.15/cf_artwork/Artwork/" + dr["picture_name"].ToString().Trim().Replace("\\", "/");
+                mdj.ArtImage = ArtImagePath + dr["picture_name"].ToString().Trim().Replace("\\", "/");
                 lsDetails.Add(mdj);
             }
             return lsDetails;
@@ -842,10 +848,14 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
         {
             List<OcReport> lstModel = new List<OcReport>();
             string strSql = string.Format(
-                @"SELECT A.*,dbo.fn_GetMoneySign(A.CustomerID) AS Sign,B.* 
+                @"SELECT A.*,dbo.fn_GetMoneySign(A.CustomerID) AS Sign,B.*,
+                CASE WHEN LEN(D.picture_name)>0 THEN E.picture_path_web+REPLACE(D.picture_name,'\','/') ELSE '' END AS ArtImage
                 FROM oc_OrderHead A with(nolock)
                 INNER JOIN oc_OrderDetails B with(nolock) ON A.OcID=B.OcID and A.Ver=B.Ver
-                WHERE A.OcID='{0}'", ID);
+                LEFT JOIN it_goods C ON B.ProductID = C.id
+                LEFT JOIN cd_pattern D On C.blueprint_id=D.id,
+                cd_company E
+                WHERE A.OcID='{0}' AND B.MoState<>'2' AND B.IsPrint='1'", ID);
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<OcReport> list = CommonUtils.DataTableToList<OcReport>(dt);
             return list;
@@ -904,6 +914,26 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             //return lstModel;
 
         }
+
+        ///// <summary>
+        ///// 测试是否能访问其他项目目录下的文件
+        ///// </summary>
+        ///// <returns></returns>
+        //public static string GetImage(string artwork)
+        //{
+        //    string path = "";          
+        //    artwork = "TTTT/TOMM002.BMP";
+        //    try
+        //    {
+        //         path = System.Web.HttpContext.Current.Server.MapPath(string.Format("~/art/Artwork/{0}", artwork));
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        path = "报错了！" + ex.ToString();
+        //    }
+        //    return path;            
+        //}
+        
 
     }
 }

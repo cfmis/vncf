@@ -359,6 +359,16 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             return lst;
         }
        
-
+        public static string GetBrandById(string strBrand)
+        {
+            string result = "";
+            string strSql = "SELECT id FROM bs_brand WHERE id='" + strBrand + "'";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            if (dt.Rows.Count > 0)
+            {
+                result = dt.Rows[0]["id"].ToString().ToUpper();
+            }                
+            return result;
+        }
     }
 }
