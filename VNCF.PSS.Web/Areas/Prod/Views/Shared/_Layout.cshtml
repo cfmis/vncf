@@ -49,6 +49,16 @@
         }
     </style>
     @RenderSection("PageSpecificStyleSheetIncludes", required: false)
+    @*<script src="~/Content/bootstrap-4.0/js/jquery.min.js"></script>
+        <script src="~/Content/bootstrap-4.0/js/popper.min.js"></script>
+        <script src="~/Content/bootstrap-4.0/js/bootstrap.min.js"></script>*@
+    <script src="~/Content/vxe-table/js/vue.js"></script>
+    <script src="~/Content/vxe-table/jsdelivr/xe-utils.js"></script>
+    <script src="~/Content/vxe-table/jsdelivr/vxe-table.js"></script>
+    @*<script src="~/Content/Hg/static/js/enter.js?v=20201029102416153"></script>*@
+    @*<script type="text/javascript" src="~/Scripts/vue-resource.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/axios.js"></script>
+    <script src="/Content/js/common.js?v=@Guid.NewGuid().ToString()"></script>
 </head>
 <body>
     @*  @RenderSection("featured", required: false)*@
@@ -66,15 +76,7 @@
     @*        @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)*@
 
-    @*<script src="~/Content/bootstrap-4.0/js/jquery.min.js"></script>
-        <script src="~/Content/bootstrap-4.0/js/popper.min.js"></script>
-        <script src="~/Content/bootstrap-4.0/js/bootstrap.min.js"></script>*@
-    <script src="~/Content/vxe-table/js/vue.js"></script>
-    <script src="~/Content/vxe-table/jsdelivr/xe-utils.js"></script>
-    <script src="~/Content/vxe-table/jsdelivr/vxe-table.js"></script>
-    @*<script src="~/Content/Hg/static/js/enter.js?v=20201029102416153"></script>*@
-    @*<script type="text/javascript" src="~/Scripts/vue-resource.js"></script>*@
-    <script type="text/javascript" src="~/Scripts/axios.js"></script>
+
     @RenderSection("PageSpecificJavascriptIncludes", required: false)
 </body>
 </html>

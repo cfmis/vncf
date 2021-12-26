@@ -120,6 +120,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             }
             return lsModel;
         }
+
         public List<ListDataModels> GetWorkType()
         {
             string strSql = "Select ID,";
