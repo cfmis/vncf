@@ -4,7 +4,7 @@
             selectTab: 'tab1',
             edit_mode: 0,
             showEdit: false,
-            showSearchGoods: false,
+            showCopy: false,
             selectRow: null,
             tablePlanDetails: [],
             editPlanDetails: {},
@@ -35,6 +35,10 @@
             //},
             formData: {},
             prevForm: {},
+			copyData:{
+				SourceType:'1',
+				ProductMo:'',
+			},
             editFormChanged: false, // 是否修改标识
             sexList: [
             { label: '', value: '' },
@@ -59,8 +63,8 @@
             alert("ok");
             //var vl = value;
         },
-        showGoods() {
-            this.showSearchGoods = true;
+        showCopyModal() {
+            this.showCopy = true;
         },
         addNew() {
             this.edit_mode = 1;
@@ -76,6 +80,7 @@
                 RequestDate: '',
                 DeliveryDate: '',
                 GoodsID: '',
+				GoodsCname:'',
                 ProductRemark: '',
                 MoRemark: '',
                 PlanRemark: '',
@@ -100,16 +105,16 @@
             this.edit_mode = 0,
             this.loading3 = true;
             setTimeout(() => {
-                this.getPlanHead(_ProductMo);
-                this.getPlanDetails(_ProductMo);
+                this.getPlanHead('S',_ProductMo);
+                this.getPlanDetails('S',_ProductMo);
                 this.loading3 = false;
             }, 500);
 
         },
-        getPlanHead(_ProductMo) {
+        async getPlanHead(IsUpdate,_ProductMo) {
             var _self = this;
             //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
-            axios.get("GetPlanHeadByMo", { params: { ProductMo: _ProductMo } }).then(
+            await axios.get("GetPlanHeadByMo", { params: { ProductMo: _ProductMo } }).then(
             (response) => {
                 //this.formData.ProductMo = response.data.ProductMo,
                 //    this.formData.Ver = response.data.Ver,
@@ -127,6 +132,7 @@
                     PlanDate: response.data.PlanDate,
                     CustomerID: response.data.CustomerID,
                     GoodsID: response.data.GoodsID,
+					GoodsCname:response.data.GoodsCname,
                     OrderQty: response.data.OrderQty,
                     OrderUnit: response.data.OrderUnit,
 					RequestDate: response.data.RequestDate,
@@ -140,10 +146,21 @@
                     AmendUser: response.data.AmendUser,
                     AmendTime: response.data.AmendTime,
                 }
+				if(IsUpdate=='S')
                 //深度複製一個對象，用來判斷數據是否有修改
                 this.prevForm = JSON.parse(JSON.stringify(this.formData));
                 //var ImagePath = "/art/artwork/" + "AAAA/A888020.bmp";
                 //this.ArtImageUrl = ImagePath;
+				else
+				{
+					this.formData.EditFlag=1;
+					this.formData.ProductMo='';
+					this.formData.Ver=0;
+					var nowDateTime = comm.getCurrentDateTime();
+					this.PlanDate = comm.getCurrentDate();
+					this.CreateTime = nowDateTime;
+					this.AmendTime = nowDateTime;
+				}
             },
             (response) => {
                 alert(response.status);
@@ -152,11 +169,26 @@
             alert(response);
         });
         },
-        getPlanDetails(_ProductMo) {
+        getPlanDetails(IsUpdate,_ProductMo) {
             var _self = this;
             axios.get("GetPlanDetailsByMo", { params: { ProductMo: _ProductMo } }).then(
             (response) => {
                 this.tablePlanDetails = response.data;
+				if(IsUpdate=='U')
+				{
+					// for(int i=0;i<this.tablePlanDetails.length;i++)
+					// {
+						// var dtRow=this.tablePlanDetails[i];
+						// dtRow.GoodsID='';
+					// }
+					
+					this.tablePlanDetails.forEach((item,i) => {
+						item.EditFlag = 1;
+						item.ProductMo='';
+						item.Ver=0;
+						item.RequestDate='';
+					})
+				}
             },
             (response) => {
                 alert(response.status);
@@ -170,13 +202,14 @@
             //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
             axios.get("GetOrderByMo", { params: { ProductMo: _self.formData.ProductMo } }).then(
             (response) => {
-                this.formData.ProductMo = response.data[0].ProductMo,
-                this.formData.CustomerID = response.data[0].CustomerID,
-                this.formData.GoodsID = response.data[0].GoodsID,
-                this.formData.OrderQty = response.data[0].OrderQty,
-                this.formData.OrderUnit = response.data[0].OrderUnit,
-                this.formData.ProductRemark = response.data[0].ProductRemark,
-                this.formData.ArtImageUrl = response.data[0].ArtImageUrl,
+				var rpData=response.data[0];
+                this.formData.ProductMo = rpData.ProductMo,
+                this.formData.CustomerID = rpData.CustomerID,
+                this.formData.GoodsID = rpData.GoodsID,
+                this.formData.OrderQty = rpData.OrderQty,
+                this.formData.OrderUnit = rpData.OrderUnit,
+                this.formData.ProductRemark = rpData.ProductRemark,
+                this.formData.ArtImageUrl = rpData.ArtImageUrl,
                 this.tablePlanDetails = response.data
             },
             (response) => {
@@ -200,7 +233,6 @@
                 RequestDate: '',
                 WipID: '',
                 NextWipID: '',
-                RequestDate: '',
               }
               //const { row: newRow } = await $table.insertAt(record, row)
               this.tablePlanDetails.push(record);
@@ -280,16 +312,63 @@
                 };
             }
         },
-		changeGoodsID(row){
+		tableGoodsIDChangeEvent(row){
+			this.changeRowState(row);
+		},
+		tableWipIDChangeEvent(row){
+			this.changeRowState(row);
+		},
+		tableNextWipIDChangeEvent(row){
+			this.changeRowState(row);
+		},
+		tableRequestQtyChangeEvent(row){
+			this.changeRowState(row);
+		},
+		tableRequestDateChangeEvent(row){
+			this.changeRowState(row);
+		},
+
+		changeRowState(row){
 			row.EditFlag=1;
 			row.GoodsID=row.GoodsID.toUpperCase();
 		},
-        getGoodsByID() {
+		tableGoodsIDBlurEvent(row){
+			if(row.GoodsID!="")
+				this.getGoodsByID(row,row.GoodsID);
+		},
+		modalGoodsIDBlurEvent(){
+			if(this.editPlanDetails.GoodsID!="")
+				this.getGoodsByID('modal',this.editPlanDetails.GoodsID);
+		},
+		formDataGoodsIDBlurEvent(){
+			if(this.formData.GoodsID!="")
+				this.getGoodsByID('formData',this.formData.GoodsID);
+		},
+        getGoodsByID(row,val) {
+			var GoodsCname="";
             if (this.editPlanDetails.GoodsID != "") {
-                var _self = this;
-                axios.get("GetGoodsByID", { params: { GoodsID: this.editPlanDetails.GoodsID } }).then(
+                axios.get("GetGoodsByID", { params: { GoodsID: val } }).then(
                 (response) => {
-                    this.editPlanDetails.GoodsCname = response.data.goods_cname
+                    GoodsCname = response.data.goods_cname
+					if(GoodsCname=="")
+					{
+						if(row=='modal')
+							this.editPlanDetails.GoodsCname='';
+						else if(row=='formData')
+							this.formData.GoodsCname='';
+						else
+							row.GoodsCname='';
+						alert("物料編號不存在!");
+					}
+					else
+					{
+						if(row=='modal')
+							this.editPlanDetails.GoodsCname=GoodsCname;
+						else if(row=='formData')
+							this.formData.GoodsCname=GoodsCname;
+						else
+							row.GoodsCname=GoodsCname;
+					}
                 },
                 (response) => {
                     alert(response.status);
@@ -298,6 +377,7 @@
                 alert(response);
             });
             }
+			
         },
         editRowEvent (row) {
             this.editPlanDetails = {
@@ -355,6 +435,24 @@
                 //this.$xDetails.message({ content: 'warning 提示框', status: 'warning' })
             }
         },
+		printEvent(){
+                //TODO
+                var url= "Print?ProductMo=" + this.formData.ProductMo;
+                showMessageDialog(url,'Print',900,600,true);
+            },
+		copyMo(){
+			if(this.copyData.SourceType=='1')
+			{
+				this.edit_mode = 0,
+				this.loading3 = true;
+				setTimeout(() => {
+					this.getPlanHead('U',this.copyData.ProductMo);
+					this.getPlanDetails('U',this.copyData.ProductMo);
+					this.loading3 = false;
+				}, 500);
+			}
+
+		}
     },
 
     watch: {
@@ -371,6 +469,7 @@
                // }
                // console.log(this.editFormChanged);
 			   this.formData.CustomerID=this.formData.CustomerID.toUpperCase();
+			   this.formData.GoodsID=this.formData.GoodsID.toUpperCase();
            },
            deep: true
         },

@@ -7,7 +7,7 @@
     <style type="text/css">
         .div-cont{
             float:left;
-            width:80%;
+            width:90%;
             border:0px solid #F00;
         }
         .divcss5-cent{margin:0 auto;width:80%;height:80%;border:1px solid #F00}
@@ -15,37 +15,44 @@
             border:thick;
             width:80%;
         }
-        
+        .vxe-radio-group{height:18px}
     </style>
 }
-<div id="app">
-    <vxe-toolbar perfect size="medium" style="height:35px;" >
-        <template #buttons>
-            <vxe-button type="text" icon="fa fa-plus" content="新增" @@click="addNew()"></vxe-button>
-            <vxe-button type="text" icon="fa fa-save" content="儲存" @@click="saveEvent()"></vxe-button>
-            <vxe-button type="text" icon="fa fa-trash-o" content="删除"></vxe-button>
-            @*<vxe-input v-model="searchProductMo" class="my-search" placeholder="輸入制單編號" style="height:30px;margin:105px,0px;">
-                <template #suffix>
-                    <i class="fa fa-search" @@click="searchByProductMo(searchProductMo)"></i>
+<div id="app" style="margin-left:-2px">
+    <div style="height:35px;width:100%;margin-top:-10px;background-color:gainsboro;">
+        <div style="float:left;width:80%;">
+            <vxe-toolbar perfect size="medium" style="height:35px;background-color:gainsboro;">
+                <template #buttons>
+                    <vxe-button type="text" icon="fa fa-plus" content="新增" @@click="addNew()"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-save" content="儲存" @@click="saveEvent()"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-print" content="列印" @@click="printEvent()"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-arrow-circle-up" content="批準" @@click="saveEvent()"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-copy" content="翻單" @@click="showCopyModal()"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-trash-o" content="删除"></vxe-button>
                 </template>
-            </vxe-input>*@
-            <vxe-input v-model="searchProductMo" placeholder="請輸入制單編號,點擊對應的功能" style="height:20px;margin-top:10px;font-size:9px"></vxe-input>
-            <vxe-button status="primary" icon="fa fa-search" @@click="searchByProductMo(searchProductMo)" style="height:25px;margin-top:10px">搜索</vxe-button>
-            <vxe-button status="primary" icon="fa fa-copy" @@click="searchByProductMo(searchProductMo)" style="height:25px;margin-top:10px">從舊單匯入</vxe-button>
-            <vxe-button status="primary" icon="fa fa-copy" @@click="searchByProductMo(searchProductMo)" style="height:25px;margin-top:10px">從CFOC匯入</vxe-button>
-        </template>
-    </vxe-toolbar>
+            </vxe-toolbar>
+        </div>
+        <div style="float:right;width:20%;">
+            <div style="float:right;">
+                <vxe-input v-model="searchProductMo" placeholder="請輸入制單編號" style="height:20px;margin-top:6px;font-size:9px"></vxe-input>
+                <vxe-button type="text" icon="fa fa-search" @@click="searchByProductMo(searchProductMo)" style="height:25px;margin-top:5px">查詢</vxe-button>
+            </div>
+        </div>
+    </div>
     @*<p style="background-color:aqua;margin:0;">abc</p>*@
-    @*<div style="height:40px;margin:0px;">*@
-            <p style="height:25px;margin:0px;">
-                <vxe-radio-group v-model="selectTab" style="height:20px;margin:0px;">
-                    <vxe-radio-button label="tab1" content="生產主表"></vxe-radio-button>
-                    <vxe-radio-button label="tab2" content="生產明細表"></vxe-radio-button>
-                    @*<vxe-radio-button label="tab3" content="制單配件"></vxe-radio-button>*@
-                    
-                </vxe-radio-group>
-            </p>
-    @*</div>*@
+    <div style="float:left;width:100%;height:35px;margin:0px;margin-top:0px;">
+        @*<div style="height:25px;margin:0px;margin-top:10px;">*@
+            <vxe-radio-group v-model="selectTab">
+                <vxe-radio-button label="tab1" content="生產主表" size="mini"></vxe-radio-button>
+                <vxe-radio-button label="tab2" content="生產明細表" size="mini"></vxe-radio-button>
+                @*<vxe-radio-button label="tab3" content="制單配件"></vxe-radio-button>*@
+                
+            </vxe-radio-group>
+        @*</div>*@
+        @*<div style="height:25px;margin:0px;margin-top:10px;float:right;width:30%;background-color:aqua">
+            
+        </div>*@
+    </div>
     <div v-show="selectTab === 'tab1'" style="margin:15px 0px;">
         <div class="div-cont">
             <div class="div-left">
@@ -69,6 +76,16 @@
                     <vxe-form-item title="客戶編號" field="CustomerID" :item-render="{}" span="6" class="vxe-form-item-customize">
                         <template #default="{ data }">
                             <vxe-input v-model="data.CustomerID" class="input-customize"></vxe-input>
+                        </template>
+                    </vxe-form-item>
+                    <vxe-form-item title="產品編號" field="GoodsID" :item-render="{}" span="12" class="vxe-form-item-customize">
+                        <template #default="{ data }">
+                            <vxe-input v-model="data.GoodsID" @@blur="formDataGoodsIDBlurEvent()" class="input-customize"></vxe-input>
+                        </template>
+                    </vxe-form-item>
+                    <vxe-form-item title="產品描述" field="GoodsCname" :item-render="{}" span="12" class="vxe-form-item-customize">
+                        <template #default="{ data }">
+                            <vxe-input v-model="data.GoodsCname" disabled class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
                     <vxe-form-item title="訂單數量" field="OrderQty" :item-render="{}" span="6" class="vxe-form-item-customize">
@@ -155,13 +172,16 @@
         </div>
     </div>
 
-    <div v-show="selectTab === 'tab2'" style="margin:15px 0px;">
-        <vxe-toolbar style="height:35px">
-            <template #buttons>
-                <vxe-button icon="fa fa-plus" @@click="insertEvent(-1)" size="mini">項目新增</vxe-button>
-                <vxe-button icon="fa fa-trash-o" @@click="deleteEvent()" size="mini">項目刪除</vxe-button>
-            </template>
-        </vxe-toolbar>
+    <div v-show="selectTab === 'tab2'">
+        <div class="div-left">
+            <vxe-toolbar style="height:35px">
+                <template #buttons>
+                    <vxe-button icon="fa fa-plus" @@click="insertEvent(-1)" size="mini">項目新增</vxe-button>
+                    <vxe-button icon="fa fa-trash-o" @@click="deleteEvent()" size="mini">項目刪除</vxe-button>
+                </template>
+            </vxe-toolbar>
+        </div>
+        <div style="float:left;width:100%">
         <vxe-table border
                    show-overflow
                    height="350"
@@ -178,48 +198,48 @@
             <vxe-column type="seq" title="序號" width="60"></vxe-column>
             <vxe-column field="GoodsID" title="物料編號" width="160" :edit-render="{autofocus: '.vxe-input--inner'}">
                 <template #edit="{ row }">
-                    <vxe-input v-model="row.GoodsID" maxlength="18" style="height:20px;" @@change="changeGoodsID(row)"></vxe-input>
+                    <vxe-input v-model="row.GoodsID" maxlength="18" style="height:20px;" @@change="tableGoodsIDChangeEvent(row)" @@blur="tableGoodsIDBlurEvent(row)"></vxe-input>
                 </template>
             </vxe-column>
             <vxe-column field="GoodsCname" title="物料描述" width="260"></vxe-column>
             <vxe-column field="WipID" title="負責部門" :edit-render="{}" width="80">
                 <template #edit="{ row }">
-                    <vxe-select v-model="row.WipID" size="mini">
+                    <vxe-select v-model="row.WipID" size="mini" @@change="tableWipIDChangeEvent(row)">
                         <vxe-option v-for="item in wipList" :key="item.value" :value="item.value" :label="item.label"></vxe-option>
                     </vxe-select>
                 </template>
             </vxe-column>
             <vxe-column field="NextWipID" title="收貨部門" :edit-render="{}" width="80">
                 <template #edit="{ row }">
-                    <vxe-select v-model="row.NextWipID" size="mini">
+                    <vxe-select v-model="row.NextWipID" size="mini" @@change="tableNextWipIDChangeEvent(row)">
                         <vxe-option v-for="item in wipList" :key="item.value" :value="item.value" :label="item.label"></vxe-option>
                     </vxe-select>
                 </template>
             </vxe-column>
             <vxe-column field="RequestQty" title="要求數量" :edit-render="{}" width="100">
                 <template #edit="{ row }">
-                    <vxe-input v-model="row.RequestQty" type="number" style="height:20px"></vxe-input>
+                    <vxe-input v-model="row.RequestQty" type="number" style="height:20px" @@change="tableRequestQtyChangeEvent(row)"></vxe-input>
                 </template>
             </vxe-column>
             <vxe-column field="RequestDate" title="要求完成日期" :edit-render="{}" width="120">
                 <template #edit="{ row }">
-                    <vxe-input v-model="row.RequestDate" type="date" style="height:20px"></vxe-input>
+                    <vxe-input v-model="row.RequestDate" type="date" style="height:20px" @@change="tableRequestDateChangeEvent(row)"></vxe-input>
                 </template>
             </vxe-column>
             <vxe-column field="CompleteQty" title="完成數量" width="100"></vxe-column>
             <vxe-column field="CompleteDate" title="完成日期" width="120"></vxe-column>
-            <vxe-column title="修改" width="60" :resizable="false" show-overflow>
+            <vxe-column title="修改" width="60" :resizable="false" fixed="right" show-overflow>
                 <template #default="{ row }">
                     <vxe-button type="text" icon="fa fa-edit" @@click="editRowEvent(row)"></vxe-button>
                 </template>
             </vxe-column>
         </vxe-table>
-
+        </div>
         <vxe-modal ref="xModal" v-model="showEdit" title="编辑&保存" width="900" height="600" resize destroy-on-close>
             
                 <template #default>
                     @*<div class="div-cont">*@
-                        <vxe-form :data="editPlanDetails" title-align="right" title-width="160" @@submit="updateEvent" prevent-submit title-colon custom-layout>
+                        <vxe-form :data="editPlanDetails" title-align="right" title-width="160" @@submit="updateEvent" title-colon custom-layout>
                             <vxe-form-item align="left" span="24">
                                 <template #default>
                                     <vxe-button v-if="selectRow" type="submit" status="primary">確定</vxe-button>
@@ -230,8 +250,8 @@
                             </vxe-form-item>
                             <vxe-form-item title="物料編號" field="GoodsID" span="12" :item-render="{}" class="vxe-form-item-customize">
                                 <template #default="{ data }">
-                                    <vxe-input v-model="data.GoodsID" class="input-customize" maxlength="18" style="width:76%"></vxe-input>
-                                    <vxe-button icon="fa fa-search" class="input-customize" style="height:20px;width:18%;" @@click="showGoods"></vxe-button>
+                                    <vxe-input v-model="data.GoodsID" class="input-customize" maxlength="18" @@blur="modalGoodsIDBlurEvent()" style="width:76%"></vxe-input>
+                                    @*<vxe-button icon="fa fa-search" class="input-customize" style="height:20px;width:18%;" @@click="showGoods"></vxe-button>*@
                                 </template>
                             </vxe-form-item>
                             <vxe-form-item title="物料描述" field="GoodsCname" span="12" :item-render="{}" class="vxe-form-item-customize">
@@ -270,29 +290,36 @@
             
         </vxe-modal>
 
-        <vxe-modal ref="xModal1" v-model="showSearchGoods" title="查找" width="800" height="500" resize destroy-on-close>
-
-            <template #default>
-                @*<div class="div-cont">*@
-                <vxe-form :data="searchGoodsDetails" title-align="right" title-width="100" @@submit="updateEvent">
-                    <vxe-form-item title="物料編號" field="GoodsID" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入名称'}, events: {blur: getGoodsByID}}"></vxe-form-item>
-                    <vxe-form-item align="center" span="24">
-                        <template #default>
-                            <vxe-button v-if="selectRow" type="submit" status="primary">確定</vxe-button>
-                            <vxe-button v-else type="submit" status="primary">新增</vxe-button>
-                            @*<vxe-button type="reset">重置</vxe-button>*@
-                            <vxe-button @@click="$refs.xModal1.close()">取消</vxe-button>
-                        </template>
-                    </vxe-form-item>
-                </vxe-form>
-                @*</div>*@
-            </template>
-
-        </vxe-modal>
-
-
     </div>
-
+    <vxe-modal ref="xModalCopy" v-model="showCopy" title="複製" width="400" height="300" resize destroy-on-close>
+        <template #default>
+            @*<div class="div-cont">*@
+            <vxe-form :data="copyData" title-align="right" title-width="100" @@submit="copyMo()" style="margin-top:-20px">
+                <vxe-form-item field="SourceType" span="12" :item-render="{}">
+                    <template #default="{ data }">
+                        <vxe-radio name="n1" v-model="data.SourceType" label="1" content="從舊計劃單中匯入" size="mini"></vxe-radio>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item field="SourceType" span="12" :item-render="{}">
+                    <template #default="{ data }">
+                        <vxe-radio name="n1" v-model="data.SourceType" label="2" content="從CFOC中匯入" size="mini"></vxe-radio>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="制單編號" field="ProductMo" span="24" :item-render="{}">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.ProductMo"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item align="center" span="24" style="margin-top:30px">
+                    <template #default>
+                        <vxe-button type="submit" status="primary" @@click="$refs.xModalCopy.close()">確定</vxe-button>
+                        <vxe-button @@click="$refs.xModalCopy.close()">取消</vxe-button>
+                    </template>
+                </vxe-form-item>
+            </vxe-form>
+            @*</div>*@
+        </template>
+    </vxe-modal>
     @*<div v-show="selectTab === 'tab3'">
         <vxe-table border
                    show-overflow

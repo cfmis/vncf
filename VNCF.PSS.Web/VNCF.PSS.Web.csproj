@@ -577,8 +577,12 @@
     <Content Include="Areas\Base\Views\RoleAuthorityPowers\Index3.cshtml" />
     <Content Include="Content\ElementUI\css\fonts\element-icons.ttf" />
     <Content Include="Content\ElementUI\css\fonts\element-icons.woff" />
+    <Content Include="Areas\Prod\Views\Proc\Index.cshtml" />
+    <Content Include="Areas\Prod\Views\Plan\Print.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
+    <Content Include="Reports\purchase.frx" />
+    <Content Include="Reports\so.frx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -651,7 +655,6 @@
     <Folder Include="Content\Hg\" />
     <Folder Include="Images\" />
     <Folder Include="Lib\" />
-    <Folder Include="Reports\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

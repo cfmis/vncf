@@ -96,6 +96,10 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
                 mdjGoods.goods_vname3 = dr["vn_name3"].ToString();
                 mdjGoods.ArtImageUrl = ArtImagePath + (dr["picture_name"] != null ? dr["picture_name"].ToString().Trim().Replace("\\", "/") : "");//"AAAA/A888020.bmp";// 
             }
+            else
+            {
+                mdjGoods.goods_cname = "";
+            }
             return mdjGoods;
         }
         public List<ListDataModels> GetLoc()
