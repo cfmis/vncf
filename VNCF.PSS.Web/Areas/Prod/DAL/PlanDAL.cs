@@ -234,7 +234,36 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 result = 1;
             return result;
         }
+        public List<PlanHead> GetPlanHeadByParas(string ProductMoFrom,string ProductMoTo,string PlanDateFrom,string PlanDateTo)
+        {
+            List<PlanHead> lsPlan = new List<PlanHead>();
+            
+            string strWhere = "";
+            if ((ProductMoFrom==null?"":ProductMoFrom) != "" && (ProductMoTo == null ? "" : ProductMoTo) != "")
+                strWhere += " And a.ProductMo>='" + ProductMoFrom + "' And a.ProductMo<='" + ProductMoTo + "'";
+            if ((PlanDateFrom == null ? "" : PlanDateFrom) != "" && (PlanDateTo == null ? "" : PlanDateTo) != "")
+                strWhere += " And a.PlanDate>='" + PlanDateFrom + "' And a.PlanDate<='" + PlanDateTo + "'";
+            DataTable dt = GetPlanHeadReturnDataTable(strWhere);
+            for (int i=0;i<dt.Rows.Count;i++)
+            {
+                PlanHead mdjPlan = new PlanHead();
+                mdjPlan=DataTableToModel(dt.Rows[i]);
+                lsPlan.Add(mdjPlan);
+            }
+            return lsPlan;
+        }
         public PlanHead GetPlanHeadByMo(string ProductMo)
+        {
+            PlanHead mdjPlan = new PlanHead();
+            string strWhere = " And a.ProductMo='" + ProductMo + "'";
+            DataTable dt = GetPlanHeadReturnDataTable(strWhere);
+            if (dt.Rows.Count > 0)
+            {
+                mdjPlan=DataTableToModel(dt.Rows[0]);
+            }
+            return mdjPlan;
+         }
+        private DataTable GetPlanHeadReturnDataTable(string strWhere)
         {
             PlanHead mdjPlan = new PlanHead();
             mdjPlan.ArtImageUrl = "";
@@ -247,34 +276,37 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 strSql += "c.vn_name1 AS GoodsCname";
             strSql += " FROM pd_PlanHead a " +
                 " Left Join it_goods b ON a.GoodsID=b.id " +
-                " Left Join cd_pattern_details c ON b.blueprint_id=c.id " +
+                " Left Join cd_pattern c ON b.blueprint_id=c.id " +
                 " Left Join it_goods_vn d ON a.GoodsID=d.id" +
-                " Where a.ProductMo ='" + ProductMo + "'";
+                " Where a.ProductMo >=''";
+            strSql += strWhere;
+            strSql += " Order By a.PlanDate Desc,a.ProductMo";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-            if (dt.Rows.Count > 0)
-            {
-                DataRow dr = dt.Rows[0];
-                mdjPlan.ProductMo = dr["ProductMo"].ToString();
-                mdjPlan.Ver = Convert.ToInt32(dr["Ver"].ToString());
-                mdjPlan.PlanDate = dr["PlanDate"].ToString();
-                mdjPlan.CustomerID = dr["CustomerID"].ToString();
-                mdjPlan.MoRemark = dr["MoRemark"].ToString();
-                mdjPlan.PlanRemark = dr["PlanRemark"].ToString();
-                mdjPlan.ProductRemark = dr["ProductRemark"].ToString();
-                mdjPlan.GoodsID = dr["GoodsID"].ToString();
-                mdjPlan.GoodsCname = dr["GoodsCname"].ToString();
-                mdjPlan.OrderQty = Convert.ToInt32(dr["OrderQty"].ToString());
-                mdjPlan.OrderUnit = dr["OrderUnit"].ToString();
-                mdjPlan.RequestDate = dr["RequestDate"].ToString();
-                mdjPlan.DeliveryDate = dr["DeliveryDate"].ToString();
-                mdjPlan.CreateUser = dr["CreateUser"].ToString();
-                mdjPlan.CreateTime = dr["CreateTime"].ToString().Trim() != "" ? DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["CreateTime"])) : "";
-                mdjPlan.AmendUser = dr["AmendUser"].ToString();
-                mdjPlan.AmendTime = dr["AmendTime"].ToString().Trim() != "" ? DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["AmendTime"])) : "";
-                mdjPlan.ArtImageUrl = ArtImagePath + (dr["picture_name"] != null ? dr["picture_name"].ToString().Trim().Replace("\\", "/") : "");//"AAAA/A888020.bmp";// 
-            }
+            return dt;
+        }
+        private PlanHead DataTableToModel(DataRow dr)
+        {
+            PlanHead mdjPlan = new PlanHead();
+            mdjPlan.ProductMo = dr["ProductMo"].ToString();
+            mdjPlan.Ver = Convert.ToInt32(dr["Ver"].ToString());
+            mdjPlan.PlanDate = dr["PlanDate"].ToString();
+            mdjPlan.CustomerID = dr["CustomerID"].ToString();
+            mdjPlan.MoRemark = dr["MoRemark"].ToString();
+            mdjPlan.PlanRemark = dr["PlanRemark"].ToString();
+            mdjPlan.ProductRemark = dr["ProductRemark"].ToString();
+            mdjPlan.GoodsID = dr["GoodsID"].ToString();
+            mdjPlan.GoodsCname = dr["GoodsCname"].ToString();
+            mdjPlan.OrderQty = Convert.ToInt32(dr["OrderQty"].ToString());
+            mdjPlan.OrderUnit = dr["OrderUnit"].ToString();
+            mdjPlan.RequestDate = dr["RequestDate"].ToString();
+            mdjPlan.DeliveryDate = dr["DeliveryDate"].ToString();
+            mdjPlan.CreateUser = dr["CreateUser"].ToString();
+            mdjPlan.CreateTime = dr["CreateTime"].ToString().Trim() != "" ? DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["CreateTime"])) : "";
+            mdjPlan.AmendUser = dr["AmendUser"].ToString();
+            mdjPlan.AmendTime = dr["AmendTime"].ToString().Trim() != "" ? DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["AmendTime"])) : "";
+            mdjPlan.ArtImageUrl = ArtImagePath + (dr["picture_name"] != null ? dr["picture_name"].ToString().Trim().Replace("\\", "/") : "");//"AAAA/A888020.bmp";// 
             return mdjPlan;
-         }
+        }
         public List<PlanDetails> GetPlanDetailsByMo(string ProductMo)
         {
 
@@ -330,7 +362,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             strSql += " FROM pd_PlanHead a " +
                 " Inner Join pd_PlanDetails b On a.ProductMo=b.ProductMo And a.Ver=b.Ver " +
                 " Left Join it_goods c ON a.GoodsID=c.id " +
-                " Left Join cd_pattern_details d ON c.blueprint_id=d.id " +
+                " Left Join cd_pattern d ON c.blueprint_id=d.id " +
                 " Left Join it_goods_vn e ON a.GoodsID=e.id" +
                 " Left Join it_goods f ON b.GoodsID=f.id " +
                 " Left Join it_goods_vn g ON b.GoodsID=g.id" +

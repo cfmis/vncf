@@ -82,5 +82,10 @@ namespace VNCF.PSS.Web.Areas.Prod.Controllers
             ViewBag.WebReport = webReport;
             return View();
         }
+        public JsonResult SearchPlan(string ProductMoFrom,string ProductMoTo,string PlanDateFrom,string PlanDateTo)
+        {
+            var PlanList = clsPlanDAL.GetPlanHeadByParas(ProductMoFrom, ProductMoTo, PlanDateFrom, PlanDateTo);
+            return Json(PlanList, JsonRequestBehavior.AllowGet);
+        }
     }
 }

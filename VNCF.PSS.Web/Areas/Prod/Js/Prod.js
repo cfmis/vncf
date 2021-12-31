@@ -5,13 +5,22 @@
             edit_mode: 0,
             showEdit: false,
             showCopy: false,
+			showSearch: false,
             selectRow: null,
             tablePlanDetails: [],
             editPlanDetails: {},
             prevEditPlanDetails: {},
+			searchParasData:{
+				ProductMoFrom:'',
+				ProductMoTo:'',
+				PlanDateFrom:'',
+				PlanDateTo:'',
+			},
+			tablePlanHeadList: [],
             searchGoodsDetails: { GoodsID: '', },
             searchProductMo: '',
             loading3: false,
+			searchLoading: false,
             //ArtImageUrl: '/Images/photo.png',
             //formData: {
             //    ProductMo: '',
@@ -63,9 +72,12 @@
             alert("ok");
             //var vl = value;
         },
-        showCopyModal() {
+        clickCopyEvent() {
             this.showCopy = true;
         },
+		clickSearchEvent(){
+			this.showSearch = true;
+		},
         addNew() {
             this.edit_mode = 1;
             nowDateTime = comm.getCurrentDateTime();
@@ -111,6 +123,26 @@
             }, 500);
 
         },
+		SelectSearchMoEvent(row){
+			this.searchByProductMo(row.ProductMo);
+			this.$refs.xModalSearch.close();
+		},
+		searchPlan(){
+            //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
+			this.searchLoading=true;
+            axios.get("SearchPlan", { params: { ProductMoFrom: this.searchParasData.ProductMoFrom,ProductMoTo:this.searchParasData.ProductMoTo
+				,PlanDateFrom: this.searchParasData.PlanDateFrom,PlanDateTo:this.searchParasData.PlanDateTo } }).then(
+            (response) => {
+				this.searchLoading=false;
+				this.tablePlanHeadList=response.data;
+            },
+            (response) => {
+                alert(response.status);
+            }
+        ).catch(function (response) {
+            alert(response);
+        });
+		},
         async getPlanHead(IsUpdate,_ProductMo) {
             var _self = this;
             //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡

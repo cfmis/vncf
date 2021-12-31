@@ -18,23 +18,26 @@
         .vxe-radio-group{height:18px}
     </style>
 }
-<div id="app" style="margin-left:-2px">
-    <div style="height:35px;width:100%;margin-top:-10px;background-color:gainsboro;">
+<div id="app">
+    <div style="height:35px;width:100%;margin-top:-12px;background-color:gainsboro;">
         <div style="float:left;width:80%;">
             <vxe-toolbar perfect size="medium" style="height:35px;background-color:gainsboro;">
                 <template #buttons>
                     <vxe-button type="text" icon="fa fa-plus" content="新增" @@click="addNew()"></vxe-button>
                     <vxe-button type="text" icon="fa fa-save" content="儲存" @@click="saveEvent()"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-search" content="查詢" @@click="clickSearchEvent()"></vxe-button>
                     <vxe-button type="text" icon="fa fa-print" content="列印" @@click="printEvent()"></vxe-button>
                     <vxe-button type="text" icon="fa fa-arrow-circle-up" content="批準" @@click="saveEvent()"></vxe-button>
-                    <vxe-button type="text" icon="fa fa-copy" content="翻單" @@click="showCopyModal()"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-copy" content="翻單" @@click="clickCopyEvent()"></vxe-button>
                     <vxe-button type="text" icon="fa fa-trash-o" content="删除"></vxe-button>
                 </template>
             </vxe-toolbar>
         </div>
         <div style="float:right;width:20%;">
-            <div style="float:right;">
+            <div style="float:left;width:60%;">
                 <vxe-input v-model="searchProductMo" placeholder="請輸入制單編號" style="height:20px;margin-top:6px;font-size:9px"></vxe-input>
+            </div>
+            <div style="float:right;width:30%;">
                 <vxe-button type="text" icon="fa fa-search" @@click="searchByProductMo(searchProductMo)" style="height:25px;margin-top:5px">查詢</vxe-button>
             </div>
         </div>
@@ -335,6 +338,61 @@
             <vxe-table-column field="rate" title="Rate"></vxe-table-column>
         </vxe-table>
     </div>*@
+    <vxe-modal ref="xModalSearch" v-model="showSearch" title="查詢" width="800" height="600" resize destroy-on-close>
+        <template #default>
+            <vxe-form :data="searchParasData" title-align="right" title-width="100" @@submit="searchPlan()" style="margin-top:-20px">
+                <vxe-form-item align="left" span="24" style="margin-top:30px">
+                    <template #default>
+                        <vxe-button type="submit" status="primary">查詢</vxe-button>
+                        <vxe-button @@click="$refs.xModalSearch.close()">關閉</vxe-button>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="制單編號" field="ProductMo" span="12" :item-render="{}">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.ProductMoFrom" style="width:40%"></vxe-input>
+                        <vxe-input v-model="data.ProductMoTo" style="width:40%"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="計劃單日期" field="PlanDateFrom" span="12" :item-render="{}">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.PlanDateFrom" type="date" style="width:40%"></vxe-input>
+                        <vxe-input v-model="data.PlanDateTo" type="date" style="width:40%"></vxe-input>
+                    </template>
+                </vxe-form-item>
+            </vxe-form>
+ 
+
+        <vxe-table border
+                   show-overflow
+                   height="350"
+                   size="mini"
+                   highlight-current-row
+                   :row-config="{height: 20}"
+                   ref="xTable"
+                   :loading="searchLoading"
+                   :sync-resize="selectTab"
+                   :checkbox-config="{highlight: true, range: true}"
+                   :data="tablePlanHeadList"
+                   :keyboard-config="{isArrow: true, isEnter: true,Backspace:true}"
+                   :edit-config="{trigger: 'dbclick', mode: 'row', icon: 'fa fa-pencil1', showStatus: true}">
+            <vxe-column title="選取" width="60" fixed="left" show-overflow>
+                <template #default="{ row }">
+                    <vxe-button type="text" icon="fa fa-check" @@click="SelectSearchMoEvent(row)"></vxe-button>
+                </template>
+            </vxe-column>
+            <vxe-column type="seq" title="序號" width="60"></vxe-column>
+            <vxe-column field="ProductMo" title="制單編號" width="100" :edit-render="{autofocus: '.vxe-input--inner'}">
+            </vxe-column>
+            <vxe-column field="PlanDate" title="計劃單日期" width="100"></vxe-column>
+            <vxe-column field="GoodsID" title="物料編號" width="160"></vxe-column>
+            <vxe-column field="GoodsCname" title="物料描述" width="260"></vxe-column>
+            <vxe-column field="CreateUser" title="建立人" width="80"></vxe-column>
+            <vxe-column field="CreateTime" title="建立日期" width="100"></vxe-column>
+        </vxe-table>
+
+       </template>
+
+    </vxe-modal>
 </div>
 @section PageSpecificJavascriptIncludes{
     <script src="~/Areas/Prod/js/Prod.js?v=@Guid.NewGuid().ToString()"></script>
