@@ -19,6 +19,7 @@
     </style>
 }
 <div id="app">
+    <!--工具欄-->
     <div style="height:35px;width:100%;margin-top:-12px;background-color:gainsboro;">
         <div style="float:left;width:80%;">
             <vxe-toolbar perfect size="medium" style="height:35px;background-color:gainsboro;">
@@ -42,7 +43,9 @@
             </div>
         </div>
     </div>
+    
     @*<p style="background-color:aqua;margin:0;">abc</p>*@
+    <!--選擇主表或明細表-->
     <div style="float:left;width:100%;height:35px;margin:0px;margin-top:0px;">
         @*<div style="height:25px;margin:0px;margin-top:10px;">*@
             <vxe-radio-group v-model="selectTab">
@@ -56,6 +59,7 @@
             
         </div>*@
     </div>
+    <!--主表-->
     <div v-show="selectTab === 'tab1'" style="margin:15px 0px;">
         <div class="div-cont">
             <div class="div-left">
@@ -174,7 +178,7 @@
 
         </div>
     </div>
-
+    <!--明細表-->
     <div v-show="selectTab === 'tab2'">
         <div class="div-left">
             <vxe-toolbar style="height:35px">
@@ -184,6 +188,7 @@
                 </template>
             </vxe-toolbar>
         </div>
+        <!--明細表-->
         <div style="float:left;width:100%">
         <vxe-table border
                    show-overflow
@@ -197,7 +202,8 @@
                    :checkbox-config="{highlight: true, range: true}"
                    :data="tablePlanDetails"
                    :keyboard-config="{isArrow: true, isEnter: true,Backspace:true}"
-                   :edit-config="{trigger: 'click', mode: 'row', icon: 'fa fa-pencil1', showStatus: true}">
+                   :edit-config="{trigger: 'click', mode: 'row', icon: 'fa fa-pencil1', showStatus: true}"
+                   @@cell-dblclick="tablePlanDetailsCellDBLClickEvent">
             <vxe-column type="seq" title="序號" width="60"></vxe-column>
             <vxe-column field="GoodsID" title="物料編號" width="160" :edit-render="{autofocus: '.vxe-input--inner'}">
                 <template #edit="{ row }">
@@ -238,6 +244,7 @@
             </vxe-column>
         </vxe-table>
         </div>
+        <!--彈窗編輯明細表-->
         <vxe-modal ref="xModal" v-model="showEdit" title="编辑&保存" width="900" height="600" resize destroy-on-close>
             
                 <template #default>
@@ -294,6 +301,7 @@
         </vxe-modal>
 
     </div>
+    <!--調出复制窗口-->
     <vxe-modal ref="xModalCopy" v-model="showCopy" title="複製" width="400" height="300" resize destroy-on-close>
         <template #default>
             @*<div class="div-cont">*@
@@ -338,6 +346,7 @@
             <vxe-table-column field="rate" title="Rate"></vxe-table-column>
         </vxe-table>
     </div>*@
+    <!--查找窗口-->
     <vxe-modal ref="xModalSearch" v-model="showSearch" title="查詢" width="800" height="600" resize destroy-on-close>
         <template #default>
             <vxe-form :data="searchParasData" title-align="right" title-width="100" @@submit="searchPlan()" style="margin-top:-20px">
@@ -361,7 +370,7 @@
                 </vxe-form-item>
             </vxe-form>
  
-
+        <!--顯示查找記錄-->
         <vxe-table border
                    show-overflow
                    height="350"
@@ -374,7 +383,8 @@
                    :checkbox-config="{highlight: true, range: true}"
                    :data="tablePlanHeadList"
                    :keyboard-config="{isArrow: true, isEnter: true,Backspace:true}"
-                   :edit-config="{trigger: 'dbclick', mode: 'row', icon: 'fa fa-pencil1', showStatus: true}">
+                   :edit-config="{trigger: 'dbclick', mode: 'row', icon: 'fa fa-pencil1', showStatus: true}"
+                    @@cell-dblclick="searchCellDBLClickEvent">
             <vxe-column title="選取" width="60" fixed="left" show-overflow>
                 <template #default="{ row }">
                     <vxe-button type="text" icon="fa fa-check" @@click="SelectSearchMoEvent(row)"></vxe-button>
@@ -395,6 +405,6 @@
     </vxe-modal>
 </div>
 @section PageSpecificJavascriptIncludes{
-    <script src="~/Areas/Prod/js/Prod.js?v=@Guid.NewGuid().ToString()"></script>
+    <script src="~/Areas/Prod/js/Plan.js?v=@Guid.NewGuid().ToString()"></script>
     @*<link rel="stylesheet" href="~/Content/main_inv.css">*@
 }

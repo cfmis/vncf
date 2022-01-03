@@ -123,6 +123,9 @@
             }, 500);
 
         },
+		searchCellDBLClickEvent ({ row }) {
+              this.SelectSearchMoEvent(row)
+            },
 		SelectSearchMoEvent(row){
 			this.searchByProductMo(row.ProductMo);
 			this.$refs.xModalSearch.close();
@@ -411,6 +414,9 @@
             }
 			
         },
+		tablePlanDetailsCellDBLClickEvent ({ row }) {
+              this.editRowEvent(row)
+            },
         editRowEvent (row) {
             this.editPlanDetails = {
                 EditFlag: 0,

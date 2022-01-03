@@ -5,8 +5,9 @@
 @*@{@Html.Raw("@");}*@
 
 <div id="app">
-
-    <vxe-form :data="searchParas" @@submit="submitSearch"  title-align="right" title-width="100px" >
+    <div class="div-cont">
+        <div class="div-left">
+    <vxe-form :data="searchParas" @@submit="submitSearch"  title-align="right" title-width="100px" title-colon custom-layout >
         <vxe-form-item span="24">
             <template #default>
                 <vxe-button type="submit" status="primary" v-if="Common_Find">查询</vxe-button>                
@@ -14,26 +15,60 @@
             </template>
         </vxe-form-item>
         
-        <vxe-form-item title="物料編號" field="goods_id" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入編號'}}"></vxe-form-item>
-        <vxe-form-item title="物料描述" field="goods_cname" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入物料描述'}}"></vxe-form-item>
-        <vxe-form-item title="英文描述" field="goods_ename" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入英文描述'}}"></vxe-form-item>
-        <vxe-form-item title="越文描述1" field="goods_vname1" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述1'}}"></vxe-form-item>
-        <vxe-form-item title="越文描述2" field="goods_vname2" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述2'}}"></vxe-form-item>
-        <vxe-form-item title="越文描述3" field="goods_vname3" span="6" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述3'}}"></vxe-form-item>       
+        <vxe-form-item title="物料編號" field="goods_id" span="8" :item-render="{}" class="vxe-form-item-customize">
+            <template #default="{ data }">
+                <vxe-input v-model="data.goods_id" class="input-customize"></vxe-input>
+            </template>
+        </vxe-form-item>
+        <vxe-form-item title="物料描述" field="goods_cname" span="8" :item-render="{}" class="vxe-form-item-customize">
+            <template #default="{ data }">
+                <vxe-input v-model="data.goods_cname" class="input-customize"></vxe-input>
+            </template>
+        </vxe-form-item>
+        <vxe-form-item title="英文描述" field="goods_ename" span="8" :item-render="{}" class="vxe-form-item-customize">
+            <template #default="{ data }">
+                <vxe-input v-model="data.goods_ename" class="input-customize"></vxe-input>
+            </template>
+        </vxe-form-item>
+        <vxe-form-item title="越文描述1" field="goods_vname1" span="8" :item-render="{}" class="vxe-form-item-customize">
+            <template #default="{ data }">
+                <vxe-input v-model="data.goods_vname1" class="input-customize"></vxe-input>
+            </template>
+        </vxe-form-item>
+        <vxe-form-item title="越文描述2" field="goods_vname2" span="8" :item-render="{}" class="vxe-form-item-customize">
+            <template #default="{ data }">
+                <vxe-input v-model="data.goods_vname2" class="input-customize"></vxe-input>
+            </template>
+        </vxe-form-item>
+        <vxe-form-item title="越文描述3" field="goods_vname3" span="8" :item-render="{}" class="vxe-form-item-customize">
+            <template #default="{ data }">
+                <vxe-input v-model="data.goods_vname3" class="input-customize"></vxe-input>
+            </template>
+        </vxe-form-item>       
        
     </vxe-form>
-   
+            </div>
+        <div class="div-right">
+            <p>
+                @*<img id="ArtImage" class="plan-img" src="~/Images/photo.png" />*@
+                <img :src="this.ArtImageUrl" alt="..." class="img-goods">
+            </p>
+        </div>
+   </div>
+    <div style="float:left;width:100%;margin-top:20px">
     <vxe-table border
                resizable
                highlight-hover-row
                show-overflow
                height="500"
                row-id="id"
-               size="small"
+               size="mini"
                :loading="loadingStatus"
                :data="goodsListPart"
+               :row-config="{height: 20}"
                highlight-current-row
-               :keyboard-config="{isArrow: true}">
+               :keyboard-config="{isArrow: true}"
+               @@cell-click="goodsListCellClickEvent">
         <vxe-table-column type="seq" title="序號" width="60"></vxe-table-column>
         <vxe-table-column field="goods_id" title="物料編號" width="160" sortable></vxe-table-column>
         <vxe-table-column field="goods_cname" title="物料描述" width="260"></vxe-table-column>
@@ -64,25 +99,50 @@
                :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']"
                @@page-change="handlePageChange3">
     </vxe-pager>
-
+        </div>
     @*<form id="editGoods">*@
-    <vxe-modal ref="xModal" v-model="showEdit" title="编辑&保存" width="800" resize destroy-on-close>
+    <!--彈框編輯明細-->
+    <vxe-modal ref="xModal" v-model="showEdit" title="编辑&保存" width="800" height="400px" resize destroy-on-close>
         <template #default>
-            <vxe-form :data="newGoods" :rules="formRules" title-align="right" title-width="100" @@submit="submitEvent">
-                <vxe-form-item title="Edit Goods Description" span="24" title-align="left" title-width="200px" :title-prefix="{icon: 'fa fa-address-book'}"></vxe-form-item>
-                <vxe-form-item title="物料編號" field="goods_id" span="12"  :item-render="{name: 'input', attrs: {placeholder: '请输入編號'}}"></vxe-form-item>
-                <vxe-form-item title="物料描述" field="goods_cname" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入物料描述'}}"></vxe-form-item>
-                <vxe-form-item title="英文描述" field="goods_ename" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入英文描述'}}"></vxe-form-item>
-                <vxe-form-item title="越文描述1" field="goods_vname1" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述1'}}"></vxe-form-item>
-                <vxe-form-item title="越文描述2" field="goods_vname2" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述2'}}"></vxe-form-item>
-                <vxe-form-item title="越文描述3" field="goods_vname3" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入越文描述3'}}"></vxe-form-item>
-                <vxe-form-item align="center" span="24">
+            <vxe-form :data="newGoods" :rules="formRules" title-align="right" title-width="100" @@submit="submitEvent" title-colon custom-layout>
+                <vxe-form-item align="left" span="24">
                     <template #default>
-                        <vxe-button type="submit" status="primary" v-if="Common_Add">保存</vxe-button>
-                        <vxe-button type="reset">重置</vxe-button>
-                        <vxe-button @@click="$refs.xModal.close()">取消</vxe-button>
+                        <vxe-button type="submit" status="primary" v-if="Common_Add">儲存</vxe-button>
+                        @*<vxe-button type="reset">重置</vxe-button>*@
+                        <vxe-button @@click="$refs.xModal.close()">關閉</vxe-button>
                     </template>
                 </vxe-form-item>
+                <vxe-form-item title="物料編號" field="goods_id" span="12"  :item-render="{}" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.goods_id" disabled class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="物料描述" field="goods_cname" span="12" :item-render="{}" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.goods_cname" disabled class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="英文描述" field="goods_ename" span="12" :item-render="{}" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.goods_ename" disabled class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="越文描述1" field="goods_vname1" span="12" :item-render="{}" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.goods_vname1" class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="越文描述2" field="goods_vname2" span="12" :item-render="{}" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.goods_vname2" class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="越文描述3" field="goods_vname3" span="12" :item-render="{}" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.goods_vname3" class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
+
             </vxe-form>
         </template>
     </vxe-modal>
@@ -105,6 +165,7 @@
                     pageSize: 10,
                     totalResult: 0
                 },
+                ArtImageUrl: '/Images/photo.png',
                 selectRow: null,
                 showEdit: false,//是否顯示編輯窗體,此值v-model雙向綁定
                 Common_Find:false,
@@ -209,6 +270,9 @@
                         alert(response);
                     });
 
+                },
+                goodsListCellClickEvent({row}){
+                    this.ArtImageUrl=row.ArtImageUrl;
                 },
                 addRow: function (newGoods) {
                     //this.facilities.push(this.newRow);
