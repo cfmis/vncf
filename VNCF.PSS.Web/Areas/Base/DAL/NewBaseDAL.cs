@@ -18,7 +18,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
         private string ArtImagePath = DBUtility.ArtImagePath;
         public List<Goods> SearchGoods(Goods searchParams)
         {
-            string strSql = "Select top 100 a.id,a.name,a.english_name,b.vn_name1,b.vn_name2,b.vn_name3 " +
+            string strSql = "Select top 1000 a.id,a.name,a.english_name,b.vn_name1,b.vn_name2,b.vn_name3 " +
             " ,c.picture_name" +
             " FROM it_goods a " +
             " LEFT JOIN it_goods_vn b ON a.id=b.id" +

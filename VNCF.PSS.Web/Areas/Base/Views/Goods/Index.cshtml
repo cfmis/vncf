@@ -82,9 +82,9 @@
             </template>
         </vxe-table-column>
         <template #empty>
-            <span style="color: red;">
+            <span>
                 @*<img src="/Images/no_data_img.gif">*@
-                <p>没有更多数据了！</p>
+                <p>沒有更多記錄了！</p>
             </span>
         </template>
     </vxe-table>
@@ -95,7 +95,7 @@
                :current-page="tablePage.currentPage"
                :page-size="tablePage.pageSize"
                :total="tablePage.totalResult"
-               :page-sizes="[10, 20, 100, {label: '大量数据', value: 1000}, {label: '全量数据', value: -1}]"
+               :page-sizes="[50, 100, 150, {label: '大量数据', value: 1000}, {label: '全量数据', value: -1}]"
                :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']"
                @@page-change="handlePageChange3">
     </vxe-pager>
@@ -162,7 +162,7 @@
                 loadingStatus: false,
                 tablePage: {
                     currentPage: 1,
-                    pageSize: 10,
+                    pageSize: 50,
                     totalResult: 0
                 },
                 ArtImageUrl: '/Images/photo.png',
@@ -250,7 +250,7 @@
                             goods_vname1:searchParas.goods_vname1,
                             goods_vname2:searchParas.goods_vname2,
                             goods_vname3:searchParas.goods_vname3,
-                            pageSize:10,
+                            pageSize:50,
                             status:[1,3]
                         }//_self.goodsList = res.data;//也可以直接賦值給數組
                         //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
