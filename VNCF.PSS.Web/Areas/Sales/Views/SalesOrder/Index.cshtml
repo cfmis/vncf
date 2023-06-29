@@ -626,7 +626,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <!--3-->
+                        <!--3 -->
                         <el-col :span="6" style="width:23%">
                             <!--款號-->
                             <el-form-item label="@Resource.StyleNo" prop="StyleNo">
@@ -833,7 +833,8 @@
                 element-loading-spinner="el-icon-loading"
                 @@row-click="rowDetailsClick"
                 :row-class-name="tableRowClassName"
-                ref="elTable" >
+                ref="elTable"
+                :height="tableHeight" >
                 <el-table-column prop="OcID" label="@Resource.OcID" width="50" v-if="false"></el-table-column>
                 <el-table-column prop="Ver" label="@Resource.Ver" width="50" v-if="false"></el-table-column>
                 <el-table-column prop="Seq" label="@Resource.Seq" width="50" v-if="true"></el-table-column>                
@@ -937,7 +938,8 @@
                       v-loading="isLoading"
                       element-loading-background="rgba(255, 255, 255, .5)"
                       element-loading-text="加载中，请稍后..."
-                      element-loading-spinner="el-icon-loading">
+                      element-loading-spinner="el-icon-loading"
+                      height="120">
                 <el-table-column prop="Seq" label="Seq" width="50" v-if="false"></el-table-column>
                 <el-table-column prop="UpperSeq" label="UpperSeq" width="50" v-if="false"></el-table-column>
                 <el-table-column prop="PrimaryKey" label="@Resource.PrimaryKey" width="50">
@@ -975,6 +977,7 @@
                 autoHeight: {
                     height: '800px'
                 },
+                tableHeight:250,
                 isEditModeHead:false,
                 showDialog:false,
                 showDialogSearch:false,
@@ -1373,8 +1376,7 @@
                 cancelHead (){
                     //TODO注銷
                 },
-                importHead (){
-                    //TODO                   
+                importHead (){                                 
                     so.openWin('ImportOrder', '@Resource.btn_import', 850, 560, null);
                 },
                 printPI (){
@@ -1974,9 +1976,18 @@
                 },
                 //******************
 
-            },//methods end
+        },//methods end
 
-        })//new Vue end
+        mounted() {            
+            this.tableHeight = $(parent.window).height()-(450+120);        
+            let that = this; 
+            window.onresize = () => {
+                return (() => {
+                    that.tableHeight = $(parent.window).height()-(450+120);               
+                })()
+            };
+        }
+ })//new Vue end
 
 
     </script>
