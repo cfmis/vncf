@@ -45,7 +45,7 @@ var comm= {
       return `${year}-${month}-${day}`;
   },
   //獲取當前日期時間
-  getCurrentTime: function() {
+  getCurrentDateTime: function() {
         //获取当前时间并打印
         var _this = this;
 		var dateTime="";
@@ -55,7 +55,7 @@ var comm= {
     　　let hh = new Date().getHours();
     　　let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
     　　let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
-    　　dateTime = yy+'/'+mm+'/'+dd+' '+hh+':'+mf+':'+ss;
+    　　dateTime = yy+'-'+mm+'-'+dd+' '+hh+':'+mf+':'+ss;
     　　return (dateTime)
   },
 

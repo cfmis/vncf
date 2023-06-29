@@ -7,146 +7,159 @@
     <style type="text/css">
         .div-cont{
             float:left;
-            width:80%;
+            width:90%;
             border:0px solid #F00;
         }
         .divcss5-cent{margin:0 auto;width:80%;height:80%;border:1px solid #F00}
-        .div-left{
-            float:left;
-            width:80%;
-            background-color:aqua;
-        }
-        .div-right{
-            float:right;
-            width:20%;
-            /*background-color:yellow;*/
-        }
-        .div-none{
-            float:none;
-            width:20%;
-            /*background-color:yellow;*/
-        }
         .img-plan{
             border:thick;
             width:80%;
-        }        
-
-        
+        }
+        .vxe-radio-group{height:18px}
     </style>
 }
 <div id="app">
-    <vxe-toolbar perfect size="medium" style="height:35px;" >
-        <template #buttons>
-            <vxe-button type="text" icon="fa fa-plus" content="新增" @@click="addNew()"></vxe-button>
-            <vxe-button type="text" icon="fa fa-trash-o" content="删除"></vxe-button>
-            <vxe-button type="text" icon="fa fa-save" content="儲存" @@click="saveEvent()"></vxe-button>
-            @*<vxe-input v-model="searchProductMo" class="my-search" placeholder="輸入制單編號" style="height:30px;margin:105px,0px;">
-                <template #suffix>
-                    <i class="fa fa-search" @@click="searchByProductMo(searchProductMo)"></i>
+    <!--工具欄-->
+    <div style="height:35px;width:100%;margin-top:-12px;background-color:gainsboro;">
+        <div style="float:left;width:80%;">
+            <vxe-toolbar perfect size="medium" style="height:35px;background-color:gainsboro;">
+                <template #buttons>
+                    <vxe-button type="text" icon="fa fa-plus" content="新增" @@click="addNew()"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-save" content="儲存" @@click="saveEvent()"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-search" content="查詢" @@click="clickSearchEvent()"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-print" content="列印" @@click="printEvent()"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-arrow-circle-up" content="批準" @@click="saveEvent()"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-copy" content="翻單" @@click="clickCopyEvent()"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-trash-o" content="删除"></vxe-button>
                 </template>
-            </vxe-input>*@
-            <vxe-input v-model="searchProductMo" placeholder="搜索"></vxe-input>
-            <vxe-button status="primary" icon="fa fa-search" @@click="searchByProductMo(searchProductMo)">搜索</vxe-button>
-        </template>
-    </vxe-toolbar>
+            </vxe-toolbar>
+        </div>
+        <div style="float:right;width:20%;">
+            <div style="float:left;width:60%;">
+                <vxe-input v-model="searchProductMo" placeholder="請輸入制單編號" style="height:20px;margin-top:6px;font-size:9px"></vxe-input>
+            </div>
+            <div style="float:right;width:30%;">
+                <vxe-button type="text" icon="fa fa-search" @@click="searchByProductMo(searchProductMo)" style="height:25px;margin-top:5px">查詢</vxe-button>
+            </div>
+        </div>
+    </div>
+    
     @*<p style="background-color:aqua;margin:0;">abc</p>*@
-    @*<div style="height:40px;margin:0px;">*@
-            <p style="height:25px;margin:0px;">
-                <vxe-radio-group v-model="selectTab" style="height:20px;margin:0px;">
-                    <vxe-radio-button label="tab1" content="生產主表"></vxe-radio-button>
-                    <vxe-radio-button label="tab2" content="生產明細表"></vxe-radio-button>
-                    @*<vxe-radio-button label="tab3" content="制單配件"></vxe-radio-button>*@
-                    
-                </vxe-radio-group>
-            </p>
-    @*</div>*@
+    <!--選擇主表或明細表-->
+    <div style="float:left;width:100%;height:35px;margin:0px;margin-top:0px;">
+        @*<div style="height:25px;margin:0px;margin-top:10px;">*@
+            <vxe-radio-group v-model="selectTab">
+                <vxe-radio-button label="tab1" content="生產主表" size="mini"></vxe-radio-button>
+                <vxe-radio-button label="tab2" content="生產明細表" size="mini"></vxe-radio-button>
+                @*<vxe-radio-button label="tab3" content="制單配件"></vxe-radio-button>*@
+                
+            </vxe-radio-group>
+        @*</div>*@
+        @*<div style="height:25px;margin:0px;margin-top:10px;float:right;width:30%;background-color:aqua">
+            
+        </div>*@
+    </div>
+    <!--主表-->
     <div v-show="selectTab === 'tab1'" style="margin:15px 0px;">
         <div class="div-cont">
             <div class="div-left">
-                <vxe-form :data="formData" @@submit="submitSearch" size="mini"  title-align="right" title-width="100px">@**@
-                    <vxe-form-item title="制單編號" field="ProductMo" :item-render="{}" span="6">
+                <vxe-form :data="formData" @@submit="submitSearch" size="mini"  title-align="right" title-width="100px" prevent-submit title-colon custom-layout>@**@
+                    <vxe-form-item title="制單編號" field="ProductMo" :item-render="{}" span="6" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.ProductMo" placeholder="请输入制單編號" @@blur="productMoBlurEvent()"></vxe-input>
+                            <vxe-input v-model="data.ProductMo" placeholder="请输入制單編號" @@blur="productMoBlurEvent()" class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="計劃單日期" field="PlanDate" :item-render="{}" span="6">
+                    <vxe-form-item title="版本號" field="Ver" :item-render="{}" span="6" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.PlanDate" placeholder="请输入計劃單日期"></vxe-input>
+                            <vxe-input v-model="data.Ver" class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="版本號" field="Ver" :item-render="{}" span="6">
+                    <vxe-form-item title="計劃單日期" field="PlanDate" :item-render="{}" span="6" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.Ver"></vxe-input>
+                            <vxe-input v-model="data.PlanDate" type="date" class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="客戶編號" field="CustomerID" :item-render="{}" span="6">
+
+                    <vxe-form-item title="客戶編號" field="CustomerID" :item-render="{}" span="6" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.CustomerID"></vxe-input>
+                            <vxe-input v-model="data.CustomerID" class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="訂單數量" field="OrderQty" :item-render="{}" span="6">
+                    <vxe-form-item title="產品編號" field="GoodsID" :item-render="{}" span="12" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.OrderQty"></vxe-input>
+                            <vxe-input v-model="data.GoodsID" @@blur="formDataGoodsIDBlurEvent()" class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="數量單位" field="OrderUnit" :item-render="{}" span="6">
+                    <vxe-form-item title="產品描述" field="GoodsCname" :item-render="{}" span="12" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.OrderUnit"></vxe-input>
+                            <vxe-input v-model="data.GoodsCname" disabled class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="要求日期" field="RequestDate" :item-render="{}" span="6">
+                    <vxe-form-item title="訂單數量" field="OrderQty" :item-render="{}" span="6" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.RequestDate"></vxe-input>
+                            <vxe-input v-model="data.OrderQty" type="number" class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="交貨日期" field="DeliveryDate" :item-render="{}" span="6">
+                    <vxe-form-item title="數量單位" field="OrderUnit" :item-render="{}" span="6" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.DeliveryDate"></vxe-input>
+                            <vxe-select v-model="data.OrderUnit" size="mini">
+                                <vxe-option v-for="item in QtyUnitList" :key="item.ID" :value="item.Name" :label="item.Name"></vxe-option>
+                            </vxe-select>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="產品備註" field="ProductRemark" :item-render="{}" span="12">
+                    <vxe-form-item title="要求日期" field="RequestDate" :item-render="{}" span="6" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.ProductRemark"></vxe-input>
+                            <vxe-input v-model="data.RequestDate" type="date" class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="制單備註" field="MoRemark" :item-render="{}" span="12">
+                    <vxe-form-item title="交貨日期" field="DeliveryDate" :item-render="{}" span="6" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.MoRemark"></vxe-input>
+                            <vxe-input v-model="data.DeliveryDate" type="date" class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="計劃備註" field="PlanRemark" :item-render="{}" span="12">
+                    <vxe-form-item title="產品備註" field="ProductRemark" :item-render="{}" span="12" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.PlanRemark"></vxe-input>
+                            <vxe-input v-model="data.ProductRemark" class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="開單人" field="CreateUser" :item-render="{}" span="6">
+                    <vxe-form-item title="制單備註" field="MoRemark" :item-render="{}" span="12" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.CreateUser" disabled></vxe-input>
+                            <vxe-input v-model="data.MoRemark" class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="開單日期" field="CreateTime" :item-render="{}" span="6">
+                    <vxe-form-item title="計劃備註" field="PlanRemark" :item-render="{}" span="12" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.CreateTime" disabled></vxe-input>
+                            <vxe-input v-model="data.PlanRemark" class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="修改人" field="AmendUser" :item-render="{}" span="6">
+                    <vxe-form-item title="開單人" field="CreateUser" :item-render="{}" span="6" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.AmendUser" disabled></vxe-input>
+                            <vxe-input v-model="data.CreateUser" disabled class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="修改日期" field="AmendTime" :item-render="{}" span="6">
+                    <vxe-form-item title="開單日期" field="CreateTime" :item-render="{}" span="6" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.AmendTime" disabled></vxe-input>
+                            <vxe-input v-model="data.CreateTime" disabled class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="批準人" field="ApprovedUser" :item-render="{}" span="6">
+                    <vxe-form-item title="修改人" field="AmendUser" :item-render="{}" span="6" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.ApprovedUser" disabled></vxe-input>
+                            <vxe-input v-model="data.AmendUser" disabled class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
-                    <vxe-form-item title="批準日期" field="ApprovedTime" :item-render="{}" span="6">
+                    <vxe-form-item title="修改日期" field="AmendTime" :item-render="{}" span="6" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.ApprovedTime" disabled></vxe-input>
+                            <vxe-input v-model="data.AmendTime" disabled class="input-customize"></vxe-input>
+                        </template>
+                    </vxe-form-item>
+                    <vxe-form-item title="批準人" field="ApprovedUser" :item-render="{}" span="6" class="vxe-form-item-customize">
+                        <template #default="{ data }">
+                            <vxe-input v-model="data.ApprovedUser" disabled class="input-customize"></vxe-input>
+                        </template>
+                    </vxe-form-item>
+                    <vxe-form-item title="批準日期" field="ApprovedTime" :item-render="{}" span="6" class="vxe-form-item-customize">
+                        <template #default="{ data }">
+                            <vxe-input v-model="data.ApprovedTime" disabled class="input-customize"></vxe-input>
                         </template>
                     </vxe-form-item>
                     
@@ -165,54 +178,79 @@
 
         </div>
     </div>
-
-    <div v-show="selectTab === 'tab2'" style="margin:15px 0px;">
-        <vxe-toolbar style="height:35px">
-            <template #buttons>
-                <vxe-button icon="fa fa-plus" @@click="showInsertEvent()" size="mini">項目新增</vxe-button>
-                <vxe-button icon="fa fa-trash-o" @@click="deleteEvent()" size="mini">項目刪除</vxe-button>
-            </template>
-        </vxe-toolbar>
+    <!--明細表-->
+    <div v-show="selectTab === 'tab2'">
+        <div class="div-left">
+            <vxe-toolbar style="height:35px">
+                <template #buttons>
+                    <vxe-button icon="fa fa-plus" @@click="insertEvent(-1)" size="mini">項目新增</vxe-button>
+                    <vxe-button icon="fa fa-trash-o" @@click="deleteEvent()" size="mini">項目刪除</vxe-button>
+                </template>
+            </vxe-toolbar>
+        </div>
+        <!--明細表-->
+        <div style="float:left;width:100%">
         <vxe-table border
                    show-overflow
                    height="350"
-                   size="small"
+                   size="mini"
                    highlight-current-row
+                   :row-config="{height: 20}"
                    ref="xTable"
                    :loading="loading3"
                    :sync-resize="selectTab"
                    :checkbox-config="{highlight: true, range: true}"
                    :data="tablePlanDetails"
-                   :keyboard-config="{isArrow: true}"
-                   :edit-config="{trigger: 'click', mode: 'cell', icon: 'fa fa-pencil', showStatus: true}">
-            <vxe-table-column type="seq" title="序號" width="60"></vxe-table-column>
-            <vxe-table-column field="GoodsID" title="物料編號" width="200" :edit-render="{name: '$input', events: {blur: showMsg}}"></vxe-table-column>
-            <vxe-table-column field="GoodsCname" title="物料描述" width="260"></vxe-table-column>
-            <vxe-table-column field="WipID" title="負責部門" width="160"></vxe-table-column>
-            <vxe-table-column field="NextWipID" title="收貨部門" width="160"></vxe-table-column>
-            <vxe-table-column field="RequestQty" title="要求數量" width="160"></vxe-table-column>
-            <vxe-table-column field="RequestDate" title="要求完成日期" width="160"></vxe-table-column>
-            <vxe-table-column field="CompleteQty" title="完成數量" width="160"></vxe-table-column>
-            <vxe-table-column field="CompleteDate" title="完成日期" width="160"></vxe-table-column>
-            <vxe-table-column title="修改" width="60" :resizable="false" show-overflow>
+                   :keyboard-config="{isArrow: true, isEnter: true,Backspace:true}"
+                   :edit-config="{trigger: 'click', mode: 'row', icon: 'fa fa-pencil1', showStatus: true}"
+                   @@cell-dblclick="tablePlanDetailsCellDBLClickEvent">
+            <vxe-column type="seq" title="序號" width="60"></vxe-column>
+            <vxe-column field="GoodsID" title="物料編號" width="160" :edit-render="{autofocus: '.vxe-input--inner'}">
+                <template #edit="{ row }">
+                    <vxe-input v-model="row.GoodsID" maxlength="18" style="height:20px;" @@change="tableGoodsIDChangeEvent(row)" @@blur="tableGoodsIDBlurEvent(row)"></vxe-input>
+                </template>
+            </vxe-column>
+            <vxe-column field="GoodsCname" title="物料描述" width="260"></vxe-column>
+            <vxe-column field="WipID" title="負責部門" :edit-render="{}" width="80">
+                <template #edit="{ row }">
+                    <vxe-select v-model="row.WipID" size="mini" @@change="tableWipIDChangeEvent(row)">
+                        <vxe-option v-for="item in wipList" :key="item.value" :value="item.value" :label="item.label"></vxe-option>
+                    </vxe-select>
+                </template>
+            </vxe-column>
+            <vxe-column field="NextWipID" title="收貨部門" :edit-render="{}" width="80">
+                <template #edit="{ row }">
+                    <vxe-select v-model="row.NextWipID" size="mini" @@change="tableNextWipIDChangeEvent(row)">
+                        <vxe-option v-for="item in wipList" :key="item.value" :value="item.value" :label="item.label"></vxe-option>
+                    </vxe-select>
+                </template>
+            </vxe-column>
+            <vxe-column field="RequestQty" title="要求數量" :edit-render="{}" width="100">
+                <template #edit="{ row }">
+                    <vxe-input v-model="row.RequestQty" type="number" style="height:20px" @@change="tableRequestQtyChangeEvent(row)"></vxe-input>
+                </template>
+            </vxe-column>
+            <vxe-column field="RequestDate" title="要求完成日期" :edit-render="{}" width="120">
+                <template #edit="{ row }">
+                    <vxe-input v-model="row.RequestDate" type="date" style="height:20px" @@change="tableRequestDateChangeEvent(row)"></vxe-input>
+                </template>
+            </vxe-column>
+            <vxe-column field="CompleteQty" title="完成數量" width="100"></vxe-column>
+            <vxe-column field="CompleteDate" title="完成日期" width="120"></vxe-column>
+            <vxe-column title="修改" width="60" :resizable="false" fixed="right" show-overflow>
                 <template #default="{ row }">
                     <vxe-button type="text" icon="fa fa-edit" @@click="editRowEvent(row)"></vxe-button>
                 </template>
-            </vxe-table-column>
+            </vxe-column>
         </vxe-table>
-
-        <vxe-modal ref="xModal" v-model="showEdit" title="编辑&保存" width="800" resize destroy-on-close>
+        </div>
+        <!--彈窗編輯明細表-->
+        <vxe-modal ref="xModal" v-model="showEdit" title="编辑&保存" width="900" height="600" resize destroy-on-close>
             
                 <template #default>
                     @*<div class="div-cont">*@
-                        <vxe-form :data="editPlanDetails" title-align="right" title-width="100" @@submit="updateEvent">
-                            <vxe-form-item title="物料編號" field="GoodsID" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入名称'}, events: {blur: getGoodsByID}}"></vxe-form-item>
-                            <vxe-form-item title="物料描述" field="GoodsCname" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入昵称'}}"></vxe-form-item>
-                            <vxe-form-item title="負責部門" field="WipID" span="12" :item-render="{name: '$select', options: wipList}"></vxe-form-item>
-                            <vxe-form-item title="收貨部門" field="NextWipID" span="12" :item-render="{name: '$select', options: wipList}"></vxe-form-item>
-                            <vxe-form-item title="要求數量" field="RequestQty" span="12" :item-render="{name: 'input', attrs: {type:'number',placeholder: '请输入數量'}}"></vxe-form-item>
-                            <vxe-form-item title="要求完成日期" field="RequestDate" span="12" :item-render="{name: '$input',props: {type: 'date'}, attrs: {placeholder: '请输入要求日期'}}"></vxe-form-item>
-                            <vxe-form-item align="center" span="24">
+                        <vxe-form :data="editPlanDetails" title-align="right" title-width="160" @@submit="updateEvent" title-colon custom-layout>
+                            <vxe-form-item align="left" span="24">
                                 <template #default>
                                     <vxe-button v-if="selectRow" type="submit" status="primary">確定</vxe-button>
                                     <vxe-button v-else type="submit" status="primary">新增</vxe-button>
@@ -220,6 +258,42 @@
                                     <vxe-button @@click="$refs.xModal.close()">取消</vxe-button>
                                 </template>
                             </vxe-form-item>
+                            <vxe-form-item title="物料編號" field="GoodsID" span="12" :item-render="{}" class="vxe-form-item-customize">
+                                <template #default="{ data }">
+                                    <vxe-input v-model="data.GoodsID" class="input-customize" maxlength="18" @@blur="modalGoodsIDBlurEvent()" style="width:76%"></vxe-input>
+                                    @*<vxe-button icon="fa fa-search" class="input-customize" style="height:20px;width:18%;" @@click="showGoods"></vxe-button>*@
+                                </template>
+                            </vxe-form-item>
+                            <vxe-form-item title="物料描述" field="GoodsCname" span="12" :item-render="{}" class="vxe-form-item-customize">
+                                <template #default="{ data }">
+                                    <vxe-input v-model="data.GoodsCname" class="input-customize"></vxe-input>
+                                </template>
+                            </vxe-form-item>
+                            <vxe-form-item title="負責部門" field="WipID" span="12" :item-render="{}" class="vxe-form-item-customize">
+                                <template #default="{ data }">
+                                    <vxe-select v-model="data.WipID" size="mini">
+                                        <vxe-option v-for="item in wipList" :key="item.value" :value="item.label" :label="item.label"></vxe-option>
+                                    </vxe-select>
+                                </template>
+                            </vxe-form-item>
+                            <vxe-form-item title="收貨部門" field="NextWipID" span="12" :item-render="{}" class="vxe-form-item-customize">
+                                <template #default="{ data }">
+                                    <vxe-select v-model="data.NextWipID" size="mini">
+                                        <vxe-option v-for="item in wipList" :key="item.value" :value="item.label" :label="item.label"></vxe-option>
+                                    </vxe-select>
+                                </template>
+                            </vxe-form-item>
+                            <vxe-form-item title="要求數量" field="RequestQty" span="12" :item-render="{}" class="vxe-form-item-customize">
+                                <template #default="{ data }">
+                                    <vxe-input v-model="data.RequestQty" type="number" class="input-customize"></vxe-input>
+                                </template>
+                            </vxe-form-item>
+                            <vxe-form-item title="要求完成日期" field="RequestDate" span="12" :item-render="{}" class="vxe-form-item-customize">
+                                <template #default="{ data }">
+                                    <vxe-input v-model="data.RequestDate" type="date" class="input-customize"></vxe-input>
+                                </template>
+                            </vxe-form-item>
+                            
                         </vxe-form>
                     @*</div>*@
             </template>
@@ -227,7 +301,36 @@
         </vxe-modal>
 
     </div>
-
+    <!--調出复制窗口-->
+    <vxe-modal ref="xModalCopy" v-model="showCopy" title="複製" width="400" height="300" resize destroy-on-close>
+        <template #default>
+            @*<div class="div-cont">*@
+            <vxe-form :data="copyData" title-align="right" title-width="100" @@submit="copyMo()" style="margin-top:-20px">
+                <vxe-form-item field="SourceType" span="12" :item-render="{}">
+                    <template #default="{ data }">
+                        <vxe-radio name="n1" v-model="data.SourceType" label="1" content="從舊計劃單中匯入" size="mini"></vxe-radio>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item field="SourceType" span="12" :item-render="{}">
+                    <template #default="{ data }">
+                        <vxe-radio name="n1" v-model="data.SourceType" label="2" content="從CFOC中匯入" size="mini"></vxe-radio>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="制單編號" field="ProductMo" span="24" :item-render="{}">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.ProductMo"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item align="center" span="24" style="margin-top:30px">
+                    <template #default>
+                        <vxe-button type="submit" status="primary" @@click="$refs.xModalCopy.close()">確定</vxe-button>
+                        <vxe-button @@click="$refs.xModalCopy.close()">取消</vxe-button>
+                    </template>
+                </vxe-form-item>
+            </vxe-form>
+            @*</div>*@
+        </template>
+    </vxe-modal>
     @*<div v-show="selectTab === 'tab3'">
         <vxe-table border
                    show-overflow
@@ -243,340 +346,65 @@
             <vxe-table-column field="rate" title="Rate"></vxe-table-column>
         </vxe-table>
     </div>*@
+    <!--查找窗口-->
+    <vxe-modal ref="xModalSearch" v-model="showSearch" title="查詢" width="800" height="600" resize destroy-on-close>
+        <template #default>
+            <vxe-form :data="searchParasData" title-align="right" title-width="100" @@submit="searchPlan()" style="margin-top:-20px">
+                <vxe-form-item align="left" span="24" style="margin-top:30px">
+                    <template #default>
+                        <vxe-button type="submit" status="primary">查詢</vxe-button>
+                        <vxe-button @@click="$refs.xModalSearch.close()">關閉</vxe-button>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="制單編號" field="ProductMo" span="12" :item-render="{}">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.ProductMoFrom" style="width:40%"></vxe-input>
+                        <vxe-input v-model="data.ProductMoTo" style="width:40%"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="計劃單日期" field="PlanDateFrom" span="12" :item-render="{}">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.PlanDateFrom" type="date" style="width:40%"></vxe-input>
+                        <vxe-input v-model="data.PlanDateTo" type="date" style="width:40%"></vxe-input>
+                    </template>
+                </vxe-form-item>
+            </vxe-form>
+ 
+        <!--顯示查找記錄-->
+        <vxe-table border
+                   show-overflow
+                   height="350"
+                   size="mini"
+                   highlight-current-row
+                   :row-config="{height: 20}"
+                   ref="xTable"
+                   :loading="searchLoading"
+                   :sync-resize="selectTab"
+                   :checkbox-config="{highlight: true, range: true}"
+                   :data="tablePlanHeadList"
+                   :keyboard-config="{isArrow: true, isEnter: true,Backspace:true}"
+                   :edit-config="{trigger: 'dbclick', mode: 'row', icon: 'fa fa-pencil1', showStatus: true}"
+                    @@cell-dblclick="searchCellDBLClickEvent">
+            <vxe-column title="選取" width="60" fixed="left" show-overflow>
+                <template #default="{ row }">
+                    <vxe-button type="text" icon="fa fa-check" @@click="SelectSearchMoEvent(row)"></vxe-button>
+                </template>
+            </vxe-column>
+            <vxe-column type="seq" title="序號" width="60"></vxe-column>
+            <vxe-column field="ProductMo" title="制單編號" width="100" :edit-render="{autofocus: '.vxe-input--inner'}">
+            </vxe-column>
+            <vxe-column field="PlanDate" title="計劃單日期" width="100"></vxe-column>
+            <vxe-column field="GoodsID" title="物料編號" width="160"></vxe-column>
+            <vxe-column field="GoodsCname" title="物料描述" width="260"></vxe-column>
+            <vxe-column field="CreateUser" title="建立人" width="80"></vxe-column>
+            <vxe-column field="CreateTime" title="建立日期" width="100"></vxe-column>
+        </vxe-table>
+
+       </template>
+
+    </vxe-modal>
 </div>
 @section PageSpecificJavascriptIncludes{
-<script src="/Content/js/common.js"></script>
-    <script type="text/javascript">
-
-        var vm = new Vue({
-            el: "#app",
-            data: {
-                selectTab: 'tab1',
-                edit_mode: 0,
-                showEdit: false,
-                selectRow: null,
-                tablePlanDetails: [],
-                editPlanDetails: {},
-                prevEditPlanDetails:{},
-                searchProductMo: '',
-                loading3: false,
-                //ArtImageUrl: '/Images/photo.png',
-                //formData: {
-                //    ProductMo: '',
-                //    PlanDate: '',
-                //    Ver: 0,
-                //    OrderQty: 0,
-                //    OrderUnit: '',
-                //    CustomerID: '',
-                //    RequestDate: '',
-                //    DeliveryDate: '',
-                //    GoodsID: '',
-                //    ProductRemark: '',
-                //    MoRemark: '',
-                //    PlanRemark: '',
-                //    ApprovedTime: '',
-                //    ApprovedUser: '',
-                //    CreateUser: '',
-                //    CreateTime: '',
-                //    AmendUser: '',
-                //    AmendTime:'',
-                //},
-                formData:{},
-                prevForm: {},
-                editFormChanged: false, // 是否修改标识
-                sexList: [
-                { label: '', value: '' },
-                { label: '女', value: '0' },
-                { label: '男', value: '1' }
-                ],
-                wipList:[],
-                
-                name: '',
-                sex: 1,
-                date:'',
-            },
-            created: function () {
-                this.getWipID();
-                //this.findList3();
-            },
-            methods: {
-                showMsg() {
-                    //if (this.name.length >= 9)
-                    alert("ok");
-                    //var vl = value;
-                },
-                addNew() {
-                    this.edit_mode = 1;
-                    nowDateTime = comm.getCurrentTime();
-                    this.formData = {
-                        EditFlag:1,
-                        ProductMo: '',
-                        PlanDate: comm.getCurrentDate(),
-                        Ver: 0,
-                        OrderQty: 0,
-                        OrderUnit: '',
-                        CustomerID: '',
-                        RequestDate: '',
-                        DeliveryDate: '',
-                        GoodsID: '',
-                        ProductRemark: '',
-                        MoRemark: '',
-                        PlanRemark: '',
-                        ApprovedTime: nowDateTime,
-                        ApprovedUser: '',
-                        CreateUser: '',
-                        CreateTime: nowDateTime,
-                        AmendUser: '',
-                        AmendTime: nowDateTime,
-                        ArtImageUrl: '/Images/photo.png',
-                    };
-                    //深度複製一個對象，用來判斷數據是否有修改
-                    this.prevForm = JSON.parse(JSON.stringify(this.formData));
-                },
-                productMoBlurEvent() {
-                    if (this.formData.ProductMo == "")
-                        return;
-                    if (this.edit_mode == 1)
-                        this.getPlanFromOrder();
-                },
-                searchByProductMo(_ProductMo) {
-                    this.edit_mode = 0,
-                    this.loading3 = true;
-                    setTimeout(() => {
-                        this.getPlanHead(_ProductMo);
-                        this.getPlanDetails(_ProductMo);
-                        this.loading3 = false;
-                    }, 500);
-                    
-                },
-                getPlanHead(_ProductMo) {
-                    var _self = this;
-                    //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
-                    axios.get("GetPlanHeadByMo", { params: { ProductMo: _ProductMo } }).then(
-                    (response) => {
-                        //this.formData.ProductMo = response.data.ProductMo,
-                        //    this.formData.Ver = response.data.Ver,
-                        //    this.formData.PlanDate = response.data.PlanDate,
-                        //    this.formData.CustomerID = response.data.CustomerID,
-                        //    this.formData.GoodsID = response.data.GoodsID,
-                        //    this.formData.OrderQty = response.data.OrderQty,
-                        //    this.formData.OrderUnit = response.data.OrderUnit,
-                        //    this.formData.MoRemark = response.data.MoRemark,
-                        //    this.formData.PlanRemark = response.data.PlanRemark,
-                        //    this.formData.ProductRemark = response.data.ProductRemark
-                        this.formData = {
-                            ProductMo: response.data.ProductMo,
-                            Ver: response.data.Ver,
-                            PlanDate: response.data.PlanDate,
-                            CustomerID: response.data.CustomerID,
-                            GoodsID: response.data.GoodsID,
-                            OrderQty: response.data.OrderQty,
-                            OrderUnit: response.data.OrderUnit,
-                            MoRemark: response.data.MoRemark,
-                            PlanRemark: response.data.PlanRemark,
-                            ProductRemark: response.data.ProductRemark,
-                            ArtImageUrl: response.data.ArtImageUrl,
-                            CreateUser: response.data.CreateUser,
-                            CreateTime: response.data.CreateTime,
-                            AmendUser: response.data.AmendUser,
-                            AmendTime: response.data.AmendTime,
-                        }
-                        //深度複製一個對象，用來判斷數據是否有修改
-                        this.prevForm = JSON.parse(JSON.stringify(this.formData));
-                        //var ImagePath = "/art/artwork/" + "AAAA/A888020.bmp";
-                        //this.ArtImageUrl = ImagePath;
-                    },
-                    (response) => {
-                        alert(response.status);
-                    }
-                ).catch(function (response) {
-                    alert(response);
-                });
-                },
-                getPlanDetails(_ProductMo) {
-                    var _self = this;
-                    axios.get("GetPlanDetailsByMo", { params: { ProductMo: _ProductMo } }).then(
-                    (response) => {
-                        this.tablePlanDetails = response.data;
-                    },
-                    (response) => {
-                        alert(response.status);
-                    }
-                ).catch(function (response) {
-                    alert(response);
-                });
-                },
-                getPlanFromOrder() {
-                    var _self = this;
-                    //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
-                    axios.get("GetOrderByMo", { params: { ProductMo: _self.formData.ProductMo } }).then(
-                    (response) => {
-                        this.formData.ProductMo = response.data[0].ProductMo,
-                        this.formData.CustomerID = response.data[0].CustomerID,
-                        this.formData.GoodsID = response.data[0].GoodsID,
-                        this.formData.OrderQty = response.data[0].OrderQty,
-                        this.formData.OrderUnit = response.data[0].OrderUnit,
-                        this.formData.ProductRemark = response.data[0].ProductRemark,
-                        this.formData.ArtImageUrl = response.data[0].ArtImageUrl,
-                        this.tablePlanDetails = response.data
-                    },
-                    (response) => {
-                        alert(response.status);
-                    }
-                ).catch(function (response) {
-                    alert(response);
-                });
-                },
-                submitSearch() {
-
-                },
-                showInsertEvent () {
-                    this.editPlanDetails = {
-                        EditFlag: 0,
-                        ProductMo: this.formData.ProductMo,
-                        Ver: this.formData.Ver,
-                        GoodsID: '',
-                        GoodsCname: '',
-                        RequestQty: '',
-                        RequestDate: '',
-                        WipID: '',
-                        NextWipID: ''
-                    },
-                   this.selectRow = null
-                   this.showEdit = true
-
-                },
-                getWipID() {
-                    var _self = this;///Base/BaseData///, { params: { ProductMo: this.editPlanDetails.GoodsID } }
-                    axios.get("GetWipID").then(
-                        (response) => {
-                            this.wipList = response.data;
-                        },
-                        (response) => {
-                            alert(response.status);
-                        }
-                    ).catch(function (response) {
-                        alert(response);
-                    });
-                },
-                updateEvent() {
-                    //this.showEdit = false
-                    //this.$XModal.message({ content: '保存成功', status: 'success' })
-                    //Object.assign(this.selectRow, this.tablePlanDetails)
-                    //return;
-                    if (this.selectRow) {
-                        this.showEdit = false
-                        //this.$XModal.message({ content: '保存成功', status: 'success' })
-                        for (let i in this.editPlanDetails) {
-                            if (this.editPlanDetails[i] != this.prevEditPlanDetails[i]) {
-                                this.editPlanDetails.EditFlag = 1;
-                                break;
-                            }
-                        }
-                        Object.assign(this.selectRow, this.editPlanDetails)
-                    } else {
-                        this.editPlanDetails.EditFlag = 1;
-                        this.tablePlanDetails.push(this.editPlanDetails);
-                        //this.editPlanDetails = {};
-                        this.editPlanDetails = {
-                            EditFlag: 0,
-                            ProductMo: this.formData.ProductMo,
-                            Ver:this.formData.Ver,
-                            GoodsID: '',
-                            GoodsCname: '',
-                            RequestQty: '',
-                            RequestDate: '',
-                            WipID: '',
-                            NextWipID: ''
-                        };
-                    }
-                },
-                getGoodsByID(){
-                    if (this.editPlanDetails.GoodsID != "") {
-                        var _self = this;
-                        axios.get("GetGoodsByID", { params: { GoodsID: this.editPlanDetails.GoodsID } }).then(
-                        (response) => {
-                            this.editPlanDetails.GoodsCname = response.data.goods_cname
-                        },
-                        (response) => {
-                            alert(response.status);
-                        }
-                    ).catch(function (response) {
-                        alert(response);
-                    });
-                    }
-                },
-                editRowEvent (row) {
-                    this.editPlanDetails = {
-                        EditFlag: 0,
-                        GoodsID: row.GoodsID,
-                        GoodsCname: row.GoodsCname,
-                        RequestQty: row.RequestQty,
-                        RequestDate:row.RequestDate,
-                        WipID: row.WipID,
-                        NextWipID: row.NextWipID
-                    }
-                    //深度複製一個對象，用來判斷數據是否有修改
-                    this.prevEditPlanDetails = JSON.parse(JSON.stringify(this.editPlanDetails));
-                    this.selectRow = row
-                    this.showEdit = true
-                },
-                saveEvent() {
-                    this.validData();
-                    var _self = this;
-                    var PlanHead = _self.formData;
-                    var PlanDetails = _self.tablePlanDetails;
-                    axios.post("SavePlan", { PlanHead, PlanDetails }).then(
-                    (response) => {
-                        this.SavePlan = {
-                            ProductMo: "",
-                        };
-                        alert("更新成功!");
-                    },
-                    (response) => {
-                        alert(response.status);
-                    }
-                ).catch(function (response) {
-                    alert(response);
-                });
-                },
-                validData() {
-                    for (let i in this.formData) {
-                        if (this.formData[i] != this.prevForm[i]) {
-                            this.formData.EditFlag = 1;
-                            break;
-                        }
-                    }
-                },
-                deleteEvent() {
-                    let selectRecords = this.$refs.xTable.getCheckboxRecords()
-                    if (selectRecords.length) {
-                        this.$refs.xTable.removeCheckboxRow()
-                    } else {
-                        alert('请至少选择一条数据！')
-                        //this.$xDetails.message({ content: 'warning 提示框', status: 'warning' })
-                    }
-                },
-            },
-            
-            watch: {
-                //// watch监听 判断是否修改  
-                //formData: {
-                //    handler (val, oldVal) {
-                //        for (let i in this.formData) {
-                //            if (val[i] != this.prevForm[i]) {
-                //                this.editFormChanged = true;
-                //                break;
-                //            } else {
-                //                this.editFormChanged = false;
-                //            }
-                //        }
-                //        console.log(this.editFormChanged);
-                //    },
-                //    deep: true
-                //}
-
-            }
-        })
-</script>
+    <script src="~/Areas/Prod/js/Plan.js?v=@Guid.NewGuid().ToString()"></script>
+    @*<link rel="stylesheet" href="~/Content/main_inv.css">*@
 }

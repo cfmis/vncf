@@ -25,7 +25,7 @@ namespace VNCF.PSS.Web.Common
         }
         public static string GetDetaultUserID()
         {
-            string LoginName = "0";
+            string LoginName = "";
             try
             {
                 LoginName = AdminUserContext.Current.LoginInfo.LoginName;

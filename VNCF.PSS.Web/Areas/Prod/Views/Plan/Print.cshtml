@@ -1,10 +1,13 @@
 ﻿
 @{
-    ViewBag.Title="Print Report";
+    ViewBag.Title = "Print Report";
     Layout = null;
 }
 
 @WebReportGlobals.Styles()
 @WebReportGlobals.Scripts()
+
+
+
 
 @ViewBag.WebReport.GetHtml()

@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="12/29/2021 19:26:47" ReportInfo.Modified="12/30/2021 16:10:47" ReportInfo.CreatorVersion="2019.1.15.0">
+  <Dictionary>
+    <BusinessObjectDataSource Name="Data" ReferenceName="Data" DataType="System.Int32" Enabled="true">
+      <Column Name="ProductMo" DataType="System.String"/>
+      <Column Name="Ver" DataType="System.String"/>
+      <Column Name="Remark" DataType="System.String"/>
+      <Column Name="Seq" DataType="System.String"/>
+      <Column Name="GoodsID" DataType="System.String"/>
+      <Column Name="GoodsCname" DataType="System.String"/>
+      <Column Name="ArtImageUrl" DataType="System.String"/>
+      <Column Name="OrderQty" DataType="System.Int32"/>
+      <Column Name="OrderUnit" DataType="System.String"/>
+      <Column Name="RequestQty" DataType="System.Int32"/>
+      <Column Name="RequestDate" DataType="System.String"/>
+      <Column Name="WipID" DataType="System.String"/>
+      <Column Name="NextWipID" DataType="System.String"/>
+      <Column Name="CreateUser" DataType="System.String"/>
+      <Column Name="CreateTime" DataType="System.String"/>
+      <Column Name="AmendUser" DataType="System.String"/>
+      <Column Name="AmendTime" DataType="System.String"/>
+    </BusinessObjectDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1" RawPaperSize="9" Border.Lines="All" Watermark.Font="SimSun, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2"/>
+    <PageHeaderBand Name="PageHeader1" Top="4" Width="718.2" Height="254.42" Border.Lines="All" CanBreak="true">
+      <TextObject Name="Text1" Left="226.9" Top="17.7" Width="241.45" Height="28.35" Text="生產計劃單" HorzAlign="Center" Font="SimSun, 16pt, style=Bold"/>
+      <TableObject Name="Table3" Left="1.45" Top="206.8" Width="709.12" Height="47.62" Border.Lines="Bottom">
+        <TableColumn Name="Column17" Width="51.01"/>
+        <TableColumn Name="Column18" Width="95.37"/>
+        <TableColumn Name="Column19" Width="165.32"/>
+        <TableColumn Name="Column20" Width="235.1"/>
+        <TableColumn Name="Column21" Width="95.47"/>
+        <TableColumn Name="Column23" Width="66.85"/>
+        <TableRow Name="Row11" Height="23.81">
+          <TableCell Name="Cell87" Border.Lines="Right, Top" Text="序號" VertAlign="Center" Font="SimSun, 9pt" RowSpan="2"/>
+          <TableCell Name="Cell88" Border.Lines="Right, Top" Text="負責部門" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell89" Border.Lines="Right, Top" Text="產品編號" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt" RowSpan="2"/>
+          <TableCell Name="Cell90" Border.Lines="Right, Top" Text="產品描述" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt" RowSpan="2"/>
+          <TableCell Name="Cell91" Border.Lines="Right, Top" Text="需求數量" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt" RowSpan="2"/>
+          <TableCell Name="Cell101" Border.Lines="Top" Text="需求日期" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt" RowSpan="2"/>
+        </TableRow>
+        <TableRow Name="Row12" Height="23.81">
+          <TableCell Name="Cell92" Border.Lines="Right" VertAlign="Center" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell93" Border.Lines="Right" Text="移交部門" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell94" Border.Lines="Right" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell95" Border.Lines="Right" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell96" Border.Lines="Right" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell102" Border.Lines="Right" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <RichObject Name="Rich1" Left="529.2" Top="47.25" Width="160.65" Height="18.9" Text="{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe3076{\fonttbl{\f0\fmodern\fprq6\fcharset136 \'b7\'73\'b2\'d3\'a9\'fa\'c5\'e9;}{\f1\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang1028\f0\fs16\'a8\'ee\'b3\'e6\'bd\'73\'b8\'b9: \lang1033\f1\fs17 [Data.ProductMo]\par&#13;&#10;}&#13;&#10;"/>
+      <RichObject Name="Rich2" Left="529.2" Top="75.6" Width="160.65" Height="18.9" Text="{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe3076{\fonttbl{\f0\fmodern\fprq6\fcharset136 \'b7\'73\'b2\'d3\'a9\'fa\'c5\'e9;}{\f1\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang1028\f0\fs16\'aa\'a9\'a5\'bb: \lang1033\f1\fs17 [Data.Ver]\par&#13;&#10;}&#13;&#10;"/>
+      <PictureObject Name="Picture1" Left="595.35" Top="113.4" Width="75.6" Height="75.6" DataColumn="Data.ArtImageUrl"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="262.42" Width="718.2" Height="51.48" CanGrow="true" DataSource="Data" KeepTogether="true" KeepDetail="true">
+      <TableObject Name="Table1" Width="708.75" Height="51.03" Border.Lines="Top">
+        <TableColumn Name="Column38" Width="56.7"/>
+        <TableColumn Name="Column39" Width="94.5"/>
+        <TableColumn Name="Column40" Width="160.65"/>
+        <TableColumn Name="Column41" Width="236.25"/>
+        <TableColumn Name="Column42" Width="94.5"/>
+        <TableColumn Name="Column43"/>
+        <TableRow Name="Row14" Height="27.41">
+          <TableCell Name="Cell140" Text="[Data.Seq]" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell141" Text="[Data.WipID]" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell142" Text="[Data.GoodsID]" Font="SimSun, 9pt" RowSpan="2"/>
+          <TableCell Name="Cell143" Text="[Data.GoodsCname]" Font="SimSun, 9pt" RowSpan="2"/>
+          <TableCell Name="Cell144" Text="[Data.RequestQty]" Font="SimSun, 9pt" RowSpan="2"/>
+          <TableCell Name="Cell145" Text="[Data.RequestDate]" Font="SimSun, 9pt" RowSpan="2"/>
+        </TableRow>
+        <TableRow Name="Row15" Height="23.62">
+          <TableCell Name="Cell146" Text="--&gt;" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell147" Text="[Data.NextWipID]" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell148" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell149" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell150" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell151" Font="SimSun, 9pt"/>
+        </TableRow>
+      </TableObject>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="317.9" Width="718.2" Height="56.7" Border.Lines="Top">
+      <TableObject Name="Table4" Left="1.13" Width="706.14" Height="22.68">
+        <TableColumn Name="Column32" Width="53.26"/>
+        <TableColumn Name="Column33" Width="139.29"/>
+        <TableColumn Name="Column34" Width="109.94"/>
+        <TableColumn Name="Column35" Width="59.9"/>
+        <TableColumn Name="Column36" Width="132.65"/>
+        <TableColumn Name="Column37" Width="211.1"/>
+        <TableRow Name="Row13" Height="22.68">
+          <TableCell Name="Cell129" Text="製表人:" VertAlign="Center" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell130" Text="[Data.CreateUser]" VertAlign="Center" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell131" Text="[Data.CreateTime]" VertAlign="Center" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell132" Text="審批人:" VertAlign="Center" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell133" Text="[Data.CreateUser]" VertAlign="Center" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell139" Text="[Data.CreateTime]" VertAlign="Center" Font="SimSun, 9pt"/>
+        </TableRow>
+      </TableObject>
+    </PageFooterBand>
+  </ReportPage>
+</Report>
