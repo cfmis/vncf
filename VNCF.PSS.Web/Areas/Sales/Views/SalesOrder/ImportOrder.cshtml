@@ -79,13 +79,11 @@
             });
 
             $("#VendorID").textbox("setValue", "CL-CF001");
-            //初始化日期
-            $("#OrderDateEnd").textbox("setValue", iniDate());
-            var strDate = $("#OrderDateEnd").textbox("getValue");
-            strDate = dateAdd(dateParse(strDate), -7);
-            $("#OrderDate").textbox("setValue", strDate);
-
-
+            ////初始化日期
+            //$("#OrderDateEnd").textbox("setValue", so.iniDate());
+            //var strDate = $("#OrderDateEnd").textbox("getValue");
+            //strDate = so.dateAdd(so.dateParse(strDate), -7);
+            //$("#OrderDate").textbox("setValue", strDate);
             $("#btnClose").click(function () {
                 window.parent.closeWindow();//关闭窗口
             });
@@ -168,7 +166,7 @@
 
         function SelectData() {
             var RowFindByID = $('#tbDetails').datagrid('getSelections');
-            if (RowFindByID.length == 1) {                
+            if (RowFindByID.length == 1) {
                 var postData = { ID: RowFindByID[0].ID, Ver: RowFindByID[0].Ver }
                 $.ajax({
                     url: "/SalesOrder/BuildOrder",
@@ -176,13 +174,14 @@
                     async: true,//改为同步方式(需等待當前動作執行是否成)
                     type: "post",
                     success: function (data) {                        
-                        if (data.ID != "") {                           
-                            window.parent.document.getElementById('OcID').value = data.ID;                            
-                            window.parent.document.getElementById('Ver').value = '0';
-
-                            window.parent.SearchOcHead();
-                            window.parent.SearchOcDetails();
-                            window.parent.closeWindow();
+                        if (data.ID != "") {
+                           //window.parent.document.getElementById('OcID').value = data.ID;
+                           //window.parent.document.getElementById('Ver').value = '0';                            
+                           //window.parent.so.SearchOcHead();                          
+                           window.parent.vm.searchDataSelect.OcID = data.ID;                          
+                           window.parent.vm.afterSelectOK();                           
+                           //window.parent.SearchOcDetails();
+                           window.parent.closeWindow();
                         }
                         else {
                             //主檔資料添加失败                
