@@ -1,0 +1,188 @@
+﻿
+@{
+    ViewBag.Title = "銷售訂單";   
+}
+@section PageSpecificStyleSheetIncludes{   
+    <style type="text/css">
+        .div-cont {
+            float: left;
+            width: 80%;
+            border: 0px solid #F00;
+        }
+        .divcss5-cent {
+            margin: 0 auto;
+            width: 80%;
+            height: 80%;
+            border: 1px solid #F00;
+        }
+        .div-left {
+            float: left;
+            width: 80%;
+            background-color: aqua;
+        }
+        .div-right {
+            float: right;
+            width: 20%;
+            /*background-color:yellow;*/
+        }
+        .div-none {
+            float: none;
+            width: 20%;
+            /*background-color:yellow;*/
+        }
+        .img-plan {
+            border: thick;
+            width: 80%;
+        }
+       
+    </style>
+}
+
+<div id="app" style="float: left;width:100%">
+    <vxe-toolbar perfect size="medium" style="height:35px;margin-top:3px">
+        <template #buttons>
+            <div class="tool-bar-color">
+                <vxe-button type="text" icon="fa fa-plus" v-if="!(isEditModeHead)">新增</vxe-button>               
+                <vxe-button type="text" status="danger" icon="fa fa-trash" v-if="!(isEditModeHead)" style="margin-left: -2px">注銷</vxe-button>
+                <vxe-button type="text" icon="fa fa-pencil" v-if="!(isEditModeHead)" style="margin-left: -2px">修改</vxe-button>                
+                <vxe-button type="text" icon="fa fa-save" v-if="isEditModeHead" style="margin-left: -2px">保存</vxe-button>
+                <vxe-button type="text" icon="fa fa-reply" v-if="isEditModeHead" style="margin-left: -2px">還原</vxe-button>
+                <vxe-button type="text" icon="fa fa-download" v-if="!(isEditModeHead)" style="margin-left: -2px">PO導入</vxe-button>
+                <vxe-button type="text" icon="fa fa-indent" v-if="!(isEditModeHead)" style="margin-left: -2px">項目新增</vxe-button>
+                <vxe-button type="text" status="warning" icon="fa fa-remove" v-if="!(isEditModeHead)" style="margin-left: -2px">項目刪除</vxe-button>
+                <vxe-button type="text" icon="fa fa-search" v-if="!(isEditModeHead)">查找</vxe-button>
+                <vxe-button type="text" icon="fa fa-print" v-if="!(isEditModeHead)" style="margin-left: -2px">列印</vxe-button>
+            </div>
+        </template>
+    </vxe-toolbar>
+
+    <div style="margin-left:10px;">
+        <div class="div-cont" style="margin:0px 0px;">
+            <div class="div-left">
+                <vxe-form :data="formData" @@submit="submitSearch" size="mini" title-align="right" title-width="80px">
+                    <vxe-form-item title="OC編號" field="OcID" :item-render="{}" span="6">                        
+                        <vxe-input v-model="formData.OcID" placeholder="请输入單據編號" style="width:65%"></vxe-input>
+                        <vxe-input v-model="formData.Ver" style="width:20%"></vxe-input>
+                    </vxe-form-item>
+                    <vxe-form-item title="制單編號" field="ProductMo" :item-render="{}" span="6">
+                        <template #default="{ data }">
+                            <vxe-input v-model="data.ProductMo" placeholder="请输入制單編號"></vxe-input>                           
+                        </template>
+                    </vxe-form-item>
+                    <vxe-form-item title="制單編號" field="ProductMo" :item-render="{}" span="6">
+                        <template #default="{ data }">
+                            <vxe-input v-model="data.ProductMo" placeholder="请输入制單編號"></vxe-input>                            
+                        </template>
+                    </vxe-form-item>
+                    <vxe-form-item title="制單編號" field="ProductMo" :item-render="{}" span="6">
+                        <template #default="{ data }">
+                            <vxe-input v-model="data.ProductMo" placeholder="请输入制單編號"></vxe-input>
+                        </template>
+                    </vxe-form-item>
+                    <vxe-form-item title="制單編號" field="ProductMo" :item-render="{}" span="6">
+                        <template #default="{ data }">
+                            <vxe-input v-model="data.ProductMo" placeholder="请输入制單編號"></vxe-input>
+                        </template>
+                    </vxe-form-item>
+                </vxe-form>
+            </div>
+        </div>
+   </div>
+       
+
+        @*<template #default>
+                <vxe-button type="text" icon="fa fa-plus my-success" content="新增"></vxe-button>
+                <vxe-button type="text" icon="vxe-icon--minus" content="删除"></vxe-button>
+                <vxe-button type="text" icon="fa fa-save" content="儲存"></vxe-button>
+                <vxe-input v-model="searchProductMo" placeholder="搜索"></vxe-input>
+                <vxe-button status="primary" icon="fa fa-search">搜索</vxe-button>
+            </template>*@
+
+
+</div>
+
+
+@section PageSpecificJavascriptIncludes{
+    <script src="/Content/js/common.js"></script>
+    <script type="text/javascript">
+        //const app = Vue.createApp({
+        //    data() {
+        //        count: 4
+        //    }
+        //})
+
+        //const vm = app.mount('#app')
+        //alert(vm.count);
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                formData: {},
+                count: 4,
+                searchProductMo: '',
+                isEditModeHead: false
+            },
+            methods: {
+                showMsg() {
+                    //if (this.name.length >= 9)
+                    alert("ok");
+                    //var vl = value;
+                },
+                submitSearch() {
+                    //
+                },
+                addNew() {
+                    //this.edit_mode = 1;
+                    //nowDateTime = comm.getCurrentDateTime();
+                    this.formData = {
+                        ID: 0,
+                        EditFlag: 1,
+                        BarCode: '',
+                        PrdDep: '',
+                        ProductMo: '',
+                        PrdDate: comm.getCurrentDate(),
+                        GoodsID: '',
+                        GoodsCname: '',
+                        PrdQty: 0,
+                        PrdWeg: 0.00,
+                        StartRunQty: 0,
+                        EndRunQty: 0,
+                        RunQty: 0,
+                        MachineID: '',
+                        WorkType: '',
+                        WorkerID: '',
+                        PrdClass: '',
+                        PrdGroup: '',
+                        StartTime: comm.getCurrentTime(),
+                        EndTime: '',
+                        WorkHours: 0,
+                        OtHours: 0,
+                        LineNum: 0,
+                        HourRunNum: 0,
+                        HourStdQty: 0,
+                        RequestTime: '',
+                        PerKgPcs: 0,
+                        QcFlag: '',
+                        MatGoodsID: '',
+                        MatGoodsLot: '',
+                        NextDepID: '',
+                        DifficultyLevel: '',
+                        WorkCode: '',
+                        JobType: '',
+                        CreateUser: '',
+                        CreateTime: nowDateTime,
+                        AmendUser: '',
+                        AmendTime: nowDateTime,
+                        ArtImageUrl: '/Images/photo.png'
+                    };
+                    //深度複製一個對象，用來判斷數據是否有修改
+                    //this.prevForm = JSON.parse(JSON.stringify(this.formData));
+                }
+            }
+        });
+
+    </script>
+}
+
+
+
+

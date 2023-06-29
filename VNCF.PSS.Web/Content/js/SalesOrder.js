@@ -139,6 +139,15 @@ var so = {
             $(value).textbox('textbox').css('background', '#F0F0F0');
         });
     },
+    setHeadIDVer: function (id) {
+        debugger;
+        $("#OcID").textbox("setValue", id);//生成的頁數
+        $("#Ver").textbox("setValue", '0');
+        
+        //debugger;
+        //this.formHeadData.OcID = id;
+        //this.formHeadData.Ver = '0';
+    },
 
     //*****可以直接輸入下拉列表框中存在的值,輸入下拉列表框中不存在的值,回車自動清空
     check_input_unit: function (obj) {
@@ -740,11 +749,12 @@ var so = {
     /**
     *查詢主檔
     */
-    SearchOcHead: function () {
+    SearchOcHead: function (val) {
         //Ajax异步实现加载
         $.ajax({
             //url: "/SalesOrder/GetOcHead?OcID=" + $("#OcID").val(),
-            url: "GetOcHead?OcID=" + $("#OcID").val(),
+            //url: "GetOcHead?OcID=" + $("#OcID").val(),
+            url: "GetOcHead?OcID=" + val,
             success: this.FillOcHead,
             error: this.ErryFunction //错误执行方法        
         })
@@ -978,7 +988,9 @@ var so = {
                 //判斷后臺是否生成OC數據
 
                 //查詢貨品編碼
-                var strItem = document.getElementById('goods_id').value;
+                //var strItem = document.getElementById('goods_id').value;//2023/06/28 CANCEL
+                //debugger;
+                var strItem = "";//document.getElementById('ProductID').value; //2023/06/28 ADD
                 if (strItem.length > 0) {
                     if (rowIndex == null) {
                         //OC明細的主檔查貨品編號的按鈕

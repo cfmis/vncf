@@ -303,6 +303,7 @@
     <Compile Include="Areas\Sales\Controllers\OCController.cs" />
     <Compile Include="Areas\Sales\Controllers\OrderController.cs" />
     <Compile Include="Areas\Sales\Controllers\SalesOrderController.cs" />
+    <Compile Include="Areas\Sales\Controllers\SOController.cs" />
     <Compile Include="Areas\Sales\DAL\Factory.cs" />
     <Compile Include="Areas\Sales\DAL\GenWebFormElement.cs" />
     <Compile Include="Areas\Sales\DAL\OrderDAL.cs" />
@@ -576,6 +577,7 @@
     <Content Include="Content\ElementUI\css\fonts\element-icons.woff" />
     <Content Include="Areas\Base\ASHX\BaseDataList.ashx" />
     <Content Include="Areas\Base\ASHX\ShowArtwork.ashx" />
+    <Content Include="Areas\Sales\Views\SO\Index.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -593,6 +595,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\vue.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Content\Static\css\font-awesome.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -648,6 +651,7 @@
     <Folder Include="Areas\Purchase\Views\Shared\" />
     <Folder Include="Areas\Stock\Views\Shared\" />
     <Folder Include="Content\Hg\" />
+    <Folder Include="Content\Static\fonts\" />
     <Folder Include="Images\" />
     <Folder Include="Lib\" />
     <Folder Include="Reports\" />
