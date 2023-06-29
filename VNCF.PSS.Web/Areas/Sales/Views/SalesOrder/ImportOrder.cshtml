@@ -38,10 +38,11 @@
     </div>
 
     <div class="areabx_divider"></div>
+    @*url:'datagrid_data1.json'*@
     <div data-options="region:'center'">
          <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
               <table id="tbDetails" class="easyui-datagrid" title='' style="width:840px;height:330px"
-                       data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'">
+                       data-options="singleSelect:true,collapsible:true,url:'',method:'get'">                
               </table>
          </div>
     </div>
@@ -52,8 +53,17 @@
     <script src="~/Content/js/SalesOrder.js"></script>
     <script type="text/javascript">
         $(function () {
-            //$("input[name='modality'][value='3']").attr("checked", true);//賦初值,F0
-            //SearchData();
+            //$("input[name='modality'][value='3']").attr("checked", true);//賦初值,F0            
+            var queryData = {
+                VendorID: '',
+                ID: 'ZZZZZZZZZZZ',
+                OrderDate: '',
+                OrderDateEnd: '',
+                ProductMo: '',
+                ProductID: ''
+            };
+            //将值传递给initTable
+            initList(queryData);
 
             //InitSearch();//查询
             $("#btnSerach").click(function () {
@@ -87,15 +97,14 @@
             $("#btnClose").click(function () {
                 window.parent.closeWindow();//关闭窗口
             });
-
         });
 
-        function intDate() {
-            Ajax.call('GetDBDate', '', setDate, 'GET', 'JSON');
-        }
-        function setDate(result) {
-            $("#OrderDateEnd").textbox("setValue", result.current_date);
-        }
+        //function intDate() {
+        //    Ajax.call('GetDBDate', '', setDate, 'GET', 'JSON');
+        //}
+        //function setDate(result) {
+        //    $("#OrderDateEnd").textbox("setValue", result.current_date);
+        //}
 
         function initList(queryData) {
             $('#tbDetails').datagrid({
