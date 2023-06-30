@@ -74,7 +74,7 @@
         function setDate(result) {
             var strDate = result.current_date;
             $("#OrderDate2").textbox("setValue", strDate);            
-            strDate = window.parent.dateAdd(window.parent.dateParse(strDate), -7);
+            strDate = window.parent.so.dateAdd(window.parent.so.dateParse(strDate), -7);
             $("#OrderDate1").textbox("setValue", strDate);
         }
 

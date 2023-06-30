@@ -133,7 +133,7 @@
     <value>Bank Account</value>
   </data>
   <data name="BrandID" xml:space="preserve">
-    <value>Brand ID</value>
+    <value>BrandID</value>
   </data>
   <data name="btn_add" xml:space="preserve">
     <value>Add</value>
@@ -187,7 +187,7 @@
     <value>Recover</value>
   </data>
   <data name="Contacts" xml:space="preserve">
-    <value>Contact Name</value>
+    <value>Contacts</value>
   </data>
   <data name="ContactsEmail" xml:space="preserve">
     <value>Email</value>
@@ -214,10 +214,10 @@
     <value>Money Rate</value>
   </data>
   <data name="CustColorID" xml:space="preserve">
-    <value>Cust.Color ID</value>
+    <value>Cust.ColorID</value>
   </data>
   <data name="CustColorName" xml:space="preserve">
-    <value>Cust.Color Desc.</value>
+    <value>Cust.Color</value>
   </data>
   <data name="CustomerCdesc" xml:space="preserve">
     <value>Cust. Name</value>
@@ -226,16 +226,16 @@
     <value>Cust. Name(En)</value>
   </data>
   <data name="CustomerID" xml:space="preserve">
-    <value>CustomerID</value>
+    <value>Cust.ID</value>
   </data>
   <data name="CustProductID" xml:space="preserve">
-    <value>Cust.Product ID</value>
+    <value>Cust.ProdID</value>
   </data>
   <data name="CustProductName" xml:space="preserve">
-    <value>Cust.Prod.Desc.</value>
+    <value>Cust.Prod.</value>
   </data>
   <data name="CustSize" xml:space="preserve">
-    <value>Cust.Prod.Size</value>
+    <value>Cust. Size</value>
   </data>
   <data name="DeliveredPort" xml:space="preserve">
     <value>Delivered Port</value>
@@ -244,10 +244,10 @@
     <value>Destn. Port</value>
   </data>
   <data name="Discount" xml:space="preserve">
-    <value>Discount Amt.</value>
+    <value>Disc.Amt.</value>
   </data>
   <data name="DiscountRate" xml:space="preserve">
-    <value>Discount%</value>
+    <value>Disc.%</value>
   </data>
   <data name="DoColor" xml:space="preserve">
     <value>Deal With Color</value>
@@ -256,16 +256,16 @@
     <value>Dosage</value>
   </data>
   <data name="FactoryShipOutDate" xml:space="preserve">
-    <value>Cust.Arrive Date</value>
+    <value>Arrive Date</value>
   </data>
   <data name="ForeignFirm" xml:space="preserve">
-    <value>Foreign Firm</value>
+    <value>Firm</value>
   </data>
   <data name="GetColorSample" xml:space="preserve">
-    <value>Color Sample</value>
+    <value>ColorSample</value>
   </data>
   <data name="InvoiceRemark" xml:space="preserve">
-    <value>Invoice Remark</value>
+    <value>Invoice Rmk</value>
   </data>
   <data name="IsFree" xml:space="preserve">
     <value>Is Free</value>
@@ -334,22 +334,22 @@
     <value>Order Date</value>
   </data>
   <data name="OrderQty" xml:space="preserve">
-    <value>Order Qty</value>
+    <value>OrderQty</value>
   </data>
   <data name="OrderType" xml:space="preserve">
-    <value>Order Type</value>
+    <value>OrderType</value>
   </data>
   <data name="OrderUnit" xml:space="preserve">
-    <value>Order Unit</value>
+    <value>OrderUnit</value>
   </data>
   <data name="PaymentType" xml:space="preserve">
     <value>Payment Term</value>
   </data>
   <data name="PlanCompleteDate" xml:space="preserve">
-    <value>Plan Complete Date</value>
+    <value>CompleteDate</value>
   </data>
   <data name="PlateRemark" xml:space="preserve">
-    <value>Plate Remark</value>
+    <value>Plate Rmk</value>
   </data>
   <data name="PoNo" xml:space="preserve">
     <value>Po No.</value>
@@ -361,13 +361,13 @@
     <value>Price Terms</value>
   </data>
   <data name="PriceUnit" xml:space="preserve">
-    <value>Price Unit</value>
+    <value>Unit(P)</value>
   </data>
   <data name="PrimaryKey" xml:space="preserve">
     <value>Main Part</value>
   </data>
   <data name="ProductAmount" xml:space="preserve">
-    <value>Amt. of Goods</value>
+    <value>Amt. Item</value>
   </data>
   <data name="ProductCdesc" xml:space="preserve">
     <value>Product Name</value>
@@ -379,13 +379,13 @@
     <value>Product Item.</value>
   </data>
   <data name="ProductMo" xml:space="preserve">
-    <value>Product Mo</value>
+    <value>Prod. Mo</value>
   </data>
   <data name="ProductRemark" xml:space="preserve">
-    <value>Product Remark</value>
+    <value>Product Rmk</value>
   </data>
   <data name="ReceivedDate" xml:space="preserve">
-    <value>ReceivedDate</value>
+    <value>Rece Date</value>
   </data>
   <data name="Remark" xml:space="preserve">
     <value>Remark</value>
@@ -397,19 +397,19 @@
     <value>Sales Order Master</value>
   </data>
   <data name="SallerID" xml:space="preserve">
-    <value>Salesman ID</value>
+    <value>Salesman</value>
   </data>
   <data name="Season" xml:space="preserve">
     <value>Season</value>
   </data>
   <data name="Seq" xml:space="preserve">
-    <value>Seq No.</value>
+    <value>Seq</value>
   </data>
   <data name="State" xml:space="preserve">
-    <value>Status</value>
+    <value>State</value>
   </data>
   <data name="StyleNo" xml:space="preserve">
-    <value>Cust. Style No.</value>
+    <value>StyleNo</value>
   </data>
   <data name="Tax" xml:space="preserve">
     <value>Tax</value>
@@ -433,7 +433,7 @@
     <value>Update By</value>
   </data>
   <data name="Ver" xml:space="preserve">
-    <value>Version</value>
+    <value>Ver</value>
   </data>
   <data name="msg_add_success" xml:space="preserve">
     <value>Data added successfully !</value>

@@ -21,7 +21,7 @@
             </div> 
         </div>
             <ul class="formod mgt10">
-                <li><span>@Resource.OcID：</span>@Html.TextBoxFor(m => m.OcID, new { @class = "easyui-textbox" })</li> <!--OC編號-->
+                <li><span >@Resource.OcID：</span>@Html.TextBoxFor(m => m.OcID, new { @class = "easyui-textbox" })</li> <!--OC編號-->
                 <li><span>@Resource.Ver:</span>@Html.TextBoxFor(m => m.Ver, "", new { @class = "easyui-textbox" })</li> <!--版本-->
                 <li><span>@Resource.OrderDate：</span>@Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand" })</li> <!--落單日期--> 
                 <li><span>@Resource.ReceivedDate：</span>@Html.TextBoxFor(m => m.ReceivedDate, "", new { @class = "easyui-datebox-expand" })</li> <!--接單日期-->
@@ -113,8 +113,8 @@
                { field: "OcID", title: "@Resource.OcID", width: 100 },//OC編號
                { field: "OrderDate", title: "@Resource.OrderDate", width: 80 },//訂單日期
                { field: "Ver", title: "@Resource.Ver", width: 40, align: 'center'},//版本號
-               { field: "CustomerID", title: "@Resource.CustomerID", width: 70 },//客戶編號
-               { field: "State", title: "@Resource.State", width: 35, align: 'center'},//狀態
+               { field: "CustomerID", title: "@Resource.CustomerID", width: 80 },//客戶編號
+               { field: "State", title: "@Resource.State", width: 70,align: 'center' },//狀態
                { field: "ProductMo", title: "@Resource.ProductMo", width: 80 },//頁數
                { field: "ProductID", title: "@Resource.ProductID", width: 110 },//貨品編號
                { field: "ProductCdesc", title: "@Resource.ProductCdesc", width: 200 },//產品描述

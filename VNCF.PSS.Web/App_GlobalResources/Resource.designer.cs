@@ -106,7 +106,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Brand ID.
+        ///   Looks up a localized string similar to BrandID.
         /// </summary>
         internal static string BrandID {
             get {
@@ -340,7 +340,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contact Name.
+        ///   Looks up a localized string similar to Contacts.
         /// </summary>
         internal static string Contacts {
             get {
@@ -430,7 +430,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cust.Color ID.
+        ///   Looks up a localized string similar to Cust.ColorID.
         /// </summary>
         internal static string CustColorID {
             get {
@@ -439,7 +439,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cust.Color Desc..
+        ///   Looks up a localized string similar to Cust.Color.
         /// </summary>
         internal static string CustColorName {
             get {
@@ -466,7 +466,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CustomerID.
+        ///   Looks up a localized string similar to Cust.ID.
         /// </summary>
         internal static string CustomerID {
             get {
@@ -475,7 +475,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cust.Product ID.
+        ///   Looks up a localized string similar to Cust.ProdID.
         /// </summary>
         internal static string CustProductID {
             get {
@@ -484,7 +484,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cust.Prod.Desc..
+        ///   Looks up a localized string similar to Cust.Prod..
         /// </summary>
         internal static string CustProductName {
             get {
@@ -493,7 +493,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cust.Prod.Size.
+        ///   Looks up a localized string similar to Cust. Size.
         /// </summary>
         internal static string CustSize {
             get {
@@ -538,7 +538,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discount Amt..
+        ///   Looks up a localized string similar to Disc.Amt..
         /// </summary>
         internal static string Discount {
             get {
@@ -547,7 +547,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discount%.
+        ///   Looks up a localized string similar to Disc.%.
         /// </summary>
         internal static string DiscountRate {
             get {
@@ -574,7 +574,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cust.Arrive Date.
+        ///   Looks up a localized string similar to Arrive Date.
         /// </summary>
         internal static string FactoryShipOutDate {
             get {
@@ -592,7 +592,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Foreign Firm.
+        ///   Looks up a localized string similar to Firm.
         /// </summary>
         internal static string ForeignFirm {
             get {
@@ -601,7 +601,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Color Sample.
+        ///   Looks up a localized string similar to ColorSample.
         /// </summary>
         internal static string GetColorSample {
             get {
@@ -619,7 +619,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invoice Remark.
+        ///   Looks up a localized string similar to Invoice Rmk.
         /// </summary>
         internal static string InvoiceRemark {
             get {
@@ -1069,7 +1069,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Order Qty.
+        ///   Looks up a localized string similar to OrderQty.
         /// </summary>
         internal static string OrderQty {
             get {
@@ -1087,7 +1087,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Order Type.
+        ///   Looks up a localized string similar to OrderType.
         /// </summary>
         internal static string OrderType {
             get {
@@ -1096,7 +1096,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Order Unit.
+        ///   Looks up a localized string similar to OrderUnit.
         /// </summary>
         internal static string OrderUnit {
             get {
@@ -1141,7 +1141,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Plan Complete Date.
+        ///   Looks up a localized string similar to CompleteDate.
         /// </summary>
         internal static string PlanCompleteDate {
             get {
@@ -1150,7 +1150,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Plate Remark.
+        ///   Looks up a localized string similar to Plate Rmk.
         /// </summary>
         internal static string PlateRemark {
             get {
@@ -1186,7 +1186,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Price Unit.
+        ///   Looks up a localized string similar to Unit(P).
         /// </summary>
         internal static string PriceUnit {
             get {
@@ -1213,7 +1213,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Amt. of Goods.
+        ///   Looks up a localized string similar to Amt. Item.
         /// </summary>
         internal static string ProductAmount {
             get {
@@ -1258,7 +1258,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Product Mo.
+        ///   Looks up a localized string similar to Prod. Mo.
         /// </summary>
         internal static string ProductMo {
             get {
@@ -1267,7 +1267,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Product Remark.
+        ///   Looks up a localized string similar to Product Rmk.
         /// </summary>
         internal static string ProductRemark {
             get {
@@ -1294,7 +1294,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ReceivedDate.
+        ///   Looks up a localized string similar to Rece Date.
         /// </summary>
         internal static string ReceivedDate {
             get {
@@ -1330,7 +1330,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Salesman ID.
+        ///   Looks up a localized string similar to Salesman.
         /// </summary>
         internal static string SallerID {
             get {
@@ -1348,7 +1348,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Seq No..
+        ///   Looks up a localized string similar to Seq.
         /// </summary>
         internal static string Seq {
             get {
@@ -1366,7 +1366,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Status.
+        ///   Looks up a localized string similar to State.
         /// </summary>
         internal static string State {
             get {
@@ -1375,7 +1375,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cust. Style No..
+        ///   Looks up a localized string similar to StyleNo.
         /// </summary>
         internal static string StyleNo {
             get {
@@ -1483,7 +1483,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Version.
+        ///   Looks up a localized string similar to Ver.
         /// </summary>
         internal static string Ver {
             get {
