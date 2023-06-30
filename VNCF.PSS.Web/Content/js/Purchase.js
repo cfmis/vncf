@@ -11,6 +11,28 @@ Purchase.Pur = new function () {
     //    return 'Hello ' + (_name || name);
     //};
 
+    /**
+    * 當前頁面設置公共變量
+    * 设置值 
+    * @@param name
+    * @@param value
+    */
+    //self.setValue =function(name, value) {
+    //    var self = this;
+    //    console.info('self:', self);
+    //    console.info('self==window:', self == window);
+    //    if (arguments.length == 2) {
+    //        self[name] = value;
+    //        return;
+    //    }
+    //    if (arguments.length == 1 && Object.prototype.toString.call(arguments[0]) == "[object Object]") {
+    //        for (var key in arguments[0]) {
+    //            self.setValue(key, arguments[0][key]);
+    //            //self[key]=arguments[0][key];
+    //        }
+    //    }
+    //}
+
     //單據狀態
     self.disableSate = function () {
         $('#State').combobox('readonly', false).combobox('textbox').prev().show();
