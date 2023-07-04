@@ -29,10 +29,10 @@
             <div class="botbtbx pdb0">
                 @*<input type="button" value="添加部門" class="easyui-linkbutton" iconcls="icon-add" onclick="showPublishWin()" />
                     <input type="button" value="查询" class="easyui-linkbutton" iconcls="icon-search" onclick="reloadList();">*@
-                <a href="#" class="easyui-linkbutton" iconcls="icon-add" id="btnNew">新單</a>
-                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach" onclick="showMessageDialog('Find','查找',800,560)">查询</a>
-                <a href="javascript:void(0)" class="easyui-linkbutton" id="btnAddHead" iconcls="icon-ok">确定</a>
-                <a href="#" class="easyui-linkbutton" id="btnPprint" iconcls="icon-print" onclick="showMessageDialog('@Url.Action("Print")','列印',800,600,true);">列印</a>
+                <a href="#" class="easyui-linkbutton" iconcls="icon-add" id="btnNew">@Resource.btn_new</a>
+                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach" onclick="showMessageDialog('Find', '@Resource.btn_search', 800, 560)">@Resource.btn_search</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="btnAddHead" iconcls="icon-ok">@Resource.btn_ok</a>
+                <a href="#" class="easyui-linkbutton" id="btnPprint" iconcls="icon-print" onclick="showMessageDialog('@Url.Action("Print")','@Resource.btn_print',800,600,true);">@Resource.btn_print</a>
                 @*<button id="show" onclick="show()">Show</button>*@
             </div>
         </div>
@@ -47,15 +47,15 @@
 
                 <ul class="formod mgt10" id="ulPanel">
 
-                    <li class="lb-std"><div class="input-group"><span>@Resource.OcID：</span>@Html.TextBoxFor(m => m.ID, new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
-                    <li class="lb-std"><div class="input-group"><span>單據日期:</span>@Html.TextBoxFor(m => m.TransferDate, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
-                    <li class="lb-std"><div class="input-group"><span>單據類型:</span>@Html.TextBoxFor(m => m.FlagID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
-                    <li class="lb-std"><div class="input-group"><span>倉庫編號:</span>@Html.TextBoxFor(m => m.LocID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
-                    <li class="lb-std"><div class="input-group"><span>收貨倉庫:</span>@Html.TextBoxFor(m => m.NextLocID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
-                    <li class="lb-std"><div class="input-group"><span>建立人:</span>@Html.TextBoxFor(m => m.CreateUser, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
-                    <li class="lb-std"><div class="input-group"><span>建立時間:</span>@Html.TextBoxFor(m => m.CreateTime, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
-                    <li class="lb-std"><div class="input-group"><span>修改人:</span>@Html.TextBoxFor(m => m.AmendUser, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
-                    <li class="lb-std"><div class="input-group"><span>修改時間:</span>@Html.TextBoxFor(m => m.AmendTime, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>@Resource.ID：</span>@Html.TextBoxFor(m => m.ID, new { @class = "easyui-textbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>@Resource.DocumentDate:</span>@Html.TextBoxFor(m => m.TransferDate, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>@Resource.DocumentType:</span>@Html.TextBoxFor(m => m.FlagID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>@Resource.LocID:</span>@Html.TextBoxFor(m => m.LocID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>@Resource.ReceivingNo:</span>@Html.TextBoxFor(m => m.NextLocID, new { @class = "easyui-combotbox", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>@Resource.CreateBy:</span>@Html.TextBoxFor(m => m.CreateUser, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>@Resource.CreateAt:</span>@Html.TextBoxFor(m => m.CreateTime, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>@Resource.UpdateBy:</span>@Html.TextBoxFor(m => m.AmendUser, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
+                    <li class="lb-std"><div class="input-group"><span>@Resource.UpdateAt:</span>@Html.TextBoxFor(m => m.AmendTime, new { @class = "easyui-textbox", @readonly = "true", @style = "width:72%" })</div></li>
                 </ul>
 
             }
@@ -68,30 +68,30 @@
                 <table id="tbInput" class="percent-100" cellpadding="0" cellspacing="0" border="0">
                     <tbody>
                         <tr>
-                            <td class="td-label"><div class="award-name"><span>制單編號：</span></div></td>
+                            <td class="td-label"><div class="award-name"><span>@Resource.ProductMo：</span></div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("ProductMo", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                            <td class="td-label"><div class="award-name"><span>物料編號：</span></div></td>
+                            <td class="td-label"><div class="award-name"><span>@Resource.ProductID：</span></div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("GoodsID", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                            <td class="td-label"><div class="award-name"><span>物料描述：</span></div></td>
+                            <td class="td-label"><div class="award-name"><span>@Resource.ProductCdesc：</span></div></td>
                             <td colspan="3"><div class="input-group">@Html.TextBox("GoodsName", "", new { @class = "easyui-textbox", @style = "width:100%", @readonly = "true" })</div></td>
 
                         </tr>
                         <tr>
-                            <td class="td-label"><div class="award-name">交易數量：</div></td>
+                            <td class="td-label"><div class="award-name">@Resource.TransferQty：</div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("TransferQty", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                            <td class="td-label"><div class="award-name"><span>數量單位：</span></div></td>
+                            <td class="td-label"><div class="award-name"><span>@Resource.QtyUnit：</span></div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("QtyUnit", "", new { @class = "easyui-combobox", @style = "width:100%" })</div></td>
-                            <td class="td-label"><div class="award-name"><span>交易重量：</span></div></td>
+                            <td class="td-label"><div class="award-name"><span>@Resource.Weight：</span></div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("TransferWeg", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                            <td class="td-label"><div class="award-name"><span>重量單位：</span></div></td>
+                            <td class="td-label"><div class="award-name"><span>@Resource.WeightUnit：</span></div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("WegUnit", "", new { @class = "easyui-combobox", @style = "width:100%" })</div></td>
                             @*<td></td>*@
 
                         </tr>
                         <tr>
-                            <td class="td-label"><div class="award-name"><span>批號：</span></div></td>
+                            <td class="td-label"><div class="award-name"><span>@Resource.LotNo：</span></div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("LotNo", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
-                            <td class="td-label"><div class="award-name"><span>序號：</span></div></td>
+                            <td class="td-label"><div class="award-name"><span>@Resource.SeqID：</span></div></td>
                             <td class="td-input"><div class="input-group">@Html.TextBox("Seq", "", new { @class = "easyui-textbox", @style = "width:100%" })</div></td>
                         </tr>
 
@@ -240,25 +240,25 @@
                 multiSort: true,//启用排序 sortable: true //启用排序列
                 pagination: true,
                 loadMsg: 'Loading... ',
-                emptyMsg: '<span>无记录</span>',
+                emptyMsg: '<span>@Resource.NoRecord</span>',
                 pageSize: 10,
                 pageList: [10, 20, 30, 40, 50],
                 queryParams: queryData, //搜索条件查询
                 columns: [[
-                { field: 'Seq', title: '序號', width: 60 },
-                { field: 'ProductMo', title: '制單編號', width: 100 },
-                { field: 'GoodsID', title: '物料編號', width: 200 },
-                { field: 'GoodsName', title: '物料描述', width: 200 },
-                { field: 'TransferQty', title: '交易數量', width: 80 },
-                { field: 'QtyUnit', title: '數量單位', width: 60 },
-                { field: 'TransferWeg', title: '交易重量', width: 80 },
-                { field: 'WegUnit', title: '重量單位', width: 60 },
-                { field: 'NextLocID', title: '收貨部門', width: 80 },
-                { field: 'LotNo', title: '批號', width: 100 },
+                { field: 'Seq', title: '@Resource.SeqID', width: 60 },
+                { field: 'ProductMo', title: '@Resource.ProductMo', width: 100 },
+                { field: 'GoodsID', title: '@Resource.ProductID', width: 200 },
+                { field: 'GoodsName', title: '@Resource.ProductCdesc', width: 200 },
+                { field: 'TransferQty', title: '@Resource.TransferQty', width: 80 },
+                { field: 'QtyUnit', title: '@Resource.QtyUnit', width: 60 },
+                { field: 'TransferWeg', title: '@Resource.Weight', width: 80 },
+                { field: 'WegUnit', title: '@Resource.WeightUnit', width: 60 },
+                { field: 'NextLocID', title: '@Resource.ReceivingNo', width: 80 },
+                { field: 'LotNo', title: '@Resource.LotNo', width: 100 },
                 ]],
                 toolbar: [{
                     id: 'btnAdd',
-                    text: '新增',
+                    text: '@Resource.btn_new',//新增
                     iconCls: 'icon-add',
                     handler: function () {
                         @*$('#btnAdd').linkbutton('enable');
@@ -271,7 +271,7 @@
                     }
                 }, '-', {
                     id: 'btnEdit',
-                    text: '修改',
+                    text: '@Resource.btn_edit',//修改
                     iconCls: 'icon-edit',
                     handler: function () {
                         var RowUpdateByID = $('#tbDetails').datagrid('getSelections');
@@ -286,7 +286,7 @@
                     }
                 }, '-', {
                     id: 'btnDelete',
-                    text: '删除',
+                    text: '@Resource.btn_del',//删除
                     iconCls: 'icon-cancel',
                     handler: function () {
                         var RowDeleteByID = $('#tbDetails').datagrid("getSelections");
@@ -310,12 +310,12 @@
                             });
                         }
                         else {
-                            $.messager.alert("友情提示！", "每次只能删除一行，你已经选择了<font color='red' size='6'>" + RowDeleteByID.length + "</font>行");
+                            $.messager.alert("系統提示！", "每次只能删除一行，你已经选择了<font color='red' size='6'>" + RowDeleteByID.length + "</font>行");
                         }
                     }
                 }, '-', {
                     id: 'btnreload',
-                    text: '刷新',
+                    text: '@Resource.btn_reload',//刷新
                     iconCls: 'icon-reload',
                     handler: function () {
                         $("#tbDetails").datagrid("reload");
@@ -345,7 +345,7 @@
                 $("#LotNo").textbox('setValue', rows.LotNo);
             }
             else {
-                $.messager.alert("系統提示！", "每次只能修改一条，你已经选择了<font color='red'  size='6'>" + RowFindByID.length + "</font>条");
+                $.messager.alert("系統信息！", "每次只能修改一条，你已经选择了<font color='red'  size='6'>" + RowFindByID.length + "</font>条");
             }
         }
         function Save() {
@@ -382,7 +382,7 @@
                         SearchDetails();
                     }
                     else {
-                        $.messager.alert("系统提示！", data.Msg);
+                        $.messager.alert("系统信息！", data.Msg);
                     }
                 }
             })

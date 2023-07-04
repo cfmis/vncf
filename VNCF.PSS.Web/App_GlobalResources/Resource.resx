@@ -163,7 +163,7 @@
     <value>New</value>
   </data>
   <data name="btn_ok" xml:space="preserve">
-    <value>Yes</value>
+    <value>Confirm</value>
   </data>
   <data name="btn_print" xml:space="preserve">
     <value>Print</value>
@@ -583,7 +583,7 @@
     <value>Vendor Address</value>
   </data>
   <data name="ID" xml:space="preserve">
-    <value>ID.</value>
+    <value>Document Code</value>
   </data>
   <data name="OtherFareID" xml:space="preserve">
     <value>Other Fare ID</value>
@@ -599,5 +599,104 @@
   </data>
   <data name="ItemCancel" xml:space="preserve">
     <value>Item Cancel</value>
+  </data>
+  <data name="DocumentDate" xml:space="preserve">
+    <value>DocumentDate</value>
+  </data>
+  <data name="DocumentType" xml:space="preserve">
+    <value>DocumentType</value>
+  </data>
+  <data name="LocID" xml:space="preserve">
+    <value>LocID</value>
+  </data>
+  <data name="LotNo" xml:space="preserve">
+    <value>Lot No.</value>
+  </data>
+  <data name="NoRecord" xml:space="preserve">
+    <value>no record</value>
+  </data>
+  <data name="QtyUnit" xml:space="preserve">
+    <value>QtyUnit</value>
+  </data>
+  <data name="ReceivingNo" xml:space="preserve">
+    <value>ReceivingNo</value>
+  </data>
+  <data name="SeqID" xml:space="preserve">
+    <value>SeqID</value>
+  </data>
+  <data name="TransferQty" xml:space="preserve">
+    <value>Qty</value>
+  </data>
+  <data name="ApprovalBy" xml:space="preserve">
+    <value>Approval By</value>
+  </data>
+  <data name="ApprovalDate" xml:space="preserve">
+    <value>Approval Date</value>
+  </data>
+  <data name="btnSelect" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="btn_approval" xml:space="preserve">
+    <value>Approval</value>
+  </data>
+  <data name="CompletedDate" xml:space="preserve">
+    <value>CompletedDate</value>
+  </data>
+  <data name="CompletedQty" xml:space="preserve">
+    <value>CompletedQty</value>
+  </data>
+  <data name="CopyMo" xml:space="preserve">
+    <value>CopyMo</value>
+  </data>
+  <data name="DeliveryDate" xml:space="preserve">
+    <value>Delivery Date</value>
+  </data>
+  <data name="DocumentDateFrom" xml:space="preserve">
+    <value>DocumentDate(From)</value>
+  </data>
+  <data name="DocumentDateTo" xml:space="preserve">
+    <value>DocumentDateTo(To)</value>
+  </data>
+  <data name="IDFrom" xml:space="preserve">
+    <value>ID No.(From)</value>
+  </data>
+  <data name="IDTo" xml:space="preserve">
+    <value>ID No.(To)</value>
+  </data>
+  <data name="ImputFromCFOC" xml:space="preserve">
+    <value>ImputFromCFOC</value>
+  </data>
+  <data name="ImputFromMo" xml:space="preserve">
+    <value>ImputFromMo</value>
+  </data>
+  <data name="MoRemark" xml:space="preserve">
+    <value>MoRemark</value>
+  </data>
+  <data name="PlanDate" xml:space="preserve">
+    <value>Plan Date</value>
+  </data>
+  <data name="PlanRemark" xml:space="preserve">
+    <value>Plan Remark</value>
+  </data>
+  <data name="ProductionDetail" xml:space="preserve">
+    <value>Production Detail</value>
+  </data>
+  <data name="ProductionMasterTable" xml:space="preserve">
+    <value>Production Master Table</value>
+  </data>
+  <data name="ReceivingDepartment" xml:space="preserve">
+    <value>ReceivingDepartment</value>
+  </data>
+  <data name="RequestDate" xml:space="preserve">
+    <value>Request Date</value>
+  </data>
+  <data name="RequestQty" xml:space="preserve">
+    <value>RequestQty</value>
+  </data>
+  <data name="RequiredCompletionDate" xml:space="preserve">
+    <value>RequiredCompletionDate</value>
+  </data>
+  <data name="ResponsibleDepartment" xml:space="preserve">
+    <value>ResponsibleDepartment</value>
   </data>
 </root>
