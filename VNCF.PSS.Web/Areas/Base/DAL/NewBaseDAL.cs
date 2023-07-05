@@ -84,7 +84,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             " FROM it_goods a " +
             " LEFT JOIN it_goods_vn b ON a.id=b.id" +
             " Left Join cd_pattern c ON a.blueprint_id=c.id " +
-            " Where a.type='" + "0001" + "'";
+            " Where a.within_code='" + "0000" + "'";
             strSql += " AND a.id = '" + goods_id + "'";
             
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);

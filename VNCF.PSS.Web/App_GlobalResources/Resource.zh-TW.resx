@@ -624,17 +624,26 @@
   <data name="TransferQty" xml:space="preserve">
     <value>移交數量</value>
   </data>
+  <data name="ActuallyQty" xml:space="preserve">
+    <value>實際碑數</value>
+  </data>
   <data name="ApprovalBy" xml:space="preserve">
     <value>批準人</value>
   </data>
   <data name="ApprovalDate" xml:space="preserve">
     <value>批準日期</value>
   </data>
+  <data name="BarCode" xml:space="preserve">
+    <value>條形碼</value>
+  </data>
   <data name="btnSelect" xml:space="preserve">
     <value>選取</value>
   </data>
   <data name="btn_approval" xml:space="preserve">
     <value>批準</value>
+  </data>
+  <data name="ClosingQty" xml:space="preserve">
+    <value>結束碑數</value>
   </data>
   <data name="CompletedDate" xml:space="preserve">
     <value>完成日期</value>
@@ -648,11 +657,26 @@
   <data name="DeliveryDate" xml:space="preserve">
     <value>交貨日期</value>
   </data>
+  <data name="DifficultLevel" xml:space="preserve">
+    <value>難度</value>
+  </data>
   <data name="DocumentDateFrom" xml:space="preserve">
     <value>單據日期(From)</value>
   </data>
   <data name="DocumentDateTo" xml:space="preserve">
     <value>單據日期(To)</value>
+  </data>
+  <data name="EmployeeID" xml:space="preserve">
+    <value>員工工號</value>
+  </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>結束時間</value>
+  </data>
+  <data name="HourQty" xml:space="preserve">
+    <value>每小時碑數</value>
+  </data>
+  <data name="HourStandardQty" xml:space="preserve">
+    <value>每小時標準數量</value>
   </data>
   <data name="IDFrom" xml:space="preserve">
     <value>單據編號(From)</value>
@@ -666,8 +690,20 @@
   <data name="ImputFromMo" xml:space="preserve">
     <value>從舊計劃單中匯入</value>
   </data>
+  <data name="MachineID" xml:space="preserve">
+    <value>生產機器</value>
+  </data>
   <data name="MoRemark" xml:space="preserve">
     <value>制單備註</value>
+  </data>
+  <data name="NormalHours" xml:space="preserve">
+    <value>正常班時數</value>
+  </data>
+  <data name="OriginalQty" xml:space="preserve">
+    <value>開始碑數</value>
+  </data>
+  <data name="OTHours" xml:space="preserve">
+    <value>加班時數</value>
   </data>
   <data name="PlanDate" xml:space="preserve">
     <value>計劃單日期</value>
@@ -675,14 +711,32 @@
   <data name="PlanRemark" xml:space="preserve">
     <value>計劃備註</value>
   </data>
+  <data name="ProductionDate" xml:space="preserve">
+    <value>生產日期</value>
+  </data>
+  <data name="ProductionDepartment" xml:space="preserve">
+    <value>生產部門</value>
+  </data>
   <data name="ProductionDetail" xml:space="preserve">
     <value>生產明細</value>
   </data>
   <data name="ProductionMasterTable" xml:space="preserve">
     <value>生產主表</value>
   </data>
+  <data name="ProductionQty" xml:space="preserve">
+    <value>生產數量</value>
+  </data>
+  <data name="ProductionWeg" xml:space="preserve">
+    <value>生產重量</value>
+  </data>
+  <data name="ProductType" xml:space="preserve">
+    <value>工作類型</value>
+  </data>
   <data name="ReceivingDepartment" xml:space="preserve">
     <value>收貨部門</value>
+  </data>
+  <data name="RecordID" xml:space="preserve">
+    <value>記錄號</value>
   </data>
   <data name="RequestDate" xml:space="preserve">
     <value>要求日期</value>
@@ -695,5 +749,14 @@
   </data>
   <data name="ResponsibleDepartment" xml:space="preserve">
     <value>負責部門</value>
+  </data>
+  <data name="RowQty" xml:space="preserve">
+    <value>每行碑數</value>
+  </data>
+  <data name="StandardCoding" xml:space="preserve">
+    <value>標準編碼</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>開始時間</value>
   </data>
 </root>

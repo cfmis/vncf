@@ -37,7 +37,7 @@
         </div>
         <div style="float:right;width:20%;">
             <div style="float:left;width:60%;">
-                <vxe-input v-model="searchProductMo" placeholder="請輸入制單編號" style="height:20px;margin-top:6px;font-size:9px"></vxe-input>
+                <vxe-input v-model="searchProductMo" placeholder="Please input product MO" style="height:20px;margin-top:6px;font-size:9px"></vxe-input>
             </div>
             <div style="float:right;width:30%;">
                 <vxe-button type="text" icon="fa fa-search" @@click="searchByProductMo(searchProductMo)" style="height:25px;margin-top:5px">@Resource.btn_search</vxe-button>
@@ -270,7 +270,7 @@
                                     <vxe-input v-model="data.GoodsCname" class="input-customize"></vxe-input>
                                 </template>
                             </vxe-form-item>
-                            <vxe-form-item title="@Resource.ResponsibleDepartment" field="WipID" span="12" :item-render="{}" class="vxe-form-item-customize">
+                            <vxe-form-item title="@Resource.ProductionDepartment" field="WipID" span="12" :item-render="{}" class="vxe-form-item-customize">
                                 <template #default="{ data }">
                                     <vxe-select v-model="data.WipID" size="mini">
                                         <vxe-option v-for="item in wipList" :key="item.value" :value="item.label" :label="item.label"></vxe-option>
