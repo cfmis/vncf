@@ -126,7 +126,12 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             if (LanguageID == "0")
                 strFieldName = "name";
             else
-                strFieldName = "english_name";
+            {
+                //strFieldName = "english_name";//英文Null時可能會異常
+                strFieldName = "name";
+            }
+                
+            
 
             switch (strTableName)
             {

@@ -8,7 +8,7 @@
 
 <div class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;">
 
-    <div data-options="region:'center'">
+    <div class="stereo-border" data-options="region:'center'">
         <div class="botbtbx pdb0" style="margin-top: 5px">
             @*<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" onclick="window.parent.closeWindow()">@WebFromElement.btn_exit</a>*@  <!--关闭-->
             <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" id="btnClose" style="margin-left:10px ">@Resource.btn_exit</a>  <!--关闭-->
@@ -45,9 +45,6 @@
     </div>
 
 </div>
-
-
-
 
 
 @section PageSpecificJavascriptIncludes{
@@ -138,8 +135,10 @@
             var RowFindByID = $('#tbDetails').datagrid('getSelections');
             if (RowFindByID.length == 1) {
                 //实现绑定数据显示
-                var ProductID = RowFindByID[0].ProductID;
+                var ProductID = RowFindByID[0].ProductID;                               
                 window.parent.document.getElementById('goods_id').value = ProductID;//父窗體接授返回的臨時值
+                //var ProdDesc = RowFindByID[0].ProductCdesc;
+                //window.parent.document.getElementById('ProductCdesc').value = ProdDesc;
                 window.parent.closeWindow();//关闭窗口
             }
             else {

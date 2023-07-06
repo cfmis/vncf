@@ -286,6 +286,7 @@
 @section PageSpecificJavascriptIncludes{
     <script src="~/Content/js/SalesOrder.js?v=20210416000005"></script>
     @*<script src="~/Content/js/SalesOrder.js"></script>*@
+    <script src="~/Content/js/common.js?v=20211109000001"></script>
     <script src="~/Content/js/BaseData.js?v=20210423000004"></script>   
 
     <script type="text/javascript">
@@ -427,7 +428,7 @@
             $("#ArriveDate").datebox({
                 onSelect: function () {
                     var strDate = $(this).datebox('getValue');
-                    strDate = dateAdd(dateParse(strDate), 3);
+                    strDate = COMM.dateAdd(COMM.dateParse(strDate), 3);
                     $("#FactoryShipOutDate").textbox("setValue", strDate);
                     $(this).textbox('textbox').css("font-size", "9px")//需在此單獨設置字體才有效,尚未找到解決辦法
                 }
@@ -928,7 +929,7 @@
                                 Remark: '',
                                 DoColor: ''
                             }).datagrid('getRows').length - 1;
-                            index_oc_details_flag = getCurrentRowIndex('#tbDetails');//記錄oc明細的當前記錄號
+                            index_oc_details_flag = COMM.getCurrentRowIndex('#tbDetails');//記錄oc明細的當前記錄號
                             setProductIDblur(index);//給Datagrid某行中的某一列綁定失去焦點事件
                             editRow = 0;
                             current_edit_rowindex = index;//記錄當前編輯的行索引
@@ -957,15 +958,15 @@
                         if ($("#Seq").val() != "") {
                             //var rowdata1 = $('#tbDetails').datagrid('getSelected');
                             //var index1 = $('#tbDetails').datagrid('getRowIndex', rowdata1);
-                            index_oc_details_flag = getCurrentRowIndex('#tbDetails');//記錄oc明細的當前記錄號
+                            index_oc_details_flag = COMM.getCurrentRowIndex('#tbDetails');//記錄oc明細的當前記錄號
                             //var rows = $('#tbSalesBom').datagrid('getSelections');//選中的行對象
-                            var index = getCurrentRowIndex('#tbSalesBom');
+                            var index = COMM.getCurrentRowIndex('#tbSalesBom');
                             //if (rows.length == 1) {
                             if (index >= 0) {
                                 $("#ActionType_Bom").val("EDIT");//設置編號標識
                                 //var rowData = rows[0];//var row = $('#tbSalesBom').datagrid('getSelected');
                                 //var index = $('#tbSalesBom').datagrid('getRowIndex', rowData);//獲取當前行索引
-                                //var index = getCurrentRowIndex('#tbSalesBom');
+                                //var index = COMM.getCurrentRowIndex('#tbSalesBom');
                                 setProductIDblur(index);
                                 editRow = 0;
                                 current_edit_rowindex = index;

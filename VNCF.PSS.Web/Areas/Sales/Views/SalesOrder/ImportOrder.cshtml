@@ -90,9 +90,9 @@
 
             $("#VendorID").textbox("setValue", "CL-CF001");
             ////初始化日期
-            //$("#OrderDateEnd").textbox("setValue", so.iniDate());
+            //$("#OrderDateEnd").textbox("setValue", COMM.iniDate());
             //var strDate = $("#OrderDateEnd").textbox("getValue");
-            //strDate = so.dateAdd(so.dateParse(strDate), -7);
+            //strDate = COMM.dateAdd(COMM.dateParse(strDate), -7);
             //$("#OrderDate").textbox("setValue", strDate);
             $("#btnClose").click(function () {
                 window.parent.closeWindow();//关闭窗口
@@ -186,7 +186,7 @@
                         if (data.ID != "") {
                            //window.parent.document.getElementById('OcID').value = data.ID;
                            //window.parent.document.getElementById('Ver').value = '0';                            
-                           //window.parent.so.SearchOcHead();                          
+                           //window.parent.SO.SearchOcHead();                          
                            window.parent.vm.searchDataSelect.OcID = data.ID;                          
                            window.parent.vm.afterSelectOK();                           
                            //window.parent.SearchOcDetails();

@@ -14,82 +14,85 @@
             <div class="botbtbx pdb0">
                 <a href="#" class="easyui-linkbutton" iconcls="icon-add" id="btnNew" onclick="AddNew()">@Resource.btn_new</a> <!--新單-->
                 <a href="#" class="easyui-linkbutton" iconcls="icon-edit" id="btnEdit">@Resource.btn_edit</a> <!--修改主表-->
-                <a href="#" class="easyui-linkbutton" iconcls="icon-save" id="btnSave" onclick="SaveEditMaster()">@Resource.btn_save</a> <!--保存主表更改-->
-                <a href="#" class="easyui-linkbutton" iconcls="icon-undo" id="btnUndo" onclick="UndoEditMaster()">@Resource.btn_undo</a>               
-                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSerach" onclick="showMessageDialog('Find', 'Resource.btn_search', 850, 680)">@Resource.btn_search</a><!--查找-->               
-                <a href="#" class="easyui-linkbutton" iconcls="icon-print" id="btnPrint">@Resource.btn_print</a>  <!--列印-->
+                <a href="#" class="easyui-linkbutton" iconcls="icon-save" id="btnSave" onclick="PUR.SaveEditMaster()">@Resource.btn_save</a> <!--保存主表更改-->
+                <a href="#" class="easyui-linkbutton" iconcls="icon-undo" id="btnUndo" onclick="PUR.UndoEditMaster()">@Resource.btn_undo</a>               
+                <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSearch" onclick="showMessageDialog('Find', 'Find', 850, 680)">@Resource.btn_search</a><!--查找-->               
+                <a href="#" class="easyui-linkbutton" iconcls="icon-print" id="btnPrint">@Resource.btn_print</a>  <!--列印-->               
             </div>
         </div>
     </div>
 
     <div class="easyui-tabs" style="width:99%;height:768px;" id="tabPages">       
         <!--first tab 採購主檔資料-->
-        <div id="page1" title="Purchase Master" style="padding:10px; font-size:9px!important;">
+        <div id="page1" title="Master" style="padding:5px; font-size:9px!important;">
             @using (Html.BeginForm("EditHead", null, FormMethod.Post, new { id = "addFormHead", @clase = "form-inline", @role = "form" }))
             {
                 <ul class="formod mgt10" id="ulPanel">
                     <!--oc編號-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.ID：</span>
+                    <li class="lb-std "><span class="input-group font_color_required">@Resource.ID：</span>
                         @Html.TextBoxFor(m => m.ID, new { @class = "easyui-textbox myReadonly font_group ", @data_options = "required:true,validType:'length[1,20]',readonly: true", @style = "width:60%" })
                         @Html.TextBoxFor(m => m.Ver, "0", new { @class = "easyui-textbox myReadonly", @data_options = "readonly: true", @style = "width:10%" })
                     </li>
                     <!--訂單日期-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.OrderDate：</span>@Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand ", @data_options = "required:true,validType:'length[1,10]'", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group award-name font_color_required">@Resource.OrderDate：</span>
+                        @Html.TextBoxFor(m => m.OrderDate, "", new { @class = "easyui-datebox-expand", @data_options = "required:true,validType:'length[1,10]'", @style = "width:71%" })
+                    </li>
                     <!--供應商編號-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.VendorID：</span>@Html.TextBoxFor(m => m.VendorID, "", new { @class = "easyui-combobox", @data_options = "required:true", @style = "width:72%" })</li>                    
+                    <li class="lb-std"><span class="input-group font_color_required">@Resource.VendorID：</span>
+                        @Html.TextBoxFor(m => m.VendorID, "", new { @class = "easyui-combobox", @data_options = "required:true", @style = "width:71%" })                        
+                    </li>                    
                     <!--供應商地址-->
-                    <li class="lb-std"><span class="input-group">@Resource.VendorAddress：</span>@Html.TextBoxFor(m => m.VendorAddress, "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
+                    <li class="lb-std "><span class="input-group award-name">@Resource.VendorAddress：</span>@Html.TextBoxFor(m => m.VendorAddress, "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
                     <!--聯繫人-->
                     <li class="lb-std"><span class="input-group font_color_required">@Resource.Contacts：</span>@Html.TextBoxFor(m => m.Contacts, "", new { @class = "easyui-textbox ", @data_options = "required:true", @style = "width:72%" })</li>
                     <!--聯繫人電話-->
-                    <li class="lb-std"><span class="input-group">@Resource.ContactsTel：</span>@Html.TextBoxFor(m => m.ContactsTel, "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group award-name">@Resource.ContactsTel：</span>@Html.TextBoxFor(m => m.ContactsTel, "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
                     <!--傳真-->
                     <li class="lb-std"><span class="input-group">@Resource.ContactsFax：</span>@Html.TextBoxFor(m => m.ContactsFax, "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
                     <!--採購員編號-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.BuyerID：</span>@Html.TextBoxFor(m => m.BuyerID, "", new { @class = "easyui-textbox ", @data_options = "required:true", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group award-name font_color_required">@Resource.BuyerID：</span>@Html.TextBoxFor(m => m.BuyerID, "", new { @class = "easyui-textbox ", @data_options = "required:true", @style = "width:72%" })</li>
                     <!--採購員名稱-->
-                    <li class="lb-std"><span class="input-group">@Resource.BuyerName：</span>@Html.TextBoxFor(m => m.BuyerName, "", new { @class = "easyui-textbox myReadonly", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group award-name">@Resource.BuyerName：</span>@Html.TextBoxFor(m => m.BuyerName, "", new { @class = "easyui-textbox myReadonly", @style = "width:72%" })</li>
                     <!--貨幣代號-->
                     <li class="lb-std"><span class="input-group font_color_required">@Resource.CurrencyID：</span>
                         @Html.TextBoxFor(m => m.CurrencyID, "", new { @class = "easyui-combobox", @data_options = "required:true", @style = "width:40%" })
                         @Html.TextBoxFor(m => m.CurrencyRate, "", new { @class = "easyui-numberbox myReadonly ", @data_options = "readonly:true,min:0,precision:4", @style = "width:30%" })
                     </li>                    
                     <!--部門-->
-                    <li class="lb-std"><span class="input-group font_color_required">@Resource.DeptID：</span>@Html.TextBoxFor(m => m.DepartMentID, "", new { @class = "easyui-combobox", @data_options = "required:true", @style = "width:72%" })</li>                    
+                    <li class="lb-std"><span class="input-group award-name font_color_required">@Resource.DeptID：</span>@Html.TextBoxFor(m => m.DepartMentID, "", new { @class = "easyui-combobox", @data_options = "required:true", @style = "width:72%" })</li>                    
                     <!--客戶代碼-->
                     <li class="lb-std"><span class="input-group">@Resource.CustomerID：</span>@Html.TextBoxFor(m => m.CustomerID, "", new { @class = "easyui-textbox", @data_options = "validType:'length[1,8]'", @style = "width:72%" })</li>
                     <!--客戶名稱-->
-                    <li class="lb-std"><span class="input-group">@Resource.CustomerCdesc：</span>@Html.TextBoxFor(m => m.CustomerCdesc, "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>                                                         
+                    <li class="lb-std"><span class="input-group award-name">@Resource.CustomerCdesc：</span>@Html.TextBoxFor(m => m.CustomerCdesc, "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>                                                         
                     <!--附加費用金額-->
-                    <li class="lb-std"><span class="input-group">@Resource.OtherFare：</span>@Html.TextBoxFor(m=>m.OtherAmt, "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "min:0,precision:2,readonly: true", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group award-name">@Resource.OtherFare：</span>@Html.TextBoxFor(m=>m.OtherAmt, "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "min:0,precision:2,readonly: true", @style = "width:72%" })</li>
                     <!--貨品金額-->
                     <li class="lb-std"><span class="input-group">@Resource.ProductAmount：</span>@Html.TextBoxFor(m => m.PaymentAmt, "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "readonly: true,min:0,precision:2", @style = "width:72%" })</li>
                     <!--包裝信息-->
-                    <li class="lb-std"><span class="input-group">@Resource.Packing：</span>@Html.TextBoxFor(m => m.Packing, "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group award-name">@Resource.Packing：</span>@Html.TextBoxFor(m => m.Packing, "", new { @class = "easyui-textbox ", @style = "width:72%" })</li>
                     <!--備注-->
                     <li class="lb-std"><span class="input-group">@Resource.Remark：</span>@Html.TextBoxFor(m => m.Remark, "", new { @class = "easyui-textbox ", @data_options = "validType:'length[1,200]'", @style = "width:72%" })</li>
                     <!--狀態-->
                     <li class="lb-std"><span class="input-group">@Resource.State：</span>@Html.TextBoxFor(m => m.State, "0", new { @class = "easyui-combobox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li> 
                     <!--總金額-->
-                    <li class="lb-std"><span class="input-group">@Resource.TotalAmount：</span>@Html.TextBoxFor(m => m.TotalAmt, "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "readonly: true,min:0,precision:2", @style = "width:72%" })</li>                   
+                    <li class="lb-std"><span class="input-group award-name">@Resource.TotalAmount：</span>@Html.TextBoxFor(m => m.TotalAmt, "", new { @class = "easyui-numberbox myReadonly text-align-right", @data_options = "readonly: true,min:0,precision:2", @style = "width:72%" })</li>                   
                     <!--建檔人-->
-                    <li class="lb-std"><span class="input-group">@Resource.CreateBy：</span>@Html.TextBoxFor(m => m.CreateBy, "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group award-name">@Resource.CreateBy：</span>@Html.TextBoxFor(m => m.CreateBy, "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
                     <!--建檔日期-->
-                    <li class="lb-std"><span class="input-group">@Resource.CreateAt：</span>@Html.TextBoxFor(m => m.CreateAt, "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group award-name">@Resource.CreateAt：</span>@Html.TextBoxFor(m => m.CreateAt, "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
                     <!--更改人-->
-                    <li class="lb-std"><span class="input-group">@Resource.UpdateBy：</span>@Html.TextBoxFor(m => m.UpdateBy, "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group award-name">@Resource.UpdateBy：</span>@Html.TextBoxFor(m => m.UpdateBy, "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
                     <!--更改日期-->
-                    <li class="lb-std"><span class="input-group">@Resource.UpdateAt：</span>@Html.TextBoxFor(m => m.UpdateAt, "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
+                    <li class="lb-std"><span class="input-group award-name">@Resource.UpdateAt：</span>@Html.TextBoxFor(m => m.UpdateAt, "", new { @class = "easyui-textbox myReadonly ", @data_options = "readonly: true", @style = "width:72%" })</li>
                     <li><input class="text" type="hidden" name="Vendor" id="Vendor" /></li>
                     <!--定義隱藏的臨時變量儲存當前操作是新增或修改-->                  
-                    <li><input class="" type="hidden" name="ActionType" id="ActionType_H" /></li>
-                   
+                    <li><input class="" type="hidden" name="ActionType" id="ActionType_H" /></li>                   
                 </ul>
             }
         </div>
 
         <!--second tab 採購明細資料-->
-        <div id="page2" title="Purchase Details" closable="false" style="padding:5px;font-size:9px!important;">
+        <div id="page2" title="Details" closable="false" style="padding:5px;font-size:9px!important;">
             @using (Html.BeginForm("EditHead", null, FormMethod.Post, new { id = "addFormDetails", @clase = "form-inline", @role = "form" }))
             {
                 @*<table id="details_master" class="font_9px" style="border-collapse:separate; border-spacing:0px 1px;">*@
@@ -135,7 +138,7 @@
                             <td class="td-label font_color_required"><div class="award-name">@Resource.Weight/@Resource.UnitCode：</div></td><!--重量/重量單位-->
                             <td class="td-input">
                                 <div class="input-group">
-                                    @Html.TextBox("Weight", "0", new { @class = "easyui-numberbox text-align-right", @style = "width:69%", @data_options = "required:true,min:0" })
+                                    @Html.TextBox("Weight", "0", new { @class = "easyui-numberbox text-align-right", @style = "width:69%", @data_options = "required:true,min:0,precision:1" })
                                     @Html.TextBox("WeightUnit", "KG", new { @class = "easyui-textbox myReadonly", style = "width:29%", @data_options = "required:true ,readonly: true" })
                                 </div>
                             </td>
@@ -183,8 +186,8 @@
             <!--明細表格-->
             <div data-options="region:'center'" style="margin-top:10px">
                 <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
-                    <table id="tbDetails" class="easyui-datagrid" title="Purchase Details" style="width:100%;height:300px"
-                           data-options="singleSelect:true,collapsible:true,method:'get'"></table>
+                    <table id="tbDetails" class="easyui-datagrid" title="Details" style="width:100%;height:300px"
+                           data-options="singleSelect:true,collapsible:false, method:'get'"></table>
                 </div>
             </div>
 
@@ -192,10 +195,10 @@
             <div data-options="region:'center'">
                 <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
                     <table id="tbOtherFare" class="easyui-datagrid" title="Other Fare" style="width:100%;height:200px"
-                           data-options="singleSelect:true,collapsible:true,method:'get'"></table>
+                           data-options="singleSelect:true,collapsible:false,method:'get'"></table>
                 </div>
-                <input type="hidden" name="ActionType" id="ActionType_Fare" />
-                <input type="hidden" name="CurrentRowIndex" id="CurrentRowIndex" />
+                <input type="hidden" name="ActionType" id="ActionType_Fare"/>
+                <input type="hidden" name="CurrentRowIndex" id="CurrentRowIndex"/>
             </div>
 
         </div><!--tabpage2-->
@@ -204,45 +207,43 @@
 </div>
 
 @section PageSpecificJavascriptIncludes{
-    @*<script src="~/Content/js/SalesOrder.js?v=20210426000001"></script>*@
-    <script src="~/Content/js/SalesOrder.js"></script>
-    <script src="~/Content/js/Purchase.js?v=20210426000025"></script>
+    <script src="~/Content/js/SalesOrder.js?v=20210426000002"></script>
+    @*<script src="~/Content/js/SalesOrder.js"></script>*@
+    <script src="~/Content/js/Purchase.js?v=20210426000033"></script>
     @*<script src="~/Content/js/Purchase.js"></script>*@
-    @*<script src="~/Content/js/BaseData.js?v=20210426000002"></script>*@
-    <script src="~/Content/js/BaseData.js"></script>
+    <script src="~/Content/js/BaseData.js?v=20230630000009"></script>
+    @*<script src="~/Content/js/BaseData.js"></script>*@
+    <script src="~/Content/js/common.js?v=20230630000015"></script>
+    <script src="~/Content/js/myValidator.js"></script>
     
     <script type="text/javascript">
-        @*Purchase.Pur.setValue({
-            msg_system_prompt: '@Resource.msg_system_prompt',
-            msg_condition_is_empty: '@Resource.msg_condition_is_empty',
-            msg_data_query: '@Resource.msg_data_query',
-            msg_details_info: '@Resource.msg_details_info',
-            msg_loading_data: '@Resource.msg_loading_data',
-            msg_master_data_is_empty: '@Resource.msg_master_data_is_empty',
-            msg_no_data: '@Resource.msg_no_data',
-            msg_only_select_one: '@Resource.msg_only_select_one',
-            msg_saved_master_success: '@Resource.msg_saved_master_success',
-            msg_saved_success: '@Resource.msg_saved_success',
-            msg_search_condition: '@Resource.msg_search_condition'
-        })*@
-       
+        $(function () {
+            //設置共享變量
+            localStorage.setItem("msg_system_prompt", '@Resource.msg_system_prompt');
+            localStorage.setItem("msg_condition_is_empty", '@Resource.msg_condition_is_empty');
+            localStorage.setItem("msg_data_query", '@Resource.msg_data_query');
+            localStorage.setItem("msg_details_info", '@Resource.msg_details_info');
+            localStorage.setItem("msg_loading_data", '@Resource.msg_loading_data');
+            localStorage.setItem("msg_master_data_is_empty", '@Resource.msg_master_data_is_empty');
+            localStorage.setItem("msg_no_data", '@Resource.msg_no_data');
+            localStorage.setItem("msg_only_select_one", '@Resource.msg_only_select_one');
+            localStorage.setItem("msg_saved_master_success", '@Resource.msg_saved_master_success');
+            localStorage.setItem("msg_saved_success", '@Resource.msg_saved_success');
+            localStorage.setItem("msg_search_condition", '@Resource.msg_search_condition');
 
-        $(function () {            
-            //SearchOcDetails();
             InitSearch();//查询
 
             $("#btnEdit").click(function () {
-                Purchase.Pur.EditMaster("Purchase Master");
+                PUR.EditMaster("Master");
             });
 
             //設置只讀背景色為灰色
-            so.setReadonlyBackground();
+            SO.setReadonlyBackground();
 
             //初始化下拉列表框
             BaseData.initBaseInfo('bs_vendor', '#VendorID'); //供應商
             BaseData.initBaseInfo('bs_money', '#CurrencyID'); //貨幣
             BaseData.initBaseInfo('bs_department', '#DepartMentID');//部門
-
 
             $("#PriceUnit").combobox({
                 valueField: 'id',
@@ -262,21 +263,21 @@
             //根據當前貨幣取匯率
             $('#CurrencyID').combobox({
                 onHidePanel: function () {
-                    getCurrencyRate();
+                    SO.getCurrencyRate();
                 }
             });
             $('#VendorID').combobox({
                 onHidePanel: function () {
-                    Purchase.Pur.getVendorInfo();
+                    PUR.getVendorInfo();
                 }
             });
             //客戶編號綁定失去焦點事件
             $("input", $("#CustomerID").next("span")).blur(function () {
-                getCustomerInfo();
+                SO.getCustomerInfo();
             });
             //採購員編號綁定失去焦點事件
             $("input", $("#BuyerID").next("span")).blur(function () {
-                Purchase.Pur.getBuyerName();
+                PUR.getBuyerName();
             });
             //打開模式窗口,查詢貨品編碼
             $("#btnItem").click(function () {
@@ -284,7 +285,9 @@
             });
             //貨品編號綁定失去焦點事件,查出貨品描述
             $("input", $("#ProductID").next("span")).blur(function () {
-                so.getProductID();
+                if ($("#ActionType_D").val() != '') {
+                    SO.getProductID();//編輯狀態才檢查產品編號的合法性
+                }
             });
             $("input", $("#ProductMo").next("span")).blur(function () {
                 var id = $("#ProductMo").val();
@@ -302,31 +305,31 @@
 
             //綁定訂單數量對象失去焦點事件
             $("input", $("#OrderQty,#Weight,#Price,#DiscountRate").next("span")).blur(function () {
-                Purchase.Pur.setItemAmount($("#ActionType_D").val(),$("#Seq").val());
+                PUR.setItemAmount($("#ActionType_D").val(), $("#Seq").val());
             });
             $('#PriceUnit').combobox({
                 onHidePanel: function () {
-                    Purchase.Pur.setItemAmount($("#ActionType_D").val(),$("#Seq").val());
+                    PUR.setItemAmount($("#ActionType_D").val(), $("#Seq").val());
                 }
             });
 
-            Purchase.Pur.disableMaster(true);
-            Purchase.Pur.disableDetails(true);
-            Purchase.Pur.setEditMasterButtonSatus(false);//btnEdit disable
-            Purchase.Pur.setEditDetailButtonSatus(false);//btnEditItem disable
+            PUR.disableMaster(true);
+            PUR.disableDetails(true);
+            PUR.setEditMasterButtonSatus(false);//btnEdit disable
+            PUR.setEditDetailButtonSatus(false);//btnEditItem disable
 
-            AddNew();
+            AddNew();//頁面初始時新增新單
 
         });
 
         //主表新增按鈕,新增一張新的單據
         function AddNew() {
-            Purchase.Pur.setActivePage("Purchase Master");//設置主檔TAB為當前活動的
+            PUR.setActivePage("Master");//設置主檔TAB為當前活動的
             $("#addFormHead").form("clear");//清空主表頁面
             $("#addFormDetails").form("clear");//清空明細表頁面表頭
             $("#tbDetails").datagrid("loadData", { total: 0, rows: [] }); //清空明細表格
             $("#tbOtherFare").datagrid("loadData", { total: 0, rows: [] }); //清空BOM
-                        
+
             $("#CreateBy").textbox("setValue", "@ViewBag.user_id");
             $("#Ver").textbox("setValue", "0");//普通控件賦值
             $("#State").combobox("setValue", "0");//下拉列表框賦值
@@ -337,38 +340,39 @@
             $("#ActionType_H").val("NEW");//隱藏提交某一值給一下表單或后臺
             $("#ActionType_D").val("NEW");//隱藏提交某一值給一下表單或后臺
 
-            Purchase.Pur.getMaxID();
-            Purchase.Pur.disableMaster(false);//主表可編輯
-            Purchase.Pur.disableDetails(false);//明細可編輯
-            Purchase.Pur.disableSate();//狀態禁用
-            BaseData.getDBDateTime();//獲取服務器系統時間并設落單日期
+            PUR.getMaxID();
+            PUR.disableMaster(false);//主表可編輯
+            PUR.disableDetails(true);//2023/07/05 由false改為true明細不可編輯
+            PUR.disableSate();//狀態禁用
+            //BaseData.getDBDateTime();//獲取服務器系統時間并設落單日期
+            var strDate = COMM.getCurrentDate();
+            $("#OrderDate").textbox("setValue", strDate);
+            strDate = COMM.getCurrentDateTime();
+            $("#CreateAt").textbox("setValue", strDate);
             $("#CurrencyID").combobox("setValue", "RMB");
-            getCurrencyRate();
+            SO.getCurrencyRate();
         }
 
-
-        /**
-       *查詢明細
-       */
+        /**查詢明細*/
         function SearchBuyDetails() {
-            var queryData = { ID: $("#ID").val(),Ver: $("#Ver").val() };
+            var queryData = { ID: $("#ID").val(), Ver: $("#Ver").val() };
             initList(queryData); //初始化明細表
             initListOtherFare(queryData)//初始化附加費
 
-            Purchase.Pur.setEditDetailButtonSatus(false);//init ocdetails toolbar set btnEditItem enable
+            PUR.setEditDetailButtonSatus(false);//init ocdetails toolbar set btnEditItem enable
             if ($("#Seq").val() == "") {
                 //原本空白的,則調用清空函數,使頁面可編輯
-                Purchase.Pur.clearDetailHead();
-                Purchase.Pur.disableOtherFareToolbar(true);//采購明細新增狀態時禁用附加費工具欄按鈕
+                PUR.clearDetailHead();
+                PUR.disableOtherFareToolbar(true);//采購明細新增狀態時禁用附加費工具欄按鈕
             }
             return false;
         }
-
 
         //明細表查詢
         function initList(queryData) {
             index_oc_details_flag = undefined;
             var current_edit_rowindex = undefined;
+            PUR.disableDetails(true);//明細不可以編輯
             $('#tbDetails').datagrid({
                 url: 'List',//指向后台的Action来获取当前用户的信息的Json格式的数据
                 iconCls: 'icon-view',//图标
@@ -407,8 +411,8 @@
                { field: "DiscountAmt", title: "@Resource.Discount", width: 70, align: 'right' },//折扣額
                { field: "TotalSum", title: "@Resource.TotalAmount", width: 80, align: 'right' },//總金額
                { field: "ArriveDate", title: "@Resource.ArriveDate", width: 90 }, //收貨期
-               { field: "Spec", title: "規格", width: 100 },
-               { field: "Color", title: "顏色", width: 120 },
+               { field: "Spec", title: "@Resource.Spec", width: 100 },//規格
+               { field: "Color", title: "@Resource.Color", width: 120 },//顏色
                { field: "Remark", title: "@Resource.Remark", width: 200 } //備注
                 ]],
                 toolbar: [{
@@ -416,16 +420,40 @@
                     text: "@Resource.btn_additem",//新增(項目新增),
                     iconCls: 'icon-add',
                     handler: function () {
+                        //代碼新增于2023/07/05
+                        var valid = $("#addFormHead").form('validate');
+                        if (valid == false) {
+                            //請檢查主檔資料的完整性         
+                            $.messager.alert('@Resource.msg_system_prompt', GetSystemMessage('CN00001'));
+                            PUR.setActivePage("Master");//設置主檔TAB為當前活動的
+                            return;
+                        }
+                        @*if ($("#ID").val() == "") {
+                            $.messager.alert('@Resource.msg_system_prompt', '@Resource.msg_master_data_is_empty');
+                            return;
+                        }*@                        
+                        PUR.clearDetailHead();
+                        PUR.disableOtherFareToolbar(true);//禁用Other Fare工具欄按鈕                        
+                        PUR.disableDetails(false);//明細可編輯
+                        PUR.disableSate(true);//Mo狀態禁用
+                        PUR.setEditDetailButtonSatus(true);//disable btnEditItem
+                        PUR.disableOtherFareToolbar(true);//禁用SalesBOM工具欄按鈕
+                        PUR.disableTabs("#tabPages", 2, true);//非活動Tab禁用
+                        PUR.disableSate();//考慮做成公共的JS
+                        //測試2023/07/05
+
+                        /* 舊的代碼 取消于2023/07/05
                         if ($("#ActionType_D").val() == "NEW") {
                             //保存新增的記錄
-                            Purchase.Pur.Save();//主表,明細表一起保存
+                            PUR.Save();//主表,明細表一起保存
                         } else {
                             //請首先按清除按鈕,清空表明細表頭信息
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.mst_clear_detail_head_data");
+                            //$.messager.alert("@@Resource.msg_system_prompt", "@@Resource.mst_clear_detail_head_data");
                         }
                         //disableArea(true);//區域禁用
+                        */
                     }
-                }, '-', {
+                }, @*Cancelled in 2023/07/05 '-', {
                     id: 'btnBlank',
                     text: "@Resource.btn_blank",//清除
                     iconCls: 'icon-mini-edit',
@@ -435,10 +463,10 @@
                             $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_it_is_already_new_status_no_need_to_empty");
                             return;
                         }
-                        Purchase.Pur.clearDetailHead();
-                        Purchase.Pur.disableOtherFareToolbar(true);//禁用Other Fare工具欄按鈕
+                        PUR.clearDetailHead();
+                        PUR.disableOtherFareToolbar(true);//禁用Other Fare工具欄按鈕
                     }
-                }, '-', {
+                },*@ '-', {
                     id: 'btnEditItem',
                     text: "@Resource.btn_edititem",//修改
                     iconCls: 'icon-edit',
@@ -459,13 +487,13 @@
                             var index = $('#tbDetails').datagrid('getRowIndex', rowData);//獲取當前行索引
                             current_edit_rowindex = index;
                             $("#ActionType_D").val("EDIT");//設置編輯狀態
-                            Purchase.Pur.disableDetails(false);//明細可編輯
-                            Purchase.Pur.disableSate(true);//Mo狀態禁用
-                            Purchase.Pur.setEditDetailButtonSatus(true);//disable btnEditItem
-                            Purchase.Pur.disableOtherFareToolbar(true);//禁用SalesBOM工具欄按鈕
+                            PUR.disableDetails(false);//明細可編輯
+                            PUR.disableSate(true);//Mo狀態禁用
+                            PUR.setEditDetailButtonSatus(true);//disable btnEditItem
+                            PUR.disableOtherFareToolbar(true);//禁用SalesBOM工具欄按鈕
 
-                            Purchase.Pur.disableTabs("#tabPages", 2, true);//非活動Tab禁用
-                            Purchase.Pur.disableSate();//考慮做成公共的JS
+                            PUR.disableTabs("#tabPages", 2, true);//非活動Tab禁用
+                            PUR.disableSate();//考慮做成公共的JS
                         }
                     }
                 }, '-', {
@@ -474,10 +502,10 @@
                     iconCls: 'icon-save',
                     handler: function () {
                         //檢查主表、明細表資料的完整性
-                        if (!ValidForm()) {   //***begin***
+                        if (!ValidForm()) {
                             return;
                         }
-                        var result = Purchase.Pur.SaveMaster();//保存主表
+                        var result = PUR.SaveMaster();//保存主表
                         if (result != "OK") {
                             return;
                         }
@@ -494,19 +522,20 @@
                                 if (data == "OK") {
                                     SearchBuyDetails();//重新查詢
                                     $("#ActionType_D").val("");
-                                    Purchase.Pur.disableDetails(true);//禁止編輯明細
-                                    Purchase.Pur.setEditDetailButtonSatus(false);//enable btnEditItem
-                                    Purchase.Pur.disableOtherFareToolbar(false);//啟用附加費工具欄按鈕
-                                    Purchase.Pur.disableTabs("#tabPages", 2, false);//非活動Tab解禁
+                                    PUR.disableDetails(true);//禁止編輯明細
+                                    PUR.setEditDetailButtonSatus(false);//enable btnEditItem
+                                    PUR.disableOtherFareToolbar(false);//啟用附加費工具欄按鈕
+                                    PUR.disableTabs("#tabPages", 2, false);//非活動Tab解禁
                                     $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_saved_success");//數據保存成功!
                                     current_edit_rowindex = undefined;
                                 }
                                 else {
                                     $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_add_failed"); //添加失败
                                 }
-                            }
+                            },
+                            error: PUR.ErrorFunction //错误执行方法
                         });
-                    }        //    ***end***
+                    }  // end of function
                 }, '-', {
                     id: 'btnUndoItem',
                     text: "@Resource.btn_undo",//恢復
@@ -514,11 +543,11 @@
                     handler: function () {
                         SearchBuyDetails();
                         $("#ActionType_D").val("");
-                        Purchase.Pur.setUndo();
-                        Purchase.Pur.disableDetails(true);//禁止編輯明細
-                        Purchase.Pur.setEditDetailButtonSatus(false);//enable btnEditItem
-                        Purchase.Pur.disableOtherFareToolbar(false);//啟用SalesBOM工具欄按鈕
-                        Purchase.Pur.disableTabs("#tabPages", 2, false);//非活動Tab解禁
+                        PUR.setUndo();
+                        PUR.disableDetails(true);//禁止編輯明細
+                        PUR.setEditDetailButtonSatus(false);//enable btnEditItem
+                        PUR.disableOtherFareToolbar(false);//啟用SalesBOM工具欄按鈕
+                        PUR.disableTabs("#tabPages", 2, false);//非活動Tab解禁
                         current_edit_rowindex = undefined;
                     }
                 }, '-', {
@@ -536,16 +565,16 @@
                                         //$.post("/SalesOrder/DeleteList?r=" + Math.random(), { OcID: $("#OcID").val(), Ver: $("#Ver").val(), Seq: RowDeleteByID[0].Seq }, function (data) {
                                         $.post("DeleteList", { ID: $("#ID").val(), Ver: $("#Ver").val(), Seq: RowDeleteByID[0].Seq }, function (data) {
                                             if (data == "OK") {
-                                                Purchase.Pur.setItemAmount('DEL', RowDeleteByID[0].Seq)
+                                                PUR.setItemAmount('DEL', RowDeleteByID[0].Seq)
                                                 //setItemAmount('DEL', RowDeleteByID[0].Seq)
-                                                var result = Purchase.Pur.SaveMaster();//重新保存主表,因金額已發生改變
+                                                var result = PUR.SaveMaster();//重新保存主表,因金額已發生改變
                                                 $("#addFormDetails").form("clear");//清空明細表頁面表頭
                                                 $('#tbDetails').datagrid('clearSelections');
                                                 $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_del_success");//刪除成功
                                                 //这里要将上次删除的Id清空，否则下次再删除的时候会报错
                                                 RowDeleteByID.length = "";
                                                 //$("#tbDetails").datagrid('reload') //重新刷新整个页面
-                                                Purchase.Pur.SearchBuyHead();//總金額有改動動,需重查出來
+                                                PUR.SearchBuyHead();//總金額有改動動,需重查出來
                                                 SearchBuyDetails();
                                             }
                                             else {
@@ -560,7 +589,7 @@
                             }
                         }
                         else {
-                            //$.messager.alert("@Resource.msg_system_prompt", "每次只能删除一行，你已经选择了<font color='red' size='6'>" + RowDeleteByID.length + "</font>行");
+                            //$.messager.alert("@@Resource.msg_system_prompt", "每次只能删除一行，你已经选择了<font color='red' size='6'>" + RowDeleteByID.length + "</font>行");
                             $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_only_select_one");
                         }
                     }
@@ -579,8 +608,8 @@
                         $('#tbDetails').datagrid("selectRow", current_edit_rowindex);//鎖定當前編輯行
                     } else {
                         if ($("#ActionType_Fare").val() == "") {
-                            Purchase.Pur.FillBuyDetails();
-                            Purchase.Pur.setOtherFareButtonSatus(false);
+                            PUR.FillBuyDetails();
+                            PUR.setOtherFareButtonSatus(false);
                         } else {
                             //如果其他費用表格處于新增或編輯狀態時單擊採購明細表格無效
                             if (index_oc_details_flag != undefined) {
@@ -593,11 +622,10 @@
                 }
             });
         }
-       
 
         //初始化搜索框
         function InitSearch() {
-            Purchase.Pur.SearchBuyHead();
+            PUR.SearchBuyHead();
             SearchBuyDetails();
         }
 
@@ -610,7 +638,6 @@
                 url: 'GetOtherFareList', //指向后台的Action来获取当前用户的信息的Json格式的数据
                 iconCls: 'icon-view',//图标
                 //fit: true,//自动适屏功能
-                //fit: true,
                 width: function () { return document.body.clientWidth * 2 },//自动宽度
                 nowrap: true,
                 //collapsible: true,
@@ -645,7 +672,8 @@
                     field: 'opt', title: '', width: 50, align: 'left',//width:$(this).width()*0.1
                     formatter: function (value, row, index) {
                         //var btn='<input type="button" value="···" class="easyui-linkbutton" iconCls="icon-edit" plain="true" style="width:40px;height:22px;background: #D2E9FF;" onclick="findItem(' + "'" + edit_status + "'" + ',' + index + ')"/>';
-                        var btn = '<input type="button" value="···" class="easyui-linkbutton" iconCls="icon-edit" plain="true" style="width:40px;height:22px;background: #D2E9FF;" onclick="findItem(' + index + ')"/>';
+                        var btn = '<input type="button" value="···" class="easyui-linkbutton" iconCls="icon-edit" plain="true"' +
+                                 ' style="width:40px;height:22px;background: #D2E9FF;" onclick="findItem(' + index + ')"/>';
                         return btn;
                     }
                 },
@@ -683,7 +711,6 @@
                     text: "@Resource.btn_additem",//新增(項目新增),
                     iconCls: 'icon-add',
                     handler: function () {
-
                         if ($("#ID").val() == "") {
                             $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_master_data_is_empty");//OC資料為空,當前操作無效
                             return;
@@ -709,7 +736,7 @@
                                 type: 'validatebox',//設定編輯格式
                                 options: { required: true }
                             };
-
+                            //添加一筆附加費用記錄,并取當前行索引
                             var index = $('#tbOtherFare').datagrid('appendRow', {
                                 ID: $("#ID").val(),
                                 Ver: $("#Ver").val(),
@@ -721,18 +748,17 @@
                                 FareSum: 0,
                                 ProductID: $("#ProductID").val()
                             }).datagrid('getRows').length - 1;
-
-                            index_oc_details_flag = getCurrentRowIndex('#tbDetails');//記錄oc明細的當前記錄號
-                            //Purchase.Pur.setFareIDblur(index);//給Datagrid某行中的某一列綁定失去焦點事件
-                            setFareIDblur(index);
+                            //記錄OC明細的當前記錄號
+                            index_oc_details_flag = COMM.getCurrentRowIndex('#tbDetails');
+                            PUR.setFareIDblur(index);//給Datagrid某行中的某一列綁定失去焦點事件
                             editRow = 0;
                             current_edit_rowindex = index;//記錄當前編輯的行索引
                             $("#CurrentRowIndex").val(index);//記錄當前編輯的行索引,以確定按鈕單擊事件是否可用
                             $("#ActionType_Fare").val("NEW");
                             edit_status = "NEW";
-                            Purchase.Pur.setOtherFareButtonSatus(true);//disable
-                            Purchase.Pur.disableOCToolbar(true);//禁用OC明細表中的工具欄按鈕
-                            Purchase.Pur.disableTabs("#tabPages", 2, true);//非活動Tab禁用
+                            PUR.setOtherFareButtonSatus(true);//disable
+                            PUR.disableOCToolbar(true);//禁用OC明細表中的工具欄按鈕
+                            PUR.disableTabs("#tabPages", 2, true);//非活動Tab禁用
 
                         }
                     }
@@ -751,28 +777,23 @@
                             return;
                         }
                         if ($("#Seq").val() != "") {
-                            //var rowdata1 = $('#tbDetails').datagrid('getSelected');
-                            //var index1 = $('#tbDetails').datagrid('getRowIndex', rowdata1);
-                            index_oc_details_flag = getCurrentRowIndex('#tbDetails');//記錄oc明細的當前記錄號
-                            //var rows = $('#tbSalesBom').datagrid('getSelections');//選中的行對象
-                            var index = getCurrentRowIndex('#tbOtherFare');
-                            //if (rows.length == 1) {
+                            index_oc_details_flag = COMM.getCurrentRowIndex('#tbDetails');//記錄oc明細的當前記錄號
+                            var index = COMM.getCurrentRowIndex('#tbOtherFare');
                             if (index >= 0) {
                                 $("#ActionType_Fare").val("EDIT");//設置編號標識
                                 //var rowData = rows[0];//var row = $('#tbSalesBom').datagrid('getSelected');
                                 //var index = $('#tbSalesBom').datagrid('getRowIndex', rowData);//獲取當前行索引
-                                //var index = getCurrentRowIndex('#tbSalesBom');
-
+                                //var index = COMM.getCurrentRowIndex('#tbSalesBom');
                                 var e = $("#tbOtherFare").datagrid('getColumnOption', 'FareID');
                                 e.editor = {};//移除编辑器相当于禁止某列编辑
 
-                                Purchase.Pur.setFareIDblur(index);
+                                PUR.setFareIDblur(index);
                                 editRow = 0;
                                 current_edit_rowindex = index;
                                 $("#CurrentRowIndex").val(index);
-                                Purchase.Pur.setOtherFareButtonSatus(true);//disable
-                                Purchase.Pur.disableOCToolbar(true);//禁用OC明細表中的工具欄按鈕
-                                Purchase.Pur.disableTabs("#tabPages", 2, true);//非活動Tab禁用
+                                PUR.setOtherFareButtonSatus(true);//disable
+                                PUR.disableOCToolbar(true);//禁用OC明細表中的工具欄按鈕
+                                PUR.disableTabs("#tabPages", 2, true);//非活動Tab禁用
                             } else {
                                 $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_select_one_row_before_edit");//請首先選中需要編輯的當前行
                             }
@@ -789,27 +810,24 @@
                         //    type: 'validatebox',//設定編輯格式
                         //    options: { required: true }
                         //};
-                        //debugger;
                         //檢查SalesBOM細表資料的完整性
                         var rowData = $("#tbOtherFare").datagrid('getSelected');
                         var index = $('#tbOtherFare').datagrid('getRowIndex', rowData);//獲取當前行索引
                         var editors = $('#tbOtherFare').datagrid('getEditors', index);//獲得當前行編輯列對象(忽略非編輯列)
-                        var id,ver,fare_id = '', name = '', product_id = '';
+                        var id, ver, fare_id = '', name = '', product_id = '';
                         var qty = 0, price = 0, fare_sum = 0;
                         id = $("#ID").val();
                         ver = $("#Ver").val();
                         var edit_status = $("#ActionType_Fare").val();
                         var edFareID, edName, edQty, edPrice, edProductID;
-                        if (edit_status == "NEW") {
-                            //Add Item
-                            edFareID = editors[0];//editor[1]表示第一列這個控件,即產品編號列
-                            fare_id = edFareID.target.val();
+                        if (edit_status == "NEW") {  //Add Item
+                            edFareID = editors[0];//editor[1]表示前行編輯列對象數組
+                            fare_id = edFareID.target.val();//轉為字符串
                             edName = editors[1];//名稱
                             edQty = editors[2];//用量
                             edPrice = editors[3];//單價
                             edProductID = editors[4];//產品編號
-                        } else {
-                            //EDIT
+                        } else {  //EDIT
                             fare_id = rowData.FareID;
                             edName = editors[0];//名稱
                             edQty = editors[1];//用量
@@ -826,12 +844,12 @@
                         }
                         if (edQty.target.val() == "") {
                             //數量不可為空
-                            $.messager.alert("@Resource.msg_system_prompt", "数量不为空");
+                            $.messager.alert("@Resource.msg_system_prompt", "数量不为空");//数量不为空
                             return;
                         }
                         if (edPrice.target.val() == "") {
                             //單價不可為空
-                            $.messager.alert("@Resource.msg_system_prompt", "單價不可為空!");
+                            $.messager.alert("@Resource.msg_system_prompt", "單價不可為空!");//單價不可為空!
                             return;
                         }
                         name = edName.target.val();
@@ -853,23 +871,23 @@
                         };
 
                         //新增或修改時取出非當前附加費編號的全部費用 id, ver, fare_id, operation,curent_row_amount
-                        Purchase.Pur.setTotalAmtOtherFare(id, ver, fare_id, edit_status, fare_sum);
-                        var result = Purchase.Pur.SaveMaster();//保存主表
+                        PUR.setTotalAmtOtherFare(id, ver, fare_id, edit_status, fare_sum);
+                        var result = PUR.SaveMaster();//保存主表
                         if (result != "OK") {
                             return;
                         }
                         //保存附加費
                         $('#tbOtherFare').datagrid('endEdit', index);
-                        result = Purchase.Pur.saveOtherFare(postData);
+                        result = PUR.saveOtherFare(postData);
                         if (result == "OK") {
                             SearchBuyDetails();//重新查詢採購明細
                             $("#ActionType_Fare").val("");
                             editRow = undefined;
                             current_edit_rowindex = undefined;
                             $("#CurrentRowIndex").val(-1);
-                            Purchase.Pur.setOtherFareButtonSatus(false);
-                            Purchase.Pur.disableOCToolbar(false);//恢復OC明細表中的工具欄按鈕
-                            Purchase.Pur.disableTabs("#tabPages", 2, false);//非活動Tab解禁
+                            PUR.setOtherFareButtonSatus(false);
+                            PUR.disableOCToolbar(false);//恢復OC明細表中的工具欄按鈕
+                            PUR.disableTabs("#tabPages", 2, false);//非活動Tab解禁
                         }
                     }
                 }, '-', {
@@ -882,9 +900,9 @@
                         $("#CurrentRowIndex").val(-1);
                         $("#tbOtherFare").datagrid('rejectChanges');
                         $("#ActionType_Fare").val("");
-                        Purchase.Pur.setOtherFareButtonSatus(false);
-                        Purchase.Pur.disableOCToolbar(false);//恢復OC明細表中的工具欄按鈕
-                        Purchase.Pur.disableTabs("#tabPages", 2, false);//非活動Tab解禁
+                        PUR.setOtherFareButtonSatus(false);
+                        PUR.disableOCToolbar(false);//恢復OC明細表中的工具欄按鈕
+                        PUR.disableTabs("#tabPages", 2, false);//非活動Tab解禁
                     }
                 }, '-', {
                     id: 'btnDeleteItemBom',
@@ -897,19 +915,18 @@
                         var fare_id = rowData.FareID;
                         var ver = rowData.Ver;
                         var id = rowData.ID;
-                        if (rowData.FareID !="") {
+                        if (rowData.FareID != "") {
                             //您确认删除该条記錄
                             $.messager.confirm("@Resource.msg_system_prompt", "@Resource.msg_is_del_current_record", function (isDel) {
                                 if (isDel) {
-                                    //$.post("/SalesOrder/DeleteListSalesBom", { OcID: $("#OcID").val(), Ver: RowDeleteByID[0].Ver, UpperSeq: RowDeleteByID[0].UpperSeq, Seq: RowDeleteByID[0].Seq }, function (data) {
                                     $.post("DeleteListOtherFare", { ID: id, Ver: ver, FareID: fare_id }, function (data) {
                                         if (data == "OK") {
-                                            Purchase.Pur.setTotalAmtOtherFare(id, ver, fare_id, 'DEL', fare_sum)
-                                            var result = Purchase.Pur.SaveMaster();//保存主表
+                                            PUR.setTotalAmtOtherFare(id, ver, fare_id, 'DEL', fare_sum)
+                                            var result = PUR.SaveMaster();//保存主表
                                             $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_del_success");
                                             //这里要将上次删除的Id清空，否则下次再删除的时候会报错
                                             //RowDeleteByID.length = "";
-                                            var queryData = {ID: id, Ver: ver };
+                                            var queryData = { ID: id, Ver: ver };
                                             initListOtherFare(queryData);
                                         }
                                         else {
@@ -957,7 +974,7 @@
                 //編輯狀態方可彈窗
                 if (index == null) {
                     //OC明細表頭調用
-                    Purchase.Pur.openWin('FindItem', 'FindItem', 850, 530, index);
+                    PUR.openWin('FindItem', 'FindItem', 850, 530, index);
                     return;
                 }
                 var temp_index = $("#CurrentRowIndex").val();
@@ -965,7 +982,7 @@
                     //調用附加費頁面
                     if (edit_status == "NEW") {
                         //按新增按钮时允许打开查附加费用编号的窗口,按编辑按钮时不允许
-                        Purchase.Pur.openWin('FindOtherFareItem', 'Other Fare Item', 850, 530, index);
+                        PUR.openWin('FindOtherFareItem', 'Other Fare Item', 850, 530, index);
                     }
                 }
             }
@@ -976,121 +993,105 @@
         */
         function ValidForm() {
             var not_empty = "@Resource.msg_cannot_be_empty";
-            var active_page = "Purchase Master";//主檔頁標題
+            var active_page = "Master";//主檔頁標題
             var objValue = null;
-
             objValue = $("#OrderDate").datebox('getValue');
-            if (so.checkEmpty(objValue, "@Resource.OrderDate" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.OrderDate" + not_empty, active_page)) {
                 return false;
             }
             objValue = $("#VendorID").combobox('getValue');
-            if (so.checkEmpty(objValue, "@Resource.VendorID" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.VendorID" + not_empty, active_page)) {
                 return false;
             }
             objValue = $("#Contacts").val();
-            if (so.checkEmpty(objValue, "@Resource.Contacts" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.Contacts" + not_empty, active_page)) {
                 return false;
             }
             objValue = $("#BuyerID").val();
-            if (so.checkEmpty(objValue, "@Resource.BuyerID" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.BuyerID" + not_empty, active_page)) {
                 return false;
             }
             objValue = $("#CurrencyID").combobox('getValue');
-            if (so.checkEmpty(objValue, "@Resource.CurrencyID" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.CurrencyID" + not_empty, active_page)) {
                 return false;
             }
             objValue = $("#DepartMentID").combobox('getValue');
-            if (so.checkEmpty(objValue, "@Resource.DeptID" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.DeptID" + not_empty, active_page)) {
                 return false;
             }
 
             //檢查明細
-            active_page = "Purchase Details";//明細頁標題
+            active_page = "Details";//明細頁標題
             objValue = $("#ProductMo").val();
-            if (so.checkEmpty(objValue, "@Resource.ProductMo" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.ProductMo" + not_empty, active_page)) {
                 return false;
             }
             objValue = $("#ProductID").val();
-            if (so.checkEmpty(objValue, "@Resource.ProductID" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.ProductID" + not_empty, active_page)) {
                 return false;
             }
             objValue = $("#OrderQty").val();
-            if (so.checkEmpty(objValue, "@Resource.OrderQty" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.OrderQty" + not_empty, active_page)) {
                 return false;
             }
             objValue = $("#OrderUnit").val();
-            if (so.checkEmpty(objValue, "@Resource.OrderUnit" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.OrderUnit" + not_empty, active_page)) {
                 return false;
             }
             objValue = $("#Weight").val();
-            if (so.checkEmpty(objValue, "@Resource.Weight" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.Weight" + not_empty, active_page)) {
                 return false;
             }
             objValue = $("#WeightUnit").val();
-            if (so.checkEmpty(objValue, "@Resource.WeightUnit" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.WeightUnit" + not_empty, active_page)) {
                 return false;
             }
             objValue = $("#Price").val();
-            if (so.checkEmpty(objValue, "@Resource.Price" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.Price" + not_empty, active_page)) {
                 return false;
             }
             objValue = $("#PriceUnit").combobox('getValue');
-            if (so.checkEmpty(objValue, "@Resource.PriceUnit" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.PriceUnit" + not_empty, active_page)) {
                 return false;
             }
             objValue = $("#ArriveDate").datebox('getValue');
-            if (so.checkEmpty(objValue, "@Resource.ArriveDate" + not_empty, active_page)) {
+            if (SO.checkEmpty(objValue, "@Resource.ArriveDate" + not_empty, active_page)) {
                 return false;
             }
 
             return true;
         }
 
-        //附加費編號FareID失去焦點調用的函數
-        function setFareIDblur (index) {
-            var t = $("#tbOtherFare");
-            t.datagrid('selectRow', index);
-            t.datagrid('beginEdit', index);
-            var editors = t.datagrid('getEditors', index); //獲得當前行的可編輯列對象,忽略非編輯列
-            if (editors.length > 0) {
-                var edFareID = editors[0];//editor[0]表示第一列這個控件,即附加費號列
-                var edName = editors[1];
-                //附加費編號列綁定失去焦點事件
-                edFareID.target.bind('blur', function () {
-                    var item = edFareID.target.val(); //取值
-                    if (item.length > 0) {
-                        item = item.toUpperCase();
-                        var tmp = checkFareID(item);
-                        if (tmp.Cdesc != "") {
-                            edFareID.target.val(item);
-                            edName.target.val(tmp.Cdesc);
+        //附加費編號FareID失去焦點調用的函數2023/06/30注銷
+        //function setFareIDblur (index) {
+        //    var t = $("#tbOtherFare");
+        //    t.datagrid('selectRow', index);
+        //    t.datagrid('beginEdit', index);
+        //    var editors = t.datagrid('getEditors', index); //獲得當前行的可編輯列對象,忽略非編輯列
+        //    if (editors.length > 0) {
+        //        var edFareID = editors[0];//editor[0]表示第一列這個控件,即附加費號列
+        //        var edName = editors[1];
+        //        //附加費編號列綁定失去焦點事件
+        //        edFareID.target.bind('blur', function () {
+        //            var item = edFareID.target.val(); //取值
+        //            if (item.length > 0) {
+        //                item = item.toUpperCase();
+        //                var tmp = checkFareID(item);
+        //                if (tmp.Cdesc != "") {
+        //                    edFareID.target.val(item);
+        //                    edName.target.val(tmp.Cdesc);
+        //                } else {
+        //                    //無效的產品編號
+        //                    $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00007'));
+        //                    edFareID.target.val('');
+        //                    edName.target.val('');
+        //                }
+        //            }
+        //        });
+        //    }
+        //}
 
-                            ////------------------------------
-
-                            //var columns = $('#tbOtherFare').datagrid("options").columns;
-                            //// 得到rows对象
-                            //var rows = $('#tbOtherFare').datagrid("getRows");
-                            //rows[index][columns[0][8].field] = 5000;
-                            //$('#tbOtherFare').datagrid('refreshRow', index);
-                            //var curr_index = $('#tbOtherFare').datagrid('getRowIndex', $("#tbOtherFare").datagrid('getSelected'));
-                            //$('#tbOtherFare').datagrid('updateRow', {
-                            //    index: index,
-                            //    row: { 'FareSum':1000 }
-                            //});
-                            //------------------------------
-
-                        } else {
-                            //無效的產品編號
-                            $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00007'));
-                            edFareID.target.val('');
-                            edName.target.val('');
-                        }
-                    }
-                });
-            }
-        }
-
-        function checkFareID (id) {
+        function checkFareID(id) {
             var result = "{Cdesc:'',Edesc:''}";
             $.ajax({
                 url: "GetFareID?strFareID=" + id,
@@ -1101,7 +1102,7 @@
                 success: function (data) {
                     result = data;
                 },
-                error: Purchase.Pur.ErrorFunction //错误执行方法
+                error: PUR.ErrorFunction //错误执行方法
             })
             return result;
         }

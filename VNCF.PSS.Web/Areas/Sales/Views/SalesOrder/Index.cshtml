@@ -1315,7 +1315,7 @@
                     //var now=new Date();
                     //var d=now.setDate(now.getDate());
                     var d = new Date();//生成日期對象:Fri Oct 15 2021 17:51:20 GMT+0800
-                    d = comm.getDate(d,0);//轉成年月日字符串格式
+                    d = COMM.getDate(d,0);//轉成年月日字符串格式
                     this.$set(this.formHeadData, "OrderDate",d);
                     this.$set(this.formHeadData, "ReceivedDate",d);
                     this.$set(this.formHeadData, "Ver",0);
@@ -1407,8 +1407,8 @@
                         PlateRemark:'',InvoiceRemark:'',MoState:'0',ArtImage:'',ActionType:'NEW'
                     };
                     var objDate = new Date();//生成日期對象:Fri Oct 15 2021 17:51:20 GMT+0800
-                    this.$set(this.formDetailData, "ArriveDate",comm.getDate(objDate,0));
-                    this.$set(this.formDetailData, "FactoryShipOutDate",comm.getDate(objDate,3));
+                    this.$set(this.formDetailData, "ArriveDate",COMM.getDate(objDate,0));
+                    this.$set(this.formDetailData, "FactoryShipOutDate",COMM.getDate(objDate,3));
                     this.setCheckBoxStatus();
                     this.setFormEditButtonStatus(true);
                     this.isDisableMo = false;
@@ -1888,7 +1888,7 @@
                 //日期轉換
                 dateChange(fieldDate){
                     var objDate = this.$refs[fieldDate].value;//生成日期對象:Fri Oct 15 2021 17:51:20 GMT+0800
-                    var strDate = comm.getDate(objDate,0);//轉成年月日字符串格式
+                    var strDate = COMM.getDate(objDate,0);//轉成年月日字符串格式
                     switch (fieldDate) {
                         case "OrderDate": case "ReceivedDate":
                             this.$set(this.formHeadData, fieldDate,strDate);
@@ -1899,7 +1899,7 @@
                         case "ArriveDate": case "FactoryShipOutDate": case "PlanCompleteDate": //匹配多個值
                             this.$set(this.formDetailData, fieldDate,strDate);
                             if(fieldDate=='ArriveDate'){
-                                this.$set(this.formDetailData, "FactoryShipOutDate",comm.getDate(objDate,3));
+                                this.$set(this.formDetailData, "FactoryShipOutDate",COMM.getDate(objDate,3));
                             }
                             break;
                         case "Order_Date": case "Received_Date":

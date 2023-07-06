@@ -16,12 +16,12 @@ var BaseData = {
             //data: JSON.stringify(param),
             dataType: "JSON",
             timeout: 20000,
-            success: function (data) {
+            success: function (data) {               
                 $(obj).combobox({
                     //editable: false, // 只读 如果只能從下拉中選取,需將此項設為
                     limitToList: true,//只能从下拉中选择值
                     reversed: true,//定义在失去焦点的时候是否恢复原始值。
-                    onHidePanel: check_input(obj),
+                    onHidePanel: BaseData.check_input(obj),
                     //panelHeight: 'auto', // 高度自适应
                     //required: true,
                     data: data,
@@ -32,7 +32,7 @@ var BaseData = {
             },
             error: this.fnError
         });
-    },
+    },    
     /*
     *后臺返回一列(ID)給下拉列表框
     *參數:
@@ -53,7 +53,7 @@ var BaseData = {
                     //editable: false, // 只读 如果只能從下拉中選取,需將此項設為
                     limitToList: true,//只能从下拉中选择值
                     reversed: true,//定义在失去焦点的时候是否恢复原始值。
-                    onHidePanel: check_input(obj),
+                    onHidePanel: BaseData.check_input(obj),
                     //panelHeight: 'auto', // 高度自适应
                     //required: true,
                     data: data,

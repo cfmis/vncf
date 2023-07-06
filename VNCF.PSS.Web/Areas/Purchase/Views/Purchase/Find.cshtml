@@ -1,15 +1,23 @@
 ﻿@using Resources;
 @using VNCF.PSS.Web.Areas.Purchase.Models;
+
 @model BuyHead
+
 @{
     ViewBag.Title = "Purchase Find";
 }
+
+@section PageSpecificStyleSheetIncludes{
+    <style>        
+    </style>
+}
+ 
 
 <div class="areabx clear" style="margin-bottom:0px;padding-bottom:0px;">
 
     @using (Html.BeginForm("EditHead", null, FormMethod.Post, new { id = "findFormHead", @clase = "form-inline", @role = "form" }))
     {
-        <div data-options="region:'center'">
+        <div class="stereo-border" data-options="region:'center'">           
             <div class="easyui-layout" data-options="fit:true">
                 <div class="botbtbx pdb0">                   
                     <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" onclick="window.parent.closeWindow()">@Resource.btn_exit</a>  <!--关闭-->
@@ -20,18 +28,24 @@
         </div>
         <ul class="formod mgt10">
             <!--採購日期-->
-            <li class="lb-std"><span class="input-group ">@Resource.OrderDate (From)：</span>@Html.TextBox("OrderDate1", "", new { @class = "easyui-datebox-expand ", @style = "width:72%" })</li>
-            <li class="lb-std"><span class="input-group ">@Resource.OrderDate (To)：</span>@Html.TextBox("OrderDate2", "", new { @class = "easyui-datebox-expand ", @style = "width:72%" })</li>
+            <li class="lb-std"><span class="input-group ">@Resource.OrderDate:</span>
+                @*@Html.TextBox("OrderDate1", "", new { @class = "easyui-datebox-expand", @style = "width:72%" })*@
+                @*@Html.TextBox("OrderDate1", "", new { @class = "easyui-datebox",@type ="text", @style = "width:72%" })*@
+                <input id="OrderDate1" value="" type="text" class="easyui-datebox" style = "width:71%">          
+            </li>            
+            <li class="lb-std"><span class="input-group ">@Resource.OrderDate:</span>
+                @Html.TextBox("OrderDate2", "", new { @id= "OrderDate2", @class = "easyui-datebox", @type = "text", @style = "width:71%" })                
+            </li>
             <!--供應商編號-->
-            <li class="lb-std"><span class="input-group ">@Resource.VendorID：</span>@Html.TextBoxFor(m => m.VendorID, "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
+            <li class="lb-std"><span class="input-group ">@Resource.VendorID:</span>@Html.TextBoxFor(m => m.VendorID, "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
             <!--採購單號-->
-            <li class="lb-std"><span class="input-group ">@Resource.PurchaseID：</span>@Html.TextBoxFor(m => m.ID, "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
+            <li class="lb-std"><span class="input-group ">@Resource.PurchaseID:</span>@Html.TextBoxFor(m => m.ID, "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
             <!--部門-->
-            <li class="lb-std"><span class="input-group ">@Resource.DeptID：</span>@Html.TextBoxFor(m => m.DepartMentID, "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
+            <li class="lb-std"><span class="input-group award-name">@Resource.DeptID:</span>@Html.TextBoxFor(m => m.DepartMentID, "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
             <!--頁數-->
-            <li class="lb-std"><span class="input-group ">@Resource.ProductMo：</span>@Html.TextBox("ProductMo", "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
+            <li class="lb-std"><span class="input-group ">@Resource.ProductMo:</span>@Html.TextBox("ProductMo", "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
             <!--貨品編碼-->
-            <li class="lb-std"><span class="input-group ">@Resource.ProductID：</span>@Html.TextBox("ProductID", "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
+            <li class="lb-std"><span class="input-group ">@Resource.ProductID:</span>@Html.TextBox("ProductID", "", new { @class = "easyui-textbox", @style = "width:72%" })</li>
         </ul>
     }
     <div class="areabx_divider"></div>
@@ -51,10 +65,10 @@
 
             $("#btnSerach").click(function () {
                 //還原狀態為只讀,以免父頁頁新增新單時未結束時點查詢,原因主頁面時控件可修改
-                window.parent.Purchase.Pur.disableMaster(true);//只讀
-                window.parent.Purchase.Pur.disableDetails(true);//只讀
-                window.parent.Purchase.Pur.setEditMasterButtonSatus(false);//btnEdit disable
-                window.parent.Purchase.Pur.setEditDetailButtonSatus(false);//btnEditItem disable
+                window.parent.PUR.disableMaster(true);//只讀
+                window.parent.PUR.disableDetails(true);//只讀
+                window.parent.PUR.setEditMasterButtonSatus(false);//btnEdit disable
+                window.parent.PUR.setEditDetailButtonSatus(false);//btnEditItem disable
                 window.parent.document.getElementById("ActionType_H").value = "";
                 window.parent.document.getElementById("ActionType_D").value = "";
                 SearchData();
@@ -65,7 +79,42 @@
             });
 
             initDate();//初始化日期
+
+            $("input", $("#OrderDate1").next("span")).blur(function () {
+                //var strDate = $("#OrderDate1").textbox('getValue');
+                var strDate = this.value;               
+                if (strDate) {
+                    //判斷日期字符串是否有效.
+                    if (window.parent.COMM.CheckDateTime('date',strDate)) {
+                        strDate = window.parent.COMM.dateFormatter(window.parent.COMM.getDateString(strDate));                        
+                    } else {
+                        strDate = '';//輸入的日期有誤,清空輸入的日期
+                    }
+                    $("#OrderDate1").textbox('setValue', strDate);//賦值
+                }
+            });
+            $("input", $("#OrderDate2").next("span")).blur(function () {
+                var strDate = this.value;
+                if (strDate) {                   
+                    if (window.parent.COMM.CheckDateTime('date', strDate)) {
+                        strDate = window.parent.COMM.dateFormatter(window.parent.COMM.getDateString(strDate));
+                    } else {
+                        strDate = '';//輸入的日期有誤,清空輸入的日期
+                    }
+                    $("#OrderDate2").textbox('setValue', strDate);//賦值                     
+                }
+            });            
         });
+        //返回yyy-MM-dd字符串日期格式
+        function getDateString(strDate) {
+            var st = strDate;
+            var a = st.split(" ");
+            var b = a[0].split("-");
+            //var c = a[1].split(":");
+            //var date = new Date(b[0], b[1], b[2], c[0], c[1], c[2]);
+            var date = new Date(b[0], b[1], b[2]);
+            return date;
+        }        
 
         //獲取服務器時間
         function initDate() {
@@ -74,7 +123,7 @@
         function setDate(result) {
             var strDate = result.current_date;
             $("#OrderDate2").textbox("setValue", strDate);            
-            strDate = window.parent.so.dateAdd(window.parent.so.dateParse(strDate), -7);
+            strDate = window.parent.COMM.dateAdd(window.parent.COMM.dateParse(strDate), -7);
             $("#OrderDate1").textbox("setValue", strDate);
         }
 
@@ -156,7 +205,7 @@
                 var ID = RowFindByID[0].ID;
                 var obj = window.parent.document.getElementById("ID");
                 obj.value = ID;//父窗頁面中的對象賦值
-                window.parent.Purchase.Pur.SearchBuyHead();
+                window.parent.PUR.SearchBuyHead();
                 window.parent.SearchBuyDetails();
                 window.parent.closeWindow();
             }

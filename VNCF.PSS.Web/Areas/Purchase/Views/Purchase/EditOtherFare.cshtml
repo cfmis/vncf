@@ -62,14 +62,14 @@
 
             //綁定訂單數量對象失去焦點事件
             $("input", $("#Qty,#Price").next("span")).blur(function () {
-                //Purchase.Pur.setItemAmount();
+                //PUR.setItemAmount();
                 alert("test");
             });
 
             $("#btnItem").click(function () {
                 if(document.getElementById("ActionType").value == "NEW")
                 {
-                    Purchase.Pur.openWin('FindOtherFareItem', 'Other Fare Item', 850, 530, 0);
+                    PUR.openWin('FindOtherFareItem', 'Other Fare Item', 850, 530, 0);
                 }
             });
 

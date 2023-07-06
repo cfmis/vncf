@@ -313,14 +313,14 @@
                         },
                         addNew() {
                             this.edit_mode = 1;
-                            nowDateTime = comm.getCurrentDateTime();
+                            nowDateTime = COMM.getCurrentDateTime();
                             this.formData = {
                                 ID:0,
                                 EditFlag: 1,
                                 BarCode: '',
                                 PrdDep: '',
                                 ProductMo: '',
-                                PrdDate: comm.getCurrentDate(),
+                                PrdDate: COMM.getCurrentDate(),
                                 GoodsID: '',
                                 GoodsCname:'',
                                 PrdQty: 0,
@@ -333,7 +333,7 @@
                                 WorkerID: '',
                                 PrdClass: '',
                                 PrdGroup: '',
-                                StartTime: comm.getCurrentTime(),
+                                StartTime: COMM.getCurrentTime(),
                                 EndTime: '',
                                 WorkHours: 0,
                                 OtHours: 0,
@@ -401,9 +401,9 @@
                             this.countProductTimes();
                         },
                         EndTimeClickEvent(){
-                            var te=comm.getCurrentTime();
+                            var te=COMM.getCurrentTime();
                             if(this.formData.EndTime=='')
-                                this.formData.EndTime=comm.getCurrentTime();
+                                this.formData.EndTime=COMM.getCurrentTime();
                         },
                         countProductTimes(){
                             if(this.formData.StartTime!=''&&this.formData.EndTime!='')

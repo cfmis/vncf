@@ -1,7 +1,7 @@
 ﻿/**
  * 銷售訂單錄入
  */
-var so = {
+var SO = {
     //最大單據編號
     getMaxOcID: function (area) {
         Ajax.call('GetMaxOcID', '&strArea=' + area, setMaxOcID, 'GET', 'JSON');
@@ -27,10 +27,10 @@ var so = {
         }
     },
     //貨幣匯率
-    getCurrencyRate:function ()  {
+    getCurrencyRate: function ()  {
         var id = $("#CurrencyID").combobox("getValue");
         if (id) {
-            Ajax.call('GetCurrencyRate', '&strCurrencyID=' + id, this.setCurrencyRate, 'GET', 'JSON');
+            Ajax.call('GetCurrencyRate', '&strCurrencyID=' + id, SO.setCurrencyRate, 'GET', 'JSON');
         }    
     },
     setCurrencyRate: function (result) {
@@ -42,7 +42,7 @@ var so = {
         if (id) {
             id = id.toUpperCase();
             $("#ProductID").textbox('setValue', id);//賦值
-            Ajax.call('/SalesOrder/GetProductID', '&strProductID=' + id, setProductDesc, 'GET', 'JSON');       
+            Ajax.call('/SalesOrder/GetProductID', '&strProductID=' + id, SO.setProductDesc, 'GET', 'JSON');       
         }    
     },
     setProductDesc: function (result) {
@@ -92,7 +92,7 @@ var so = {
             //$('#Area').combobox({ readonly: false });
         }
     },
-    ////單據狀態,頁數狀態只讀
+    //單據狀態,頁數狀態只讀
     //disableSate: function () {
     //    $('#State').combobox('readonly', false).combobox('textbox').prev().show();//
     //    $('#State').combobox('readonly', true).combobox('textbox').prev().hide();
@@ -125,31 +125,22 @@ var so = {
             });
         }
     },
-    //設置控件字體大小
+    /**設置控件字體大小*/
     setFontSize: function () {
         var tb = $('.font_group');
         $.each(tb, function (n, value) {
             $(value).textbox('textbox').css("font-size", "9px");
         });
     },
-    //設置控件屬性為只讀的背景色為灰色
+    /**設置控件屬性為只讀的背景色為灰色*/
     setReadonlyBackground:function () {
         var tb = $('.myReadonly');
         $.each(tb, function (n, value) {
             $(value).textbox('textbox').css('background', '#F0F0F0');
         });
     },
-    setHeadIDVer: function (id) {
-        debugger;
-        $("#OcID").textbox("setValue", id);//生成的頁數
-        $("#Ver").textbox("setValue", '0');
-        
-        //debugger;
-        //this.formHeadData.OcID = id;
-        //this.formHeadData.Ver = '0';
-    },
-
-    //*****可以直接輸入下拉列表框中存在的值,輸入下拉列表框中不存在的值,回車自動清空
+    
+    /**可以直接輸入下拉列表框中存在的值,輸入下拉列表框中不存在的值,回車自動清空*/
     check_input_unit: function (obj) {
         var valueField = $(obj).combobox("options").valueField;
         var val = $(obj).combobox("getValue");  //当前combobox的值
@@ -189,7 +180,7 @@ var so = {
     //        $("#EditDetails").form("load", row);        
     //    };
     //}
-    //設置主檔工具欄按鈕狀態
+    /**設置主檔工具欄按鈕狀態*/
     setEditMasterButtonSatus: function (isDisable) {
         if (isDisable) {
             $('#btnNew').linkbutton('disable');
@@ -209,7 +200,7 @@ var so = {
             $('#btnImport').linkbutton('enable');
         }
     },
-    //設置OC明細工具欄按鈕狀態
+    /**設置OC明細工具欄按鈕狀態*/
     setEditDetailButtonSatus: function (isDisable) {
         if (isDisable) {
             $('#btnEditItem').linkbutton('disable');
@@ -441,52 +432,8 @@ var so = {
         $('#State').combobox('readonly', true).combobox('textbox').prev().hide();
         $('#MoState').combobox('readonly', false).combobox('textbox').prev().show();//
         $('#MoState').combobox('readonly', true).combobox('textbox').prev().hide();
-    },
-    /**
-     * 日期解析，字符串转日期
-     * @param dateString 可以为2017-02-16，2017/02/16，2017.02.16
-     * @returns {Date} 返回对应的日期对象
-     */
-    dateParse: function (dateString) {
-        var SEPARATOR_BAR = "-";
-        var SEPARATOR_SLASH = "/";
-        var SEPARATOR_DOT = ".";
-        var dateArray;
-        if (dateString.indexOf(SEPARATOR_BAR) > -1) {
-            dateArray = dateString.split(SEPARATOR_BAR);
-        } else if (dateString.indexOf(SEPARATOR_SLASH) > -1) {
-            dateArray = dateString.split(SEPARATOR_SLASH);
-        } else {
-            dateArray = dateString.split(SEPARATOR_DOT);
-        }
-        return new Date(dateArray[0], dateArray[1] - 1, dateArray[2]);
-    },
-    /**
-     * 日期加减多少天
-     * @param dateObj 日期对象
-     * @param days 加减天数
-     * @returns 
-     */
-    dateAdd:function (dateObj, days) {
-        dateObj.setDate(dateObj.getDate() + days);
-        var y = dateObj.getFullYear();
-        var m = dateObj.getMonth() + 1;
-        var d = dateObj.getDate();
-        var strdate= y + '-' + (m < 10 ? ('0' + m) : m) + '-' + (d < 10 ? ('0' + d) : d);
-        return strdate;
-    },
-    //返回當前客戶端日期
-    iniDate: function () {
-        var datetime = new Date();
-        var year = datetime.getFullYear();
-        var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
-        var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
-        //var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours(); 
-        //var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes(); 
-        //var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds(); 
-        //return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
-        return year + "-" + month + "-" + date
-    },
+    },    
+    
     /**
      *計算貨品金額
     */
@@ -1012,15 +959,7 @@ var so = {
             }
         });
         win.dialog('open');
-    },
-    getCurrentRowIndex: function (obj) {
-        var index = undefined;
-        var rowdata = $(obj).datagrid('getSelected');
-        if (rowdata) {
-            index = $(obj).datagrid('getRowIndex', rowdata);
-        }
-        return index
-    },
+    },    
     checkPlan:function (id,ver,seq) {
         var result = false;
         var postData = {OcID:id,Ver:ver,Seq:seq};
@@ -1130,66 +1069,7 @@ var so = {
     //    }
     //},
 
-    /* 
-    *   功能:实现VBScript的DateAdd功能. 
-    *   参数:interval,字符串表达式，表示要添加的时间间隔. 
-    *   参数:number,数值表达式，表示要添加的时间间隔的个数. 
-    *   参数:date,时间对象. 
-    *   返回:新的时间对象. 
-    *   var now = new Date(); 
-    *   var newDate = DateAdd("d",5,now); 
-    *--------------- DateAdd(interval,number,date) ----------------- 
-    */
-    DateAdd: function (interval, number, date) {
-        
-        switch (interval) {
-            case "y": {
-                date.setFullYear(date.getFullYear() + number);
-                return date;
-                break;
-            }
-            case "q": {
-                date.setMonth(date.getMonth() + number * 3);
-                return date;
-                break;
-            }
-            case "m": {
-                date.setMonth(date.getMonth() + number);
-                return date;
-                break;
-            }
-            case "w": {
-                date.setDate(date.getDate() + number * 7);
-                return date;
-                break;
-            }
-            case "d": {
-                date.setDate(date.getDate() + number);
-                return date;
-                break;
-            }
-            case "h": {
-                date.setHours(date.getHours() + number);
-                return date;
-                break;
-            }
-            case "mi": {
-                date.setMinutes(date.getMinutes() + number);
-                return date;
-                break;
-            }
-            case "s": {
-                date.setSeconds(date.getSeconds() + number);
-                return date;
-                break;
-            }
-            default: {
-                date.setDate(d.getDate() + number);
-                return date;
-                break;
-            }
-        }
-    }
+
 
 }
 

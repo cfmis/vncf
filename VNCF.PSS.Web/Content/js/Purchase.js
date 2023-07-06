@@ -2,25 +2,17 @@
  * 採購單
 */
 
-var Purchase = window.NameSpace || {};
-
-Purchase.Pur = new function () {
-    var self = this;
-    //var name = 'Allen';
-    //self.sayHello = function (_name) {
-    //    return 'Hello ' + (_name || name);
-    //};
-
+var PUR = { 
     /**
     * 當前頁面設置公共變量
     * 设置值 
     * @@param name
     * @@param value
     */
-    //self.setValue =function(name, value) {
+    //setValue: function(name, value) {
     //    var self = this;
-    //    console.info('self:', self);
-    //    console.info('self==window:', self == window);
+    //    //console.info('self:', self);
+    //    //console.info('self==window:', self == window);        
     //    if (arguments.length == 2) {
     //        self[name] = value;
     //        return;
@@ -31,34 +23,36 @@ Purchase.Pur = new function () {
     //            //self[key]=arguments[0][key];
     //        }
     //    }
-    //}
+    //},
+    
+    
 
     //單據狀態
-    self.disableSate = function () {
+    disableSate: function () {
         $('#State').combobox('readonly', false).combobox('textbox').prev().show();
         $('#State').combobox('readonly', true).combobox('textbox').prev().hide();
-    }
+    },
 
     //提取採購員名稱
-    self.getBuyerName = function () {
+    getBuyerName: function () {
         var id = $("#BuyerID").val();
         if (id) {
             id = id.toLocaleUpperCase();
             $("#BuyerID").textbox("setValue", id);//賦值
             Ajax.call('GetBuyerName', '&strBuyerID=' + id, this.setBuyerName, 'GET', 'JSON');
         }
-    }
-    this.setBuyerName = function (result) {
+    },
+    setBuyerName: function (result) {
         $("#BuyerID").textbox("setValue", result.BuyerID);
         $("#BuyerName").textbox("setValue", result.BuyerName);
         if (result.BuyerName == "") {
             $("#BuyerID").textbox("setValue", "");
             $("#BuyerName").textbox("setValue", "");
         }
-    }
+    },
 
     //設置主檔編輯狀態
-    self.disableMaster = function (isDisable) {
+    disableMaster: function (isDisable) {
         //上面这句代码的意思是将form表单里面除了样式为.btn btn-primary,.back的元素都置为只读
         if (isDisable) {
             //只讀
@@ -77,10 +71,10 @@ Purchase.Pur = new function () {
                 $(value).textbox('textbox').attr('readonly', true);
             });
         }
-    }
+    },
    
     //設置明細的編輯狀態
-    self.disableDetails = function (isDisable) {
+    disableDetails: function (isDisable) {        
         //查某對象類名className = $("#MoType").attr("class");//var className = $("#GetColorSample").attr("class");
         //此代码意思是将form表单里面除了样式为.not('.btn btn-primary,.back').btn btn-primary,.back的元素都置为只读        
         if (isDisable) {
@@ -102,10 +96,10 @@ Purchase.Pur = new function () {
             });
             //checkbox 默認選中并不可點擊<input type="checkbox" name="ckb" checked disabled="disabled"/>
         }
-    }
+    },
 
     //最大單據編號
-    self.getMaxID = function () {
+    getMaxID: function () {
         //Ajax.call('GetMaxID', setMaxID, 'GET', 'JSON');       
         var postData = {};
         $.ajax({
@@ -120,18 +114,18 @@ Purchase.Pur = new function () {
                 $("#ID").textbox("setValue", data);//生成的頁數
                 $("#Ver").textbox("setValue", '0');
             },
-            error: this.ErrorFunction //错误执行方法
+            error: PUR.ErrorFunction //错误执行方法
         });
-    }
+    },
     
 
     //切換至指定的頁面(page)
-    self.setActivePage = function (PageTitle) {       
+    setActivePage: function (PageTitle) {       
         $("#tabPages").tabs("select", PageTitle);//設置活動的page
-    }
+    },
 
     //非活動員禁用
-    self.disableTabs = function (tableID, arrLenth, isEnableOtherTab) {
+    disableTabs: function (tableID, arrLenth, isEnableOtherTab) {
         var arr = [];
         for (i = 0; i < arrLenth; i++) {
             arr[i] = i;
@@ -153,17 +147,17 @@ Purchase.Pur = new function () {
             $(tableID).tabs(strDisable, value);
         });
         $(tableID).tabs('enableTab', index); //指定當前激活Tab   
-    }
+    },
 
     //設置供應商信息
-    self.getVendorInfo = function() {
+    getVendorInfo: function() {
         var id = $("#VendorID").combobox("getValue");
         if (id) {
             Ajax.call('GetVendorData', '&strVendorID=' + id, this.setVendorInfo, 'GET', 'JSON');
         }
-    }
+    },
 
-    self.setVendorInfo = function (result) {
+    setVendorInfo: function (result) {
         $("#VendorAddress").textbox("setValue", result.VendorAddress);
         $("#Contacts").textbox("setValue", result.Contacts);
         $("#ContactsTel").textbox("setValue", result.ContactsTel);
@@ -171,12 +165,12 @@ Purchase.Pur = new function () {
         $("#Vendor").val(result.Vendor);
         $("#CurrencyID").combobox("setValue", result.CurrencyID);
         $("#CurrencyRate").textbox("setValue", result.CurrencyRate);
-    }
+    },
 
     /**
     *計算貨品金額
     */
-    self.setItemAmount = function (operation, seq) {        
+    setItemAmount: function (operation, seq) {        
         var Products_Amount = 0, Others_Amount = 0;
         var current_row_amt = 0, AmountDiscount = 0;
         var TotalProductAmt = 0, TotalAmount = 0;
@@ -194,7 +188,7 @@ Purchase.Pur = new function () {
                 Products_Amount = data.TotalSum;
                 Others_Amount = data.Price;//其它費用
             },
-            error: this.ErrorFunction //错误执行方法
+            error: PUR.ErrorFunction //错误执行方法
         });
 
         //加上當前正在編輯的金額
@@ -241,9 +235,9 @@ Purchase.Pur = new function () {
         $("#OtherAmt").textbox("setValue", Others_Amount.toFixed(2));
         $("#PaymentAmt").textbox("setValue", TotalProductAmt.toFixed(2));
         $("#TotalAmt").textbox("setValue", TotalAmount.toFixed(2));
-    }
+    },
 
-    //self.getTotalAmt = function (id, ver, seq){
+    //getTotalAmt: function (id, ver, seq){
     //    var Products_Amount = 0;
     //    var Others_Amount = 0;
     //    var postData = { strID: id, Ver: ver, strSeq: seq };
@@ -258,13 +252,13 @@ Purchase.Pur = new function () {
     //            Products_Amount = data.TotalSum;
     //            Others_Amount = data.Price;//其它費用
     //        },
-    //        error: this.ErrorFunction //错误执行方法
+    //        error: PUR.ErrorFunction //错误执行方法
     //    });
     //}
 
 
     //取附加費用總金額
-    self.setTotalAmtOtherFare = function (id, ver, fare_id, operation,curent_row_amount) {        
+    setTotalAmtOtherFare: function (id, ver, fare_id, operation,curent_row_amount) {        
         //后端統計不包括當前行            
         var postData = { strID: id, Ver: ver, strFareID: fare_id };
         var OtherAmount = 0.00;
@@ -287,12 +281,11 @@ Purchase.Pur = new function () {
                 $("#PaymentAmt").textbox("setValue", PaymentAmt);//總貨品金額
                 $("#TotalAmt").textbox("setValue", parseFloat(PaymentAmt) + parseFloat(OtherAmount)); //總貨金額
             },
-            error: this.ErrorFunction //错误执行方法
+            error: PUR.ErrorFunction //错误执行方法
         });
-    };
+    },
 
-
-    self.clearDetailHead = function(){
+    clearDetailHead: function(){
         //查出曾落單繼續新增明細,注意點擊表grid表格時需將ActionType_D設置為空
         $("#addFormDetails").form("clear");//清空明細表頁面表頭  
         $("#OrderQty").textbox("setValue", "0");//普通控件賦值
@@ -304,28 +297,28 @@ Purchase.Pur = new function () {
         $("#PriceUnit").combobox("setValue", "PCS");       
 
         $("#ActionType_D").val("NEW");
-        $("#Seq").val("");
-        this.disableDetails(false); //明細可編輯        
+        $("#Seq").val("");        
+        this.disableDetails(false); //明細可編輯   
         this.disableSate();//設置狀態只讀
-    }
+    },
 
     ////設置供應商信息
-    //self.test = function () {
+    //self.test:  function () {
     //    Ajax.call('test', '', '', 'GET', 'JSON');
         
     //}
 
-   self.SearchBuyHead = function () {
+   SearchBuyHead: function () {
         //Ajax异步实现加载
         $.ajax({
             //url: "/SalesOrder/GetOcHead?OcID=" + $("#OcID").val(),
             url: "GetBuyHead?ID=" + $("#ID").val(),
-            success: this.FillBuyHead,
-            error: this.ErrorFunction //错误执行方法
+            success: PUR.FillBuyHead,
+            error: PUR.ErrorFunction //错误执行方法
         })
-   }
+   },
    
-   self.FillBuyHead = function (data) {
+   FillBuyHead: function (data) {
        for (var item in data) {
            var rows = data[item];//key所对应的value
            //var val = jValue[0]["ProductMo"];
@@ -359,10 +352,10 @@ Purchase.Pur = new function () {
            $("#UpdateBy").textbox('setValue', rows["UpdateBy"]);
            $("#UpdateAt").textbox('setValue', rows["UpdateAt"]);
        }
-   }
+   },
 
    //點擊表格行填充明細表頭
-   self.FillBuyDetails = function () {
+   FillBuyDetails: function () {
        var RowFindByID = $('#tbDetails').datagrid('getSelections');
        if (RowFindByID.length == 1) {
            //实现绑定数据显示
@@ -393,15 +386,14 @@ Purchase.Pur = new function () {
        else {
            //每次只能修改一条，你已经选择了<font color='red'  size='6'>
            //$.messager.alert('提示信息', "每次只能修改一条，你已经选择了<font color='red'  size='6'>" + RowFindByID.length + "</font>条");
-           $.messager.alert(window['msg_system_prompt'], window['msg_only_select_one'] + RowFindByID.length + "</font>条");
+           $.messager.alert(localStorage.getItem('msg_system_prompt'), localStorage.getItem('msg_only_select_one') + RowFindByID.length + "</font>条");
        }
-   }
+   },
 
-
-   /***
+   /**
    *主表,明細表同時保存
    */
-   self.Save = function () {
+   Save: function () {
        //檢查主表、明細表資料的完整性
        if (!ValidForm()) {
            return;
@@ -430,17 +422,17 @@ Purchase.Pur = new function () {
                    //$('#AddDialog').dialog('close');
                    //$("#tbDetails").datagrid("reload");
                    //$("#addForm").form("clear")
-                   //主表明細重新查詢出數據
-                   SearchBuyDetails();
+                   //主表明細重新查詢出數據                   
+                   SearchBuyDetails(); //定義在SalesOrder.html頁數中javascript函數
                    //數據保存成功!
-                   $.messager.alert(window['msg_system_prompt'], window['msg_saved_success']);
+                   $.messager.alert(localStorage.getItem('msg_system_prompt'), localStorage.getItem('msg_saved_success'));
                }
                else {
                    //添加明細資料失败
-                   $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00004'));
+                   $.messager.alert(localStorage.getItem('msg_system_prompt'), GetSystemMessage('CN00004'));
                }
            },
-           error: this.ErrorFunction //错误执行方法 
+           error: PUR.ErrorFunction //错误执行方法 
        })
 
        //保存成功后設置明細項目新增可用的初始狀態
@@ -459,14 +451,14 @@ Purchase.Pur = new function () {
        //disableDetails(false); //明細可編號
        //disableGenMoAndOcID(false); //可生成頁數
        //disableSate();//設置狀態只讀
-   }
+   },
 
    /*
    *保存主表
    */
-   self.SaveMaster = function () {
+   SaveMaster: function () {
        var postData = $("#addFormHead").serializeArray();
-       var ID = "";
+       var result = "";
        //Ajax异步实现加载
        $.ajax({
            //url: "/SalesOrder/AddHead",
@@ -476,20 +468,20 @@ Purchase.Pur = new function () {
            type: "post",
            success: function (data) {
                if (data == "OK") {
-                   ID = data;
+                   result = data;
                }
                else {
                    //主檔資料添加失败                
-                   $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00005'));
+                   $.messager.alert(localStorage.getItem('msg_system_prompt'), GetSystemMessage('CN00005'));
                }
            },
-           error: this.ErrorFunction //错误执行方法
+           error: PUR.ErrorFunction //错误执行方法
        })
-       return ID;
-   }
+       return result;
+   },
 
    //保存附加費用
-   self.saveOtherFare = function (postData) {
+   saveOtherFare: function (postData) {
        var save_flag = "";
        $.ajax({
            //url: "/SalesOrder/AddSalesBom",
@@ -502,25 +494,25 @@ Purchase.Pur = new function () {
                if (data == "OK") {
                    save_flag = "OK";
                    //數據保存成功
-                   $.messager.alert(window['msg_system_prompt'], window['msg_saved_success']);
+                   $.messager.alert(localStorage.getItem('msg_system_prompt'), localStorage.getItem('msg_saved_success'));
                }
                else {
-                   //當前項目添加失敗
-                   $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00006'));
+                   //當前項目添加失敗,
+                   //GetSystemMessage('CN00006'),從vncf_common.js中調用GetSystemMessage()函數
+                   $.messager.alert(localStorage.getItem('msg_system_prompt'), GetSystemMessage('CN00006'));
                }
            }
        });
        return save_flag;
-   }
+   },
 
-
-  self.ErrorFunction = function (data) {
+  ErrorFunction: function (data) {
        //提取后臺數據出錯
-       $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00003'));
-  }
+      $.messager.alert(localStorage.getItem('msg_system_prompt'), GetSystemMessage('CN00003'));
+  },
 
   //details undo change
-  self.setUndo = function () {
+  setUndo: function () {
       //當更改貨品編號,按取消按鈕時恢復到原來的值
       var RowFindByID = $('#tbDetails').datagrid('getSelections');
       if (RowFindByID.length == 1) {
@@ -532,53 +524,78 @@ Purchase.Pur = new function () {
               $('#ProductID').next('span').find('input').focus();
           }
       }
-  }
+  },
 
-    //更改主表信息,保存前檢查
-  self.EditMaster = function (title) {
+  //更改主表信息,保存前檢查
+  EditMaster: function (title) {
       this.setActivePage(title);
       if ($('#ActionType_H').val() == "NEW") {
           //主表資料為新增狀態,不可進行此操作！"       
-          $.messager.alert(window['msg_system_prompt'], GetSystemMessage('OC00001'));
+          $.messager.alert(localStorage.getItem('msg_system_prompt'), GetSystemMessage('OC00001'));
           return;
       }
       if ($('#ID').val() == "") {
           //當前主表資料為空,不可進行此操作！"
           //$.messager.alert(window['msg_system_prompt'], window['msg_master_data_is_empty']);
-          $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00001'));
+          $.messager.alert(localStorage.getItem('msg_system_prompt'), GetSystemMessage('CN00001'));
           return;
       }
       this.disableTabs("#tabPages", 2, true);//非活動Tab禁用
       $('#ActionType_H').val("EDIT");//設置狀態
       this.setEditMasterButtonSatus(true)
-      this.disableMaster(false);//對象可修改      
+      this.disableMaster(false);//對象可修改
       this.disableSate();//設置狀態只讀
-  }
+  },
+  //放棄編輯主檔
+  UndoEditMaster: function () {
+      this.setEditMasterButtonSatus(false)
+      this.disableMaster(true);//對象不可修改
+      this.disableTabs("#tabPages", 2, false);//非活動Tab解除禁用
+      $('#ActionType_H').val("");
+  },
 
+  //保存修改的主表信息
+  SaveEditMaster: function () {
+      var msg_system_prompt = localStorage.getItem("msg_system_prompt");
+      var msg_saved_master_success = localStorage.getItem("msg_saved_master_success");
+      var valid = $("#addFormHead").form('validate');
+      if (valid == false) {
+          //請檢查主檔資料的完整性         
+          $.messager.alert(msg_system_prompt, GetSystemMessage('CN00001'));
+          return;
+      }
+      var result = this.SaveMaster();
+      if (result == "OK") {
+          //主表資料保存成功
+          $.messager.alert(msg_system_prompt, msg_saved_master_success);
+          this.setEditMasterButtonSatus(false)
+          this.disableMaster(true);//對象不可修改
+          this.disableTabs("#tabPages", 2, false);//非活動Tab解禁
+          $('#ActionType_H').val("");
+      }
+  },
 
   //設置主檔工具欄按鈕狀態
-  self.setEditMasterButtonSatus = function (isDisable) {
+  setEditMasterButtonSatus: function (isDisable) {
       if (isDisable) {
           $('#btnNew').linkbutton('disable');
           $('#btnEdit').linkbutton('disable');
           $('#btnSave').linkbutton('enable');
           $('#btnUndo').linkbutton('enable');
-          $('#btnSerach').linkbutton('disable');
-          $('#btnPrint').linkbutton('disable');
-          $('#btnImport').linkbutton('disable');
+          $('#btnSearch').linkbutton('disable');
+          $('#btnPrint').linkbutton('disable');          
       } else {
           $('#btnNew').linkbutton('enable');
           $('#btnEdit').linkbutton('enable');
           $('#btnSave').linkbutton('disable');
           $('#btnUndo').linkbutton('disable');
-          $('#btnSerach').linkbutton('enable');
-          $('#btnPrint').linkbutton('enable');
-          $('#btnImport').linkbutton('enable');
+          $('#btnSearch').linkbutton('enable');
+          $('#btnPrint').linkbutton('enable');          
       }
-  }
+  },
 
   //設置OC明細工具欄按鈕狀態
-  self.setEditDetailButtonSatus = function (isDisable) {
+  setEditDetailButtonSatus: function (isDisable) {
       if (isDisable) {
           $('#btnEditItem').linkbutton('disable');
           $('#btnSaveItem').linkbutton('enable');
@@ -604,10 +621,10 @@ Purchase.Pur = new function () {
           $('#btnSerach').linkbutton('enable');
           $('#btnPrint').linkbutton('enable');
       }
-  }
+  },
 
   //設置其他費用工具欄按鈕狀態
-  self.setOtherFareButtonSatus = function (isDisable) {
+  setOtherFareButtonSatus: function (isDisable) {
       if (isDisable) {
           $('#btnEditItemBom').linkbutton('disable');
           $('#btnSaveItemBom').linkbutton('enable');
@@ -631,11 +648,10 @@ Purchase.Pur = new function () {
           $('#btnSerach').linkbutton('enable');
           $('#btnPrint').linkbutton('enable');
       }     
-  }
+  },
 
-
-    //禁用/恢復其他費用工具欄按鈕(OC明細操作時)
-  self.disableOtherFareToolbar = function (isDisable) {
+  //禁用/恢復其他費用工具欄按鈕(OC明細操作時)
+  disableOtherFareToolbar: function (isDisable) {
       if (isDisable) {
           //禁用
           $('#btnAddItemBom').linkbutton('disable');
@@ -653,10 +669,10 @@ Purchase.Pur = new function () {
           $('#btnDeleteItemBom').linkbutton('enable');
           $('#btnReloadItemBom').linkbutton('enable');
       }
-  }
+  },
 
-    //禁用/恢復OC明細工具欄按鈕(SalesBOM明細操作時)
-  self.disableOCToolbar = function (isDisable) {
+  //禁用/恢復OC明細工具欄按鈕(SalesBOM明細操作時)
+  disableOCToolbar: function (isDisable) {
       if (isDisable) {
           //禁用
           $('#btnAddItem').linkbutton('disable');
@@ -676,10 +692,10 @@ Purchase.Pur = new function () {
           $('#btnBlank').linkbutton('enable');
           $('#btnReload').linkbutton('enable');
       }
-  }
+  },
 
   //附加費編號 FareID 失去焦點調用的函數
-  self.setFareIDblur = function (index) {
+  setFareIDblur: function (index) {
       var t = $("#tbOtherFare");
       t.datagrid('selectRow', index);
       t.datagrid('beginEdit', index);             
@@ -692,22 +708,22 @@ Purchase.Pur = new function () {
               var item = edFareID.target.val(); //取值
               if (item.length > 0) {
                   item = item.toUpperCase();
-                  var tmp = this.checkFareID(item);
+                  var tmp = PUR.checkFareID(item);
                   if (tmp.Cdesc != "") {
                       edFareID.target.val(item);
                       edName.target.val(tmp.Cdesc);
                   } else {
                       //無效的產品編號
-                      $.messager.alert(window['msg_system_prompt'], GetSystemMessage('CN00007'));
+                      $.messager.alert(localStorage.getItem("msg_system_prompt"), GetSystemMessage('CN00007'));
                       edFareID.target.val('');
                       edName.target.val('');
                   }
               }
           });
       }
-  }
+  },
 
-  self.checkFareID = function (id) {
+  checkFareID: function (id) {
       var result = "{Cdesc:'',Edesc:''}";
       $.ajax({
           //url: "/SalesOrder/GetProductID?strProductID=" + id,
@@ -719,13 +735,13 @@ Purchase.Pur = new function () {
           success: function (data) {
               result = data;
           },
-          error: this.ErrorFunction //错误执行方法
+          error: PUR.ErrorFunction //错误执行方法
       })
       return result;
-  }
+  },
 
   //彈出模式窗口返回值至父窗口
-  self.openWin = function (url, title, width, height, rowIndex, shadow) {
+  openWin: function (url, title, width, height, rowIndex, shadow) {
       var content = '<iframe src="' + url + '" width="100%" height="99%" frameborder="0" scrolling="no"></iframe>';
       var boarddiv = '<div id="msgwindow" title="' + title + '"></div>'//style="overflow:hidden;"可以去掉滚动条
       $(document.body).append(boarddiv);
