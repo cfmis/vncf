@@ -69,7 +69,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             else if (LanguageID == "1")
                 strSql += "c.english_name AS GoodsCname";
             else
-                strSql += "d.vn_name1 AS GoodsCname";
+                strSql += "e.vn_name1 AS GoodsCname";
             strSql += " From oc_OrderHead a " +
             " Inner Join oc_OrderDetails b ON a.OcID=b.OcID" +
             " Left Join it_goods c ON b.ProductID=c.id " +

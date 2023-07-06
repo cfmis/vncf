@@ -351,7 +351,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Prod\Js\Prod.js" />
+    <Content Include="Areas\Prod\Js\Plan.js" />
     <Content Include="Areas\Sales\AspNetReports\Order.aspx" />
     <Content Include="Areas\Sales\AspNetReports\SalesOrder.aspx" />
     <Content Include="Config\AdminMenuConfig.xml" />
@@ -587,6 +587,7 @@
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <Content Include="Reports\purchase.frx" />
     <Content Include="Reports\so.frx" />
+    <Content Include="Reports\rptPlan.frx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
