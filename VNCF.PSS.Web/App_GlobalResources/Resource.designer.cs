@@ -745,6 +745,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fare ID.
+        /// </summary>
+        internal static string FareId {
+            get {
+                return ResourceManager.GetString("FareId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Additional fee Decscription .
+        /// </summary>
+        internal static string FareIdDesc {
+            get {
+                return ResourceManager.GetString("FareIdDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Finshed Product.
         /// </summary>
         internal static string FinshedProduct {
@@ -1123,6 +1141,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Fare ID Cannot be empty !.
+        /// </summary>
+        internal static string msg_fare_id_is_empty {
+            get {
+                return ResourceManager.GetString("msg_fare_id_is_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to do this operation?.
         /// </summary>
         internal static string msg_is_confirm_this_operation {
@@ -1209,6 +1236,24 @@ namespace Resources {
         internal static string msg_only_select_one {
             get {
                 return ResourceManager.GetString("msg_only_select_one", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Price Cannot be empty !.
+        /// </summary>
+        internal static string msg_price_is_empty {
+            get {
+                return ResourceManager.GetString("msg_price_is_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Quantity Cannot be empty !.
+        /// </summary>
+        internal static string msg_qty_is_empty {
+            get {
+                return ResourceManager.GetString("msg_qty_is_empty", resourceCulture);
             }
         }
         
@@ -1659,6 +1704,15 @@ namespace Resources {
         internal static string PurchaseID {
             get {
                 return ResourceManager.GetString("PurchaseID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quantity.
+        /// </summary>
+        internal static string Qty {
+            get {
+                return ResourceManager.GetString("Qty", resourceCulture);
             }
         }
         

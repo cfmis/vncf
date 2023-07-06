@@ -762,4 +762,22 @@
   <data name="StartTime" xml:space="preserve">
     <value>StartTime</value>
   </data>
+  <data name="FareId" xml:space="preserve">
+    <value>Fare ID</value>
+  </data>
+  <data name="FareIdDesc" xml:space="preserve">
+    <value>The Additional fee Decscription </value>
+  </data>
+  <data name="msg_fare_id_is_empty" xml:space="preserve">
+    <value>The Fare ID Cannot be empty !</value>
+  </data>
+  <data name="msg_price_is_empty" xml:space="preserve">
+    <value>The Price Cannot be empty !</value>
+  </data>
+  <data name="msg_qty_is_empty" xml:space="preserve">
+    <value>The Quantity Cannot be empty !</value>
+  </data>
+  <data name="Qty" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
 </root>

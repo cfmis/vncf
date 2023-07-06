@@ -759,4 +759,22 @@
   <data name="StartTime" xml:space="preserve">
     <value>開始時間</value>
   </data>
+  <data name="FareId" xml:space="preserve">
+    <value>附加費用編號</value>
+  </data>
+  <data name="FareIdDesc" xml:space="preserve">
+    <value>附加費用描述</value>
+  </data>
+  <data name="msg_fare_id_is_empty" xml:space="preserve">
+    <value>附加費用編號不可為空</value>
+  </data>
+  <data name="msg_price_is_empty" xml:space="preserve">
+    <value>單價不可為空</value>
+  </data>
+  <data name="msg_qty_is_empty" xml:space="preserve">
+    <value>數量不可為空</value>
+  </data>
+  <data name="Qty" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
 </root>

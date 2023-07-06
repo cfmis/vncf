@@ -186,7 +186,7 @@
             <!--明細表格-->
             <div data-options="region:'center'" style="margin-top:10px">
                 <div class="easyui-layout" data-options="fit:true" style="background: #ccc;">
-                    <table id="tbDetails" class="easyui-datagrid" title="Details" style="width:100%;height:300px"
+                    <table id="tbDetails" class="easyui-datagrid" @*title="Details"*@ style="width:100%;height:350px"
                            data-options="singleSelect:true,collapsible:false, method:'get'"></table>
                 </div>
             </div>
@@ -281,7 +281,9 @@
             });
             //打開模式窗口,查詢貨品編碼
             $("#btnItem").click(function () {
-                findItem(null);
+                if ($("#ActionType_D").val() != "") {                   
+                    findItem(null);
+                }                
             });
             //貨品編號綁定失去焦點事件,查出貨品描述
             $("input", $("#ProductID").next("span")).blur(function () {
@@ -338,7 +340,7 @@
             $("#PriceUnit").combobox("setValue", "PCS");
 
             $("#ActionType_H").val("NEW");//隱藏提交某一值給一下表單或后臺
-            $("#ActionType_D").val("NEW");//隱藏提交某一值給一下表單或后臺
+            $("#ActionType_D").val("");//隱藏提交某一值給一下表單或后臺 2023/07/06將val("NEW")改成val("")
 
             PUR.getMaxID();
             PUR.disableMaster(false);//主表可編輯
@@ -427,11 +429,7 @@
                             $.messager.alert('@Resource.msg_system_prompt', GetSystemMessage('CN00001'));
                             PUR.setActivePage("Master");//設置主檔TAB為當前活動的
                             return;
-                        }
-                        @*if ($("#ID").val() == "") {
-                            $.messager.alert('@Resource.msg_system_prompt', '@Resource.msg_master_data_is_empty');
-                            return;
-                        }*@                        
+                        }                                               
                         PUR.clearDetailHead();
                         PUR.disableOtherFareToolbar(true);//禁用Other Fare工具欄按鈕                        
                         PUR.disableDetails(false);//明細可編輯
@@ -659,9 +657,8 @@
                 columns: [[
                 { field: "ID", title: "ID", width: 30, hidden: 'true' },
                 { field: "Ver", title: "Ver", width: 30, hidden: 'true' },
-                {
-                    //附加費用編號
-                    field: "FareID", title: "附加費用編號", width: 110
+                {                    
+                    field: "FareID", title: "@Resource.FareId", width: 110 //附加費用編號
                     //editor: {
                     //    type: 'validatebox',//設定編輯格式
                     //    options: { required: true }//設定編輯規則屬性
@@ -677,10 +674,9 @@
                         return btn;
                     }
                 },
-                 { field: "Name", title: "附加費用名稱", width: 200, editor: { type: 'validatebox' } },//附加費用名稱
-                 {
-                     //數量
-                     field: "Qty", title: "數量", width: 70, align: 'center',
+                 { field: "Name", title: "@Resource.FareIdDesc", width: 200, editor: { type: 'validatebox' } },//附加費用名稱
+                 {                     
+                     field: "Qty", title: "@Resource.Qty", width: 70, align: 'center',//數量
                      editor: {//設定其為可編輯
                          type: 'numberbox',//只能錄入數字
                          options: { required: true, align: 'center', min: 1, precision: 0 }
@@ -835,21 +831,21 @@
                             edProductID = editors[3];//產品編號
                         }
                         if (fare_id == "") {
-                            $.messager.alert("@Resource.msg_system_prompt", "附加费用编号不可为空!");//貨品編碼不可為空!
+                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_fare_id_is_empty !");//貨品編碼不可為空!
                             return;
                         }
                         if (edProductID.target.val() == "") {
-                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_item_code_cannot_be_empty");//貨品編碼不可為空!
+                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_item_code_cannot_be_empty !");//貨品編碼不可為空!
                             return;
                         }
                         if (edQty.target.val() == "") {
                             //數量不可為空
-                            $.messager.alert("@Resource.msg_system_prompt", "数量不为空");//数量不为空
+                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_qty_is_empty !");//数量不为空
                             return;
                         }
                         if (edPrice.target.val() == "") {
                             //單價不可為空
-                            $.messager.alert("@Resource.msg_system_prompt", "單價不可為空!");//單價不可為空!
+                            $.messager.alert("@Resource.msg_system_prompt", "@Resource.msg_price_is_empty !");//單價不可為空!
                             return;
                         }
                         name = edName.target.val();
