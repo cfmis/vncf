@@ -23,8 +23,7 @@ var PUR = {
     //            //self[key]=arguments[0][key];
     //        }
     //    }
-    //},
-    
+    //},    
     
 
     //單據狀態
@@ -256,30 +255,31 @@ var PUR = {
     //    });
     //}
 
-
     //取附加費用總金額
     setTotalAmtOtherFare: function (id, ver, fare_id, operation,curent_row_amount) {        
         //后端統計不包括當前行            
         var postData = { strID: id, Ver: ver, strFareID: fare_id };
-        var OtherAmount = 0.00;
+        var OtherAmt = 0.00;
         var PaymentAmt = 0.00;
+        var opt = operation;
         $.ajax({
             url: "GetTotalAmtOther",
             data: postData,
             type: "POST",
-            async: false,
+            async: false,//false:同步請求請求完成方可以進行下一步動作;true:異步請求
             dataType: "JSON",
             timeout: 20000,
-            success: function (data) {
-                OtherAmount = parseFloat(data.Price).toFixed(2);//其它費用         
+            success: function (data) {               
+                OtherAmt = parseFloat(data.Price).toFixed(2); //其它費用         
                 PaymentAmt = data.TotalSum; //貨品總金額                   
                 PaymentAmt = parseFloat((PaymentAmt == "" || PaymentAmt == 0) ? 0 : PaymentAmt).toFixed(2);
-                if (operation = 'NEW' || operation == 'EDIT') {
-                    OtherAmount = parseFloat(OtherAmount) + parseFloat(curent_row_amount);//后臺總其它費用金額 + 當前行其它費用金額                    
+                if (opt == 'NEW' || opt == 'EDIT') {
+                    OtherAmt = parseFloat(OtherAmt) + parseFloat(curent_row_amount); //后臺總其它費用金額 + 當前行其它費用金額                    
                 }
-                $("#OtherAmt").textbox("setValue", OtherAmount); //附加費用金額
-                $("#PaymentAmt").textbox("setValue", PaymentAmt);//總貨品金額
-                $("#TotalAmt").textbox("setValue", parseFloat(PaymentAmt) + parseFloat(OtherAmount)); //總貨金額
+                $("#OtherAmt").textbox("setValue", OtherAmt); //附加費用金額
+                $("#PaymentAmt").textbox("setValue", PaymentAmt); //總貨品金額
+                //var total_amt = parseFloat(PaymentAmt) + parseFloat(OtherAmt);
+                $("#TotalAmt").textbox("setValue", parseFloat(PaymentAmt) + parseFloat(OtherAmt)); //總貨金額
             },
             error: PUR.ErrorFunction //错误执行方法
         });
@@ -695,11 +695,20 @@ var PUR = {
   },
 
   //附加費編號 FareID 失去焦點調用的函數
-  setFareIDblur: function (index) {
-      var t = $("#tbOtherFare");
-      t.datagrid('selectRow', index);
-      t.datagrid('beginEdit', index);             
-      var editors = t.datagrid('getEditors', index); //獲得當前行的可編輯列對象,忽略非編輯列
+  setFareIDblur: function (index) {     
+      //非編輯狀態不綁定失去焦點事件,直接返回
+      if ($("#ActionType_Fare").val() == "") {          
+          return;
+      }         
+      var tb = $("#tbOtherFare");
+      tb.datagrid('selectRow', index);//定位選中指定索引的行
+      tb.datagrid('beginEdit', index); //使當前行處于編輯狀態        
+      var editors = tb.datagrid('getEditors', index); //獲得全部的處于可編輯狀態的列數組對象(忽略不可編輯的列)
+
+      //編輯狀態不允許綁定失去焦點事件
+      if ($("#ActionType_Fare").val() == "EDIT") {
+          return;
+      }
       if (editors.length > 0) {
           var edFareID = editors[0];//editor[0]表示第一列這個控件,即附加費號列
           var edName = editors[1];
@@ -723,6 +732,54 @@ var PUR = {
       }
   },
 
+  /**附加費中的數量或單價綁定失去焦點事件*/
+  setFareQtyPriceblur: function (index) {
+      //非編輯狀態不綁定失去焦點事件
+      if ($("#ActionType_Fare").val() != "") {          
+          return;
+      }
+      var t = $("#tbOtherFare");
+      t.datagrid('selectRow', index);
+      t.datagrid('beginEdit', index);             
+      var editors = t.datagrid('getEditors', index); //獲得當前行的可編輯列對象,忽略非編輯列      
+      if (editors.length > 0) {          
+          var edQty = editors[2];//編輯狀態數量列
+          var edPrice = editors[3];//編輯狀態單價列
+          var edFareSum = editors[4];//編輯狀態單價列
+          var fare_qty = edQty.target.val(); //列對象取值
+          var fare_price = edPrice.target.val(); //列對象取值
+          var fare_sum = fare_qty * fare_price;
+          //數量列綁定失去焦點事件 
+          edQty.target.bind('blur', function () {
+              edFareSum.target.val(fare_sum);//列對象賦值             
+          });
+          //單價列綁定失去焦點事件 
+          edPrice.target.bind('blur', function () {
+              edFareSum.target.val(fare_sum);//列對象賦值             
+          });
+      }
+  },
+  /**更改列值是觸發*/
+  changeFareSum: function (value) {      
+      var tr = $(value).closest('tr.datagrid-row');
+      //获取行索引
+      var rowIndex = parseInt(tr.attr('datagrid-row-index'));
+      //获取指定行的编辑器
+      var editors = $('#tbOtherFare').datagrid('getEditors', rowIndex);
+      //获取正在编辑行输入的值
+      //var fare_qty = $(editors[2].target).textbox('getValue');//轉成字符值
+      var fare_qty = editors[2].target.val();//轉成字符值
+      var fare_price = editors[3].target.val();
+      var fare_sum = fare_qty * fare_price;
+      var recoveryRows = $("#tbOtherFare").datagrid('getRows');
+      recoveryRows[rowIndex]['FareSum'] = fare_sum;   //给该列赋值
+      //var customerPn=recoveryRows[rowIndex]['customerPn'];  //获取该列数据
+      // console.log("customerPn:"+customerPn);
+      //刷新指定的行。
+      $('#tbOtherFare').datagrid('refreshRow', rowIndex);
+  },
+
+  /**檢查附加費用編號是否存在*/
   checkFareID: function (id) {
       var result = "{Cdesc:'',Edesc:''}";
       $.ajax({
@@ -740,7 +797,7 @@ var PUR = {
       return result;
   },
 
-  //彈出模式窗口返回值至父窗口
+  /**彈出模式窗口返回值至父窗口*/
   openWin: function (url, title, width, height, rowIndex, shadow) {
       var content = '<iframe src="' + url + '" width="100%" height="99%" frameborder="0" scrolling="no"></iframe>';
       var boarddiv = '<div id="msgwindow" title="' + title + '"></div>'//style="overflow:hidden;"可以去掉滚动条

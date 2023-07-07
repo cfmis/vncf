@@ -238,7 +238,7 @@ namespace VNCF.PSS.Web.Areas.Purchase.DAL
         public static BuyDetails GetTotalAmtOtherByID(string strID, int Ver, string strFareID)
         {
             string strSql = string.Format(
-                @"SELECT Sum(a.TotalSum) As TotalSum,Max(S.FareSum) AS FareSum
+                @"SELECT Sum(a.TotalSum) As TotalSum,Max(Isnull(S.FareSum,0)) AS FareSum
                 From pu_BuyDetails a with(nolock) 
                 LEFT JOIN (Select ID,Ver,Sum(FareSum) as FareSum From pu_BuyFare with(nolock) WHERE ID='{0}' And Ver={1} AND FareID<>'{2}' Group By ID,Ver) S ON a.ID=S.ID AND a.Ver=S.Ver
                 WHERE a.ID='{0}' And a.Ver={1}", strID, Ver, strFareID);

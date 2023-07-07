@@ -775,6 +775,6 @@
     <value>數量不可為空</value>
   </data>
   <data name="Qty" xml:space="preserve">
-    <value>Quantity</value>
+    <value>數量</value>
   </data>
 </root>
