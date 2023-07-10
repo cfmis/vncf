@@ -556,8 +556,7 @@
                     iconCls: 'icon-remove',
                     handler: function () {
                         var RowDeleteByID = $('#tbDetails').datagrid("getSelections");
-                        if (RowDeleteByID.length == 1) {
-                            //doto
+                        if (RowDeleteByID.length == 1) {                            
                             //*如已存在計劃單(BillCode)禁止刪除,此功能待完善
                             if (checkPlan($("#OcID").val(), RowDeleteByID[0].Ver, RowDeleteByID[0].Seq) == false) {
                                 $.messager.confirm("@Resource.msg_system_prompt", "@Resource.msg_is_del_current_record", function (deleteClient) {
@@ -776,9 +775,7 @@
                             index_oc_details_flag = COMM.getCurrentRowIndex('#tbDetails');//記錄oc明細的當前記錄號
                             var index = COMM.getCurrentRowIndex('#tbOtherFare');
                             if (index >= 0) {
-                                $("#ActionType_Fare").val("EDIT");//設置編號標識
-                                //var rowData = rows[0];//var row = $('#tbSalesBom').datagrid('getSelected');
-                                //var index = $('#tbSalesBom').datagrid('getRowIndex', rowData);//獲取當前行索引                               
+                                $("#ActionType_Fare").val("EDIT");//設置編號標識                                                             
                                 var e = $("#tbOtherFare").datagrid('getColumnOption', 'FareID');                                
                                 e.editor = {};//移除编辑器相当于禁止某列编辑                                
                                 PUR.setFareIDblur(index);//使當前行處于編輯狀態
@@ -849,8 +846,8 @@
                             return;
                         }
                         name = edName.target.val();
-                        qty = edQty.target.val();//**??getvalue()
-                        price = edPrice.target.val();//****
+                        qty = edQty.target.val();
+                        price = edPrice.target.val();
                         product_id = edProductID.target.val();
                         fare_sum = (qty * price).toFixed(2);                        
                         var postData = {
@@ -987,10 +984,7 @@
             });
         }
 
-        function cellStyler(value, row, index) {
-            console.log(value);
-            console.log(row);
-            console.log(index);
+        function cellStyler(value, row, index) {            
             if (value < 30) {
                 return 'background-color:#ffee00;color:red;';
             }
