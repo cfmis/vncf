@@ -1,4 +1,59 @@
 var COMM = {
+    openWindos:function(id){
+        var url = "/Base/PublicQuery?window_id=" + id;//對應Controller
+        this.showMessageDialog(url, "查詢", 800, 600, true); //1024 600
+    }, 
+    /*查找貨品編號窗口*
+    * Allen
+    */
+    openFindItem:function(id){
+        var url = "/Base/PublicItemQuery" ;
+        this.showMessageDialog(url, "查詢", 800, 600, true); //1024 600
+    }, 
+    /*密碼確認窗口*
+    * Allen
+    */
+    openPassword: function(user_id){
+        var url = "/Base/Common/PasswordConfirm?user_id=" + user_id;
+        this.showMessageDialog(url, "密碼確認", 500, 300, true);
+    }, 
+    showMessageDialog: function(url, title, width, height, shadow){ 
+        var content = '<iframe src="' + url + '" width="100%" height="99%" frameborder="0" scrolling="no"></iframe>';       
+        //content += '<a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" style="width:80px" onclick="javascript:$(' + '\'#msgwindow\'' + ').dialog(' + '\'close\'' + ')">' + '关闭' + '</a>';
+        var boarddiv = '<div id="msgwindow" title="' + title + '"></div>'//style="overflow:hidden;"可以去掉滚动条       
+        $(document.body).append(boarddiv);
+        var win = $('#msgwindow').dialog({
+            content: content,
+            width: width,
+            height: height,
+            modal: shadow,
+            title: title,
+            onClose: function () {
+                //$(this).dialog('destroy');//后面可以关闭后的事件
+                //document.getElementById('btnSerach').click();
+            }
+        });
+        win.dialog('open');
+    },
+    closeWindow:function(){
+        $('#msgwindow').dialog('close');
+    },
+
+    /*檢查輸入日期是否正確*
+    * Allen
+    */
+    checkDate:function(strDate){
+        var r =/^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$/;
+        if(!r.exec(strDate)){
+            alert("日期格式不正確或者輸入有誤!\n\r【日期格式：YYYY-MM-DD 例如：2010-08-08,注意閏年】\n\r");
+            return false;
+        }
+        else {
+            return true;
+        }
+    },
+	
+	
   /**日期格式化
   *fmt 格式化字符如 'yyyy-MM-dd hh:mm:ss'
   *v   可以是日期或字符串
@@ -287,7 +342,16 @@ var COMM = {
             alert(response);
         });
 	    return result;
-    }
+  },
+    
+checkAuthority: async function(user_id,menu_id,func_name){
+     let result = "0";
+     await axios.get("/Base/Common/CheckAuthority?user_id=" + user_id + "&menu_id=" + menu_id+ "&func_name=" + func_name).then(            
+          (res) => {
+              result = res.data;
+          })    
+    return result;
+  },
 
 
 

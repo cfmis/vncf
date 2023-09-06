@@ -14,7 +14,7 @@ namespace CF.SQLServer.DAL
     public abstract class SQLHelper
     {
         public static SqlConnection Conn;
-        public static readonly string strCon = CachedConfigContext.Current.DaoConfig.Crm;
+        public static string strCon = CachedConfigContext.Current.DaoConfig.Crm;
 
         protected SQLHelper()
         {
@@ -196,7 +196,7 @@ namespace CF.SQLServer.DAL
             }
 
 
-            
+
         }
 
         /// <summary>
@@ -249,5 +249,80 @@ namespace CF.SQLServer.DAL
 
             return result;
         }
+
+        /// <summary>
+        /// DataTable轉換為Json字符串格式
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static string DataTableToJson(DataTable table)
+        {
+            var jsonString = new StringBuilder();
+            //var keyValue = "";
+            if (table.Rows.Count > 0)
+            {
+                jsonString.Append("[");
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    jsonString.Append("{");
+                    for (int j = 0; j < table.Columns.Count; j++)
+                    {
+                        //keyValue = string.IsNullOrEmpty(table.Rows[i][j].ToString()) ? "" : table.Rows[i][j].ToString();//2022/07/14 add
+                        //keyValue = keyValue.Replace("/", "//");
+                        if (j < table.Columns.Count - 1)
+                        {
+                            jsonString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\","); //2022/07/14 cancel
+                            //jsonString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + keyValue + "\",");
+                        }
+                        else if (j == table.Columns.Count - 1)
+                        {
+                            jsonString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\"");
+                            //jsonString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + keyValue + "\"");
+                        }
+                    }
+                    if (i == table.Rows.Count - 1)
+                    {
+                        jsonString.Append("}");
+                    }
+                    else
+                    {
+                        jsonString.Append("},");
+                    }
+                }
+                jsonString.Append("]");
+            }
+            return jsonString.ToString();
+        }
+
+
+        /// <summary>
+        /// 轉換為GEO中對應的語言
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        public static string ConvertLanguage(string language)
+        {
+            string LanguageID = "";
+            if (string.IsNullOrEmpty(language))
+            {
+                language = "0";//WEB中登入的語言,0:繁體中文
+            }
+            switch (language)
+            {
+                //GEO中語言:3.繁體中文,2.英文,1.簡體中文
+                case "0"://繁體中文
+                    LanguageID = "3";//GEO中3:為繁體中文
+                    break;
+                case "2"://英文
+                    LanguageID = "2";
+                    break;
+                default:
+                    LanguageID = "3";
+                    break;
+            }
+            return LanguageID;
+        }
+
+
     }
 }

@@ -110,10 +110,20 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             string strSql = "Select id,name,english_name " +
             " FROM bs_customer Where id='" + ID + "'";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
-            DataRow dr = dt.Rows[0];
+           
             bs_customer mdj = new bs_customer();
-            mdj.id = dr["id"].ToString();
-            mdj.CustCname = dr["name"].ToString();
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0];
+                mdj.id = dr["id"].ToString();
+                mdj.CustCname = dr["name"].ToString();
+            }
+            else
+            {
+                mdj.id = "";
+                mdj.CustCname = "";
+            }
+           
             return mdj;
         }
 
@@ -348,7 +358,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
                             From Authority WHERE ISNULL(WebUrl,'')<>'' Order by AuthorityID";
                     break;
                 case "sy_Powers":
-                    strSql = @"Select ID as value,Powers as label From sy_Powers Order by Powers";
+                    strSql = @"Select ID as value,Powers+' ('+PowersDesc+')' As label From sy_Powers Order by Powers";
                     break;
             }
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);

@@ -1,6 +1,7 @@
 packages/
 VNCF.PSS.Web/bin/
 VNCF.PSS.Web/obj/
+VNCF.PSS.Web/Document/Files/public/
 CF.Web/bin/
 CF.Web/obj/
 CF.System.BLL/obj/

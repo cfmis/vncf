@@ -1,0 +1,5 @@
+D:\Workspace\vncf\VNCF.File.Contract\bin\Debug\VNCF.File.Contract.dll
+D:\Workspace\vncf\VNCF.File.Contract\bin\Debug\VNCF.File.Contract.pdb
+D:\Workspace\vncf\VNCF.File.Contract\obj\Debug\VNCF.File.Contract.csprojResolveAssemblyReference.cache
+D:\Workspace\vncf\VNCF.File.Contract\obj\Debug\VNCF.File.Contract.dll
+D:\Workspace\vncf\VNCF.File.Contract\obj\Debug\VNCF.File.Contract.pdb

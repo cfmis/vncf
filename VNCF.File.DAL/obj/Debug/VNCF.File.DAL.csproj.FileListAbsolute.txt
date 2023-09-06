@@ -1,0 +1,16 @@
+D:\Workspace\vncf\VNCF.File.DAL\obj\Debug\VNCF.File.DAL.csprojResolveAssemblyReference.cache
+D:\Workspace\vncf\VNCF.File.DAL\bin\Debug\VNCF.File.DAL.dll
+D:\Workspace\vncf\VNCF.File.DAL\bin\Debug\VNCF.File.DAL.pdb
+D:\Workspace\vncf\VNCF.File.DAL\bin\Debug\CF.Core.Config.dll
+D:\Workspace\vncf\VNCF.File.DAL\bin\Debug\CF.Framework.Contract.dll
+D:\Workspace\vncf\VNCF.File.DAL\bin\Debug\CF.Framework.Utility.dll
+D:\Workspace\vncf\VNCF.File.DAL\bin\Debug\CF.SQLServer.DAL.dll
+D:\Workspace\vncf\VNCF.File.DAL\bin\Debug\VNCF.File.Contract.dll
+D:\Workspace\vncf\VNCF.File.DAL\bin\Debug\Newtonsoft.Json.dll
+D:\Workspace\vncf\VNCF.File.DAL\bin\Debug\CF.Core.Config.pdb
+D:\Workspace\vncf\VNCF.File.DAL\bin\Debug\CF.Framework.Contract.pdb
+D:\Workspace\vncf\VNCF.File.DAL\bin\Debug\CF.Framework.Utility.pdb
+D:\Workspace\vncf\VNCF.File.DAL\bin\Debug\CF.SQLServer.DAL.pdb
+D:\Workspace\vncf\VNCF.File.DAL\bin\Debug\VNCF.File.Contract.pdb
+D:\Workspace\vncf\VNCF.File.DAL\obj\Debug\VNCF.File.DAL.dll
+D:\Workspace\vncf\VNCF.File.DAL\obj\Debug\VNCF.File.DAL.pdb

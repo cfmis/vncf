@@ -53,6 +53,7 @@
     <Compile Include="IAuditable.cs" />
     <Compile Include="IPagedList.cs" />
     <Compile Include="ModelBase.cs" />
+    <Compile Include="ModelBaseList.cs" />
     <Compile Include="ModelBaseOrder.cs" />
     <Compile Include="Operater.cs" />
     <Compile Include="PagedList.cs" />

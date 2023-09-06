@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "FolderStructure";
+}
+
+@section PageSpecificStyleSheetIncludes{
+    <style>
+        * {
+            margin: 10px;
+            padding: 5px;
+        }
+    </style>
+}
+
+<div id="app">
+    <h3>{{ title }}</h3>   
+    <template>
+        <div>
+            <p>             
+                <vxe-button type="button" status="primary" content="確定" @@click="initFiles()"></vxe-button>               
+            </p>            
+        </div>
+    </template>
+    <input class="" type="hidden" name="user_id" value="@ViewBag.user_id" id="user_id" />  
+</div>
+
+@section PageSpecificJavascriptIncludes{
+    <script src="~/Areas/File/Js/InitFolder.js?v=@Guid.NewGuid().ToString()"></script>
+    <script> Vue.config.productionTip = false</script>
+}
+   

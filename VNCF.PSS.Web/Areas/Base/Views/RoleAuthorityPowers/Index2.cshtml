@@ -1,7 +1,7 @@
 ﻿
-@*@{
+@{
     ViewBag.Title = "Index2";
-}*@
+}
 
 @*<script src="~/Scripts/vue.js"></script>
 <link rel="stylesheet" href="~/Content/ElementUI/css/element-ui.css" />
@@ -54,7 +54,7 @@
                 <el-row>
                     <el-col :span="8" style="width:20%">
                         <el-form-item prop="RoleID" label="角色">
-                            <el-select v-model="searchParas.RoleID" placeholder="请选择">
+                            <el-select v-model="searchParas.RoleID" filterable clearable placeholder="请选择">
                                 <el-option v-for="item in roleDatas"
                                            :key="item.value"
                                            :label="item.label"
@@ -65,7 +65,7 @@
                     </el-col>
                     <el-col :span="8" style="width:20%">
                         <el-form-item prop="AuthorityID" label="菜單">
-                            <el-select v-model="searchParas.AuthorityID" placeholder="请选择">
+                            <el-select v-model="searchParas.AuthorityID" filterable clearable placeholder="请选择">
                                 <el-option v-for="item in menuDatas"
                                            :key="item.value"
                                            :label="item.label"
@@ -76,7 +76,7 @@
                     </el-col>
                     <el-col :span="8" style="width:20%">
                         <el-form-item prop="PowersID" label="操作權限">
-                            <el-select v-model="searchParas.PowersID" placeholder="请选择">
+                            <el-select v-model="searchParas.PowersID" filterable clearable placeholder="请选择">
                                 <el-option v-for="item in powerDatas"
                                            :key="item.value"
                                            :label="item.label"
@@ -122,10 +122,10 @@
                 <el-table-column prop="RoleName" label="角色名稱" width="120"></el-table-column>
                 <el-table-column prop="AuthorityID" label="菜單編號" width="80"></el-table-column>
                 <el-table-column prop="AuthorityName" label="菜單名稱" width="120"></el-table-column>
-                <el-table-column prop="PowersID" PowersID" label="權限編號" width="100"></el-table-column>
+                <el-table-column prop="PowersID" label="權限編號" width="80"></el-table-column>
                 <el-table-column prop="Powers" label="操作權限" width="120"></el-table-column>
                 <el-table-column prop="PowersDesc" label="操作描述" width="100"></el-table-column>
-                <el-table-column prop="Remark" label="備註" width="200"></el-table-column>
+                <el-table-column prop="Remark" label="備註" width="300"></el-table-column>
                 
                 <el-table-column label="操作" width="100" align="center">
                     <el-table-column width="50" align="center">
@@ -229,7 +229,7 @@
                 menuDatas: [{ value: 20025, label: "test" }, { value: 20026, label: "test2" }],
                 powerDatas: [{ value: 1, label: 'Common_Add' }, { value: 5, label: 'Common_Find' }],
                 tableData: [],
-                newData: {ID:0,RoleID:0,AuthorityID:0,PowersID:0,Remark:'',CreateBy:'',CreateAt:null,UpdateBy:'',UpdateAt:null},
+                newData: {ID:null,RoleID:null,RoleName:'',AuthorityID:null,AuthorityName:'',PowersID:null,Powers:'',PowersDesc:'',Remark:'',CreateBy:'',CreateAt:null,UpdateBy:'',UpdateAt:null},                
                 tableTempList: [],//權限臨時數組                
                 //定義分頁參數                
                 tablePage: {
@@ -357,18 +357,21 @@
                     this.dialogStatus = "byAdd";
                     this.showDialog = true;
                     //重置表单数据
-                    this.$refs["formInfo"].resetFields();
+                    //this.$refs["formInfo"].resetFields(); //因出錯2023/09/04 cancel
                 },
                 editRow(row) {//編輯
                     this.dialogStatus = "byEdit";
                     this.showDialog = true;
                     //重置表单数据
-                    //this.newDate={ID:row.ID, RoleID: row.RoleID};//這樣的形式賦值取不到值            
+                    //this.newDate={ID:row.ID, RoleID: row.RoleID};//這樣的形式賦值取不到值   
+                    var role_id=row.RoleID;
+                    var authority_id=row.AuthorityID;
+                    var powers_id=row.PowersID;
                     this.newData.ID = row.ID;
-                    this.newData.RoleID = row.RoleID;
-                    this.newData.AuthorityID = row.AuthorityID;
-                    this.newData.PowersID = row.PowersID;
-                    this.newData.Remark = row.Remark;
+                    this.newData.RoleID = role_id.toString(); //需轉字符型,與原始下拉框返值類型一致,否則el-select下拉框默認顯示不了lable              
+                    this.newData.AuthorityID = authority_id.toString();                    
+                    this.newData.PowersID = powers_id.toString();
+                   
                 },
                 delRow(index,row) {//刪除
                     this.$confirm('此操作將删除ID:'+row.ID +'的資料, 是否繼續?', '提示', {
@@ -388,13 +391,14 @@
                 },                
                 saveRow(formName) {//保存
                     this.$refs[formName].validate((valid) => {
-                        if (valid) {
+                        if (valid) {  
                             var updateParams={
                                 ID:this.newData.ID,
                                 RoleID:this.newData.RoleID,
                                 AuthorityID:this.newData.AuthorityID,
-                                PowersID:this.newData.PowersID,                            
-                                Remark:this.newData.Remark
+                                PowersID:this.newData.PowersID, 
+                                Remark:""
+                                //Remark:this.newData.RoleName +'.' + this.newData.AuthorityName + '.'+ this.newData.PowersDesc                               
                             }
                             axios.post("AddRoleAuthorityPowers", { updateParams }).then(
                                 (response) => {                                                                                                
@@ -411,7 +415,11 @@
                             });
                                                        
                         } else {
-                            alert('Error Submit!!');
+                            //alert('Error Submit!!');
+                            this.$message({
+                                message: "請檢查數據完整性！",
+                                type: "warning",
+                            });
                             return false;
                        }
                     });
@@ -420,9 +428,9 @@
                 resetClick(formName) {
                     this.$refs[formName].resetFields();                    
                 },                
-                resetForm2(formName) {
-                    this.$refs[formName].resetFields();
-                },
+                //resetForm2(formName) {
+                //    this.$refs[formName].resetFields();
+                //},
                 // 关闭弹框
                 closeDialog(flag) {
                     //備用參數flag

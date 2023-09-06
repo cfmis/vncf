@@ -1,0 +1,4 @@
+D:\Workspace\CF2025\CF2025.Base.Contract\bin\Debug\CF2025.Base.Contract.dll
+D:\Workspace\CF2025\CF2025.Base.Contract\bin\Debug\CF2025.Base.Contract.pdb
+D:\Workspace\CF2025\CF2025.Base.Contract\obj\Debug\CF2025.Base.Contract.dll
+D:\Workspace\CF2025\CF2025.Base.Contract\obj\Debug\CF2025.Base.Contract.pdb
