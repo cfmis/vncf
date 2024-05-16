@@ -1,125 +1,135 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="12/30/2021 15:30:15" ReportInfo.Modified="12/30/2021 19:35:56" ReportInfo.CreatorVersion="2019.1.15.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="12/29/2021 19:26:47" ReportInfo.Modified="05/16/2024 17:07:38" ReportInfo.CreatorVersion="2019.1.15.0">
   <Dictionary>
     <BusinessObjectDataSource Name="Data" ReferenceName="Data" DataType="System.Int32" Enabled="true">
       <Column Name="ProductMo" DataType="System.String"/>
       <Column Name="Ver" DataType="System.String"/>
-      <Column Name="OrderDate" DataType="System.String"/>
-      <Column Name="PlanDate" DataType="System.String"/>
-      <Column Name="CustomerID" DataType="System.String"/>
-      <Column Name="GoodsID" DataType="System.String"/>
-      <Column Name="GoodsCname" DataType="System.String"/>
-      <Column Name="ArtImageUrl" DataType="System.String"/>
-      <Column Name="OrderQty" DataType="System.Int32"/>
-      <Column Name="OrderUnit" DataType="System.String"/>
-      <Column Name="RequestQty" DataType="System.Int32"/>
-      <Column Name="RequestDate" DataType="System.String"/>
       <Column Name="ProductRemark" DataType="System.String"/>
       <Column Name="MoRemark" DataType="System.String"/>
       <Column Name="PlanRemark" DataType="System.String"/>
       <Column Name="Seq" DataType="System.String"/>
-      <Column Name="WipID" DataType="System.String"/>
-      <Column Name="NextWipID" DataType="System.String"/>
+      <Column Name="GoodsID" DataType="System.String"/>
+      <Column Name="GoodsCname" DataType="System.String"/>
       <Column Name="DepGoodsID" DataType="System.String"/>
       <Column Name="DepGoodsCname" DataType="System.String"/>
+      <Column Name="DepGoodsEname" DataType="System.String"/>
+      <Column Name="ArtImageUrl" DataType="System.String"/>
+      <Column Name="OrderQty" DataType="System.Int32"/>
+      <Column Name="OrderUnit" DataType="System.String"/>
       <Column Name="RequestDepQty" DataType="System.Int32"/>
       <Column Name="RequestDepDate" DataType="System.String"/>
-      <Column Name="WipIDName" DataType="System.String"/>
-      <Column Name="NextWipIDName" DataType="System.String"/>
+      <Column Name="WipID" DataType="System.String"/>
+      <Column Name="NextWipID" DataType="System.String"/>
       <Column Name="CreateUser" DataType="System.String"/>
       <Column Name="CreateTime" DataType="System.String"/>
       <Column Name="AmendUser" DataType="System.String"/>
       <Column Name="AmendTime" DataType="System.String"/>
+      <Column Name="BarCode" DataType="System.String"/>
     </BusinessObjectDataSource>
   </Dictionary>
-  <ReportPage Name="Page1" Border.Lines="All" Watermark.Font="SimSun, 60pt">
-    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="66.15">
-      <TextObject Name="Text1" Left="226.8" Top="28.35" Width="241.45" Height="28.35" Text="生產計劃單" HorzAlign="Center" Font="SimSun, 16pt, style=Bold"/>
-      <RichObject Name="Rich1" Left="529.2" Top="18.9" Width="160.65" Height="18.9" Text="{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe3076{\fonttbl{\f0\fmodern\fprq6\fcharset136 \'b7\'73\'b2\'d3\'a9\'fa\'c5\'e9;}{\f1\fnil\fcharset0 SimSun;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang1028\f0\fs18\'a8\'ee\'b3\'e6\'bd\'73\'b8\'b9\lang1033\f1 : [Data.ProductMo]\par&#13;&#10;}&#13;&#10;"/>
-      <RichObject Name="Rich2" Left="529.2" Top="37.8" Width="160.65" Height="18.9" Text="{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe3076{\fonttbl{\f0\fmodern\fprq6\fcharset136 \'b7\'73\'b2\'d3\'a9\'fa\'c5\'e9;}{\f1\fnil\fcharset0 SimSun;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang1028\f0\fs18\'aa\'a9\'a5\'bb\lang1033\f1 : [Data.Ver]\par&#13;&#10;}&#13;&#10;"/>
-      <BarcodeObject Name="Barcode1" Left="37.8" Top="18.9" Width="98.75" Height="47.25" DataColumn="Data.ProductMo" AllowExpressions="true" Barcode="Code128" Barcode.AutoEncode="true"/>
-    </ReportTitleBand>
-    <PageHeaderBand Name="PageHeader1" Top="70.15" Width="718.2" Height="236.62">
-      <PictureObject Name="Picture1" Left="576.45" Top="47.25" Width="113.4" Height="113.4" DataColumn="Data.ArtImageUrl"/>
-      <TableObject Name="Table3" Top="189" Width="718.4" Height="47.62" Border.Lines="All">
-        <TableColumn Name="Column17" Width="52.52"/>
-        <TableColumn Name="Column18" Width="96.88"/>
-        <TableColumn Name="Column19" Width="166.83"/>
-        <TableColumn Name="Column20" Width="236.61"/>
-        <TableColumn Name="Column21" Width="75.6"/>
-        <TableColumn Name="Column23" Width="89.96"/>
+  <ReportPage Name="Page1" RawPaperSize="9" Border.Lines="All" Watermark.Font="SimSun, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2"/>
+    <PageHeaderBand Name="PageHeader1" Top="3.33" Width="718.2" Height="301.67" Border.Lines="All" CanBreak="true">
+      <TableObject Name="Table3" Top="252.5" Width="718.2" Height="47.62">
+        <TableColumn Name="Column17" Width="30.24"/>
+        <TableColumn Name="Column18" Width="90.72"/>
+        <TableColumn Name="Column19" Width="132.3"/>
+        <TableColumn Name="Column20" Width="272.16"/>
+        <TableColumn Name="Column21" Width="94.5"/>
+        <TableColumn Name="Column23" Width="98.28"/>
         <TableRow Name="Row11" Height="23.81">
-          <TableCell Name="Cell87" Text="序號" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt" RowSpan="2"/>
-          <TableCell Name="Cell88" Text="負責部門" VertAlign="Center" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell89" Text="產品編號" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt" RowSpan="2"/>
-          <TableCell Name="Cell90" Text="產品描述" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt" RowSpan="2"/>
-          <TableCell Name="Cell91" Text="需求數量" VertAlign="Center" Font="SimSun, 9pt" RowSpan="2"/>
-          <TableCell Name="Cell101" Border.Lines="Top" Text="需求日期" VertAlign="Center" Font="SimSun, 9pt" RowSpan="2"/>
+          <TableCell Name="Cell87" Border.Lines="Right, Top" Text="số seri" VertAlign="Center" Font="Arial Unicode MS, 9pt" RowSpan="2"/>
+          <TableCell Name="Cell88" Border.Lines="Right, Top, Bottom" Border.BottomLine.Style="Dash" Text="bộ phận hiện tại" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 8.5pt"/>
+          <TableCell Name="Cell89" Border.Lines="Right, Top" Text="Mã sản phẩm" HorzAlign="Center" VertAlign="Center" Font="Arial Unicode MS, 9pt" RowSpan="2"/>
+          <TableCell Name="Cell90" Border.Lines="Right, Top" Text="Product Description / tên sản phẩm" HorzAlign="Center" VertAlign="Center" Font="Arial Unicode MS, 9pt" RowSpan="2"/>
+          <TableCell Name="Cell91" Border.Lines="Right, Top" Text="số lượng yêu cầu" HorzAlign="Center" VertAlign="Center" Font="Arial Unicode MS, 8.2pt" RowSpan="2"/>
+          <TableCell Name="Cell101" Border.Lines="Top" Text="Ngày yêu cầu" HorzAlign="Center" VertAlign="Center" Font="Arial Unicode MS, 9pt" RowSpan="2"/>
         </TableRow>
         <TableRow Name="Row12" Height="23.81">
           <TableCell Name="Cell92" Border.Lines="Right" VertAlign="Center" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell93" Text="移交部門" VertAlign="Center" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell93" Border.Lines="Right" Text="bộ phận tiếp theo" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 8.3pt"/>
           <TableCell Name="Cell94" Border.Lines="Right" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt"/>
           <TableCell Name="Cell95" Border.Lines="Right" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt"/>
           <TableCell Name="Cell96" Border.Lines="Right" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt"/>
           <TableCell Name="Cell102" Border.Lines="Right" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt"/>
         </TableRow>
       </TableObject>
-      <RichObject Name="Rich3" Left="9.45" Top="18.9" Width="160.65" Height="18.9" Text="{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe3076{\fonttbl{\f0\fmodern\fprq6\fcharset136 \'b7\'73\'b2\'d3\'a9\'fa\'c5\'e9;}{\f1\fnil\fcharset0 SimSun;}{\f2\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang1028\f0\fs18\'b2\'a3\'ab\'7e\'bd\'73\'b8\'b9\lang1033\f1 : [Data.GoodsID]\f2\par&#13;&#10;}&#13;&#10;"/>
-      <RichObject Name="Rich4" Left="9.45" Top="47.25" Width="425.25" Height="18.9" Text="{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe3076{\fonttbl{\f0\fmodern\fprq6\fcharset136 \'b7\'73\'b2\'d3\'a9\'fa\'c5\'e9;}{\f1\fnil\fcharset0 SimSun;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang1028\f0\fs18\'b2\'a3\'ab\'7e\'a6\'57\'ba\'d9\lang1033\f1 : [Data.GoodsCname]\par&#13;&#10;}&#13;&#10;"/>
-      <RichObject Name="Rich5" Left="189" Top="18.9" Width="160.65" Height="18.9" Text="{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe3076{\fonttbl{\f0\fmodern\fprq6\fcharset136 \'b7\'73\'b2\'d3\'a9\'fa\'c5\'e9;}{\f1\fnil\fcharset0 SimSun;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang1028\f0\fs18\'ab\'c8\'a4\'e1\lang1033\f1 :[Data.CustomerID]\par&#13;&#10;}&#13;&#10;"/>
-      <RichObject Name="Rich6" Left="529.2" Top="18.9" Width="179.55" Height="18.9" Text="{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe3076{\fonttbl{\f0\fmodern\fprq6\fcharset136 \'b7\'73\'b2\'d3\'a9\'fa\'c5\'e9;}{\f1\fnil\fcharset0 SimSun;}{\f2\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang1028\f0\fs18\'ad\'6e\'a8\'44\'a4\'e9\'b4\'c1\lang1033\f1 : [Data.RequestDate]\f2\par&#13;&#10;}&#13;&#10;"/>
-      <RichObject Name="Rich7" Left="9.45" Top="66.15" Width="160.65" Height="18.9" Text="{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe3076{\fonttbl{\f0\fmodern\fprq6\fcharset136 \'b7\'73\'b2\'d3\'a9\'fa\'c5\'e9;}{\f1\fnil\fcharset0 SimSun;}{\f2\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang1028\f0\fs18\'ad\'71\'b3\'e6\'bc\'c6\'b6\'71\lang1033\f1 : [Data.OrderQty]\f2\par&#13;&#10;}&#13;&#10;"/>
-      <RichObject Name="Rich8" Left="189" Top="66.15" Width="56.7" Height="18.9" Text="{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe3076{\fonttbl{\f0\fnil\fcharset0 SimSun;}{\f1\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\f0\fs18 [Data.OrderUnit]\f1\par&#13;&#10;}&#13;&#10;"/>
-      <RichObject Name="Rich9" Left="9.45" Top="94.5" Width="56.7" Height="18.9" Text="{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe3076{\fonttbl{\f0\fmodern\fprq6\fcharset136 \'b7\'73\'b2\'d3\'a9\'fa\'c5\'e9;}{\f1\fnil\fcharset0 SimSun;}{\f2\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\qr\lang1028\f0\fs18\'aa\'fe    \'b5\'f9\lang1033\f1 :\f2\par&#13;&#10;}&#13;&#10;"/>
-      <RichObject Name="Rich10" Left="66.15" Top="113.4" Width="463.05" Height="18.9" Text="[Data.MoRemark]" DataColumn="Data.MoRemark"/>
-      <RichObject Name="Rich11" Left="66.15" Top="132.3" Width="463.05" Height="18.9" Text="[Data.PlanRemark]" DataColumn="Data.PlanRemark"/>
-      <RichObject Name="Rich12" Left="66.15" Top="94.5" Width="463.05" Height="18.9" Text="[Data.ProductRemark]" DataColumn="Data.ProductRemark"/>
+      <PictureObject Name="Picture1" Left="557.55" Top="107.3" Width="113.4" Height="113.4" DataColumn="Data.ArtImageUrl"/>
+      <TextObject Name="Text3" Left="527.75" Top="42.8" Width="86.05" Height="13.9" Text="Phiên bản:" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+      <TextObject Name="Text4" Left="615.7" Top="42.8" Width="97.95" Height="13.9" Text="[Data.Ver]" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+      <TextObject Name="Text2" Left="527.75" Top="27.45" Width="86.05" Height="14.9" Text="MO số seri:" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+      <TextObject Name="Text5" Left="615.7" Top="27.45" Width="100.95" Height="14.9" Text="[Data.ProductMo]" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+      <TextObject Name="Text1" Left="189.1" Top="23.05" Width="337.2" Height="32.35" Text="Kế hoạch sản xuất" HorzAlign="Center" Font="Arial Unicode MS, 18pt"/>
+      <LineObject Name="Line1" Top="56.35" Width="718.2"/>
+      <TextObject Name="Text6" Left="529.3" Top="62.15" Width="84.6" Height="18.9" Text="Ngày yêu cầu:" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+      <TextObject Name="Text7" Left="615.9" Top="62.15" Width="98.95" Height="18.9" Text="[Data.RequestDate]" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+      <TextObject Name="Text8" Left="281.3" Top="62.15" Width="85.05" Height="18.9" Text="khách hàng :" HorzAlign="Right" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+      <TextObject Name="Text9" Left="368.8" Top="62.15" Width="157.1" Height="18.9" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[Data.CustomerID]" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+      <TextObject Name="Text11" Left="91.7" Top="61.6" Width="175.55" Height="25.35" Border.Lines="Bottom" Border.Style="Dash" Text="[Data.GoodsID]" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+      <TextObject Name="Text12" Left="5" Top="95.5" Width="83.05" Height="13.35" Text="tên sản phẩm:" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+      <TextObject Name="Text13" Left="91.5" Top="89.95" Width="434.7" Height="18.9" Border.Lines="Bottom" Border.Style="Dash" Text="[Data.GoodsCname]" VertAlign="Bottom" WordWrap="false" Font="Arial Unicode MS, 8.5pt"/>
+      <TextObject Name="Text14" Left="5" Top="117.85" Width="107.95" Height="18.9" Text="số lượng đặt hàng:" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+      <TextObject Name="Text15" Left="114.85" Top="117.85" Width="152.65" Height="18.9" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[Data.OrderQty] [Data.OrderUnit]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="0" Format.DecimalSeparator="." Format.GroupSeparator="," Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 8.5pt"/>
+      <TextObject Name="Text17" Left="114.85" Top="144.1" Width="411.8" Height="28.35" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[Data.ProductRemark]" Font="Arial Unicode MS, 8pt"/>
+      <TextObject Name="Text18" Left="5" Top="144.1" Width="107.95" Height="18.9" Text="Sản xuất nhận xét:" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+      <TextObject Name="Text19" Left="5" Top="173" Width="107.95" Height="18.9" Text="MO nhận xét:" HorzAlign="Right" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+      <TextObject Name="Text20" Left="114.85" Top="173.45" Width="411.8" Height="37.8" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[Data.MoRemark]" Font="Arial Unicode MS, 8pt"/>
+      <TextObject Name="Text21" Left="5" Top="212.35" Width="107.95" Height="18.9" Text="kế hoạch Nhận xét:" HorzAlign="Right" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+      <TextObject Name="Text22" Left="114.85" Top="212.8" Width="411.8" Height="35.8" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[Data.PlanRemark]" Font="Arial Unicode MS, 8pt"/>
+      <TextObject Name="Text23" Left="4.45" Top="62.15" Width="85.9" Height="25.9" Text="Sản phẩm của khách hàng:" HorzAlign="Right" VertAlign="Center" Font="Arial Unicode MS, 8.5pt"/>
+      <BarcodeObject Name="Barcode2" Left="28.35" Top="9.45" Width="98.75" Height="47.25" DataColumn="Data.ProductMo" AllowExpressions="true" Barcode="Code128" Barcode.AutoEncode="true"/>
     </PageHeaderBand>
-    <DataBand Name="Data1" Top="310.77" Width="718.2" Height="37.8" DataSource="Data">
-      <TableObject Name="Table1" Width="718.2" Height="37.8">
-        <TableColumn Name="Column24" Width="52.54"/>
-        <TableColumn Name="Column25" Width="96.77"/>
-        <TableColumn Name="Column26" Width="166.7"/>
-        <TableColumn Name="Column27" Width="236.63"/>
-        <TableColumn Name="Column28" Width="75.6"/>
-        <TableColumn Name="Column29" Width="89.96"/>
-        <TableRow Name="Row13">
-          <TableCell Name="Cell103" Text="[Data.Seq]" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell104" Text="[Data.WipIDName]" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell105" Text="[Data.DepGoodsID]" Font="SimSun, 9pt" RowSpan="2"/>
-          <TableCell Name="Cell106" Text="[Data.DepGoodsCname]" Font="SimSun, 9pt" RowSpan="2"/>
-          <TableCell Name="Cell107" Text="[Data.RequestDepQty]" Font="SimSun, 9pt" RowSpan="2"/>
-          <TableCell Name="Cell113" Text="[Data.RequestDepDate]" Font="SimSun, 9pt" RowSpan="2"/>
+    <DataBand Name="Data1" Top="308.34" Width="718.2" Height="86.94" Border.Lines="Left, Right, Bottom" Border.BottomLine.Style="Dash" CanGrow="true" DataSource="Data" KeepTogether="true" KeepDetail="true">
+      <TableObject Name="Table1" Width="824.04" Height="86.94">
+        <TableColumn Name="Column38" Width="30.24"/>
+        <TableColumn Name="Column39" Width="90.72"/>
+        <TableColumn Name="Column40" Width="132.3"/>
+        <TableColumn Name="Column41" Width="272.16"/>
+        <TableColumn Name="Column42" Width="94.5"/>
+        <TableColumn Name="Column43" Width="98.28"/>
+        <TableColumn Name="Column45" Width="105.84"/>
+        <TableRow Name="Row14" Height="37.8">
+          <TableCell Name="Cell140" Border.Lines="Right" Border.RightLine.Style="Dash" Text="[Data.Seq]" HorzAlign="Center" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 8.5pt"/>
+          <TableCell Name="Cell141" Border.Lines="Right, Bottom" Border.RightLine.Style="Dash" Border.BottomLine.Style="Dash" Text="[Data.WipID]" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 8.5pt"/>
+          <TableCell Name="Cell142" Text="[Data.DepGoodsID]" VertAlign="Center" Font="Arial Unicode MS, 8pt" RowSpan="2"/>
+          <TableCell Name="Cell143" Border.Lines="Left, Bottom" Border.LeftLine.Style="Dash" Border.RightLine.Style="Dash" Border.BottomLine.Style="Dash" Text="[Data.DepGoodsEname]" VertAlign="Center" Font="Arial Unicode MS, 7.5pt"/>
+          <TableCell Name="Cell144" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[Data.RequestDepQty]" HorzAlign="Center" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 9pt">
+            <Formats>
+              <NumberFormat UseLocale="false" DecimalDigits="0" NegativePattern="1"/>
+              <GeneralFormat/>
+            </Formats>
+          </TableCell>
+          <TableCell Name="Cell145" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[Data.RequestDepDate]" Format="Date" Format.Format="d" HorzAlign="Center" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 9pt"/>
+          <TableCell Name="Cell154" VertAlign="Center" Font="Code 128, 18pt"/>
         </TableRow>
-        <TableRow Name="Row14">
-          <TableCell Name="Cell108" Text="--&gt;" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell109" Text="[Data.NextWipIDName]" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell110" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell111" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell112" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell114" Font="SimSun, 9pt"/>
+        <TableRow Name="Row15" Height="49.14">
+          <TableCell Name="Cell146" Border.Lines="Right" Border.RightLine.Style="Dash" Text="--&gt;" HorzAlign="Center" VertAlign="Center" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell147" Border.Lines="Right" Border.RightLine.Style="Dash" Text="[Data.NextWipID]" HorzAlign="Center" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 8.5pt"/>
+          <TableCell Name="Cell148" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell149" Border.Lines="Left" Border.LeftLine.Style="Dash" Border.RightLine.Style="Dash" Text="[Data.DepGoodsCname]" VertAlign="Center" Font="Arial Unicode MS, 7.5pt"/>
+          <TableCell Name="Cell150" Font="SimSun, 9pt" ColSpan="2">
+            <BarcodeObject Name="Barcode1" Left="2.9" Top="4.2" Width="98.75" Height="40.58" DataColumn="Data.BarCode" ShowText="false" AllowExpressions="true" Barcode="Code128" Barcode.AutoEncode="true"/>
+          </TableCell>
+          <TableCell Name="Cell151" Font="SimSun, 9pt"/>
+          <TableCell Name="Cell155" Font="SimSun, 9pt"/>
         </TableRow>
       </TableObject>
     </DataBand>
-    <ReportSummaryBand Name="ReportSummary1" Top="388.7" Width="718.2">
-      <ChildBand Name="Child2" Top="352.57" Width="718.2" Height="32.13" FillUnusedSpace="true"/>
-    </ReportSummaryBand>
-    <PageFooterBand Name="PageFooter1" Top="392.7" Width="718.2" Height="47.25">
-      <TableObject Name="Table4" Width="718.18" Height="22.68" Border.Lines="Top">
-        <TableColumn Name="Column32" Width="58.41"/>
-        <TableColumn Name="Column33" Width="87.75"/>
-        <TableColumn Name="Column34" Width="181.24"/>
-        <TableColumn Name="Column35" Width="65.06"/>
-        <TableColumn Name="Column36" Width="109.46"/>
-        <TableColumn Name="Column37" Width="216.26"/>
-        <TableRow Name="Row15" Height="22.68">
-          <TableCell Name="Cell129" Text="製表人:" VertAlign="Center" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell130" Text="[Data.CreateUser]" VertAlign="Center" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell131" Text="[Data.CreateTime]" VertAlign="Center" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell132" Text="審批人:" VertAlign="Center" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell133" Text="[Data.CreateUser]" VertAlign="Center" Font="SimSun, 9pt"/>
-          <TableCell Name="Cell139" Text="[Data.CreateTime]" VertAlign="Center" Font="SimSun, 9pt"/>
+    <PageFooterBand Name="PageFooter1" Top="398.61" Width="718.2" Height="56.7" Border.Lines="Top">
+      <TableObject Name="Table4" Left="1.13" Width="716.31" Height="22.68">
+        <TableColumn Name="Column32" Width="103.95"/>
+        <TableColumn Name="Column33" Width="103.95"/>
+        <TableColumn Name="Column34" Width="151.2"/>
+        <TableColumn Name="Column35" Width="103.95"/>
+        <TableColumn Name="Column36" Width="103.95"/>
+        <TableColumn Name="Column37" Width="149.31"/>
+        <TableRow Name="Row13" Height="22.68">
+          <TableCell Name="Cell129" Text="người sáng tạo:" VertAlign="Center" Font="Arial Unicode MS, 8.5pt"/>
+          <TableCell Name="Cell130" Text="[Data.CreateUser]" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 8.5pt"/>
+          <TableCell Name="Cell131" Text="[Data.CreateTime]" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 8.5pt"/>
+          <TableCell Name="Cell132" Text="Sự chấp thuận:" VertAlign="Center" Font="Arial Unicode MS, 8.5pt"/>
+          <TableCell Name="Cell133" Text="[Data.CreateUser]" VertAlign="Center" WordWrap="false" Font="Arial Unicode MS, 8.5pt"/>
+          <TableCell Name="Cell139" Text="[Data.CreateTime]" VertAlign="Center" Font="Arial Unicode MS, 8.5pt"/>
         </TableRow>
       </TableObject>
     </PageFooterBand>

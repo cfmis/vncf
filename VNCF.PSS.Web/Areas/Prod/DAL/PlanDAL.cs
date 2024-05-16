@@ -352,13 +352,15 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             string strSql = "Select a.*" +
                 ",b.Seq" +
                 " ,CASE WHEN LEN(d.picture_name) > 0 THEN p.picture_path_web + REPLACE(d.picture_name, '\',' / ') ELSE '' END AS ArtImage" +
-                " ,b.GoodsID As DepGoodsID,b.RequestQty As RequestDepQty,b.RequestDate As RequestDepDate,b.WipID,b.NextWipID, ";
+                " ,b.GoodsID As DepGoodsID,b.RequestQty As RequestDepQty,b.RequestDate As RequestDepDate,b.WipID,b.NextWipID,";
+            //0:繁體,1:越南文,2:英文,
             if (LanguageID == "0")
-                strSql += "c.name AS GoodsCname,f.name AS DepGoodsCname,h.Name As WipIDName,i.Name As NextWipIDName";
-            else if (LanguageID == "1")
-                strSql += "c.english_name AS GoodsCname,f.english_name AS DepGoodsCname,h.EngName As WipIDName,i.EngName As NextWipIDName";
+                strSql += "c.name AS GoodsCname,f.name AS DepGoodsCname,f.english_name As DepGoodsEname,h.Name As WipIDName,i.Name As NextWipIDName";
+            else if (LanguageID == "2")
+                strSql += "c.english_name AS GoodsCname,f.english_name AS DepGoodsCname,f.english_name AS DepGoodsEname,h.EngName As WipIDName,i.EngName As NextWipIDName";
             else
-                strSql += "e.vn_name1 AS GoodsCname,g.vn_name1 AS DepGoodsCname,h.VieName As WipIDName,i.VieName As NextWipIDName";
+                strSql += "e.vn_name1 AS GoodsCname,g.vn_name1 AS DepGoodsCname,f.english_name AS DepGoodsEname,h.VieName As WipIDName,i.VieName As NextWipIDName";
+            strSql += ",(b.ProductMo+b.Seq) AS BarCode";
             strSql += " FROM pd_PlanHead a " +
                 " Inner Join pd_PlanDetails b On a.ProductMo=b.ProductMo And a.Ver=b.Ver " +
                 " Left Join it_goods c ON a.GoodsID=c.id " +
@@ -405,6 +407,8 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 mdjPlan.AmendUser = dr["AmendUser"].ToString();
                 mdjPlan.AmendTime = dr["AmendTime"].ToString().Trim() != "" ? DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["AmendTime"])) : "";
                 mdjPlan.ArtImageUrl = dr["ArtImage"].ToString().Trim();// ArtImagePath + (dr["picture_name"] != null ? dr["picture_name"].ToString().Trim().Replace("\\", "/") : "");//"AAAA/A888020.bmp";// 
+                mdjPlan.DepGoodsEname = dr["DepGoodsEname"].ToString();
+                mdjPlan.BarCode = dr["BarCode"].ToString().Trim();
                 lsPlan.Add(mdjPlan);
             }
             return lsPlan;

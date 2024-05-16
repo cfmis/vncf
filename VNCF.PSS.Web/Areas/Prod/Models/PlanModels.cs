@@ -32,6 +32,9 @@ namespace VNCF.PSS.Web.Areas.Prod.Models
         public string NextWipIDName { get; set; }
         public string DepGoodsID { get; set; }
         public string DepGoodsCname { get; set; }
+        public string DepGoodsEname { get; set; }
+        public string BarCode { get; set; }
+
     }
     public class PlanHead : PlanModelBase
     {
