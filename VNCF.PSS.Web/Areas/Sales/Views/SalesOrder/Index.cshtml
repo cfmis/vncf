@@ -100,6 +100,14 @@
           font-size:12px;
           background-color:#008FD4;
         }*/
+        /*框架el-dialog 内边距过大，导致空白区域很多*/
+        .el-dialog__body{ 
+            padding:0 !important; 
+            padding-left: 2rem !important; 
+            padding-right: 2rem !important; 
+            padding-bottom: 0.55rem !important;
+        }
+
         
     </style>
 }
@@ -123,7 +131,8 @@
     <!--查找窗口-->
     <template v-if="isRenderSearchWindow">
         <el-dialog :title="title" :visible.sync="showDialogSearch" :close-on-click-modal="false" width="65%" destroy-on-close>
-            <div class="tool-bar-color" style="margin-bottom:5px;margin-left:5px">
+           
+            <div class="tool-bar-color" style="margin-bottom:5px;margin-left:5px;">
                 <template>
                     <el-button type="danger" plain size="small" icon="el-icon-close" @@click="closeDialog('searchForm')">@Resource.btn_exit</el-button>
                     <el-button type="primary" plain size="small" icon="el-icon-search" @@click="searchData">@Resource.btn_search</el-button>
@@ -221,7 +230,7 @@
      <!--查找貨品編碼-->
     <template v-if="isRenderFindItem">
         <el-dialog title="Find Item" :visible.sync="showDialogFindItem" :close-on-click-modal="false" width="60%" style="margin-top:0px;">
-            <div style="margin-bottom:5px;margin-left:0px;">
+            <div class="tool-bar-color" style="margin-bottom:5px;margin-left:0px;">
                 <template>
                     <el-button type="danger" plain size="small" icon="el-icon-close" @@click="closeDialog('findItem')">@Resource.btn_exit</el-button>
                     <el-button type="primary" plain size="small" icon="el-icon-search" @@click="getFindItemData">@Resource.btn_search</el-button>
