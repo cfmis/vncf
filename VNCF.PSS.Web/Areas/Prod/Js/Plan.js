@@ -17,10 +17,11 @@
 				PlanDateTo:'',
 			},
 			tablePlanHeadList: [],
+            delDetails:[],
             searchGoodsDetails: { GoodsID: '', },
             searchProductMo: '',
             loading3: false,
-			searchLoading: false,
+            searchLoading: false,
             //ArtImageUrl: '/Images/photo.png',
             //formData: {
             //    ProductMo: '',
@@ -80,11 +81,11 @@
 		},
         addNew() {
             this.edit_mode = 1;
-            nowDateTime = comm.getCurrentDateTime();
+            nowDateTime = COMM.getCurrentDateTime();
             this.formData = {
                 EditFlag: 1,
                 ProductMo: '',
-                PlanDate: comm.getCurrentDate(),
+                PlanDate: COMM.getCurrentDate(),
                 Ver: 0,
                 OrderQty: 0,
                 OrderUnit: 'PCS',
@@ -191,8 +192,8 @@
 					this.formData.EditFlag=1;
 					this.formData.ProductMo='';
 					this.formData.Ver=0;
-					var nowDateTime = comm.getCurrentDateTime();
-					this.PlanDate = comm.getCurrentDate();
+					var nowDateTime = COMM.getCurrentDateTime();
+					this.PlanDate = COMM.getCurrentDate();
 					this.CreateTime = nowDateTime;
 					this.AmendTime = nowDateTime;
 				}
@@ -257,22 +258,50 @@
         submitSearch() {
 
         },
-		async insertEvent (row) {
-              const $table = this.$refs.xTable
-              const record = {
-				ProductMo: this.formData.ProductMo,
-				Ver: this.formData.Ver,
-                GoodsID: '',
-				GoodsCname: '',
+		//async insertEvent (row) { //old Code
+		//      debugger;
+        //      const $table = this.$refs.xTable1
+        //      const record = {
+		//		ProductMo: this.formData.ProductMo,
+		//		Ver: this.formData.Ver,
+        //        GoodsID: '',
+		//		GoodsCname: '',
+        //        RequestQty: '',
+        //        RequestDate: '',
+        //        WipID: '',
+        //        NextWipID: '',
+        //      }
+        //      //const { row: newRow } = await $table.insertAt(record, row)
+        //      this.tablePlanDetails.push(record);
+        //      await $table.setActiveCell(row, 'GoodsID')              
+		//},
+       async insertEvent () {            
+             var $table = this.$refs.xTable1;
+             var rowEndIndex = -1             
+             var record = {
+			    ProductMo: this.formData.ProductMo,
+			    Ver: this.formData.Ver,
+			    GoodsID: '',
+			    GoodsCname: '',
                 RequestQty: '',
                 RequestDate: '',
                 WipID: '',
                 NextWipID: '',
+                EditFlag: '1',//allen add 2024/05/21
               }
-              //const { row: newRow } = await $table.insertAt(record, row)
-              this.tablePlanDetails.push(record);
-              await $table.setActiveCell(row, 'GoodsID')
-            },
+              //const { row: newRow } = await $table.insertAt(record, row)              
+              
+             //this.tablePlanDetails.push(record);
+             //await $table.setActiveCell(-1, 'GoodsID') 
+             //--start allen 2024/05/21  
+             this.tablePlanDetails.push(record);
+             await $table.insertAt(record,rowEndIndex).then(({ row }) => {                  
+                  $table.setCurrentRow(row);//當前行高亮
+                  $table.setActiveCell(rowEndIndex, 'GoodsID');
+             })
+             
+           //--end 2024/05/21           
+        },
         showInsertEvent () {
             this.editPlanDetails = {
                 EditFlag: 0,
@@ -319,7 +348,7 @@
             //this.showEdit = false
             //this.$XModal.message({ content: '保存成功', status: 'success' })
             //Object.assign(this.selectRow, this.tablePlanDetails)
-            //return;
+            //return;            
             if (this.selectRow) {
                 this.showEdit = false
                 //this.$XModal.message({ content: '保存成功', status: 'success' })
@@ -415,18 +444,19 @@
 			
         },
 		tablePlanDetailsCellDBLClickEvent ({ row }) {
-              this.editRowEvent(row)
-            },
+            this.editRowEvent(row)
+        },
         editRowEvent (row) {
             this.editPlanDetails = {
-                EditFlag: 0,
+                //EditFlag: 0, //allen cancel 2024/05/21
+                EditFlag: row.EditFlag, //allen add 2024/05/21
                 GoodsID: row.GoodsID,
                 GoodsCname: row.GoodsCname,
                 RequestQty: row.RequestQty,
                 RequestDate: row.RequestDate,
                 WipID: row.WipID,
                 NextWipID: row.NextWipID
-            }
+            }            
             //深度複製一個對象，用來判斷數據是否有修改
             this.prevEditPlanDetails = JSON.parse(JSON.stringify(this.editPlanDetails));
             this.selectRow = row
@@ -434,7 +464,7 @@
         },
         saveEvent() {
             this.validData();
-            var PlanHead = this.formData;
+            var PlanHead = this.formData;            
             var PlanDetails = this.tablePlanDetails;
             axios.post("SavePlan", { PlanHead, PlanDetails }).then(
             (response) => {
@@ -444,7 +474,7 @@
 					this.SavePlan = {
 						ProductMo: "",
 					};
-					alert("更新成功!");
+					this.$XModal.message({ content: '數據保存成功!', status: 'success' });
 				}
 				else
 					alert(response.data.Msg);
@@ -452,9 +482,9 @@
             (response) => {
                 alert(response.status);
             }
-        ).catch(function (response) {
-            alert(response);
-        });
+            ).catch(function (response) {
+               alert(response);
+            });
         },
         validData() {
             for (let i in this.formData) {
@@ -465,11 +495,21 @@
             }
         },
         deleteEvent() {
-            let selectRecords = this.$refs.xTable.getCheckboxRecords()
+            let selectRecords = this.$refs.xTable1.getCheckboxRecords()
             if (selectRecords.length) {
-                this.$refs.xTable.removeCheckboxRow()
+                //debugger;
+                this.delDetails=[];
+                selectRecords.forEach((item,i) => {
+                    if(item.CompleteQty==0){
+                        //未有完成數量才可以刪除
+                        this.delDetails.push(item); 
+                        this.$refs.xTable1.remove(item)
+                    }
+                                      
+                })
+                this.$refs.xTable1.removeCheckboxRow()
             } else {
-                alert('请至少选择一条数据！')
+                this.$XModal.alert({ content: '请至少选择一条数据！',status: 'warning' , mask: false });
                 //this.$xDetails.message({ content: 'warning 提示框', status: 'warning' })
             }
         },
@@ -477,7 +517,7 @@
                 //TODO
                 var url= "Print?ProductMo=" + this.formData.ProductMo;
                 showMessageDialog(url,'Print',900,600,true);
-            },
+        },
 		copyMo(){
 			if(this.copyData.SourceType=='1')
 			{
@@ -521,3 +561,5 @@
 }
 
 var app = new Vue(Main).$mount('#app');
+Vue.prototype.$XModal = VXETable.modal;
+Vue.prototype.$utils = XEUtils;

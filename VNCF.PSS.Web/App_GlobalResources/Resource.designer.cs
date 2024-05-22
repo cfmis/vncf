@@ -223,6 +223,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove Item.
+        /// </summary>
+        internal static string btn_delitem {
+            get {
+                return ResourceManager.GetString("btn_delitem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         internal static string btn_edit {

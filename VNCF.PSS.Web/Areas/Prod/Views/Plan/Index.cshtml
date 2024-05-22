@@ -21,21 +21,22 @@
 }
 <div id="app">
     <!--工具欄-->
-    <div style="height:35px;width:100%;margin-top:-12px;background-color:gainsboro;">
-        <div style="float:left;width:80%;">
-            <vxe-toolbar perfect size="medium" style="height:35px;background-color:gainsboro;">
+    @*background-color:gainsboro;*@
+    <div style="height:35px;width:100%;margin-top:-12px; background-color:#F5F7FA;border:1px solid rgba(167, 180, 183, 0.3)">
+        <div style="float:left;width:80%;">            
+            <vxe-toolbar perfect size="medium" style="height:35px;border:none">
                 <template #buttons>
                     <vxe-button type="text" icon="fa fa-plus" content="@Resource.btn_new" @@click="addNew()"></vxe-button>
                     <vxe-button type="text" icon="fa fa-save" content="@Resource.btn_save" @@click="saveEvent()"></vxe-button>
                     <vxe-button type="text" icon="fa fa-search" content="@Resource.btn_search" @@click="clickSearchEvent()"></vxe-button>
                     <vxe-button type="text" icon="fa fa-print" content="@Resource.btn_print" @@click="printEvent()"></vxe-button>
-                    <vxe-button type="text" icon="fa fa-arrow-circle-up" content="@Resource.btn_approval" @@click="saveEvent()"></vxe-button>
+                    <vxe-button type="text" icon="fa fa-arrow-circle-up" content="@Resource.btn_approval" @*@@click="saveEvent()"*@></vxe-button>
                     <vxe-button type="text" icon="fa fa-copy" content="@Resource.CopyMo" @@click="clickCopyEvent()"></vxe-button>
                     <vxe-button type="text" icon="fa fa-trash-o" content="@Resource.btn_del"></vxe-button>
                 </template>
             </vxe-toolbar>
         </div>
-        <div style="float:right;width:20%;">
+        <div style="float:right;width:20%;background-color:#F5F7FA;height:35px">       
             <div style="float:left;width:60%;">
                 <vxe-input v-model="searchProductMo" placeholder="Please input product MO" style="height:20px;margin-top:6px;font-size:9px"></vxe-input>
             </div>
@@ -52,8 +53,7 @@
             <vxe-radio-group v-model="selectTab">
                 <vxe-radio-button label="tab1" content="@Resource.ProductionMasterTable" size="mini"></vxe-radio-button>@*生產主表*@
                 <vxe-radio-button label="tab2" content="@Resource.ProductionDetail" size="mini"></vxe-radio-button>@*生產明細表*@
-                @*<vxe-radio-button label="tab3" content="制單配件"></vxe-radio-button>*@
-                
+                @*<vxe-radio-button label="tab3" content="制單配件"></vxe-radio-button>*@                
             </vxe-radio-group>
         @*</div>*@
         @*<div style="height:25px;margin:0px;margin-top:10px;float:right;width:30%;background-color:aqua">
@@ -98,7 +98,7 @@
                     </vxe-form-item>
                     <vxe-form-item title="@Resource.OrderQty" field="OrderQty" :item-render="{}" span="6" class="vxe-form-item-customize">
                         <template #default="{ data }">
-                            <vxe-input v-model="data.OrderQty" type="number" class="input-customize"></vxe-input>
+                            <vxe-input v-model="data.OrderQty" type="integer" class="input-customize" :controls="false"></vxe-input>
                         </template>
                     </vxe-form-item>
                     <vxe-form-item title="@Resource.QtyUnit" field="OrderUnit" :item-render="{}" span="6" class="vxe-form-item-customize">
@@ -184,8 +184,8 @@
         <div class="div-left">
             <vxe-toolbar style="height:35px">
                 <template #buttons>
-                    <vxe-button icon="fa fa-plus" @@click="insertEvent(-1)" size="mini">@Resource.btn_additem</vxe-button>
-                    <vxe-button icon="fa fa-trash-o" @@click="deleteEvent()" size="mini">@Resource.btn_saveitem</vxe-button>
+                    <vxe-button icon="fa fa-plus" @@click="insertEvent()" size="mini">@Resource.btn_additem</vxe-button>
+                    <vxe-button icon="fa fa-trash-o" @@click="deleteEvent()" size="mini"><span style="color:red">@Resource.btn_delitem</span> </vxe-button>
                 </template>
             </vxe-toolbar>
         </div>
@@ -193,33 +193,36 @@
         <div style="float:left;width:100%">
         <vxe-table border
                    show-overflow
+                   :data="tablePlanDetails"
+                   ref="xTable1"
                    height="350"
                    size="mini"
+                   @*resizable*@
+                   show-header-overflow
                    highlight-current-row
-                   :row-config="{height: 20}"
-                   ref="xTable"
+                   :row-config="{height: 20}"                   
                    :loading="loading3"
-                   :sync-resize="selectTab"
-                   :checkbox-config="{highlight: true, range: true}"
-                   :data="tablePlanDetails"
+                   :sync-resize="selectTab"                  
+                   :checkbox-config="{highlight: true, range: true}"                   
                    :keyboard-config="{isArrow: true, isEnter: true,Backspace:true}"
-                   :edit-config="{trigger: 'click', mode: 'row', icon: 'fa fa-pencil1', showStatus: true}"
-                   @@cell-dblclick="tablePlanDetailsCellDBLClickEvent">
-            <vxe-column type="seq" title="@Resource.SeqID" width="60"></vxe-column>
-            <vxe-column field="GoodsID" title="@Resource.ProductID" width="160" :edit-render="{autofocus: '.vxe-input--inner'}">
+                   :edit-config="{trigger: 'click', mode: 'row', icon: 'fa fa-pencil1', showStatus: true}"                  
+                   @@cell-dblclick="tablePlanDetailsCellDBLClickEvent">            
+            <vxe-column type="checkbox" fixed="left" width="40"></vxe-column>
+            <vxe-column type="seq" title="@Resource.SeqID" width="50"></vxe-column>
+            <vxe-column field="GoodsID" title="@Resource.ProductID" width="170" :edit-render="{autofocus: '.vxe-input--inner'}">
                 <template #edit="{ row }">
                     <vxe-input v-model="row.GoodsID" maxlength="18" style="height:20px;" @@change="tableGoodsIDChangeEvent(row)" @@blur="tableGoodsIDBlurEvent(row)"></vxe-input>
                 </template>
             </vxe-column>
             <vxe-column field="GoodsCname" title="@Resource.ProductCdesc" width="260"></vxe-column>
-            <vxe-column field="WipID" title="@Resource.ResponsibleDepartment" :edit-render="{}" width="160">
+            <vxe-column field="WipID" title="@Resource.ResponsibleDepartment" :edit-render="{}" width="120">
                 <template #edit="{ row }">
                     <vxe-select v-model="row.WipID" size="mini" @@change="tableWipIDChangeEvent(row)">
                         <vxe-option v-for="item in wipList" :key="item.value" :value="item.value" :label="item.label"></vxe-option>
                     </vxe-select>
                 </template>
             </vxe-column>
-            <vxe-column field="NextWipID" title="@Resource.ReceivingDepartment" :edit-render="{}" width="160">
+            <vxe-column field="NextWipID" title="@Resource.ReceivingDepartment" :edit-render="{}" width="120">
                 <template #edit="{ row }">
                     <vxe-select v-model="row.NextWipID" size="mini" @@change="tableNextWipIDChangeEvent(row)">
                         <vxe-option v-for="item in wipList" :key="item.value" :value="item.value" :label="item.label"></vxe-option>
@@ -228,16 +231,18 @@
             </vxe-column>
             <vxe-column field="RequestQty" title="@Resource.RequestQty" :edit-render="{}" width="100">
                 <template #edit="{ row }">
-                    <vxe-input v-model="row.RequestQty" type="number" style="height:20px" @@change="tableRequestQtyChangeEvent(row)"></vxe-input>
+                    <vxe-input v-model="row.RequestQty" type="number" style="height:20px" @@change="tableRequestQtyChangeEvent(row)":controls="false"></vxe-input>
                 </template>
             </vxe-column>
-            <vxe-column field="RequestDate" title="@Resource.RequiredCompletionDate" :edit-render="{}" width="180">
+            <vxe-column field="RequestDate" title="@Resource.RequiredCompletionDate" :edit-render="{}" width="120">
                 <template #edit="{ row }">
                     <vxe-input v-model="row.RequestDate" type="date" style="height:20px" @@change="tableRequestDateChangeEvent(row)"></vxe-input>
                 </template>
             </vxe-column>
-            <vxe-column field="CompleteQty" title="@Resource.CompletedQty" width="120"></vxe-column>
+            <vxe-column field="CompleteQty" title="@Resource.CompletedQty" width="100"></vxe-column>
             <vxe-column field="CompleteDate" title="@Resource.CompletedDate" width="120"></vxe-column>
+            <vxe-column field="CompleteDate" title="@Resource.CompletedDate" width="120"></vxe-column>
+            <vxe-column field="EditFlag" title="EditFlag" width="50" v-if="false"></vxe-column>
             <vxe-column title="@Resource.btn_edit" width="60" :resizable="false" fixed="right" show-overflow>
                 <template #default="{ row }">
                     <vxe-button type="text" icon="fa fa-edit" @@click="editRowEvent(row)"></vxe-button>
@@ -252,12 +257,14 @@
                     @*<div class="div-cont">*@
                         <vxe-form :data="editPlanDetails" title-align="right" title-width="160" @@submit="updateEvent" title-colon custom-layout>
                             <vxe-form-item align="left" span="24">
-                                <template #default>
-                                    <vxe-button v-if="selectRow" type="submit" status="primary">@Resource.btn_ok</vxe-button>
-                                    <vxe-button v-else type="submit" status="primary">@Resource.btn_new</vxe-button>
-                                    @*<vxe-button type="reset">重置</vxe-button>*@
-                                    <vxe-button @@click="$refs.xModal.close()">@Resource.btn_cancel</vxe-button>
-                                </template>
+                                <vxe-toolbar perfect size="medium" style="height:35px;margin-top:-20px;margin-bottom:-20px;">
+                                    <template #buttons @*#default*@>
+                                        <vxe-button v-if="selectRow" type="submit" status="primary">@Resource.btn_ok</vxe-button>
+                                        <vxe-button v-else type="submit" status="primary">@Resource.btn_new</vxe-button>
+                                        @*<vxe-button type="reset">重置</vxe-button>*@
+                                        <vxe-button @@click="$refs.xModal.close()">@Resource.btn_cancel</vxe-button>
+                                    </template>
+                                </vxe-toolbar>
                             </vxe-form-item>
                             <vxe-form-item title="@Resource.ProductID" field="GoodsID" span="12" :item-render="{}" class="vxe-form-item-customize">
                                 <template #default="{ data }">
@@ -286,7 +293,7 @@
                             </vxe-form-item>
                             <vxe-form-item title="@Resource.RequestQty" field="RequestQty" span="12" :item-render="{}" class="vxe-form-item-customize">
                                 <template #default="{ data }">
-                                    <vxe-input v-model="data.RequestQty" type="number" class="input-customize"></vxe-input>
+                                    <vxe-input v-model="data.RequestQty" type="number" class="input-customize" :controls="false"></vxe-input>
                                 </template>
                             </vxe-form-item>
                             <vxe-form-item title="@Resource.RequiredCompletionDate" field="RequestDate" span="12" :item-render="{}" class="vxe-form-item-customize">
@@ -349,14 +356,21 @@
     </div>*@
     <!--查找窗口-->
     <vxe-modal ref="xModalSearch" v-model="showSearch" title="@Resource.btn_search" width="800" height="600" resize destroy-on-close>
-        <template #default>
-            <vxe-form :data="searchParasData" title-align="right" title-width="100" @@submit="searchPlan()" style="margin-top:-20px">
-                <vxe-form-item align="left" span="24" style="margin-top:30px">
+        
+        <template #default>            
+            <vxe-toolbar perfect size="medium" style="height:35px;margin-top:-6px;margin-bottom:20px">
+                <template #buttons>
+                    <vxe-button status="primary" icon="fa fa-search" @@click="searchPlan()" size="mini">@Resource.btn_search</vxe-button>
+                    <vxe-button icon="fa fa-close" @@click="$refs.xModalSearch.close()" size="mini">@Resource.btn_exit</vxe-button>
+                </template>
+            </vxe-toolbar>            
+            <vxe-form :data="searchParasData" title-align="right" title-width="100" @*@@submit="searchPlan()"*@ style="margin-top:-20px">
+                @*<vxe-form-item align="left" span="24" style="margin-top:30px">
                     <template #default>
                         <vxe-button type="submit" status="primary">@Resource.btn_search</vxe-button>
                         <vxe-button @@click="$refs.xModalSearch.close()">@Resource.btn_exit</vxe-button>
                     </template>
-                </vxe-form-item>
+                </vxe-form-item>*@
                 <vxe-form-item title="@Resource.ProductMo" field="ProductMo" span="12" :item-render="{}">
                     <template #default="{ data }">
                         <vxe-input v-model="data.ProductMoFrom" style="width:40%"></vxe-input>

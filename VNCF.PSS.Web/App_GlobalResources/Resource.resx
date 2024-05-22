@@ -780,4 +780,7 @@
   <data name="Qty" xml:space="preserve">
     <value>Quantity</value>
   </data>
+  <data name="btn_delitem" xml:space="preserve">
+    <value>Remove Item</value>
+  </data>
 </root>
