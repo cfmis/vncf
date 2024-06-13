@@ -323,6 +323,18 @@ var COMM = {
       }
       return index
   },
+  /**字串轉大寫**
+   * Allen 2022/05/20
+  */
+  stringToUppercase: function(str) {       
+      var val="";
+      if(str){
+          val = str.toUpperCase();
+      }else{
+          val="";
+      }
+      return val;
+  },
 
   /**獲取當前日期時間*/
   getWipID: async  function() {

@@ -8,6 +8,7 @@
 			showSearch: false,
             selectRow: null,
             tablePlanDetails: [],
+            tablePlanDetailsDel: [],
             editPlanDetails: {},
             prevEditPlanDetails: {},
 			searchParasData:{
@@ -16,8 +17,7 @@
 				PlanDateFrom:'',
 				PlanDateTo:'',
 			},
-			tablePlanHeadList: [],
-            delDetails:[],
+			tablePlanHeadList: [],            
             searchGoodsDetails: { GoodsID: '', },
             searchProductMo: '',
             loading3: false,
@@ -43,7 +43,30 @@
             //    AmendUser: '',
             //    AmendTime:'',
             //},
-            formData: {},
+            formData: { 
+                EditFlag: 1,
+                ProductMo: '',
+                PlanDate: '',
+                Ver: 0,
+                OrderQty: 0,
+                OrderUnit: '',
+                CustomerID: '',
+                RequestDate: '',
+                DeliveryDate: '',
+                GoodsID: '',
+                GoodsCname:'',
+                ProductRemark: '',
+                MoRemark: '',
+                PlanRemark: '',
+                ApprovedTime: '',
+                ApprovedUser: '',
+                CreateUser: '',
+                CreateTime: '',
+                AmendUser: '',
+                AmendTime: '',
+                ArtImageUrl: '',
+                State:'0'
+            },
             prevForm: {},
 			copyData:{
 				SourceType:'1',
@@ -104,17 +127,24 @@
                 AmendUser: '',
                 AmendTime: nowDateTime,
                 ArtImageUrl: '/Images/photo.png',
+                State:'0',
             };
             //深度複製一個對象，用來判斷數據是否有修改
             this.prevForm = JSON.parse(JSON.stringify(this.formData));
+            this.tablePlanDetails = [];
         },
-        productMoBlurEvent() {
-            if (this.formData.ProductMo == "")
+        productMoBlurEvent() {           
+            if (this.formData.ProductMo === ""){
                 return;
-            if (this.edit_mode == 1)
+            }
+            if (this.edit_mode === 1){
                 this.getPlanFromOrder();
+            }
         },
-        searchByProductMo(_ProductMo) {
+        searchByProductMo(_ProductMo) {            
+            if(this.$utils.getSize(_ProductMo)===0){
+                return;
+            }
             this.edit_mode = 0,
             this.loading3 = true;
             setTimeout(() => {
@@ -126,7 +156,7 @@
         },
 		searchCellDBLClickEvent ({ row }) {
               this.SelectSearchMoEvent(row)
-            },
+        },
 		SelectSearchMoEvent(row){
 			this.searchByProductMo(row.ProductMo);
 			this.$refs.xModalSearch.close();
@@ -147,11 +177,11 @@
             alert(response);
         });
 		},
-        async getPlanHead(IsUpdate,_ProductMo) {
+        getPlanHead(IsUpdate,_ProductMo) {
             var _self = this;
             //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
-            await axios.get("GetPlanHeadByMo", { params: { ProductMo: _ProductMo } }).then(
-            (response) => {
+            axios.get("GetPlanHeadByMo", { params: { ProductMo: _ProductMo } }).then(
+            (response) => {               
                 //this.formData.ProductMo = response.data.ProductMo,
                 //    this.formData.Ver = response.data.Ver,
                 //    this.formData.PlanDate = response.data.PlanDate,
@@ -162,6 +192,7 @@
                 //    this.formData.MoRemark = response.data.MoRemark,
                 //    this.formData.PlanRemark = response.data.PlanRemark,
                 //    this.formData.ProductRemark = response.data.ProductRemark
+                //以下賦值方法簡潔些.                
                 this.formData = {
                     ProductMo: response.data.ProductMo,
                     Ver: response.data.Ver,
@@ -181,22 +212,24 @@
                     CreateTime: response.data.CreateTime,
                     AmendUser: response.data.AmendUser,
                     AmendTime: response.data.AmendTime,
+                    State:response.data.State,
                 }
-				if(IsUpdate=='S')
-                //深度複製一個對象，用來判斷數據是否有修改
-                this.prevForm = JSON.parse(JSON.stringify(this.formData));
-                //var ImagePath = "/art/artwork/" + "AAAA/A888020.bmp";
-                //this.ArtImageUrl = ImagePath;
-				else
-				{
-					this.formData.EditFlag=1;
-					this.formData.ProductMo='';
-					this.formData.Ver=0;
-					var nowDateTime = COMM.getCurrentDateTime();
-					this.PlanDate = COMM.getCurrentDate();
-					this.CreateTime = nowDateTime;
-					this.AmendTime = nowDateTime;
-				}
+                if(IsUpdate=='S'){
+                    //深度複製一個對象，用來判斷數據是否有修改
+                    this.prevForm = JSON.parse(JSON.stringify(this.formData));
+                    //var ImagePath = "/art/artwork/" + "AAAA/A888020.bmp";
+                    //this.ArtImageUrl = ImagePath;
+                }
+                else
+                {
+                    this.formData.EditFlag=1;
+                    this.formData.ProductMo='';
+                    this.formData.Ver=0;
+                    var nowDateTime = COMM.getCurrentDateTime();
+                    this.PlanDate = COMM.getCurrentDate();
+                    this.CreateTime = nowDateTime;
+                    this.AmendTime = nowDateTime;
+                }
             },
             (response) => {
                 alert(response.status);
@@ -233,74 +266,70 @@
             alert(response);
         });
         },
-        getPlanFromOrder() {
-            var _self = this;
-            //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
-            axios.get("GetOrderByMo", { params: { ProductMo: _self.formData.ProductMo } }).then(
-            (response) => {
-				var rpData=response.data[0];
-                this.formData.ProductMo = rpData.ProductMo,
-                this.formData.CustomerID = rpData.CustomerID,
-                this.formData.GoodsID = rpData.GoodsID,
-                this.formData.OrderQty = rpData.OrderQty,
-                this.formData.OrderUnit = rpData.OrderUnit,
-                this.formData.ProductRemark = rpData.ProductRemark,
-                this.formData.ArtImageUrl = rpData.ArtImageUrl,
-                this.tablePlanDetails = response.data
-            },
-            (response) => {
-                alert(response.status);
-            }
-        ).catch(function (response) {
-            alert(response);
-        });
+        getPlanFromOrder() {                
+                //var _self = this;
+                //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
+                //axios.get("GetOrderByMo", { params: { ProductMo: _self.formData.ProductMo } }).then( 
+                axios.get("GetOrderByMo", { params: { ProductMo: this.formData.ProductMo } }).then(
+                (response) => { 
+                    let rpData = response.data[0];                   
+                    if(rpData){
+                        this.formData.ProductMo = rpData.ProductMo,
+                        this.formData.CustomerID = rpData.CustomerID,
+                        this.formData.GoodsID = rpData.GoodsID,
+                        this.formData.OrderQty = rpData.OrderQty,
+                        this.formData.OrderUnit = rpData.OrderUnit,
+                        this.formData.ProductRemark = rpData.ProductRemark,
+                        this.formData.ArtImageUrl = rpData.ArtImageUrl,
+                        this.tablePlanDetails = response.data
+                    }else{
+                        this.$XModal.alert({ content: `制單頁數【${this.formData.ProductMo}】并不存在!`,status: 'warning' , mask: false }); 
+                        this.formData.ProductMo = "";
+                    }
+                },
+                (response) => { 
+                    alert(response.status);
+                }
+            ).catch(function (response) {
+                alert(response);
+            });
         },
         submitSearch() {
 
-        },
-		//async insertEvent (row) { //old Code
-		//      debugger;
-        //      const $table = this.$refs.xTable1
-        //      const record = {
-		//		ProductMo: this.formData.ProductMo,
-		//		Ver: this.formData.Ver,
-        //        GoodsID: '',
-		//		GoodsCname: '',
-        //        RequestQty: '',
-        //        RequestDate: '',
-        //        WipID: '',
-        //        NextWipID: '',
-        //      }
-        //      //const { row: newRow } = await $table.insertAt(record, row)
-        //      this.tablePlanDetails.push(record);
-        //      await $table.setActiveCell(row, 'GoodsID')              
-		//},
-       async insertEvent () {            
-             var $table = this.$refs.xTable1;
-             var rowEndIndex = -1             
-             var record = {
-			    ProductMo: this.formData.ProductMo,
-			    Ver: this.formData.Ver,
-			    GoodsID: '',
-			    GoodsCname: '',
-                RequestQty: '',
-                RequestDate: '',
-                WipID: '',
-                NextWipID: '',
-                EditFlag: '1',//allen add 2024/05/21
-              }
-              //const { row: newRow } = await $table.insertAt(record, row)              
-              
-             //this.tablePlanDetails.push(record);
-             //await $table.setActiveCell(-1, 'GoodsID') 
-             //--start allen 2024/05/21  
-             this.tablePlanDetails.push(record);
-             await $table.insertAt(record,rowEndIndex).then(({ row }) => {                  
-                  $table.setCurrentRow(row);//當前行高亮
-                  $table.setActiveCell(rowEndIndex, 'GoodsID');
-             })
-             
-           //--end 2024/05/21           
+       },		
+       insertEvent () { 
+           if(this.formData){
+               if(this.formData.State==="2"){
+                   this.$XModal.alert({ content: '注銷狀態,當前操作無效！',status: 'warning' , mask: false });
+                   return;
+               }
+               var $table = this.$refs.xTable1;
+               var rowEndIndex = -1             
+               var record = {
+                   ProductMo: this.formData.ProductMo,
+                   Ver: this.formData.Ver,
+                   GoodsID: '',
+                   GoodsCname: '',
+                   RequestQty: '',
+                   RequestDate: '',
+                   WipID: '',
+                   NextWipID: '',
+                   EditFlag: 1,//allen add 2024/05/21
+               }            
+               //this.tablePlanDetails.push(record); //allen cancel 2024/05/22
+               //await $table.setActiveCell(-1, 'GoodsID') //allen cancel 2024/05/22
+
+               //--start allen 2024/05/21              
+               this.tablePlanDetails.push(record);
+               this.$set(this.formData, "EditFlag",1);//明細有插入,需設置主表更新標識
+               $table.insertAt(record,rowEndIndex).then(({ row }) => {                  
+                   $table.setCurrentRow(row);//當前行高亮
+                   $table.setActiveCell(rowEndIndex, 'GoodsID');
+               })             
+               //--end 2024/05/21
+           }else{
+               this.$XModal.alert({ content: '請首先新增主檔資料!',status: 'warning' , mask: false }); 
+           }
         },
         showInsertEvent () {
             this.editPlanDetails = {
@@ -314,7 +343,7 @@
                 WipID: '',
                 NextWipID: ''
             },
-           this.selectRow = null
+            this.selectRow = null
             this.showEdit = true
 
         },
@@ -345,24 +374,32 @@
             });
         },
         updateEvent() {
+            if(this.formData.State==='2')
+            {
+                this.$XModal.alert({ content: '注銷狀態,當前操作無效！',status: 'warning' , mask: false });
+                return;
+            }
             //this.showEdit = false
             //this.$XModal.message({ content: '保存成功', status: 'success' })
             //Object.assign(this.selectRow, this.tablePlanDetails)
-            //return;            
+            //return;
             if (this.selectRow) {
-                this.showEdit = false
+                //項目修改
+                this.showEdit = false;
                 //this.$XModal.message({ content: '保存成功', status: 'success' })
                 for (let i in this.editPlanDetails) {
                     if (this.editPlanDetails[i] != this.prevEditPlanDetails[i]) {
                         this.editPlanDetails.EditFlag = 1;
+                        this.formData.EditFlag = 1; //allen add 2024/05/23
                         break;
                     }
                 }
                 Object.assign(this.selectRow, this.editPlanDetails)
             } else {
+                //項目新增
                 this.editPlanDetails.EditFlag = 1;
                 this.tablePlanDetails.push(this.editPlanDetails);
-                //this.editPlanDetails = {};
+                this.formData.EditFlag = 1; //allen add 2024/05/23
                 this.editPlanDetails = {
                     EditFlag: 0,
                     ProductMo: this.formData.ProductMo,
@@ -374,9 +411,10 @@
                     WipID: '',
                     NextWipID: ''
                 };
+                this.selectRow = null;//allen add 2024/05/23
             }
         },
-		tableGoodsIDChangeEvent(row){
+		tableGoodsIDChangeEvent(row){		   
 			this.changeRowState(row);
 		},
 		tableWipIDChangeEvent(row){
@@ -393,45 +431,62 @@
 		},
 
 		changeRowState(row){
-			row.EditFlag=1;
-			row.GoodsID=row.GoodsID.toUpperCase();
+		    row.EditFlag=1;
+		    if(this.$utils.isEmpty(row.GoodsID)){
+		        return;
+		    }
+		    let goods_id = row.GoodsID;
+		    row.GoodsID=COMM.stringToUppercase(goods_id);  //row.GoodsID.toUpperCase();
 		},
 		tableGoodsIDBlurEvent(row){
-			if(row.GoodsID!="")
-				this.getGoodsByID(row,row.GoodsID);
+		    if(row.GoodsID !=""){
+		        this.getGoodsByID(row,row.GoodsID);
+		    }
 		},
 		modalGoodsIDBlurEvent(){
-			if(this.editPlanDetails.GoodsID!="")
-				this.getGoodsByID('modal',this.editPlanDetails.GoodsID);
+		    if(this.editPlanDetails.GoodsID !=""){
+		        this.getGoodsByID('modal',this.editPlanDetails.GoodsID);
+		    }
 		},
 		formDataGoodsIDBlurEvent(){
-			if(this.formData.GoodsID!="")
-				this.getGoodsByID('formData',this.formData.GoodsID);
+		    if(this.formData.GoodsID !=""){
+		        this.getGoodsByID('formData',this.formData.GoodsID);
+		    }
 		},
         getGoodsByID(row,val) {
-			var GoodsCname="";
+            var GoodsCname ="";
+            if(val ==="")
+            {
+                return;
+            }
             if (this.editPlanDetails.GoodsID != "") {
                 axios.get("GetGoodsByID", { params: { GoodsID: val } }).then(
                 (response) => {
                     GoodsCname = response.data.goods_cname
-					if(GoodsCname=="")
-					{
-						if(row=='modal')
-							this.editPlanDetails.GoodsCname='';
-						else if(row=='formData')
-							this.formData.GoodsCname='';
+                    let goodsID ="";
+                    if(GoodsCname ===""){
+                        if(row ==='modal'){      
+                            goodsID = this.editPlanDetails.GoodsID;
+                            this.editPlanDetails.GoodsID ='';
+                            this.editPlanDetails.GoodsCname ='';
+                        }
+                        else{
+                            if(row ==='formData'){  
+                                goodsID = this.formData.GoodsID;
+                                this.formData.GoodsID ='';
+                                this.formData.GoodsCname ='';
+                            }
+                        }
+                        this.$XModal.alert({ content: `物料編號不存在!【${goodsID}】`,status: 'warning' , mask: false });      
+                        row.GoodsCname=''; 
+                        //this.$refs.xTable1.setActiveCell(row, "GoodsID");
+                    }else{
+						if(row ==='modal')
+							this.editPlanDetails.GoodsCname = GoodsCname;
+						else if(row ==='formData')
+							this.formData.GoodsCname = GoodsCname;
 						else
-							row.GoodsCname='';
-						alert("物料編號不存在!");
-					}
-					else
-					{
-						if(row=='modal')
-							this.editPlanDetails.GoodsCname=GoodsCname;
-						else if(row=='formData')
-							this.formData.GoodsCname=GoodsCname;
-						else
-							row.GoodsCname=GoodsCname;
+							row.GoodsCname = GoodsCname;
 					}
                 },
                 (response) => {
@@ -446,9 +501,9 @@
 		tablePlanDetailsCellDBLClickEvent ({ row }) {
             this.editRowEvent(row)
         },
-        editRowEvent (row) {
+        editRowEvent (row) {            
             this.editPlanDetails = {
-                //EditFlag: 0, //allen cancel 2024/05/21
+                //EditFlag: 0, //allen cancel 2024/05/21               
                 EditFlag: row.EditFlag, //allen add 2024/05/21
                 GoodsID: row.GoodsID,
                 GoodsCname: row.GoodsCname,
@@ -463,10 +518,22 @@
             this.showEdit = true
         },
         saveEvent() {
-            this.validData();
+            if(this.formData.State==='2')
+            {
+                this.$XModal.alert({ content: '注銷狀態,當前操作無效！',status: 'warning' , mask: false });
+                return;
+            }
+            this.validData();//設置表頭是否要更改的標識EditFlag
+            //--start allen 2024/05/29
+            if(this.validDetails()==false){
+                this.$XModal.alert({ content: '請返回檢查明細資料的有效性！',status: 'warning' , mask: false });                 
+                return;
+            }           
+            //--end allen 2024/05/29
             var PlanHead = this.formData;            
             var PlanDetails = this.tablePlanDetails;
-            axios.post("SavePlan", { PlanHead, PlanDetails }).then(
+            var PlanDetailsDel = this.tablePlanDetailsDel;
+            axios.post("SavePlan", { PlanHead, PlanDetails, PlanDetailsDel }).then(
             (response) => {
 				if(response.data.Status=="0")
 				{
@@ -486,37 +553,116 @@
                alert(response);
             });
         },
-        validData() {
+        cancelEvent() {
+            if(this.formData.State==='2')
+            {
+                this.$XModal.alert({ content: '注銷狀態,當前操作無效！',status: 'warning' , mask: false });
+                return;
+            }
+            let mo_id ="";
+            let ver ="";
+            if(this.formData){
+                mo_id = this.formData.ProductMo;
+                ver = this.formData.Ver;
+            }  
+            if(this.$utils.getSize(mo_id)===0){
+                return;
+            }
+            this.$XModal.confirm('确定要注銷當前頁數計劃?').then(type => {
+                if (type === "confirm") {  
+                    axios.post("CancelPlan", { ProductMo: mo_id,Ver:ver}).then( (response) => {
+                        if(response.data.Status==="0"){
+                	        this.searchByProductMo(response.data.ReturnValue);					        
+                	        this.$XModal.message({ content: '注銷成功!', status: 'success' });
+                        }else{
+                            alert(response.data.Msg);
+                        }
+                    }).catch(function (response){
+                        alert(response);
+                    });
+                }
+            })
+        },
+        validData() {            
             for (let i in this.formData) {
                 if (this.formData[i] != this.prevForm[i]) {
                     this.formData.EditFlag = 1;
                     break;
                 }
-            }
+            }           
         },
-        deleteEvent() {
-            let selectRecords = this.$refs.xTable1.getCheckboxRecords()
-            if (selectRecords.length) {
-                //debugger;
-                this.delDetails=[];
-                selectRecords.forEach((item,i) => {
-                    if(item.CompleteQty==0){
-                        //未有完成數量才可以刪除
-                        this.delDetails.push(item); 
-                        this.$refs.xTable1.remove(item)
-                    }
-                                      
-                })
-                this.$refs.xTable1.removeCheckboxRow()
+        validDetails() {//明細資料的有效性檢查
+            result = true;            
+            var arrDetails = this.tablePlanDetails;
+            if(arrDetails.length>0){
+                for(var i=0; i<arrDetails.length;i++) {
+                    if(this.$utils.isEmpty(arrDetails[i].GoodsID) || this.$utils.isEmpty(arrDetails[i].GoodsCname) ||
+                        this.$utils.isEmpty(arrDetails[i].WipID) || this.$utils.isEmpty(arrDetails[i].NextWipID) ) {
+                        result = false;
+                        break;
+                     }                         
+                }
+            }else{
+                result = false;
+            }
+            return result;
+        },
+        async deleteEvent() {
+            if(this.formData.State==='2')
+            {
+                this.$XModal.alert({ content: '注銷狀態,當前操作無效！',status: 'warning' , mask: false });
+                return;
+            }
+            let $table = this.$refs.xTable1; 
+            let selectRecords = $table.getCheckboxRecords();             
+            if (selectRecords.length) {               
+              await this.$XModal.confirm('确定要刪除當前選中的行?').then(type => {
+                   if (type == "confirm") {  
+                       this.tablePlanDetailsDel = [];               
+                       selectRecords.forEach((item,i) => {                   
+                           //因在勾選事件中已有判斷,這里選中的全都是完成數量是0的記錄
+                           this.tablePlanDetailsDel.push(item); //將刪除的行對象加入數組                                                                     
+                       })
+                       $table.removeCheckboxRow();//移除選中的所有行對象 
+                       this.formData.EditFlag = 1; //allen add 2024/05/23
+
+                       //將數組中某一行對象刪除               
+                       let arrPlan = this.tablePlanDetails;
+                       let new_set = new Set(arrPlan);
+                       let arr_del = this.tablePlanDetailsDel;  
+                       let new_arr = [];
+                       for (let i = 0; i < arr_del.length; i++) {
+                           new_set.delete(arr_del[i]);      
+                       }
+                       this.tablePlanDetails = [...new_set];
+                   }
+               })               
             } else {
-                this.$XModal.alert({ content: '请至少选择一条数据！',status: 'warning' , mask: false });
-                //this.$xDetails.message({ content: 'warning 提示框', status: 'warning' })
+                await this.$XModal.alert({ content: '請至少選擇一條數據！',status: 'warning' , mask: false });               
+            }            
+        },
+        /*單選*/
+        checkboxChange({ row }){            
+            if(row.CompletedQty>0){
+                this.$XModal.alert({ content: '已有完成數量,不可以刪除！',status: 'warning' , mask: false });
+                let $table = this.$refs.xTable1;                
+                $table.setCheckboxRow(row,false);//清除勾選               
             }
         },
-		printEvent(){
-                //TODO
-                var url= "Print?ProductMo=" + this.formData.ProductMo;
-                showMessageDialog(url,'Print',900,600,true);
+        /*全選*/
+        selectAllCheckboxChange(){            
+            let $table = this.$refs.xTable1;
+            let ary = $table.data;
+            ary.forEach((rw,i) => {
+                //已有完成數量,不可以勾選
+                if(rw.CompletedQty>0){
+                    $table.setCheckboxRow(rw,false);//清除勾選                    
+                }                   
+            })            
+        },        
+		printEvent(){                
+            var url= "Print?ProductMo=" + this.formData.ProductMo;
+            showMessageDialog(url,'Print',900,600,true);
         },
 		copyMo(){
 			if(this.copyData.SourceType=='1')
@@ -530,11 +676,17 @@
 				}, 500);
 			}
 
-		}
+		},
+        setUpperCase(value){
+            debugger;
+            value = COMM.stringToUppercase(value);
+            //this.$set(this.selectRow, strField, value );
+            return value;
+		},
     },
 
     watch: {
-        //// watch监听 判断是否修改  
+        //// watch监听 判断是否修改        
         formData: {
            handler (val, oldVal) {
                // for (let i in this.formData) {
@@ -546,14 +698,25 @@
                    // }
                // }
                // console.log(this.editFormChanged);
-			   this.formData.CustomerID=this.formData.CustomerID.toUpperCase();
-			   this.formData.GoodsID=this.formData.GoodsID.toUpperCase();
+               let customer_id = this.formData.CustomerID;
+               customer_id = COMM.stringToUppercase(customer_id)
+               this.formData.CustomerID = customer_id;//this.formData.CustomerID.toUpperCase();
+             
+               let mo_id = this.formData.ProductMo;
+               mo_id = COMM.stringToUppercase(mo_id)
+               let good_id = this.formData.GoodsID;
+               good_id = COMM.stringToUppercase(good_id);
+               //this.formData.GoodsID = this.formData.GoodsID.toUpperCase(); //cancel 2024/06/07
+               this.formData.ProductMo = mo_id;
+               this.formData.GoodsID = good_id;
            },
            deep: true
         },
 		editPlanDetails: {
-           handler (val, oldVal) {
-			   this.editPlanDetails.GoodsID=this.editPlanDetails.GoodsID.toUpperCase();
+		    handler (val, oldVal) {
+		        let goodsid = this.editPlanDetails.GoodsID;
+		        goodsid = COMM.stringToUppercase(goodsid);
+		        this.editPlanDetails.GoodsID = goodsid;// this.editPlanDetails.GoodsID.toUpperCase();
            },
            deep: true
         }

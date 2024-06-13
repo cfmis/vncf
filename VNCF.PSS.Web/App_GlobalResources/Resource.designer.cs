@@ -214,6 +214,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancellation.
+        /// </summary>
+        internal static string btn_cancela {
+            get {
+                return ResourceManager.GetString("btn_cancela", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         internal static string btn_del {

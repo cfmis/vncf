@@ -803,4 +803,7 @@
     <value>Xóa mục</value>
     <comment>項目刪除</comment>
   </data>
+  <data name="btn_cancela" xml:space="preserve">
+    <value>Hủy bỏ</value>
+  </data>
 </root>
