@@ -151,6 +151,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Browse.
+        /// </summary>
+        internal static string Browse {
+            get {
+                return ResourceManager.GetString("Browse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
         internal static string btnSelect {
@@ -732,6 +741,15 @@ namespace Resources {
         internal static string Dosage {
             get {
                 return ResourceManager.GetString("Dosage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
             }
         }
         
@@ -1389,6 +1407,15 @@ namespace Resources {
         internal static string OcRemark {
             get {
                 return ResourceManager.GetString("OcRemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operate.
+        /// </summary>
+        internal static string Operate {
+            get {
+                return ResourceManager.GetString("Operate", resourceCulture);
             }
         }
         

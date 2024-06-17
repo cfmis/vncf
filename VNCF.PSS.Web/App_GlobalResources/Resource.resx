@@ -786,4 +786,13 @@
   <data name="btn_cancela" xml:space="preserve">
     <value>Cancellation</value>
   </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Operate" xml:space="preserve">
+    <value>Operate</value>
+  </data>
 </root>

@@ -118,22 +118,28 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ActualToHKDate" xml:space="preserve">
-    <value>實際回港日期</value>
+    <value>Ngày trở lại thực tế về</value>
+    <comment>實際回港日期</comment>
   </data>
   <data name="ActualToHKQty" xml:space="preserve">
-    <value>實際回港數量</value>
+    <value>Số lượng thực tế</value>
+    <comment>實際回港數量</comment>
   </data>
   <data name="Area" xml:space="preserve">
-    <value>區域</value>
+    <value>Khu vực</value>
+    <comment>區域</comment>
   </data>
   <data name="ArriveDate" xml:space="preserve">
-    <value>交貨日期</value>
+    <value>Ngày giao hàng</value>
+    <comment>交貨日期</comment>
   </data>
   <data name="BankAccount" xml:space="preserve">
-    <value>銀行賬號</value>
+    <value>Tài khoản ngân hàng</value>
+    <comment>銀行賬號</comment>
   </data>
   <data name="BrandID" xml:space="preserve">
-    <value>牌子編號</value>
+    <value>Mã thương hiệu</value>
+    <comment>牌子編號</comment>
   </data>
   <data name="btn_add" xml:space="preserve">
     <value>Mới</value>
@@ -204,106 +210,140 @@
     <comment>恢復</comment>
   </data>
   <data name="Contacts" xml:space="preserve">
-    <value>聯繫人</value>
+    <value>Người liên hệ</value>
+    <comment>聯繫人</comment>
   </data>
   <data name="ContactsEmail" xml:space="preserve">
-    <value>郵件</value>
+    <value>E-Mail</value>
+    <comment>郵件</comment>
   </data>
   <data name="ContactsFax" xml:space="preserve">
-    <value>傳真</value>
+    <value>Fax</value>
+    <comment>傳真</comment>
   </data>
   <data name="ContactsTel" xml:space="preserve">
-    <value>聯繫人電話</value>
+    <value>Số điện thoại liên hệ</value>
+    <comment>聯繫人電話</comment>
   </data>
   <data name="ContractID" xml:space="preserve">
     <value>PO/NO</value>
+    <comment>PO/NO</comment>
   </data>
   <data name="CreateAt" xml:space="preserve">
-    <value>建檔日期</value>
+    <value>Ngày thành lập</value>
+    <comment>建檔日期</comment>
   </data>
   <data name="CreateBy" xml:space="preserve">
-    <value>建檔人</value>
+    <value>Trình nộp hồ sơ</value>
+    <comment>建檔人</comment>
   </data>
   <data name="CurrencyID" xml:space="preserve">
-    <value>貨幣代碼</value>
+    <value>Mã tiền tệ</value>
+    <comment>貨幣代碼</comment>
   </data>
   <data name="CurrencyRate" xml:space="preserve">
-    <value>貨幣匯率</value>
+    <value>Tỷ giá hối đoái</value>
+    <comment>貨幣匯率</comment>
   </data>
   <data name="CustColorID" xml:space="preserve">
-    <value>客顏色編號</value>
+    <value>Màu khách</value>
+    <comment>客顏色編號</comment>
   </data>
   <data name="CustColorName" xml:space="preserve">
-    <value>客顏色名稱</value>
+    <value>Tên màu của khách</value>
+    <comment>客顏色名稱</comment>
   </data>
   <data name="CustomerCdesc" xml:space="preserve">
-    <value>客戶名稱</value>
+    <value>Tên khách hàng</value>
+    <comment>客戶名稱</comment>
   </data>
   <data name="CustomerEdesc" xml:space="preserve">
-    <value>客戶名稱(En)</value>
+    <value>Tên khách hàng(En)</value>
+    <comment>客戶名稱(En)</comment>
   </data>
   <data name="CustomerID" xml:space="preserve">
-    <value>客戶編號</value>
+    <value>ID khách hàng</value>
+    <comment>客戶編號</comment>
   </data>
   <data name="CustProductID" xml:space="preserve">
-    <value>客產品編號</value>
+    <value>Sản phẩm của khách hàng</value>
+    <comment>客產品編號</comment>
   </data>
   <data name="CustProductName" xml:space="preserve">
-    <value>客產品名稱</value>
+    <value>Khách hàng Tên sản phẩm</value>
+    <comment>客產品名稱</comment>
   </data>
   <data name="CustSize" xml:space="preserve">
-    <value>客戶尺寸</value>
+    <value>Quy mô khách</value>
+    <comment>客戶尺寸</comment>
   </data>
   <data name="DeliveredPort" xml:space="preserve">
-    <value>裝貨港口</value>
+    <value>Cảng bốc hàng</value>
+    <comment>裝貨港口</comment>
   </data>
   <data name="DestinationPort" xml:space="preserve">
-    <value>目的港口</value>
+    <value>Dảng đích</value>
+    <comment>目的港口</comment>
   </data>
   <data name="Discount" xml:space="preserve">
-    <value>折扣額</value>
+    <value>Số tiền chiết khấu</value>
+    <comment>折扣額</comment>
   </data>
   <data name="DiscountRate" xml:space="preserve">
-    <value>折扣率%</value>
+    <value>Tỷ lệ chiết khấu%</value>
+    <comment>折扣率%</comment>
   </data>
   <data name="DoColor" xml:space="preserve">
-    <value>顏色做法</value>
+    <value>Thực hành màu sắc</value>
+    <comment>顏色做法</comment>
   </data>
   <data name="Dosage" xml:space="preserve">
-    <value>用量</value>
+    <value>Liều lượng</value>
+    <comment>用量</comment>
   </data>
   <data name="FactoryShipOutDate" xml:space="preserve">
-    <value>交客日期</value>
+    <value>Ngày giao hàng</value>
+    <comment>交客日期</comment>
   </data>
   <data name="ForeignFirm" xml:space="preserve">
-    <value>洋行編號</value>
+    <value>ID đại lý</value>
+    <comment>洋行編號</comment>
   </data>
   <data name="GetColorSample" xml:space="preserve">
-    <value>取色版</value>
+    <value>Đĩa chọn màu</value>
+    <comment>取色版</comment>
   </data>
   <data name="InvoiceRemark" xml:space="preserve">
-    <value>發票備註</value>
+    <value>Nhận xét hóa đơn</value>
+    <comment>發票備註</comment>
   </data>
   <data name="IsFree" xml:space="preserve">
-    <value>是否免費</value>
+    <value>Là miễn phí</value>
+    <comment>是否免費</comment>
   </data>
   <data name="IsPrint" xml:space="preserve">
-    <value>是否列印</value>
+    <value>Được in</value>
+    <comment>是否列印</comment>
   </data>
   <data name="Merchandisers" xml:space="preserve">
-    <value>跟單員</value>
+    <value>Người buôn bán</value>
+    <comment>跟單員</comment>
   </data>
   <data name="MerchandisersEmail" xml:space="preserve">
-    <value>跟單員郵件</value>
+    <value>Người buôn bán E-mail</value>
+    <comment>跟單員郵件</comment>
   </data>
   <data name="MerchandisersTel" xml:space="preserve">
-    <value>跟單員電話</value>
+    <value>Người buôn bán Tel</value>
+    <comment>跟單員電話</comment>
   </data>
   <data name="MoState" xml:space="preserve">
-    <value>頁數狀態</value>
+    <value>Trạng thái MO</value>
+    <comment>頁數狀態</comment>
   </data>
   <data name="MoType" xml:space="preserve">
-    <value>制單種類</value>
+    <value>Kiểu MO</value>
+    <comment>制單種類</comment>
   </data>
   <data name="msg_condition_is_empty" xml:space="preserve">
     <value>查詢條件不可以為空 !</value>
@@ -330,127 +370,167 @@
     <value>主檔資料保存成功 !</value>
   </data>
   <data name="msg_saved_success" xml:space="preserve">
-    <value>數據保存成功 !</value>
+    <value>Dữ liệu đã lưu thành công</value>
+    <comment>數據保存成功 !</comment>
   </data>
   <data name="msg_search_condition" xml:space="preserve">
     <value>查找條件</value>
   </data>
   <data name="msg_system_prompt" xml:space="preserve">
-    <value>系统提示</value>
+    <value>Gợi ý hệ thống</value>
+    <comment>系统提示</comment>
   </data>
   <data name="OcID" xml:space="preserve">
-    <value>OC編號</value>
+    <value>ID đơn hàng</value>
+    <comment>OC編號</comment>
   </data>
   <data name="OcRemark" xml:space="preserve">
-    <value>OC備註</value>
+    <value>OC Nhận xét</value>
+    <comment>OC備註</comment>
   </data>
   <data name="OrderDate" xml:space="preserve">
-    <value>落單日期</value>
+    <value>Ngày đặt hàng</value>
+    <comment>落單日期</comment>
   </data>
   <data name="OrderQty" xml:space="preserve">
-    <value>訂單數量</value>
+    <value>Số lượng đặt hàng</value>
+    <comment>訂單數量</comment>
   </data>
   <data name="OrderType" xml:space="preserve">
-    <value>訂單類型</value>
+    <value>Kiểu đơn hàng</value>
+    <comment>訂單類型</comment>
   </data>
   <data name="OrderUnit" xml:space="preserve">
-    <value>訂單單位</value>
+    <value>đơn vị đặt hàng</value>
+    <comment>訂單單位</comment>
   </data>
   <data name="PaymentType" xml:space="preserve">
-    <value>付款方式</value>
+    <value>Phương thức thanh toán</value>
+    <comment>付款方式</comment>
   </data>
   <data name="PlanCompleteDate" xml:space="preserve">
-    <value>計劃完成日期</value>
+    <value>Ngày hoàn thành</value>
+    <comment>計劃完成日期</comment>
   </data>
   <data name="PlateRemark" xml:space="preserve">
-    <value>電鍍備註</value>
+    <value>Nhận xét mạ</value>
+    <comment>電鍍備註</comment>
   </data>
   <data name="PoNo" xml:space="preserve">
-    <value>客戶PO</value>
+    <value>PO Khách hàng</value>
+    <comment>客戶PO</comment>
   </data>
   <data name="Price" xml:space="preserve">
-    <value>單價</value>
+    <value>Giá</value>
+    <comment>單價</comment>
   </data>
   <data name="PriceType" xml:space="preserve">
-    <value>價格條件</value>
+    <value>điều kiện giá</value>
+    <comment>價格條件</comment>
   </data>
   <data name="PriceUnit" xml:space="preserve">
-    <value>單價單位</value>
+    <value>Đơn giá đơn vị</value>
+    <comment>單價單位</comment>
   </data>
   <data name="PrimaryKey" xml:space="preserve">
-    <value>面件</value>
+    <value>Phần chính</value>
+    <comment>面件</comment>
   </data>
   <data name="ProductAmount" xml:space="preserve">
-    <value>貨品金額</value>
+    <value>Số lượng hàng hóa</value>
+    <comment>貨品金額</comment>
   </data>
   <data name="ProductCdesc" xml:space="preserve">
-    <value>貨品名稱</value>
+    <value>Tên sản phẩm</value>
+    <comment>貨品名稱</comment>
   </data>
   <data name="ProductID" xml:space="preserve">
-    <value>貨品編號</value>
+    <value>Mã hàng hóa</value>
+    <comment>貨品編號</comment>
   </data>
   <data name="ProductItem" xml:space="preserve">
-    <value>產品編號</value>
+    <value>Mặt hàng sản phẩm</value>
+    <comment>產品編號</comment>
   </data>
   <data name="ProductMo" xml:space="preserve">
-    <value>制單編號</value>
+    <value>Sản phẩm Mo</value>
+    <comment>制單編號</comment>
   </data>
   <data name="ProductRemark" xml:space="preserve">
-    <value>生產備註</value>
+    <value>Nhận xét sản phẩm</value>
+    <comment>生產備註</comment>
   </data>
   <data name="ReceivedDate" xml:space="preserve">
-    <value>接單日期</value>
+    <value>Ngày nhận</value>
+    <comment>接單日期</comment>
   </data>
   <data name="Remark" xml:space="preserve">
-    <value>備注</value>
+    <value>Nhận xét</value>
+    <comment>備注</comment>
   </data>
   <data name="sales_order_details" xml:space="preserve">
-    <value>銷售訂單明細資料</value>
+    <value>Chi tiết đặt hàng</value>
+    <comment>銷售訂單明細資料</comment>
   </data>
   <data name="sales_order_master" xml:space="preserve">
-    <value>銷售訂單主檔資料</value>
+    <value>Đặt hàng chính</value>
+    <comment>銷售訂單主檔資料</comment>
   </data>
   <data name="SallerID" xml:space="preserve">
-    <value>營業員</value>
+    <value>Người bán hàng</value>
+    <comment>營業員</comment>
   </data>
   <data name="Season" xml:space="preserve">
-    <value>季度</value>
+    <value>Mùa</value>
+    <comment>季度</comment>
   </data>
   <data name="Seq" xml:space="preserve">
-    <value>序號</value>
+    <value>Số seri</value>
+    <comment>序號</comment>
   </data>
   <data name="State" xml:space="preserve">
-    <value>狀態</value>
+    <value>Tình trạng</value>
+    <comment>狀態</comment>
   </data>
   <data name="StyleNo" xml:space="preserve">
-    <value>客戶款號</value>
+    <value>Phong cách khách hàng</value>
+    <comment>客戶款號</comment>
   </data>
   <data name="Tax" xml:space="preserve">
-    <value>稅款金額</value>
+    <value>Số tiền thuế</value>
+    <comment>稅款金額</comment>
   </data>
   <data name="TaxNo" xml:space="preserve">
-    <value>稅款編號</value>
+    <value>Mã số thuế</value>
+    <comment>稅款編號</comment>
   </data>
   <data name="TotalAmount" xml:space="preserve">
-    <value>總金額</value>
+    <value>Tổng cộng</value>
+    <comment>總金額</comment>
   </data>
   <data name="Transport" xml:space="preserve">
-    <value>裝運方式</value>
+    <value>Phương pháp vận chuyển</value>
+    <comment>裝運方式</comment>
   </data>
   <data name="UnitCode" xml:space="preserve">
-    <value>單位</value>
+    <value>Đơn vị</value>
+    <comment>單位</comment>
   </data>
   <data name="UpdateAt" xml:space="preserve">
-    <value>更改日期</value>
+    <value>Thay đổi ngày</value>
+    <comment>更改日期</comment>
   </data>
   <data name="UpdateBy" xml:space="preserve">
-    <value>更改人</value>
+    <value>Cập nhật bởi</value>
+    <comment>更改人</comment>
   </data>
   <data name="Ver" xml:space="preserve">
-    <value>版本</value>
+    <value>Phiên bản</value>
+    <comment>版本</comment>
   </data>
   <data name="msg_add_success" xml:space="preserve">
-    <value>數據添加成功 !</value>
+    <value>Dữ liệu được thêm thành công</value>
+    <comment>數據添加成功 !</comment>
   </data>
   <data name="msg_an_mo_have_one_main_part" xml:space="preserve">
     <value>同一頁數只能有一個主件!</value>
@@ -462,7 +542,8 @@
     <value>删除當前記錄失敗 !</value>
   </data>
   <data name="msg_del_success" xml:space="preserve">
-    <value>數據删除成功 !</value>
+    <value>Đã xóa dữ liệu thành công .</value>
+    <comment>數據删除成功 !</comment>
   </data>
   <data name="msg_dosage_cannot_be_empty" xml:space="preserve">
     <value>用量不可為空 !</value>
@@ -477,19 +558,24 @@
     <value>請首先選中需要編輯的當前行</value>
   </data>
   <data name="CodeType" xml:space="preserve">
-    <value>編碼類型</value>
+    <value>Kiểu mã hóa</value>
+    <comment>編碼類型</comment>
   </data>
   <data name="Confirmed" xml:space="preserve">
-    <value>已批準</value>
+    <value>Tán thành</value>
+    <comment>已批準</comment>
   </data>
   <data name="Cosign" xml:space="preserve">
-    <value>委外加工</value>
+    <value>Gia công phần mềm</value>
+    <comment>委外加工</comment>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>注銷</value>
+    <value>Đăng xuất</value>
+    <comment>注銷</comment>
   </data>
   <data name="Made" xml:space="preserve">
-    <value>自制品</value>
+    <value>Tự sản xuất</value>
+    <comment>自制品</comment>
   </data>
   <data name="msg_cannot_be_greater_than" xml:space="preserve">
     <value>不可以大于</value>
@@ -510,47 +596,59 @@
     <value>OC明細資料中請首先選中指定的行</value>
   </data>
   <data name="msg_wrong_date" xml:space="preserve">
-    <value>日期有誤</value>
+    <value>Nhầm cuộc hẹn</value>
+    <comment>日期有誤</comment>
   </data>
   <data name="mst_clear_detail_head_data" xml:space="preserve">
     <value>請首先按清除按鈕,清空表明細表頭信息 !</value>
   </data>
   <data name="ProductEdesc" xml:space="preserve">
-    <value>貨品名稱(英文)</value>
+    <value>Tên sản phẩm(En)</value>
+    <comment>貨品名稱(英文)</comment>
   </data>
   <data name="Purcharse" xml:space="preserve">
-    <value>採購件</value>
+    <value>Mua</value>
+    <comment>採購件</comment>
   </data>
   <data name="Unconfirmed" xml:space="preserve">
-    <value>未批準</value>
+    <value>Không được phê duyệt</value>
+    <comment>未批準</comment>
   </data>
   <data name="FinshedProduct" xml:space="preserve">
-    <value>成品</value>
+    <value>Sản phẩm hoàn thiện</value>
+    <comment>成品</comment>
   </data>
   <data name="OrderQty_and_unit" xml:space="preserve">
-    <value>訂單數量/單位</value>
+    <value>Số lượng đặt hàng/đơn vị</value>
+    <comment>訂單數量/單位</comment>
   </data>
   <data name="Price_and_unit" xml:space="preserve">
-    <value>單價/單位</value>
+    <value>Đơn giá /đơn vị</value>
+    <comment>單價/單位</comment>
   </data>
   <data name="btn_import" xml:space="preserve">
     <value>Nhập khẩu</value>
     <comment>訂單匯入</comment>
   </data>
   <data name="PurchaseID" xml:space="preserve">
-    <value>採購單號</value>
+    <value>ID đơn đặt hàng</value>
+    <comment>採購單號</comment>
   </data>
   <data name="VendorID" xml:space="preserve">
-    <value>供應商編號</value>
+    <value>ID nhà cung cấp</value>
+    <comment>供應商編號</comment>
   </data>
   <data name="Weight" xml:space="preserve">
-    <value>重量</value>
+    <value>Cân nặng</value>
+    <comment>重量</comment>
   </data>
   <data name="WeightUnit" xml:space="preserve">
-    <value>重量單位</value>
+    <value>Cân nặng Đơn vị</value>
+    <comment>重量單位</comment>
   </data>
   <data name="VendorName" xml:space="preserve">
-    <value>供應商名稱</value>
+    <value>Tên đệm</value>
+    <comment>供應商名稱</comment>
   </data>
   <data name="msg_is_edit_status" xml:space="preserve">
     <value>當前為編輯狀態,此操作無效!</value>
@@ -565,7 +663,8 @@
     <value>確定要進行當前的操作?</value>
   </data>
   <data name="msg_add_failed" xml:space="preserve">
-    <value>數據添加失敗 !</value>
+    <value>Thêm dữ liệu không thành công</value>
+    <comment>數據添加失敗 !</comment>
   </data>
   <data name="msg_master_data_is_added_status" xml:space="preserve">
     <value>主檔資料為新增狀態,當前操作無效!</value>
@@ -574,87 +673,112 @@
     <value>不可為空!</value>
   </data>
   <data name="BuyerID" xml:space="preserve">
-    <value>採購員編號</value>
+    <value>Người mua</value>
+    <comment>採購員編號</comment>
   </data>
   <data name="BuyerName" xml:space="preserve">
-    <value>採購員名稱</value>
+    <value>Tên người mua</value>
+    <comment>採購員名稱</comment>
   </data>
   <data name="Color" xml:space="preserve">
-    <value>顏色</value>
+    <value>Màu sắc</value>
+    <comment>顏色</comment>
   </data>
   <data name="DeptID" xml:space="preserve">
-    <value>部門編號</value>
+    <value>ID bộ phận</value>
+    <comment>部門編號</comment>
   </data>
   <data name="OtherFare" xml:space="preserve">
-    <value>附加費用</value>
+    <value>Phụ phí</value>
+    <comment>附加費用</comment>
   </data>
   <data name="Packing" xml:space="preserve">
-    <value>包裝信息</value>
+    <value>Thông tin bao bì</value>
+    <comment>包裝信息</comment>
   </data>
   <data name="Spec" xml:space="preserve">
-    <value>規格</value>
+    <value>Thông số kỹ thuật</value>
+    <comment>規格</comment>
   </data>
   <data name="VendorAddress" xml:space="preserve">
-    <value>供應商地址</value>
+    <value>Địa chỉ nhà cung cấp</value>
+    <comment>供應商地址</comment>
   </data>
   <data name="ID" xml:space="preserve">
-    <value>單據編號</value>
+    <value>ID tài liệu</value>
+    <comment>單據編號</comment>
   </data>
   <data name="OtherFareID" xml:space="preserve">
-    <value>附加費用編號</value>
+    <value>Phụ phí</value>
+    <comment>附加費用編號</comment>
   </data>
   <data name="btn_browse" xml:space="preserve">
     <value>Duyệt qua</value>
     <comment>數據瀏覽</comment>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>注銷</value>
+    <value>Xóa bỏ</value>
+    <comment>注銷</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Hủy bỏ</value>
     <comment>注銷</comment>
   </data>
   <data name="ItemCancel" xml:space="preserve">
-    <value>項目注銷</value>
+    <value>XÓA MỤC</value>
+    <comment>項目注銷</comment>
   </data>
   <data name="DocumentDate" xml:space="preserve">
-    <value>單據日期</value>
+    <value>Ngày lập tài liệu</value>
+    <comment>單據日期</comment>
   </data>
   <data name="DocumentType" xml:space="preserve">
-    <value>單據類型</value>
+    <value>Loại tài liệu</value>
+    <comment>單據類型</comment>
   </data>
   <data name="LocID" xml:space="preserve">
-    <value>倉庫編號</value>
+    <value>Mã kho</value>
+    <comment>倉庫編號</comment>
   </data>
   <data name="LotNo" xml:space="preserve">
-    <value>批號</value>
+    <value>Số lô</value>
+    <comment>批號</comment>
   </data>
   <data name="NoRecord" xml:space="preserve">
-    <value>無記錄</value>
+    <value>Không có dữ liệu</value>
+    <comment>無記錄</comment>
   </data>
   <data name="QtyUnit" xml:space="preserve">
-    <value>數量單位</value>
+    <value>Số lượng Đơn vị</value>
+    <comment>數量單位</comment>
   </data>
   <data name="ReceivingNo" xml:space="preserve">
-    <value>收貨倉庫</value>
+    <value>Kho tiếp nhận</value>
+    <comment>收貨倉庫</comment>
   </data>
   <data name="SeqID" xml:space="preserve">
-    <value>序號</value>
+    <value>Số seri</value>
+    <comment>序號</comment>
   </data>
   <data name="TransferQty" xml:space="preserve">
-    <value>移交數量</value>
+    <value>Số lượng giao hàng</value>
+    <comment>移交數量</comment>
   </data>
   <data name="ActuallyQty" xml:space="preserve">
     <value>實際碑數</value>
+    <comment>實際碑數</comment>
   </data>
   <data name="ApprovalBy" xml:space="preserve">
-    <value>批準人</value>
+    <value>Người phê duyệt</value>
+    <comment>批準人</comment>
   </data>
   <data name="ApprovalDate" xml:space="preserve">
-    <value>批準日期</value>
+    <value>Ngày phê duyệt</value>
+    <comment>批準日期</comment>
   </data>
   <data name="BarCode" xml:space="preserve">
-    <value>條形碼</value>
+    <value>Mã vạch</value>
+    <comment>條形碼</comment>
   </data>
   <data name="btnSelect" xml:space="preserve">
     <value>Lựa chọn</value>
@@ -666,126 +790,167 @@
   </data>
   <data name="ClosingQty" xml:space="preserve">
     <value>結束碑數</value>
+    <comment>結束碑數</comment>
   </data>
   <data name="CompletedDate" xml:space="preserve">
-    <value>完成日期</value>
+    <value>Ngày hoàn thành</value>
+    <comment>完成日期</comment>
   </data>
   <data name="CompletedQty" xml:space="preserve">
-    <value>完成數量</value>
+    <value>Số lần hoàn thành</value>
+    <comment>完成數量</comment>
   </data>
   <data name="CopyMo" xml:space="preserve">
-    <value>翻單</value>
+    <value>MO Copy</value>
+    <comment>翻單</comment>
   </data>
   <data name="DeliveryDate" xml:space="preserve">
-    <value>交貨日期</value>
+    <value>Ngày giao hàng</value>
+    <comment>交貨日期</comment>
   </data>
   <data name="DifficultLevel" xml:space="preserve">
-    <value>難度</value>
+    <value>Sự phức tạp</value>
+    <comment>難度</comment>
   </data>
   <data name="DocumentDateFrom" xml:space="preserve">
-    <value>單據日期(From)</value>
+    <value>Ngày lập tài liệu(From)</value>
+    <comment>單據日期(From)</comment>
   </data>
   <data name="DocumentDateTo" xml:space="preserve">
-    <value>單據日期(To)</value>
+    <value>Ngày lập tài liệu(To)</value>
+    <comment>單據日期(To)</comment>
   </data>
   <data name="EmployeeID" xml:space="preserve">
-    <value>員工工號</value>
+    <value>Mã hiệu công nhân</value>
+    <comment>員工工號</comment>
   </data>
   <data name="EndTime" xml:space="preserve">
-    <value>結束時間</value>
+    <value>Thời gian kết thúc</value>
+    <comment>結束時間</comment>
   </data>
   <data name="HourQty" xml:space="preserve">
-    <value>每小時碑數</value>
+    <value>Số đúc chết /H</value>
+    <comment>每小時碑數</comment>
   </data>
   <data name="HourStandardQty" xml:space="preserve">
-    <value>每小時標準數量</value>
+    <value>Đầu ra tiêu chuẩn/H</value>
+    <comment>每小時標準數量</comment>
   </data>
   <data name="IDFrom" xml:space="preserve">
-    <value>單據編號(From)</value>
+    <value>ID tài liệu(From)</value>
+    <comment>單據編號(From)</comment>
   </data>
   <data name="IDTo" xml:space="preserve">
-    <value>單據編號(To)</value>
+    <value>ID tài liệu(To)</value>
+    <comment>單據編號(To)</comment>
   </data>
   <data name="ImputFromCFOC" xml:space="preserve">
-    <value>從CFOC中匯入</value>
+    <value>Nhập khẩu từ CFOC</value>
+    <comment>從CFOC中匯入</comment>
   </data>
   <data name="ImputFromMo" xml:space="preserve">
-    <value>從舊計劃單中匯入</value>
+    <value>Nhập từ Gói cũ</value>
+    <comment>從舊計劃單中匯入</comment>
   </data>
   <data name="MachineID" xml:space="preserve">
-    <value>生產機器</value>
+    <value>ID máy</value>
+    <comment>生產機器</comment>
   </data>
   <data name="MoRemark" xml:space="preserve">
-    <value>制單備註</value>
+    <value>Nhận xét MO</value>
+    <comment>制單備註</comment>
   </data>
   <data name="NormalHours" xml:space="preserve">
     <value>正常班時數</value>
+    <comment>正常班時數</comment>
   </data>
   <data name="OriginalQty" xml:space="preserve">
     <value>開始碑數</value>
+    <comment>開始碑數</comment>
   </data>
   <data name="OTHours" xml:space="preserve">
-    <value>加班時數</value>
+    <value>Giờ tăng ca</value>
+    <comment>加班時數</comment>
   </data>
   <data name="PlanDate" xml:space="preserve">
-    <value>計劃單日期</value>
+    <value>Lập kế hoạch ngày đặt hàng</value>
+    <comment>計劃單日期</comment>
   </data>
   <data name="PlanRemark" xml:space="preserve">
-    <value>計劃備註</value>
+    <value>Bình luận</value>
+    <comment>計劃備註</comment>
   </data>
   <data name="ProductionDate" xml:space="preserve">
-    <value>生產日期</value>
+    <value>Ngay san xuat</value>
+    <comment>生產日期</comment>
   </data>
   <data name="ProductionDepartment" xml:space="preserve">
-    <value>生產部門</value>
+    <value>Bộ phận sản xuất</value>
+    <comment>生產部門</comment>
   </data>
   <data name="ProductionDetail" xml:space="preserve">
-    <value>生產明細</value>
+    <value>Chi tiết sản xuất</value>
+    <comment>生產明細</comment>
   </data>
   <data name="ProductionMasterTable" xml:space="preserve">
-    <value>生產主表</value>
+    <value>Tập tin tổng thể sản xuất</value>
+    <comment>生產主表</comment>
   </data>
   <data name="ProductionQty" xml:space="preserve">
-    <value>生產數量</value>
+    <value>Số lượng sản xuất</value>
+    <comment>生產數量</comment>
   </data>
   <data name="ProductionWeg" xml:space="preserve">
-    <value>生產重量</value>
+    <value>Trọng lượng sản xuất</value>
+    <comment>生產重量</comment>
   </data>
   <data name="ProductType" xml:space="preserve">
-    <value>工作類型</value>
+    <value>Loại sản phẩm</value>
+    <comment>工作類型</comment>
   </data>
   <data name="ReceivingDepartment" xml:space="preserve">
-    <value>收貨部門</value>
+    <value>Bộ phận tiếp nhận</value>
+    <comment>收貨部門</comment>
   </data>
   <data name="RecordID" xml:space="preserve">
-    <value>記錄號</value>
+    <value>Ghi Không</value>
+    <comment>記錄號</comment>
   </data>
   <data name="RequestDate" xml:space="preserve">
-    <value>要求日期</value>
+    <value>Ngày yêu cầu</value>
+    <comment>要求日期</comment>
   </data>
   <data name="RequestQty" xml:space="preserve">
-    <value>要求數量</value>
+    <value>Yêu cầu số lượng</value>
+    <comment>要求數量</comment>
   </data>
   <data name="RequiredCompletionDate" xml:space="preserve">
-    <value>要求完成日期</value>
+    <value>Ngày hoàn thành bắt buộc</value>
+    <comment>要求完成日期</comment>
   </data>
   <data name="ResponsibleDepartment" xml:space="preserve">
-    <value>負責部門</value>
+    <value>Bộ phận chịu trách nhiệm</value>
+    <comment>負責部門</comment>
   </data>
   <data name="RowQty" xml:space="preserve">
     <value>每行碑數</value>
+    <comment>每行碑數</comment>
   </data>
   <data name="StandardCoding" xml:space="preserve">
-    <value>標準編碼</value>
+    <value>Mã hóa tiêu chuẩn</value>
+    <comment>標準編碼</comment>
   </data>
   <data name="StartTime" xml:space="preserve">
-    <value>開始時間</value>
+    <value>Thời gian bắt đầu</value>
+    <comment>開始時間</comment>
   </data>
   <data name="FareId" xml:space="preserve">
-    <value>附加費用編號</value>
+    <value>Mã phí khác</value>
+    <comment>附加費用編號</comment>
   </data>
   <data name="FareIdDesc" xml:space="preserve">
-    <value>附加費用描述</value>
+    <value>Tên phí khác</value>
+    <comment>附加費用描述</comment>
   </data>
   <data name="msg_fare_id_is_empty" xml:space="preserve">
     <value>附加費用編號不可為空</value>
@@ -797,7 +962,8 @@
     <value>數量不可為空</value>
   </data>
   <data name="Qty" xml:space="preserve">
-    <value>數量</value>
+    <value>Số lượng</value>
+    <comment>數量</comment>
   </data>
   <data name="btn_delitem" xml:space="preserve">
     <value>Xóa mục</value>
@@ -805,5 +971,18 @@
   </data>
   <data name="btn_cancela" xml:space="preserve">
     <value>Hủy bỏ</value>
+    <comment>注銷</comment>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Duyệt qua</value>
+    <comment>Browse</comment>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Biên tập</value>
+    <comment>Edit</comment>
+  </data>
+  <data name="Operate" xml:space="preserve">
+    <value>Vận hành</value>
+    <comment>Operate</comment>
   </data>
 </root>

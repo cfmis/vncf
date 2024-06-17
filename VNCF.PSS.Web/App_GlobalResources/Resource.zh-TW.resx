@@ -783,4 +783,13 @@
   <data name="btn_cancela" xml:space="preserve">
     <value>注銷</value>
   </data>
+  <data name="Browse" xml:space="preserve">
+    <value>瀏覽</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>編輯</value>
+  </data>
+  <data name="Operate" xml:space="preserve">
+    <value>操作</value>
+  </data>
 </root>
