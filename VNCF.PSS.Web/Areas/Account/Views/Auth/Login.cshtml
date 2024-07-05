@@ -89,21 +89,31 @@
                     </div>
                     <div class="usernameDiv">
                         <i class="layui-icon layui-icon-website adminIcon"></i>
-                        <input id="languageID" class="layui-input adminInput" type="text" value="1" name="username" placeholder="Select Language">
+                        @*<input id="languageID" class="layui-input adminInput" type="text" value="1" name="username" placeholder="Select Language">*@
+                        @*<ul>
+                            <li>*@
+                                <select id="languageID" class="layui-input adminInput">
+                                    <option value="-1" class="loginlang">--请选择(Select)--</option>
+                                    <option value="0" class="loginlang">0--繁體中文</option>
+                                    <option value="1" class="loginlang">1--Việt nam</option>
+                                    <option value="2" class="loginlang">2--English</option>
+                                </select>
+                            @*</li>
+                        </ul>*@
                     </div>
                    
                 </div>
-                <div class="usernameWrapDiv" @*style="margin-left:0px"*@>
+                @*<div class="usernameWrapDiv">
                     <div class="usernameLabel" style="margin-left:100px;">
                         <label>0:Chinese</label>
                     </div>
-                    <div class="usernameLabel" @*style="width:80px"*@>
+                    <div class="usernameLabel">
                         <label>1:Vietnam </label>
                     </div>
                     <div class="usernameLabel">
                         <label>2:English</label>
                     </div>
-                </div>
+                </div>*@
                 @*<div class="usernameWrapDiv">
                     <div class="usernameLabel">
                         <label>VerifyCode:</label>
@@ -174,15 +184,15 @@
             var loginPassword = $('#loginPassword').val();
             var languageID = $('#languageID').val();
             if ($.trim(loginUsername) == '' || $.trim(loginUsername).length<=0){
-                layer.alert("用户名不能为空");
+                layer.alert("The user name cannot be empty!");
                 return false;
             }
             if ($.trim(loginPassword) == '' || $.trim(loginPassword).length<=0){
-                layer.alert("密码不能为空");
+                layer.alert("The password cannot be empty!");
                 return false;
             }
             if ($.trim(languageID) != '0' && $.trim(languageID) != '1' && $.trim(languageID) != '2') {
-                layer.alert("語言不能为空");
+                layer.alert("The language cannot be empty!");
                 return false;
             }
             return true;
