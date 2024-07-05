@@ -100,6 +100,14 @@
           font-size:12px;
           background-color:#008FD4;
         }*/
+        /*框架el-dialog 内边距过大，导致空白区域很多*/
+        .el-dialog__body{ 
+            padding:0 !important; 
+            padding-left: 2rem !important; 
+            padding-right: 2rem !important; 
+            padding-bottom: 0.55rem !important;
+        }
+
         
     </style>
 }
@@ -123,12 +131,13 @@
     <!--查找窗口-->
     <template v-if="isRenderSearchWindow">
         <el-dialog :title="title" :visible.sync="showDialogSearch" :close-on-click-modal="false" width="65%" destroy-on-close>
-            <div class="tool-bar-color" style="margin-bottom:5px;margin-left:5px">
+           
+            <div class="tool-bar-color" style="margin-bottom:5px;margin-left:5px;">
                 <template>
                     <el-button type="danger" plain size="small" icon="el-icon-close" @@click="closeDialog('searchForm')">@Resource.btn_exit</el-button>
                     <el-button type="primary" plain size="small" icon="el-icon-search" @@click="searchData">@Resource.btn_search</el-button>
                     <el-button type="primary" plain size="small" icon="el-icon-check" @@click="afterSelectOK" >@Resource.btn_ok</el-button>
-                    <el-button type="primary" plain size="small" icon="el-icon-refresh-left" @@click="clearSearch">重置</el-button>
+                    <el-button type="primary" plain size="small" icon="el-icon-refresh-left" @@click="clearSearch">@Resource.btn_blank</el-button>
                 </template>
             </div>            
             <el-form :model="searchFormData" ref="searchForm" label-width="100px" size="mini">
@@ -205,7 +214,7 @@
                     <el-table-column prop="CustomerID" label="@Resource.CustomerID" width="90"></el-table-column>
                     <el-table-column prop="MoState" label="@Resource.State" width="70" align="center" ></el-table-column>
                     <el-table-column prop="ProductMo" label="@Resource.ProductMo" width="100"></el-table-column>
-                    <el-table-column prop="ProductID" label="@Resource.ProductID" width="150"></el-table-column>
+                    <el-table-column prop="ProductID" label="@Resource.ProductID" width="170"></el-table-column>
                     <el-table-column prop="ProductCdesc" label="@Resource.ProductCdesc" width="150" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="OrderQty" label="@Resource.OrderQty" width="90"></el-table-column>
                     <el-table-column prop="Price" label="@Resource.Price" width="100"></el-table-column>
@@ -221,7 +230,7 @@
      <!--查找貨品編碼-->
     <template v-if="isRenderFindItem">
         <el-dialog title="Find Item" :visible.sync="showDialogFindItem" :close-on-click-modal="false" width="60%" style="margin-top:0px;">
-            <div style="margin-bottom:10px;margin-left:0px">
+            <div class="tool-bar-color" style="margin-bottom:5px;margin-left:0px;">
                 <template>
                     <el-button type="danger" plain size="small" icon="el-icon-close" @@click="closeDialog('findItem')">@Resource.btn_exit</el-button>
                     <el-button type="primary" plain size="small" icon="el-icon-search" @@click="getFindItemData">@Resource.btn_search</el-button>
@@ -229,12 +238,19 @@
                 </template>
             </div>
             <el-form :model="findItem" ref="findItem" label-width="100px" size="mini">
-            <el-row>
+            <div style="margin-bottom:5px;">
+               <el-row>
+                    <el-col :span="12" style="width:45%">
+                        <el-form-item label="@Resource.ProductID"><el-input v-model="findItem.ProductID"></el-input></el-form-item>
+                    </el-col>
+               </el-row>
+            </div>
+            @*<el-row>
                 <el-col :span="12" style="width:45%">
                     <el-form-item label="@Resource.ProductID"><el-input v-model="findItem.ProductID"></el-input></el-form-item>
                 </el-col>
-            </el-row>
-            <el-row>
+            </el-row>*@
+            @*<el-row>
                 <el-col :span="12" style="width:60%">
                     <el-form-item label="@Resource.CodeType">
                         <template>
@@ -247,8 +263,8 @@
                         </template>
                     </el-form-item>
                 </el-col>
-            </el-row>
-            </el-form>
+            </el-row>*@
+            </el-form>           
             <template>
                 <el-table :data="tableDataFindItem"
                           height="350"
@@ -269,7 +285,7 @@
                     <el-table-column prop="ProductID" label="@Resource.ProductID" width="170"></el-table-column>
                     <el-table-column prop="ProductCdesc" label="@Resource.ProductCdesc" width="250" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="ProductEdesc" label="@Resource.ProductEdesc" width="250" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="Type" label="@Resource.CodeType" width="110">成品</el-table-column>
+                    <el-table-column prop="Type" label="@Resource.CodeType" width="150"></el-table-column>
                 </el-table>
             </template>
             <!--分頁全功能-->
@@ -295,29 +311,6 @@
         <el-form :model="formHeadData" ref="formHead" label-width="125px" size="mini" :rules="rulesHead" >
             <el-row>
                 <el-col :span="6" style="width:20%">
-                    <el-form-item prop="OcID" label="@Resource.OcID">
-                        <el-input id="OcID" v-model="formHeadData.OcID" style="width:65%" readonly ref="ocId"></el-input>
-                        <el-input id="Ver" v-model="formHeadData.Ver" style="width:20%" readonly></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6" style="width:20%">
-                    <el-form-item prop="OrderDate" label="@Resource.OrderDate">
-                        <el-date-picker v-model="formHeadData.OrderDate" type="date" style="width:100%" :readonly="isReadonly" ref="OrderDate" @@change="dateChange('OrderDate')">
-                        </el-date-picker>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6" style="width:20%">
-                    <el-form-item prop="OrderType" label="@Resource.OrderType"><el-input v-model="formHeadData.OrderType" :readonly="isReadonly"></el-input></el-form-item>
-                </el-col>
-                <el-col :span="6" style="width:20%">
-                    <!--接單日期-->
-                    <el-form-item prop="ReceivedDate" label="@Resource.ReceivedDate">
-                        <el-date-picker v-model="formHeadData.ReceivedDate" type="date" style="width:100%" :readonly="isReadonly" ref="ReceivedDate" @@change="dateChange('ReceivedDate')"></el-date-picker>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="6" style="width:20%">
                     <!--區域-->
                     <el-form-item prop="Area" label="@Resource.Area">
                         @*<el-input v-model="formHeadData.Area"></el-input>*@
@@ -325,30 +318,52 @@
                             <el-option v-for="item in arrZone" :key="item.ID" :label="item.Name" :value="item.ID" />
                         </el-select>
                     </el-form-item>
+                </el-col>                
+                <el-col :span="6" style="width:20%">
+                    <el-form-item prop="OrderDate" label="@Resource.OrderDate">
+                        <el-date-picker v-model="formHeadData.OrderDate" type="date" style="width:100%" :readonly="isReadonly" ref="OrderDate" @@change="dateChange('OrderDate')">
+                        </el-date-picker>
+                    </el-form-item>
+                </el-col> 
+                <el-col :span="6" style="width:20%">
+                    <!--價格條件-->
+                    <el-form-item prop="PriceType" label="@Resource.PriceType">                       
+                        <el-select v-model="formHeadData.PriceType" :disabled="isDisable">
+                            <el-option v-for="item in arrPriceType" :key="item.ID" :label="item.Name":value="item.ID"/>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--客戶PO-->
+                    <el-form-item prop="PoNo" label="@Resource.PoNo">
+                        <el-input v-model.trim="formHeadData.PoNo" @@blur="onToUpperCaseBlur($event,'PoNo',1)" :readonly="isReadonly"></el-input>
+                    </el-form-item>                    
+                </el-col>
+            </el-row>
+
+            <el-row>
+                <el-col :span="6" style="width:20%">
+                    <el-form-item prop="OcID" label="@Resource.OcID">
+                        <el-input id="OcID" v-model="formHeadData.OcID" style="width:65%" readonly ref="ocId"></el-input>
+                        <el-input id="Ver" v-model="formHeadData.Ver" style="width:20%" readonly></el-input>
+                    </el-form-item>
                 </el-col>
                 <el-col :span="6" style="width:20%">
                     <!--洋行編號-->
                     <el-form-item prop="ForeignFirm" label="@Resource.ForeignFirm">
                         @*<el-input v-model="formHeadData.ForeignFirm"></el-input>*@
-                        <el-select v-model="formHeadData.ForeignFirm" :disabled="isDisable">                           
+                        @*<el-select v-model="formHeadData.ForeignFirm" :disabled="isDisable">                           
                             <el-option v-for="item in arrForeignFirm" :key="item.ID" :label="item.ID" :value="item.ID"/>
-                        </el-select>
+                        </el-select>*@
+                        <el-input v-model="formHeadData.ForeignFirm"
+                                  @@blur="onForeignFirmBlur($event)"                           
+                                  @*@@blur="onForeignFirmBlur"*@ 
+                                  onkeyup="this.value=this.value.toUpperCase()"
+                                  @*onkeyup="onToUpperCaseBlur($event,'ForeignFirm',1)"*@
+
+                                  :readonly="isReadonly">
+                        </el-input>                         
                     </el-form-item>
-                </el-col>
-                
-                <el-col :span="6" style="width:20%">
-                    <!--客戶編號-->
-                    <el-form-item prop="CustomerID" label="@Resource.CustomerID"><el-input v-model="formHeadData.CustomerID" @@blur="onCustomerIDBlur" :readonly="isReadonly"></el-input></el-form-item>
-                </el-col>
-                <el-col :span="6" style="width:20%">
-                    <!--客戶名稱(中文)-->
-                    <el-form-item prop="CustomerCdesc" label="@Resource.CustomerCdesc"> <el-input v-model="formHeadData.CustomerCdesc" :disabled="isDisable2"></el-input> </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="6" style="width:20%">
-                    <!--客戶名稱(英文)-->
-                    <el-form-item prop="CustomerEdesc" label="@Resource.CustomerEdesc"><el-input v-model="formHeadData.CustomerEdesc" :disabled="isDisable2"></el-input></el-form-item>
                 </el-col>
                 <el-col :span="6" style="width:20%">
                     <!--營業員-->
@@ -359,32 +374,6 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="6" style="width:20%">
-                    <!--季度-->
-                    <el-form-item prop="Season" label="@Resource.Season">                        
-                        <el-select v-model="formHeadData.Season" :disabled="isDisable">
-                            <el-option v-for="item in arrSeason" :key="item.ID" :label="item.ID" :value="item.ID" />
-                        </el-select>   
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6" style="width:20%">
-                    <!--聯繫人-->
-                    <el-form-item prop="Contacts" label="@Resource.Contacts"> <el-input v-model="formHeadData.Contacts" :readonly="isReadonly"></el-input> </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="6" style="width:20%">
-                    <!--聯繫人電話-->
-                    <el-form-item prop="ContactsTel" label="@Resource.ContactsTel"><el-input v-model="formHeadData.ContactsTel" :readonly="isReadonly"></el-input></el-form-item>
-                </el-col>
-                <el-col :span="6" style="width:20%">
-                    <!--傳真-->
-                    <el-form-item prop="ContactsFax" label="@Resource.ContactsFax"><el-input v-model="formHeadData.ContactsFax" :readonly="isReadonly"></el-input></el-form-item>
-                </el-col>
-                <el-col :span="6" style="width:20%">
-                    <!--郵件-->
-                    <el-form-item prop="ContactsEmail" label="@Resource.ContactsEmail"><el-input v-model="formHeadData.ContactsEmail" :readonly="isReadonly"></el-input></el-form-item>
-                </el-col>
-                <el-col :span="6" style="width:20%">
                     <!--跟單員-->
                     <el-form-item prop="Merchandisers" label="@Resource.Merchandisers">
                         <el-select v-model="formHeadData.Merchandisers" :disabled="isDisable">
@@ -392,15 +381,12 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
+               
             </el-row>
             <el-row>
                 <el-col :span="6" style="width:20%">
-                    <!--跟單員電話-->
-                    <el-form-item prop="MerchandisersTel" label="@Resource.MerchandisersTel"><el-input v-model="formHeadData.MerchandisersTel" :readonly="isReadonly"></el-input></el-form-item>
-                </el-col>
-                <el-col :span="6" style="width:20%">
-                    <!--跟單員郵件-->
-                    <el-form-item prop="MerchandisersEmail" label="@Resource.MerchandisersEmail"><el-input v-model="formHeadData.MerchandisersEmail" :readonly="isReadonly"></el-input></el-form-item>
+                    <!--客戶編號-->
+                    <el-form-item prop="CustomerID" label="@Resource.CustomerID"><el-input v-model="formHeadData.CustomerID" @@blur="onCustomerIDBlur" :readonly="isReadonly"></el-input></el-form-item>
                 </el-col>
                 <el-col :span="6" style="width:20%">
                     <!--貨幣代號-->
@@ -412,8 +398,53 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="6" style="width:20%">
+                    <!--貨幣匯率-->
                     <el-form-item prop="CurrencyRate" label="@Resource.CurrencyRate"><el-input v-model="formHeadData.CurrencyRate" readonly></el-input></el-form-item>
                 </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--聯繫人-->
+                    <el-form-item prop="Contacts" label="@Resource.Contacts"> <el-input v-model="formHeadData.Contacts" :readonly="isReadonly"></el-input> </el-form-item>
+                </el-col>  
+            </el-row>
+            <el-row>
+                 <el-col :span="6" style="width:20%">
+                    <!--客戶名稱(中文)-->
+                    <el-form-item prop="CustomerCdesc" label="@Resource.CustomerCdesc"> <el-input v-model="formHeadData.CustomerCdesc" :disabled="isDisable2"></el-input> </el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--客戶名稱(英文)-->
+                    <el-form-item prop="CustomerEdesc" label="@Resource.CustomerEdesc"><el-input v-model="formHeadData.CustomerEdesc" :disabled="isDisable2"></el-input></el-form-item>
+                </el-col>               
+                <el-col :span="6" style="width:20%">
+                    <!--聯繫人電話-->
+                    <el-form-item prop="ContactsTel" label="@Resource.ContactsTel"><el-input v-model="formHeadData.ContactsTel" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--傳真-->
+                    <el-form-item prop="ContactsFax" label="@Resource.ContactsFax"><el-input v-model="formHeadData.ContactsFax" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>               
+            </el-row>
+            <el-row>
+                <el-col :span="6" style="width:20%">
+                    <!--郵件-->
+                    <el-form-item prop="ContactsEmail" label="@Resource.ContactsEmail"><el-input v-model="formHeadData.ContactsEmail" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>               
+                <el-col :span="6" style="width:20%">
+                    <!--跟單員電話-->
+                    <el-form-item prop="MerchandisersTel" label="@Resource.MerchandisersTel"><el-input v-model="formHeadData.MerchandisersTel" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--跟單員郵件-->
+                    <el-form-item prop="MerchandisersEmail" label="@Resource.MerchandisersEmail"><el-input v-model="formHeadData.MerchandisersEmail" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>
+                <el-col :span="6" style="width:20%">
+                    <!--季度-->
+                    <el-form-item prop="Season" label="@Resource.Season">
+                        <el-select v-model="formHeadData.Season" :disabled="isDisable">
+                            <el-option v-for="item in arrSeason" :key="item.ID" :label="item.ID" :value="item.ID" />
+                        </el-select>
+                    </el-form-item>
+                </el-col>   
             </el-row>
             <el-row>
                 <el-col :span="6" style="width:20%">
@@ -433,12 +464,11 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="6" style="width:20%">
-                    <!--客戶PO-->
-                    <el-form-item prop="PoNo" label="@Resource.PoNo">
-                        <el-input v-model.trim="formHeadData.PoNo" @@blur="onToUpperCaseBlur($event,'PoNo',1)" :readonly="isReadonly"></el-input>
+                    <!--接單日期-->
+                    <el-form-item prop="ReceivedDate" label="@Resource.ReceivedDate">
+                        <el-date-picker v-model="formHeadData.ReceivedDate" type="date" style="width:100%" :readonly="isReadonly" ref="ReceivedDate" @@change="dateChange('ReceivedDate')"></el-date-picker>
                     </el-form-item>
-                    
-                </el-col>
+                </el-col>                
                 <el-col :span="6" style="width:20%">
                     <!--付款方式-->
                     <el-form-item prop="PaymentType" label="@Resource.PaymentType">                       
@@ -450,13 +480,9 @@
             </el-row>
             <el-row>
                 <el-col :span="6" style="width:20%">
-                    <!--價格條件-->
-                    <el-form-item prop="PriceType" label="@Resource.PriceType">                       
-                        <el-select v-model="formHeadData.PriceType" :disabled="isDisable">
-                            <el-option v-for="item in arrPriceType" :key="item.ID" :label="item.Name":value="item.ID"/>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
+                    <!--制單類型-->
+                    <el-form-item prop="OrderType" label="@Resource.OrderType"><el-input v-model="formHeadData.OrderType" :readonly="isReadonly"></el-input></el-form-item>
+                </el-col>               
                 <el-col :span="6" style="width:20%">
                     <!--裝運方式-->
                     <el-form-item prop="Transport" label="@Resource.Transport">
@@ -803,8 +829,8 @@
                 <el-divider></el-divider>
                 <div style="text-align: center">
                     <span slot="footer" class="dialog-footer">
-                        <el-button type="primary" @@click="moveUp()" size="small" icon="el-icon-caret-left" v-if="isUpDown" plain>前</el-button>
-                        <el-button type="primary" @@click="moveDown()" size="small" icon="el-icon-caret-right" v-if="isUpDown" plain>后</el-button>
+                        <el-button type="primary" @@click="moveUp()" size="small" icon="el-icon-caret-left" v-if="isUpDown" plain>Prev</el-button>
+                        <el-button type="primary" @@click="moveDown()" size="small" icon="el-icon-caret-right" v-if="isUpDown" plain>Next</el-button>
                         <el-button type="success" @@click="saveItem()" size="small" icon="el-icon-check" v-if="isItemSave" plain>@Resource.btn_save</el-button>
                         <el-button type="warning" @@click="closeDialog('formDetail')" size="small" icon="el-icon-close" plain>@Resource.btn_exit</el-button>
                     </span>
@@ -890,17 +916,17 @@
 
                 <el-table-column width="50" align="center" fixed="right">
                     <template slot-scope="scope">
-                        <el-button type="text" @@click="browseItem(scope.$index,scope.row)" size="mini">瀏覽</el-button>
+                        <el-button type="text" @@click="browseItem(scope.$index,scope.row)" size="mini">@Resource.Browse</el-button>
                     </template>
                 </el-table-column>
-                <el-table-column width="50" label="操作" align="center" fixed="right">
+                <el-table-column width="50" label="@Resource.Operate" align="center" fixed="right">
                     <template slot-scope="scope">
-                        <el-button type="text" @@click="editItem(scope.$index,scope.row)" size="mini">編輯</el-button>
+                        <el-button type="text" @@click="editItem(scope.$index,scope.row)" size="mini">@Resource.Edit</el-button>
                     </template>
                 </el-table-column>
                 <el-table-column width="50" fixed="right">
                     <template slot-scope="scope">
-                        <el-button type="text" @@click="deleteItem(scope.$index,scope.row)" size="mini"><span style="color: red">刪除</span></el-button>
+                        <el-button type="text" @@click="deleteItem(scope.$index,scope.row)" size="mini"><span style="color: red">@Resource.Delete</span></el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -1319,6 +1345,7 @@
                     this.$set(this.formHeadData, "OrderDate",d);
                     this.$set(this.formHeadData, "ReceivedDate",d);
                     this.$set(this.formHeadData, "Ver",0);
+                    this.$set(this.formHeadData, "SallerID",'1I005');
                     this.setToolBarStatus(true);
                     this.isDisableArea=false;
                     this.canAddItem = false;
@@ -1377,7 +1404,7 @@
                     //TODO注銷
                 },
                 importHead (){                                 
-                    so.openWin('ImportOrder', '@Resource.btn_import', 850, 560, null);
+                    SO.openWin('ImportOrder', '@Resource.btn_import', 850, 560, null);
                 },
                 printPI (){
                     //TODO
@@ -1401,7 +1428,7 @@
                     this.dialogStatus = "byAdd";
                     this.tempHeadData = JSON.parse(JSON.stringify(this.formHeadData));//暫存臨時數據
                     // this.$refs["formDetail"].resetFields();//清空所有對象值
-                    this.formDetailData = { OcID:this.formHeadData.OcID,Ver:this.formHeadData.Ver,Seq:'',MoType:'',MoDept:'',MoGroup:'',ProductMo:'',ProductMoVer:'0',ProductID:'',ProductCdesc:'',GetColorSample:'',
+                    this.formDetailData = { OcID:this.formHeadData.OcID,Ver:this.formHeadData.Ver,Seq:'',MoType:'',MoDept:'B',MoGroup:'I',ProductMo:'',ProductMoVer:'0',ProductID:'',ProductCdesc:'',GetColorSample:'',
                         StyleNo:'',BrandID:'',CustProductID:'',CustProductName:'',CustColorID:'',CustColorName:'',ContractID:'',CustSize:'',OrderQty:0,OrderUnit:'PCS',Price:0.00,PriceUnit:'PCS',
                         RateDiscount:0,AmountDiscount:0.00, AmountProduct:0.00,IsFree:'0',PlanCompleteDate:'',ArriveDate:'',FactoryShipOutDate:'',IsPrint:'1',Remarks:'',OcRemark:'',ProductRemark:'',
                         PlateRemark:'',InvoiceRemark:'',MoState:'0',ArtImage:'',ActionType:'NEW'
@@ -1420,6 +1447,23 @@
                         return;
                     }
                     this.dialogStatus = "byEdit";
+                    //start 2024/05/15頁數為注銷狀態時只能瀏覽,禁止修改數據
+                    if(row.MoState =='2'){
+                        this.dialogStatus ="byBrowse";
+                        this.curRow = row;
+                        this.curRowIndex = index;
+                        this.formDetailData = JSON.parse(JSON.stringify(row));                       
+                        this.setCheckBoxStatus();//設置CheckBox狀態
+                        this.isRenderEditWindow = true;
+                        this.showDialog = true;
+                        this.isItemSave = false;
+                        this.isUpDown = true;
+                        this.isReadonly = true;
+                        this.isDisable = true;
+                        this.isDisableMo = true;
+                        return;
+                    }   
+                    //end 2024/05/15
                     this.tempHeadData = JSON.parse(JSON.stringify(this.formHeadData));//暫存臨時數據
                     this.curRow = row;
                     this.curRowIndex = index;
@@ -1701,6 +1745,23 @@
                         this.getMaxiId(area);
                     }
                 },
+                onForeignFirmBlur(el){
+                    var strId = el.target.value||''
+                    //val = val.toUpperCase();     
+                    //var strId = this.formDetailData.ForeignFirm;                                                    
+                    if(strId.length>0){
+                        axios.get("/BaseData/CheckForeignFirm?id=" + strId).then(
+                           (response) => {
+                               if(response.data.length>0){
+                                   this.$set(this.formDetailData, "ForeignFirm",response.data);
+                               }else{
+                                   this.$message('洋行代碼不存在['+strId+']'+'不存在!');
+                                   el.target.value="";
+                               }
+                           }
+                        );
+                    }
+                },
                 onCustomerIDBlur(){
                     if(this.isEditModeHead == false){
                         return;
@@ -1791,7 +1852,7 @@
                 getAmountProduct(){
                     if(this.dialogStatus == "byBrowse"){
                         return;
-                    }
+                    }                    
                     //數量單位與單價單位相同直接相乘 RateDiscount,AmountDiscount
                     var order_qty = this.formDetailData.OrderQty;
                     order_qty = (order_qty==undefined || order_qty == "") ? 0 : order_qty;
@@ -1810,7 +1871,7 @@
                         amount_product = parseFloat(order_qty * price).toFixed(2);
                     }else{
                         //轉成與單價相同單位
-                        amount_product = parseFloat((order_qty*so.getRate(order_unit)/so.getRate(price_unit)) * price).toFixed(2);
+                        amount_product = parseFloat((order_qty*SO.getRate(order_unit)/SO.getRate(price_unit)) * price).toFixed(2);
                     }
 
                     if(rate_discount>0){
@@ -1830,7 +1891,7 @@
                     var Disc_Rate = this.formHeadData.DiscountRate; //主表折扣率
                     Disc_Rate = (Disc_Rate==undefined || Disc_Rate=="") ? 0 : parseFloat(Disc_Rate);
                     //加總金額,但排除當前行(seq)
-                    Product_Amount = so.getTotalAmountEdit(this.formHeadData.OcID, this.formHeadData.Ver, this.formDetailData.Seq);
+                    Product_Amount = SO.getTotalAmountEdit(this.formHeadData.OcID, this.formHeadData.Ver, this.formDetailData.Seq);
                     Product_Amount = parseFloat(Product_Amount).toFixed(2);
 
                     //加上當前行時需考慮是否免費

@@ -32,6 +32,9 @@ namespace VNCF.PSS.Web.Areas.Prod.Models
         public string NextWipIDName { get; set; }
         public string DepGoodsID { get; set; }
         public string DepGoodsCname { get; set; }
+        public string DepGoodsEname { get; set; }
+        public string BarCode { get; set; }
+
     }
     public class PlanHead : PlanModelBase
     {
@@ -49,6 +52,7 @@ namespace VNCF.PSS.Web.Areas.Prod.Models
         public string ProductRemark { get; set; }
         public string MoRemark { get; set; }
         public string PlanRemark { get; set; }
+        public string State { get; set; }
     }
     public class PlanDetails : PlanModelBase
     {
@@ -57,6 +61,8 @@ namespace VNCF.PSS.Web.Areas.Prod.Models
         public string RequestDate { get; set; }
         public string WipID { get; set; }
         public string NextWipID { get; set; }
-        
+        public decimal CompletedQty { get; set; }
+        public string CompletedDate { get; set; }
+
     }
 }

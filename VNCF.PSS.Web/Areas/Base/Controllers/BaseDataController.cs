@@ -110,5 +110,11 @@ namespace VNCF.PSS.Web.Areas.Base.Controllers
             var list = BaseDataDAL.GetBrandById(strBrand);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+        //檢查A洋行是否存在
+        public ActionResult CheckForeignFirm(string id)
+        {
+            var list = BaseDataDAL.GetForeignFirmById(id);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
     }
 }

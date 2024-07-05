@@ -385,5 +385,18 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             }                
             return result;
         }
+
+        public static string GetForeignFirmById(string id)
+        {
+            string result = "";
+            string strSql = string.Format(@"SELECT id FROM bs_customer WHERE id='{0}' And state='1' And customer_group='2'", id);
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            if (dt.Rows.Count > 0)
+            {
+                result = dt.Rows[0]["id"].ToString().ToUpper();
+            }
+            return result;
+        }
+        
     }
 }

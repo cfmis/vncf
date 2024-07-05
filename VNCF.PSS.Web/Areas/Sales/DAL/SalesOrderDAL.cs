@@ -25,7 +25,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             string strSql = "";
             string user_id = AdminUserContext.Current.LoginInfo.LoginName;
 
-            strSql += string.Format(@" SET XACT_ABORT  ON ");
+            strSql += string.Format(@" SET XACT_ABORT ON ");
             strSql += string.Format(@" BEGIN TRANSACTION ");
             string OcID = "";
             //if (model.OcID == "" || model.OcID == null)
@@ -717,6 +717,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             List<ItemInfo> lstItem = new List<ItemInfo>();           
             //2021-03-13 改為只取BOM數據
             string strSql = "";
+            /*不用區分自制,委外等 2024/05/14
             if (Type == "3")
             {
                 //BOM表中提取
@@ -731,7 +732,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                     strSql += string.Format(" AND A.id Like '%{0}%' And A.type='0002' and A.state<>'2'", ProductID);
             }
             else
-            {
+            {           
                 //基本資料中提取
                 strSql = string.Format(
                 @"Select top 500 id as ProductID,name as ProductCdesc,english_name as ProductEdesc,
@@ -748,7 +749,22 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                     strSql += string.Format(" And modality='{0}' and state<>'2'",Type);
                 else
                     strSql += string.Format(" And id Like '%{0}%' And modality='{1}' and state<>'2'", ProductID, Type);
-            }
+            }*/
+            strSql = string.Format(
+                @"Select top 500 id as ProductID,name as ProductCdesc,english_name as ProductEdesc,
+                Cast(Case modality
+                        When '0' then '自制(Made)'
+                        When '1' then '委外加工(Consign)'
+                        When '2' then '採購(Purcharse)'
+                        When '3' then '成品(Finished Product)'
+                        ELSE ''
+                     End As nvarchar(50)) as Type
+                From {0}it_goods With(nolock) 
+                WHERE within_code='0000' ", strRemoteDB);
+            if (string.IsNullOrEmpty(ProductID))
+                strSql += " And state<>'2'" ;
+            else
+                strSql += string.Format(" And id Like '%{0}%' And state<>'2'", ProductID);
 
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -804,6 +820,8 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 {
                     strSql += " AND B.goods_id like '%" + model.ProductID + "%'";
                 }
+                strSql += " AND LEN(B.goods_id)>=14" ;
+
                 DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {

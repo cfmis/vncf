@@ -21,6 +21,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="App_GlobalResources/Resource.zh-TW.resx">
       <publishTime>06/23/2021 14:33:33</publishTime>
     </File>
+    <File Include="App_GlobalResources/Resource.zh-VN.designer.cs">
+      <publishTime>05/17/2024 14:58:56</publishTime>
+    </File>
     <File Include="Areas/Account/Views/Auth/Index.cshtml">
       <publishTime>04/10/2021 12:14:30</publishTime>
     </File>

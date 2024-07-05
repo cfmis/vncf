@@ -96,7 +96,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             }
             return listPlan;
         }
-        public UpdateStatusModels UpdatePlan(PlanHead modelPlan, List<PlanDetails> listPlan)
+        public UpdateStatusModels UpdatePlan(PlanHead modelPlan, List<PlanDetails> listPlan, List<PlanDetails> listPlanDel)
         {
             string result = "";
             string strSql = "";
@@ -143,6 +143,19 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                                 , modelPlan.GoodsID, modelPlan.RequestDate, modelPlan.DeliveryDate, modelPlan.ProductRemark, modelPlan.MoRemark, modelPlan.PlanRemark
                                 , UserID, OpDateTime, UserID, OpDateTime);
             }
+            //刪除明細部分的代碼需在插入或更新明細之前
+            if (listPlanDel != null)
+            {
+                int MaxSeq = GetDetailsMaxSeq(ProductMo, Ver);
+                for (int i = 0; i < listPlanDel.Count; i++)
+                {
+                    if (!string.IsNullOrEmpty(listPlanDel[i].Seq))
+                    {
+                        strSql += string.Format(@" Delete From pd_PlanDetails Where ProductMo='{0}' And Ver='{1}' And Seq='{2}'",
+                            listPlanDel[i].ProductMo, listPlanDel[i].Ver, listPlanDel[i].Seq);
+                    }
+                }
+            }
             if (listPlan != null)
             {
                 int MaxSeq = GetDetailsMaxSeq(ProductMo, Ver);
@@ -176,6 +189,24 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             strSql += string.Format(@" COMMIT TRANSACTION ");
             UpdateStatusModels mdj = new UpdateStatusModels();
             result = SQLHelper.ExecuteSqlUpdate(strSql);
+            mdj.ReturnValue = ProductMo;
+            if (result == "")
+            {
+                mdj.Status = "0";
+            }
+            else
+            {
+                mdj.Status = "1";
+                mdj.Msg = result;
+            }
+            return mdj;
+        }
+        public UpdateStatusModels CancelPlan(string ProductMo,string Ver)
+        {
+            string result = "";
+            string strSql = string.Format(@"UPDATE pd_PlanHead SET State='2' Where ProductMo='{0}' And Ver='{1}'", ProductMo, Ver);
+            result = SQLHelper.ExecuteSqlUpdate(strSql);
+            UpdateStatusModels mdj = new UpdateStatusModels();            
             mdj.ReturnValue = ProductMo;
             if (result == "")
             {
@@ -278,7 +309,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 " Left Join it_goods b ON a.GoodsID=b.id " +
                 " Left Join cd_pattern c ON b.blueprint_id=c.id " +
                 " Left Join it_goods_vn d ON a.GoodsID=d.id" +
-                " Where a.ProductMo >=''";
+                " Where a.ProductMo >='' "; //And a.State<>'2'
             strSql += strWhere;
             strSql += " Order By a.PlanDate Desc,a.ProductMo";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
@@ -305,6 +336,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             mdjPlan.AmendUser = dr["AmendUser"].ToString();
             mdjPlan.AmendTime = dr["AmendTime"].ToString().Trim() != "" ? DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["AmendTime"])) : "";
             mdjPlan.ArtImageUrl = ArtImagePath + (dr["picture_name"] != null ? dr["picture_name"].ToString().Trim().Replace("\\", "/") : "");//"AAAA/A888020.bmp";// 
+            mdjPlan.State= dr["State"].ToString();
             return mdjPlan;
         }
         public List<PlanDetails> GetPlanDetailsByMo(string ProductMo)
@@ -335,12 +367,15 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 mdjPlanDetails.GoodsCname = dr["GoodsCname"].ToString();
                 mdjPlanDetails.WipID = dr["WipID"].ToString();
                 mdjPlanDetails.NextWipID = dr["NextWipID"].ToString();
-                mdjPlanDetails.RequestQty = Convert.ToInt32(dr["RequestQty"].ToString());
+                mdjPlanDetails.RequestQty = Convert.ToInt32(dr["RequestQty"].ToString());               
                 mdjPlanDetails.RequestDate = dr["RequestDate"].ToString();
+                mdjPlanDetails.CompletedQty = string.IsNullOrEmpty(dr["CompletedQty"].ToString()) ? 0 : Convert.ToInt32(dr["CompletedQty"].ToString());
+                mdjPlanDetails.CompletedDate = string.IsNullOrEmpty(dr["CompletedDate"].ToString()) ? "" : DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["CompletedDate"]));
                 mdjPlanDetails.CreateUser = dr["CreateUser"].ToString();
                 mdjPlanDetails.CreateTime = dr["CreateTime"].ToString().Trim() != "" ? DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["CreateTime"])) : "";
                 mdjPlanDetails.AmendUser = dr["AmendUser"].ToString();
                 mdjPlanDetails.AmendTime = dr["AmendTime"].ToString().Trim() != "" ? DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["AmendTime"])) : "";
+
                 lsPlanDetails.Add(mdjPlanDetails);
             }
             return lsPlanDetails;
@@ -352,13 +387,15 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             string strSql = "Select a.*" +
                 ",b.Seq" +
                 " ,CASE WHEN LEN(d.picture_name) > 0 THEN p.picture_path_web + REPLACE(d.picture_name, '\',' / ') ELSE '' END AS ArtImage" +
-                " ,b.GoodsID As DepGoodsID,b.RequestQty As RequestDepQty,b.RequestDate As RequestDepDate,b.WipID,b.NextWipID, ";
+                " ,b.GoodsID As DepGoodsID,b.RequestQty As RequestDepQty,b.RequestDate As RequestDepDate,b.WipID,b.NextWipID,";
+            //0:繁體,1:越南文,2:英文,
             if (LanguageID == "0")
                 strSql += "c.name AS GoodsCname,f.name AS DepGoodsCname,h.Name As WipIDName,i.Name As NextWipIDName";
-            else if (LanguageID == "2")
+            else if (LanguageID == "1")
                 strSql += "c.english_name AS GoodsCname,f.english_name AS DepGoodsCname,h.EngName As WipIDName,i.EngName As NextWipIDName";
             else
-                strSql += "e.vn_name1 AS GoodsCname,g.vn_name1 AS DepGoodsCname,h.VieName As WipIDName,i.VieName As NextWipIDName";
+                strSql += "e.vn_name1 AS GoodsCname,g.vn_name1 AS DepGoodsCname,f.english_name AS DepGoodsEname,h.VieName As WipIDName,i.VieName As NextWipIDName";
+            strSql += ",(b.ProductMo+b.Seq) AS BarCode";
             strSql += " FROM pd_PlanHead a " +
                 " Inner Join pd_PlanDetails b On a.ProductMo=b.ProductMo And a.Ver=b.Ver " +
                 " Left Join it_goods c ON a.GoodsID=c.id " +
@@ -405,6 +442,8 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 mdjPlan.AmendUser = dr["AmendUser"].ToString();
                 mdjPlan.AmendTime = dr["AmendTime"].ToString().Trim() != "" ? DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["AmendTime"])) : "";
                 mdjPlan.ArtImageUrl = dr["ArtImage"].ToString().Trim();// ArtImagePath + (dr["picture_name"] != null ? dr["picture_name"].ToString().Trim().Replace("\\", "/") : "");//"AAAA/A888020.bmp";// 
+                mdjPlan.DepGoodsEname = dr["DepGoodsEname"].ToString();
+                mdjPlan.BarCode = dr["BarCode"].ToString().Trim();
                 lsPlan.Add(mdjPlan);
             }
             return lsPlan;

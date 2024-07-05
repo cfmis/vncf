@@ -207,11 +207,11 @@ namespace VNCF.PSS.Web.Common
                     langName = "zh-TW";//繁體中文
                     break;
                 case "1":
-                    langName = "zh-CN";//簡體中文
+                    langName = "zh-CN";//越南文
                     break;
                 case "2":
                     langName = "en";   //英文
-                    break;
+                    break;                
                 default:
                     langName = "en";
                     break;

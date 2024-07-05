@@ -43,10 +43,16 @@ namespace VNCF.PSS.Web.Areas.Prod.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult SavePlan(PlanHead PlanHead,List<PlanDetails> PlanDetails)
+        public JsonResult SavePlan(PlanHead PlanHead,List<PlanDetails> PlanDetails, List<PlanDetails> PlanDetailsDel)
         {
             //PlanDAL clsPlanDAL = new PlanDAL();
-            var result = clsPlanDAL.UpdatePlan(PlanHead, PlanDetails);
+            var result = clsPlanDAL.UpdatePlan(PlanHead, PlanDetails, PlanDetailsDel);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult CancelPlan(string ProductMo,string Ver)
+        {            
+            var result = clsPlanDAL.CancelPlan(ProductMo,Ver);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult CopyPlan(string SourceType,string ProductMo)

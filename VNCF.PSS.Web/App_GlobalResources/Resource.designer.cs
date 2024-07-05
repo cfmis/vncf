@@ -151,6 +151,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Browse.
+        /// </summary>
+        internal static string Browse {
+            get {
+                return ResourceManager.GetString("Browse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
         internal static string btnSelect {
@@ -214,11 +223,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancellation.
+        /// </summary>
+        internal static string btn_cancela {
+            get {
+                return ResourceManager.GetString("btn_cancela", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         internal static string btn_del {
             get {
                 return ResourceManager.GetString("btn_del", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Item.
+        /// </summary>
+        internal static string btn_delitem {
+            get {
+                return ResourceManager.GetString("btn_delitem", resourceCulture);
             }
         }
         
@@ -714,6 +741,15 @@ namespace Resources {
         internal static string Dosage {
             get {
                 return ResourceManager.GetString("Dosage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
             }
         }
         
@@ -1371,6 +1407,15 @@ namespace Resources {
         internal static string OcRemark {
             get {
                 return ResourceManager.GetString("OcRemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operate.
+        /// </summary>
+        internal static string Operate {
+            get {
+                return ResourceManager.GetString("Operate", resourceCulture);
             }
         }
         

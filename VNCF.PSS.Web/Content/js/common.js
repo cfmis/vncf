@@ -323,6 +323,18 @@ var COMM = {
       }
       return index
   },
+  /**字串轉大寫**
+   * Allen 2022/05/20
+  */
+  stringToUppercase: function(str) {       
+      var val="";
+      if(str){
+          val = str.toUpperCase();
+      }else{
+          val="";
+      }
+      return val;
+  },
 
   /**獲取當前日期時間*/
   getWipID: async  function() {
@@ -344,7 +356,8 @@ var COMM = {
 	    return result;
   },
     
-checkAuthority: async function(user_id,menu_id,func_name){
+  //檢查用戶是否有該按鈕的操作權限.  
+  checkAuthority: async function(user_id,menu_id,func_name){
      let result = "0";
      await axios.get("/Base/Common/CheckAuthority?user_id=" + user_id + "&menu_id=" + menu_id+ "&func_name=" + func_name).then(            
           (res) => {
