@@ -34,11 +34,11 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 ",d.picture_name,";
             if (LanguageID == "0")
                 strSql += "c.name AS GoodsCname";
-            else if (LanguageID == "2")
+            else if (LanguageID == "1")
                 strSql += "c.english_name AS GoodsCname";
             else
                 strSql += "e.vn_name1 AS GoodsCname";
-            strSql+=" From oc_OrderHead a " +
+            strSql += " From oc_OrderHead a " +
             " Inner Join oc_OrderDetails b ON a.OcID=b.OcID" +
             " Left Join it_goods c ON b.ProductID=c.id " +
             " Left Join cd_pattern_details d ON c.blueprint_id=d.id " +
@@ -48,7 +48,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             DataRow dr = dt.Rows[0];
             PlanHead mdj = new PlanHead();
-            mdj.ProductMo= dr["ProductMo"].ToString();
+            mdj.ProductMo = dr["ProductMo"].ToString();
             mdj.OrderDate = dr["OrderDate"].ToString();
             mdj.CustomerID = dr["CustomerID"].ToString();
             mdj.GoodsID = dr["ProductID"].ToString();
@@ -66,7 +66,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 ",d.picture_name,";
             if (LanguageID == "0")
                 strSql += "c.name AS GoodsCname";
-            else if (LanguageID == "2")
+            else if (LanguageID == "1")
                 strSql += "c.english_name AS GoodsCname";
             else
                 strSql += "e.vn_name1 AS GoodsCname";
@@ -124,7 +124,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                                 " Where MoType='{0}' And ID='{1}' "
                                 , MoType, MoID, Val, UserID, OpDateTime);
             }
-            if (modelPlan.EditFlag == 1 || HasMo==false)
+            if (modelPlan.EditFlag == 1 || HasMo == false)
             {
                 if (!CheckPlanHead(ProductMo, Ver))
                     strSql += string.Format(@" Insert Into pd_PlanHead (ProductMo,Ver,CustomerID,PlanDate,OrderQty,OrderUnit
@@ -201,12 +201,12 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             }
             return mdj;
         }
-        public UpdateStatusModels CancelPlan(string ProductMo,string Ver)
+        public UpdateStatusModels CancelPlan(string ProductMo, string Ver)
         {
             string result = "";
             string strSql = string.Format(@"UPDATE pd_PlanHead SET State='2' Where ProductMo='{0}' And Ver='{1}'", ProductMo, Ver);
             result = SQLHelper.ExecuteSqlUpdate(strSql);
-            UpdateStatusModels mdj = new UpdateStatusModels();            
+            UpdateStatusModels mdj = new UpdateStatusModels();
             mdj.ReturnValue = ProductMo;
             if (result == "")
             {
@@ -219,7 +219,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             }
             return mdj;
         }
-        private bool CheckPlanHead(string ProductMo,int Ver)
+        private bool CheckPlanHead(string ProductMo, int Ver)
         {
             bool result = true;
             string strSql = "Select ProductMo FROM pd_PlanHead Where ProductMo='" + ProductMo + "' And Ver='" + Ver + "'";
@@ -230,7 +230,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 result = false;
             return result;
         }
-        private bool CheckPlanDetails(string ProductMo, int Ver,string Seq)
+        private bool CheckPlanDetails(string ProductMo, int Ver, string Seq)
         {
             bool result = true;
             string strSql = "Select ProductMo FROM pd_PlanDetails Where ProductMo='" + ProductMo + "' And Ver='" + Ver + "' And Seq='" + Seq + "'";
@@ -241,7 +241,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 result = false;
             return result;
         }
-        private int GetMoNumber(string MoType,string ID)
+        private int GetMoNumber(string MoType, string ID)
         {
             string strSql = "";
             int Val = 0;
@@ -253,7 +253,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 Val = 0;
             return Val;
         }
-        private int GetDetailsMaxSeq(string ProductMo,int Ver)
+        private int GetDetailsMaxSeq(string ProductMo, int Ver)
         {
             int result = 1;
             string strSql = "";
@@ -265,20 +265,20 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 result = 1;
             return result;
         }
-        public List<PlanHead> GetPlanHeadByParas(string ProductMoFrom,string ProductMoTo,string PlanDateFrom,string PlanDateTo)
+        public List<PlanHead> GetPlanHeadByParas(string ProductMoFrom, string ProductMoTo, string PlanDateFrom, string PlanDateTo)
         {
             List<PlanHead> lsPlan = new List<PlanHead>();
-            
+
             string strWhere = "";
-            if ((ProductMoFrom==null?"":ProductMoFrom) != "" && (ProductMoTo == null ? "" : ProductMoTo) != "")
+            if ((ProductMoFrom == null ? "" : ProductMoFrom) != "" && (ProductMoTo == null ? "" : ProductMoTo) != "")
                 strWhere += " And a.ProductMo>='" + ProductMoFrom + "' And a.ProductMo<='" + ProductMoTo + "'";
             if ((PlanDateFrom == null ? "" : PlanDateFrom) != "" && (PlanDateTo == null ? "" : PlanDateTo) != "")
                 strWhere += " And a.PlanDate>='" + PlanDateFrom + "' And a.PlanDate<='" + PlanDateTo + "'";
             DataTable dt = GetPlanHeadReturnDataTable(strWhere);
-            for (int i=0;i<dt.Rows.Count;i++)
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
                 PlanHead mdjPlan = new PlanHead();
-                mdjPlan=DataTableToModel(dt.Rows[i]);
+                mdjPlan = DataTableToModel(dt.Rows[i]);
                 lsPlan.Add(mdjPlan);
             }
             return lsPlan;
@@ -290,10 +290,10 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             DataTable dt = GetPlanHeadReturnDataTable(strWhere);
             if (dt.Rows.Count > 0)
             {
-                mdjPlan=DataTableToModel(dt.Rows[0]);
+                mdjPlan = DataTableToModel(dt.Rows[0]);
             }
             return mdjPlan;
-         }
+        }
         private DataTable GetPlanHeadReturnDataTable(string strWhere)
         {
             PlanHead mdjPlan = new PlanHead();
@@ -301,10 +301,10 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             string strSql = "Select a.*,c.picture_name,";
             if (LanguageID == "0")
                 strSql += "b.name AS GoodsCname";
-            else if (LanguageID == "2")
+            else if (LanguageID == "1")
                 strSql += "b.english_name AS GoodsCname";
             else
-                strSql += "d.vn_name1 AS GoodsCname";
+                strSql += "c.vn_name1 AS GoodsCname";
             strSql += " FROM pd_PlanHead a " +
                 " Left Join it_goods b ON a.GoodsID=b.id " +
                 " Left Join cd_pattern c ON b.blueprint_id=c.id " +
@@ -336,7 +336,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             mdjPlan.AmendUser = dr["AmendUser"].ToString();
             mdjPlan.AmendTime = dr["AmendTime"].ToString().Trim() != "" ? DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["AmendTime"])) : "";
             mdjPlan.ArtImageUrl = ArtImagePath + (dr["picture_name"] != null ? dr["picture_name"].ToString().Trim().Replace("\\", "/") : "");//"AAAA/A888020.bmp";// 
-            mdjPlan.State= dr["State"].ToString();
+            mdjPlan.State = dr["State"].ToString();
             return mdjPlan;
         }
         public List<PlanDetails> GetPlanDetailsByMo(string ProductMo)
@@ -345,14 +345,14 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             string strSql = "Select a.*,";
             if (LanguageID == "0")
                 strSql += "b.name AS GoodsCname";
-            else if (LanguageID == "2")
+            else if (LanguageID == "1")
                 strSql += "b.english_name AS GoodsCname";
             else
                 strSql += "c.vn_name1 AS GoodsCname";
-            strSql+=" FROM pd_PlanDetails a "+
+            strSql += " FROM pd_PlanDetails a " +
                 " Left Join it_goods b ON a.GoodsID=b.id " +
                 " Left Join it_goods_vn c ON a.GoodsID=c.id";
-            strSql +=" Where ProductMo='" + ProductMo + "'";
+            strSql += " Where ProductMo='" + ProductMo + "'";
             strSql += " Order By Seq ";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<PlanDetails> lsPlanDetails = new List<PlanDetails>();
@@ -367,7 +367,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 mdjPlanDetails.GoodsCname = dr["GoodsCname"].ToString();
                 mdjPlanDetails.WipID = dr["WipID"].ToString();
                 mdjPlanDetails.NextWipID = dr["NextWipID"].ToString();
-                mdjPlanDetails.RequestQty = Convert.ToInt32(dr["RequestQty"].ToString());               
+                mdjPlanDetails.RequestQty = Convert.ToInt32(dr["RequestQty"].ToString());
                 mdjPlanDetails.RequestDate = dr["RequestDate"].ToString();
                 mdjPlanDetails.CompletedQty = string.IsNullOrEmpty(dr["CompletedQty"].ToString()) ? 0 : Convert.ToInt32(dr["CompletedQty"].ToString());
                 mdjPlanDetails.CompletedDate = string.IsNullOrEmpty(dr["CompletedDate"].ToString()) ? "" : DBUtility.ConvertDateTimeFormat(Convert.ToDateTime(dr["CompletedDate"]));
@@ -381,7 +381,6 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             return lsPlanDetails;
         }
 
-
         public List<PlanModels> GetPlanByMo(string ProductMo)
         {
             List<PlanModels> lsPlan = new List<PlanModels>();
@@ -391,9 +390,9 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 " ,b.GoodsID As DepGoodsID,b.RequestQty As RequestDepQty,b.RequestDate As RequestDepDate,b.WipID,b.NextWipID,";
             //0:繁體,1:越南文,2:英文,
             if (LanguageID == "0")
-                strSql += "c.name AS GoodsCname,f.name AS DepGoodsCname,h.Name As WipIDName,i.Name As NextWipIDName";
-            else if (LanguageID == "1")
-                strSql += "c.english_name AS GoodsCname,f.english_name AS DepGoodsCname,h.EngName As WipIDName,i.EngName As NextWipIDName";
+                strSql += "c.name AS GoodsCname,f.name AS DepGoodsCname,f.english_name As DepGoodsEname,h.Name As WipIDName,i.Name As NextWipIDName";
+            else if (LanguageID == "2")
+                strSql += "c.english_name AS GoodsCname,f.english_name AS DepGoodsCname,f.english_name AS DepGoodsEname,h.EngName As WipIDName,i.EngName As NextWipIDName";
             else
                 strSql += "e.vn_name1 AS GoodsCname,g.vn_name1 AS DepGoodsCname,f.english_name AS DepGoodsEname,h.VieName As WipIDName,i.VieName As NextWipIDName";
             strSql += ",(b.ProductMo+b.Seq) AS BarCode";
@@ -412,7 +411,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             //List<PlanModels> list = CommonUtils.DataTableToList<PlanModels>(dt);
             //return list;
-            for(int i=0;i<dt.Rows.Count;i++)
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
                 PlanModels mdjPlan = new PlanModels();
                 DataRow dr = dt.Rows[i];
