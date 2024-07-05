@@ -34,7 +34,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 ",d.picture_name,";
             if (LanguageID == "0")
                 strSql += "c.name AS GoodsCname";
-            else if (LanguageID == "1")
+            else if (LanguageID == "2")
                 strSql += "c.english_name AS GoodsCname";
             else
                 strSql += "e.vn_name1 AS GoodsCname";
@@ -66,7 +66,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 ",d.picture_name,";
             if (LanguageID == "0")
                 strSql += "c.name AS GoodsCname";
-            else if (LanguageID == "1")
+            else if (LanguageID == "2")
                 strSql += "c.english_name AS GoodsCname";
             else
                 strSql += "e.vn_name1 AS GoodsCname";
@@ -301,10 +301,10 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             string strSql = "Select a.*,c.picture_name,";
             if (LanguageID == "0")
                 strSql += "b.name AS GoodsCname";
-            else if (LanguageID == "1")
+            else if (LanguageID == "2")
                 strSql += "b.english_name AS GoodsCname";
             else
-                strSql += "c.vn_name1 AS GoodsCname";
+                strSql += "d.vn_name1 AS GoodsCname";
             strSql += " FROM pd_PlanHead a " +
                 " Left Join it_goods b ON a.GoodsID=b.id " +
                 " Left Join cd_pattern c ON b.blueprint_id=c.id " +
@@ -345,7 +345,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             string strSql = "Select a.*,";
             if (LanguageID == "0")
                 strSql += "b.name AS GoodsCname";
-            else if (LanguageID == "1")
+            else if (LanguageID == "2")
                 strSql += "b.english_name AS GoodsCname";
             else
                 strSql += "c.vn_name1 AS GoodsCname";
@@ -391,9 +391,9 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 " ,b.GoodsID As DepGoodsID,b.RequestQty As RequestDepQty,b.RequestDate As RequestDepDate,b.WipID,b.NextWipID,";
             //0:繁體,1:越南文,2:英文,
             if (LanguageID == "0")
-                strSql += "c.name AS GoodsCname,f.name AS DepGoodsCname,f.english_name As DepGoodsEname,h.Name As WipIDName,i.Name As NextWipIDName";
-            else if (LanguageID == "2")
-                strSql += "c.english_name AS GoodsCname,f.english_name AS DepGoodsCname,f.english_name AS DepGoodsEname,h.EngName As WipIDName,i.EngName As NextWipIDName";
+                strSql += "c.name AS GoodsCname,f.name AS DepGoodsCname,h.Name As WipIDName,i.Name As NextWipIDName";
+            else if (LanguageID == "1")
+                strSql += "c.english_name AS GoodsCname,f.english_name AS DepGoodsCname,h.EngName As WipIDName,i.EngName As NextWipIDName";
             else
                 strSql += "e.vn_name1 AS GoodsCname,g.vn_name1 AS DepGoodsCname,f.english_name AS DepGoodsEname,h.VieName As WipIDName,i.VieName As NextWipIDName";
             strSql += ",(b.ProductMo+b.Seq) AS BarCode";

@@ -24,7 +24,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             " LEFT JOIN it_goods_vn b ON a.id=b.id" +
             " Left Join cd_pattern c ON a.blueprint_id=c.id " +
             " ,cd_company p" +
-            " Where a.type='" + "0001" + "'";
+            " Where a.within_code='" + "0000" + "'";
             if (searchParams.goods_id != ""&& searchParams.goods_id != null)
                 strSql += " AND a.id Like '" + "%" + searchParams.goods_id + "%" + "'";
             if (searchParams.goods_cname != ""&& searchParams.goods_cname != null)
@@ -56,7 +56,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             string strSql = "Select a.id,a.name,a.english_name " +
             " FROM it_goods a " +
             " INNER JOIN it_goods_vn b ON a.id=b.id" +
-            " Where type='" + "0001" + "'";
+            " Where within_code='" + "0000" + "'";
             strSql += " AND a.id = '" + updateParams.goods_id + "'";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             if (dt.Rows.Count == 0)
@@ -76,7 +76,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             if (LangID == "0")
                 strSql += "a.name ";
             else
-                if (LangID == "1")
+                if (LangID == "2")
                 strSql += "a.english_name ";
             else
                 strSql += "b.vn_name1 ";
@@ -111,7 +111,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             string strSql = "Select ID,";
             if (LanguageID == "0")
                 strSql += "Name";
-            else if (LanguageID == "1")
+            else if (LanguageID == "2")
                 strSql += "Engname As Name";
             else
                 strSql += "VieName As Name";
@@ -134,7 +134,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
             string strSql = "Select ID,";
             if (LanguageID == "0")
                 strSql += "Name";
-            else if (LanguageID == "1")
+            else if (LanguageID == "2")
                 strSql += "Engname As Name";
             else
                 strSql += "VieName As Name";
