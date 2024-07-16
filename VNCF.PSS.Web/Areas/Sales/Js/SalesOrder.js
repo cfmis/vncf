@@ -992,27 +992,35 @@
             );
         },
         //日期轉換
-        dateChange(fieldDate){
+        dateChange(fieldDate){           
             var objDate = this.$refs[fieldDate].value;//生成日期對象:Fri Oct 15 2021 17:51:20 GMT+0800
+            //--start是否日期對象,非日期對象時會出錯
+            //是字串[object String], 是對象[object date]
+            var res = Object.prototype.toString.call(objDate);
+            if(res==="[object String]"){
+                this.$set(this.searchFormData, fieldDate,"");
+                return;
+            }
+            //--end
             var strDate = COMM.getDate(objDate,0);//轉成年月日字符串格式
             switch (fieldDate) {
                 case "OrderDate": case "ReceivedDate":
                     this.$set(this.formHeadData, fieldDate,strDate);
-                    if(fieldDate=='OrderDate'){
+                    if(fieldDate==='OrderDate'){
                         this.$set(this.formHeadData, 'ReceivedDate',strDate);
                     }
                     break;
                 case "ArriveDate": case "FactoryShipOutDate": case "PlanCompleteDate": //匹配多個值
                     this.$set(this.formDetailData, fieldDate,strDate);
-                    if(fieldDate=='ArriveDate'){
+                    if(fieldDate==='ArriveDate'){
                         this.$set(this.formDetailData, "FactoryShipOutDate",COMM.getDate(objDate,3));
                     }
                     break;
                 case "Order_Date": case "Received_Date":
-                    if(fieldDate=='Order_Date'){
+                    if(fieldDate==='Order_Date'){
                         this.$set(this.searchFormData, 'OrderDate',strDate);
                     }
-                    if(fieldDate=='Received_Date'){
+                    if(fieldDate==='Received_Date'){
                         this.$set(this.searchFormData, 'ReceivedDate',strDate);
                     }
                     break;

@@ -122,7 +122,7 @@ var COMM = {
   *參數addDays:天數增加幾天
   *例子:addDays=0則返當前日期; addDays=2返回前日期再加上兩天
   */
-  getDate: function(date,addDays){
+  getDate: function(date,addDays){    
      var year = date.getFullYear();
      var month = date.getMonth() + 1;
      var day = (addDays==0)?date.getDate():date.getDate() + addDays;

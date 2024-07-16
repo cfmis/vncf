@@ -271,6 +271,7 @@
                           :header-cell-style="{background:'#F5F7FA',color:'#606266',height:'25px',padding:'2px'}"
                           :row-style="{height:'18px'}"
                           :cell-style="{padding:'0px'}"
+                          show-overflow
                           border
                           highlight-current-row
                           stripe
@@ -282,10 +283,10 @@
                           element-loading-spinner="el-icon-loading"
                           @@row-click="rowFindItemClick"
                           @@row-dblclick="rowFindItemDoubleClick">
-                    <el-table-column prop="ProductID" label="@Resource.ProductID" width="170"></el-table-column>
+                    <el-table-column prop="ProductID" label="@Resource.ProductID" width="180"></el-table-column>
                     <el-table-column prop="ProductCdesc" label="@Resource.ProductCdesc" width="250" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="ProductEdesc" label="@Resource.ProductEdesc" width="250" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="Type" label="@Resource.CodeType" width="150"></el-table-column>
+                    <el-table-column prop="Type" label="@Resource.CodeType" width="150" :show-overflow-tooltip="true"></el-table-column>
                 </el-table>
             </template>
             <!--分頁全功能-->
