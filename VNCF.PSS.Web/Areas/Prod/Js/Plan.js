@@ -5,10 +5,12 @@
             edit_mode: 0,
             showEdit: false,
             showCopy: false,
-			showSearch: false,
+            showSearch: false,
+            showSearchOc: false,
             selectRow: null,
             tablePlanDetails: [],
             tablePlanDetailsDel: [],
+            tableOcDetaDel: [],
             editPlanDetails: {},
             prevEditPlanDetails: {},
 			searchParasData:{
@@ -17,7 +19,14 @@
 				PlanDateFrom:'',
 				PlanDateTo:'',
 			},
-			tablePlanHeadList: [],            
+			searchOcData:{
+			    ProductMoFrom:'',
+			    ProductMoTo:'',
+			    OrderDateFrom:'',
+			    OrderDateTo:'',
+			},
+			tablePlanHeadList: [],
+			tableOcHeadList: [], 
             searchGoodsDetails: { GoodsID: '', },
             searchProductMo: '',
             loading3: false,
@@ -102,6 +111,9 @@
 		clickSearchEvent(){
 			this.showSearch = true;
 		},
+		clickSearchOcEvent(){
+		    this.showSearchOc = true;
+		},
         addNew() {
             this.edit_mode = 1;
             nowDateTime = COMM.getCurrentDateTime();
@@ -126,7 +138,8 @@
                 CreateTime: nowDateTime,
                 AmendUser: '',
                 AmendTime: nowDateTime,
-                ArtImageUrl: '/Images/photo.png',
+                ArtImageUrl: '',
+                //ArtImageUrl: '/Images/photo.png',
                 State:'0',
             };
             //深度複製一個對象，用來判斷數據是否有修改
@@ -164,18 +177,38 @@
 		searchPlan(){
             //axios.get("GetGoodsDetails", { params: { goods_id: _id, } })//也可以將參數寫在這裡
 			this.searchLoading=true;
-            axios.get("SearchPlan", { params: { ProductMoFrom: this.searchParasData.ProductMoFrom,ProductMoTo:this.searchParasData.ProductMoTo
-				,PlanDateFrom: this.searchParasData.PlanDateFrom,PlanDateTo:this.searchParasData.PlanDateTo } }).then(
-            (response) => {
-				this.searchLoading=false;
-				this.tablePlanHeadList=response.data;
-            },
-            (response) => {
-                alert(response.status);
-            }
-        ).catch(function (response) {
-            alert(response);
-        });
+		    axios.get("SearchPlan", 
+                { params: { ProductMoFrom: this.searchParasData.ProductMoFrom,
+		                    ProductMoTo:this.searchParasData.ProductMoTo,PlanDateFrom: this.searchParasData.PlanDateFrom,
+		                    PlanDateTo:this.searchParasData.PlanDateTo } 
+                }).then(
+                    (response) => {
+				        this.searchLoading=false;
+				        this.tablePlanHeadList=response.data;
+                    },
+                    (response) => {
+                        alert(response.status);
+                    }
+                ).catch(function (response) {
+                    alert(response);
+                });
+		},
+        getOcData(){            
+		    this.searchLoading=true;
+		    axios.get("SearchOcData", 
+                { params: { ProductMoFrom: this.searchOcData.ProductMoFrom,ProductMoTo:this.searchOcData.ProductMoTo,
+                            OrderDateFrom: this.searchOcData.OrderDateFrom,OrderDateTo:this.searchOcData.OrderDateTo } 
+                }).then(
+                    (response) => {
+                        this.searchLoading=false;
+                        this.tableOcHeadList=response.data;
+                    },
+                    (response) => {
+                        alert(response.status);
+                    }
+                ).catch(function (response) {
+                    alert(response);
+                });
 		},
         getPlanHead(IsUpdate,_ProductMo) {
             var _self = this;
@@ -297,7 +330,7 @@
         submitSearch() {
 
        },		
-       insertEvent () { 
+       insertEvent() { 
            if(this.formData){
                if(this.formData.State==="2"){
                    this.$XModal.alert({ content: '注銷狀態,當前操作無效！',status: 'warning' , mask: false });
@@ -331,7 +364,7 @@
                this.$XModal.alert({ content: '請首先新增主檔資料!',status: 'warning' , mask: false }); 
            }
         },
-        showInsertEvent () {
+        showInsertEvent() {
             this.editPlanDetails = {
                 EditFlag: 0,
                 ProductMo: this.formData.ProductMo,
@@ -621,7 +654,7 @@
                        this.tablePlanDetailsDel = [];               
                        selectRecords.forEach((item,i) => {                   
                            //因在勾選事件中已有判斷,這里選中的全都是完成數量是0的記錄
-                           this.tablePlanDetailsDel.push(item); //將刪除的行對象加入數組                                                                     
+                           this.tablePlanDetailsDel.push(item); //將刪除的行對象加入數組 
                        })
                        $table.removeCheckboxRow();//移除選中的所有行對象 
                        this.formData.EditFlag = 1; //allen add 2024/05/23
@@ -629,7 +662,7 @@
                        //將數組中某一行對象刪除               
                        let arrPlan = this.tablePlanDetails;
                        let new_set = new Set(arrPlan);
-                       let arr_del = this.tablePlanDetailsDel;  
+                       let arr_del = this.tablePlanDetailsDel;
                        let new_arr = [];
                        for (let i = 0; i < arr_del.length; i++) {
                            new_set.delete(arr_del[i]);      
@@ -676,13 +709,118 @@
 				}, 500);
 			}
 
-		},
-        setUpperCase(value){
-            debugger;
+		},        
+        setUpperCase(value){           
             value = COMM.stringToUppercase(value);
             //this.$set(this.selectRow, strField, value );
             return value;
 		},
+        /*OC轉生產計劃*/
+        async convertToPlanEvent() {
+            //if(this.formData.State==='2')
+            //{
+            //    this.$XModal.alert({ content: '注銷狀態,當前操作無效！',status: 'warning' , mask: false });
+            //    return;
+            //}
+            let $table = this.$refs.xTableOc;
+            let selectRecords = $table.getCheckboxRecords();
+            if (selectRecords.length) {
+                if(selectRecords.length>1){
+                    this.$XModal.alert({ content: 'Only one piece of data can be selected at a time.\r\n(一次只能選擇一條數據!)', status: 'warning' });
+                    return;
+                }
+                await this.$XModal.confirm('Are you sure you want to convert it to a planned order?\r\n(确定要轉換成計劃單?)').then(type => {
+                    if (type == "confirm") {  
+                        this.tableOcDetaDel = [];               
+                        selectRecords.forEach((item,i) => {
+                            //因在勾選事件中已有判斷,這里選中的全都是完成數量是0的記錄
+                            this.tableOcDetaDel.push(item); //將刪除的行對象加入數組
+                            this.generateOcData(item);
+                        })
+                        $table.removeCheckboxRow();//移除選中的所有行對象 
+                        //this.formData.EditFlag = 1; //allen add 2024/05/23
+                        ////將數組中某一行對象刪除               
+                        let arrOc = this.tableOcHeadList;
+                        let new_set = new Set(arrOc);//Set對象會自動去掉重復                       
+                        let arr_del = this.tableOcDetaDel;  
+                        let new_arr = [];
+                        for (let i = 0; i < arr_del.length; i++) {
+                            new_set.delete(arr_del[i]);      
+                        }                        
+                        this.tableOcHeadList = [...new_set];//set對象轉數組
+                        this.showSearchOc = false;
+                    }
+                })               
+            } else {
+                await this.$XModal.alert({ content: 'Please select a piece of data.\r\n(請選擇一條數據!)',status: 'warning' , mask: false });               
+            }            
+        },
+        generateOcData(item){
+            //插入主檔
+            this.addNew();
+            this.formData.ProductMo = item.ProductMo;
+            this.formData.OrderQty = item.OrderQty;
+            this.formData.OrderUnit = item.OrderUnit;//是否是要轉成PCS?
+            this.formData.CustomerID = item.CustomerID;
+            this.formData.RequestDate = item.PlanCompleteDate;
+            this.formData.DeliveryDate = item.ArriveDate;
+            this.formData.GoodsID = item.ProductID;
+            this.formData.GoodsCname = item.ProductCdesc;
+            this.formData.ProductRemark = item.ProductRemark;
+            this.formData.MoRemark = item.Remark;
+            this.formData.CreateUser = "";
+            this.formData.AmendUser = "";
+            this.formData.ApprovedTime = null;
+
+            //插入明細
+            let unit = item.OrderUnit;
+            let order_qty = 0;
+            switch(unit){
+                case (unit==='PCS' || unit==='SET'):
+                    order_qty = item.OrderQty;
+                    break;
+                case unit==='GRS':
+                    order_qty = item.OrderQty*144;
+                    break;
+                case unit==='DZ':
+                    order_qty = item.OrderQty*12;
+                    break               
+                case unit==='K':
+                    order_qty = item.OrderQty*1000;
+                    break;
+                case unit==='H':
+                    order_qty = item.OrderQty*100;
+                    break;
+                case unit==='YDS':
+                    order_qty = item.OrderQty;
+                    break;
+                case unit==='Litre':
+                    order_qty = item.OrderQty;
+                    break;
+                default:
+                    order_qty = item.OrderQty;
+                    break;
+            }
+            var $table = this.$refs.xTable1;
+            var rowEndIndex = -1;
+            var record = {
+                ProductMo: item.ProductMo,
+                Ver: '0',
+                GoodsID: item.ProductID,
+                GoodsCname: '',
+                RequestQty: order_qty,
+                RequestDate: item.PlanCompleteDate,
+                WipID: '',
+                NextWipID: '',
+                EditFlag: 1, //allen add 2024/05/21
+            }
+            this.tablePlanDetails.push(record);
+            this.$set(this.formData, "EditFlag",1);//明細有插入,需設置主表更新標識
+            $table.insertAt(record,rowEndIndex).then(({ row }) => {                  
+                $table.setCurrentRow(row);//當前行高亮
+                $table.setActiveCell(rowEndIndex, 'GoodsID');//設置焦點單元格
+            })
+        },
     },
 
     watch: {

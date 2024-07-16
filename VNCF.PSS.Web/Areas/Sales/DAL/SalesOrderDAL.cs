@@ -378,6 +378,18 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             }
             return lsOrder;
         }
+        public static string CheckIsRepeatByMo(Order_Details model)
+        {
+            string result = "";
+            string strSql = string.Format(@"Select b.ProductMo From oc_OrderHead a,oc_OrderDetails b Where a.OcID=b.OcID AND b.ProductMo='{0}' And a.state<>'2'", model.ProductMo);
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            if (dt.Rows.Count > 0)
+            {
+                result = "ERROR";
+            }           
+            return result;
+        }
+
         public static string UpdateOcDetails(Order_Details model)
         {
             string result = "";
@@ -670,6 +682,14 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             return lstBom;
         }
 
+        public static string CheckPlanByMo(string ProductMo)
+        {
+            string result = "";
+            string strSql_f =string.Format(@"Select ProductMo FROM pd_PlanDetails With(NOLOCK) WHERE ProductMo='{0}'", ProductMo);
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql_f);
+            result = (dt.Rows.Count > 0) ? "OK" : "";              
+            return result;
+        }
         public static string UpdateSalesBom(SalesBom model)
         {
             string result = "";
@@ -785,6 +805,7 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
             List<PurchaseInfo> lstItem = new List<PurchaseInfo>();
             if (model != null)
             {
+                //已導入的頁,貨品不可以再重復導入
                 string strSql = string.Format(
                 @"SELECT Top 500 A.id,A.ver,A.vendor_id AS VendorID,CONVERT(VARCHAR(10),A.order_date,120) AS OrderDate,
                 B.mo_id AS ProductMo,B.goods_id AS ProductID,B.goods_name As ProductCdesc,Convert(int,B.order_qty) AS OrderQty,B.unit_code AS UnitCode,
@@ -793,7 +814,9 @@ namespace VNCF.PSS.Web.Areas.Sales.DAL
                 INNER JOIN {0}po_buy_details B with(nolock) ON A.within_code=B.within_code and A.id=B.id
                 INNER JOIN {0}it_goods C ON B.within_code=C.within_code and B.goods_id=C.id
                 INNER JOIN {0}it_vendor D ON A.within_code=D.within_code AND A.vendor_id=D.id
-                WHERE A.within_code='0000' ", strRemoteDB);//and A.id='DWH033895' and A.state<>'2'";
+                WHERE A.within_code='0000' And 
+                    Not EXISTS(Select '1' From oc_OrderDetails Where ProductMo COLLATE Chinese_PRC_CI_AS=B.mo_id And ProductID COLLATE Chinese_PRC_CI_AS=B.goods_id) ", strRemoteDB);
+                model.VendorID = "CL-CF001";
                 if (!string.IsNullOrEmpty(model.VendorID))
                 {
                     strSql += " AND A.vendor_id like '" + model.VendorID + "%'";

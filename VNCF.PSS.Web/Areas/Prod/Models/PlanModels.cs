@@ -65,4 +65,14 @@ namespace VNCF.PSS.Web.Areas.Prod.Models
         public string CompletedDate { get; set; }
 
     }
+    public class OcDetaFind : OcModelBase
+    {
+        public string OcID { get; set; }
+        public string OrderDate { get; set; }
+        public string CustomerID { get; set; }
+    }
+
+ 
+
+
 }

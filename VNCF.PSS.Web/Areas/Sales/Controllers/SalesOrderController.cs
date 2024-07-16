@@ -156,6 +156,16 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
             string result = SalesOrderDAL.UpdateHeadAmountByID(model);
             return Json(result);
         }
+        //檢查明細頁數是否已存在
+        [HttpPost]
+        public ActionResult CheckMoIsRepeat(Order_Details model)
+        {
+            string result = SalesOrderDAL.UpdateOcDetails(model);
+            if (result == "")
+                return Json("OK");
+            else
+                return Json("Error");
+        }
 
         //更新明細
         [HttpPost]
@@ -189,6 +199,16 @@ namespace VNCF.PSS.Web.Areas.Sales.Controllers
                 return Json("OK");
             else
                 return Json("Error");
+        }
+
+        [HttpPost]
+        public ActionResult CheckPlan (string ProductMo)
+        {
+            string result = SalesOrderDAL.CheckPlanByMo(ProductMo);
+            if (result == "OK")
+                return Json("OK");
+            else
+                return Json("");
         }
 
         public ActionResult DeleteListSalesBom(string OcID, int Ver, string UpperSeq, string Seq)

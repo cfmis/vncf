@@ -718,7 +718,7 @@
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Xóa bỏ</value>
-    <comment>注銷</comment>
+    <comment>刪除</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Hủy bỏ</value>
@@ -984,5 +984,13 @@
   <data name="Operate" xml:space="preserve">
     <value>Vận hành</value>
     <comment>Operate</comment>
+  </data>
+  <data name="ProductVdesc" xml:space="preserve">
+    <value>Tên sản phẩm(VIE)</value>
+    <comment>貨品名稱(越南文)</comment>
+  </data>
+  <data name="OcToPlan" xml:space="preserve">
+    <value>OC Chuyển sang kế hoạch</value>
+    <comment>OC轉計劃單</comment>
   </data>
 </root>

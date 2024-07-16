@@ -283,6 +283,38 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             }
             return lsPlan;
         }
+        public List<OcDetaFind> GetOcDataByParas(string ProductMoFrom, string ProductMoTo, string OrderDateFrom, string OrderDateTo)
+        {
+            List<OcDetaFind> lsOcData = new List<OcDetaFind>();
+
+            string strWhere = "";
+            if ((ProductMoFrom == null ? "" : ProductMoFrom) != "" && (ProductMoTo == null ? "" : ProductMoTo) != "")
+                strWhere += " And a.ProductMo>='" + ProductMoFrom + "' And a.ProductMo<='" + ProductMoTo + "'";
+            if ((OrderDateFrom == null ? "" : OrderDateFrom) != "" && (OrderDateTo == null ? "" : OrderDateTo) != "")
+                strWhere += " And a.OrderDate>='" + OrderDateFrom + "' And a.OrderDate<='" + OrderDateTo + "'";
+            DataTable dt = GetOcDataReturnDataTable(strWhere);
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                OcDetaFind mdjOc = new OcDetaFind();
+                mdjOc.OcID = dt.Rows[i]["OcID"].ToString();
+                mdjOc.OrderDate = dt.Rows[i]["OrderDate"].ToString();
+                mdjOc.CustomerID = dt.Rows[i]["CustomerID"].ToString();
+                mdjOc.Seq = dt.Rows[i]["Seq"].ToString();
+                mdjOc.ProductMo = dt.Rows[i]["ProductMo"].ToString();
+                mdjOc.ProductID = dt.Rows[i]["ProductID"].ToString();
+                mdjOc.ProductCdesc = dt.Rows[i]["ProductCdesc"].ToString();
+                mdjOc.ProductVdesc = dt.Rows[i]["ProductVdesc"].ToString();
+                mdjOc.OrderQty = Convert.ToInt32(dt.Rows[i]["OrderQty"].ToString());
+                mdjOc.OrderUnit = dt.Rows[i]["OrderUnit"].ToString();
+                mdjOc.CustProductID = dt.Rows[i]["CustProductID"].ToString();
+                mdjOc.PlanCompleteDate = dt.Rows[i]["PlanCompleteDate"].ToString();
+                mdjOc.ArriveDate = dt.Rows[i]["ArriveDate"].ToString();
+                mdjOc.Remarks = dt.Rows[i]["Remarks"].ToString();
+                mdjOc.ProductRemark = dt.Rows[i]["ProductRemark"].ToString();                
+                lsOcData.Add(mdjOc);
+            }
+            return lsOcData;
+        }
         public PlanHead GetPlanHeadByMo(string ProductMo)
         {
             PlanHead mdjPlan = new PlanHead();
@@ -312,6 +344,30 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 " Where a.ProductMo >='' "; //And a.State<>'2'
             strSql += strWhere;
             strSql += " Order By a.PlanDate Desc,a.ProductMo";
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            return dt;
+        }
+        private DataTable GetOcDataReturnDataTable(string strWhere)
+        {
+            OcDetaFind mdjPlan = new OcDetaFind();            
+            string strSql =
+            @"Select a.OcID,Convert(varchar(10),a.OrderDate,120) As OrderDate,a.customerID,b.Seq,b.productMo,b.ProductID,d.vn_name1 As ProductVdesc,b.OrderQty,b.OrderUnit,
+            b.CustProductID,Convert(varchar(10),b.PlanCompleteDate,120) As PlanCompleteDate,Convert(varchar(10),b.ArriveDate,120) As ArriveDate,b.Remarks,b.ProductRemark,";
+            if (LanguageID == "0" || LanguageID == "1")
+                strSql += "b.ProductCdesc";
+            else
+            {
+                if (LanguageID == "2")
+                {
+                    strSql += "c.english_name AS ProductCdesc";
+                }
+            }           
+            strSql += " FROM oc_OrderHead a Inner Join oc_OrderDetails b On a.OcID=b.OcID And a.Ver=b.Ver " +
+                " Left Join it_goods c ON b.ProductID=c.id " +
+                " Left Join it_goods_vn d ON b.ProductID=d.id" +
+                " Where NOT Exists(Select '1' From pd_PlanHead WHERE b.productMo=pd_PlanHead.ProductMo) ";
+            strSql += strWhere;
+            strSql += " Order By a.OrderDate Desc,b.ProductMo";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             return dt;
         }

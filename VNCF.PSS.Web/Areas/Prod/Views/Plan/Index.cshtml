@@ -33,6 +33,8 @@
                     <vxe-button type="text" icon="fa fa-arrow-circle-up" content="@Resource.btn_approval" @*@@click="saveEvent()"*@></vxe-button>
                     <vxe-button type="text" icon="fa fa-copy" content="@Resource.CopyMo" @@click="clickCopyEvent()"></vxe-button>
                     <vxe-button type="text" icon="fa fa-trash-o" @@click="cancelEvent()"><span style="color:red">@Resource.btn_cancela</span></vxe-button>
+                    <vxe-button type="text" icon="fa fa-building-o" content="@Resource.OcToPlan" @@click="clickSearchOcEvent()" ></vxe-button>
+                    
                 </template>
             </vxe-toolbar>
         </div>
@@ -204,7 +206,7 @@
                    ref="xTable1"
                    height="350"
                    size="mini"
-                   @*resizable*@
+                   resizable
                    show-header-overflow
                    highlight-current-row
                    :row-config="{height: 20, isCurrent:true}"                   
@@ -377,10 +379,10 @@
         <template #default>            
             <vxe-toolbar perfect size="medium" style="height:35px;margin-top:-6px;margin-bottom:20px">
                 <template #buttons>
-                    <vxe-button status="primary" icon="fa fa-search" @@click="searchPlan()" size="mini">@Resource.btn_search</vxe-button>
-                    <vxe-button icon="fa fa-close" @@click="$refs.xModalSearch.close()" size="mini">@Resource.btn_exit</vxe-button>
+                    <vxe-button icon="fa fa-close" @@click="$refs.xModalSearch.close()" size="mini"><span style="color:red">@Resource.btn_exit</span></vxe-button>
+                    <vxe-button status="primary" icon="fa fa-search" @@click="searchPlan()" size="mini">@Resource.btn_search</vxe-button>                    
                 </template>
-            </vxe-toolbar>            
+            </vxe-toolbar>
             <vxe-form :data="searchParasData" title-align="right" title-width="100" @*@@submit="searchPlan()"*@ style="margin-top:-20px">
                 @*<vxe-form-item align="left" span="24" style="margin-top:30px">
                     <template #default>
@@ -408,12 +410,13 @@
                    height="350"
                    size="mini"
                    highlight-current-row
+                   resizable @*欄寬度可調*@
                    :row-config="{height: 20}"
                    ref="xTable"
                    :loading="searchLoading"
                    :sync-resize="selectTab"
                    :checkbox-config="{highlight: true, range: true}"
-                   :data="tablePlanHeadList"
+                   :data="tablePlanHeadList"                   
                    :keyboard-config="{isArrow: true, isEnter: true,Backspace:true}"
                    :edit-config="{trigger: 'dbclick', mode: 'row', icon: 'fa fa-pencil1', showStatus: true}"
                     @@cell-dblclick="searchCellDBLClickEvent">
@@ -435,6 +438,73 @@
        </template>
 
     </vxe-modal>
+
+    <!--OC轉計劃-->
+    <vxe-modal ref="xModalOc" v-model="showSearchOc" title="@Resource.OcToPlan" width="900" height="550" resize destroy-on-close>        
+        <template #default>            
+            <vxe-toolbar perfect size="medium" style="height:35px;margin-top:-6px;margin-bottom:20px">
+                <template #buttons>
+                    <vxe-button icon="fa fa-close" @@click="$refs.xModalOc.close()" size="mini"><span style="color:red">@Resource.btn_exit</span></vxe-button>
+                    <vxe-button status="primary" icon="fa fa-search" @@click="getOcData()" size="mini">@Resource.btn_search</vxe-button>
+                    <vxe-button status="success" icon="fa fa-check" @@click="convertToPlanEvent()" size="mini">@Resource.btn_ok</vxe-button>
+                </template>
+            </vxe-toolbar>
+            <vxe-form :data="searchOcData" title-align="right" title-width="100" style="margin-top:-20px">               
+                <vxe-form-item title="@Resource.ProductMo" field="ProductMo" span="12" :item-render="{}">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.ProductMoFrom" style="width:40%"></vxe-input>
+                        <vxe-input v-model="data.ProductMoTo" style="width:40%"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="@Resource.PlanDate" field="PlanDateFrom" span="12" :item-render="{}">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.OrderDateFrom" type="date" style="width:40%"></vxe-input>
+                        <vxe-input v-model="data.OrderDateTo" type="date" style="width:40%"></vxe-input>
+                    </template>
+                </vxe-form-item>
+            </vxe-form>
+ 
+        <!--顯示查找記錄-->
+        <vxe-table border
+                   show-overflow
+                   height="400"
+                   size="mini"
+                   highlight-current-row
+                   show-header-overflow="ellipsis"
+                   :row-config="{height: 20}"
+                   ref="xTableOc"
+                   :loading="searchLoading"
+                   :sync-resize="selectTab"
+                   :checkbox-config="{highlight: true, range: true}"                    
+                   resizable @*欄寬度可調*@
+                   :data="tableOcHeadList"
+                   :keyboard-config="{isArrow: true, isEnter: true,Backspace:true}"
+                   :edit-config="{trigger: 'dbclick', mode: 'row', icon: 'fa fa-pencil1', showStatus: true}">    
+            <vxe-column type="seq" title="#" fixed="left" width="50"></vxe-column>    
+            <vxe-column type="checkbox" fixed="left" width="40"></vxe-column>
+            <vxe-column field="OcID" title="@Resource.OcID" width="110"></vxe-column>
+            <vxe-column field="OrderDate" title="@Resource.OrderDate" width="90"></vxe-column>
+            <vxe-column field="CustomerID" title="@Resource.CustomerID" width="80"></vxe-column>
+            <vxe-column field="Seq" title="@Resource.SeqID" width="50"></vxe-column>
+            <vxe-column field="ProductMo" title="@Resource.ProductMo" width="90"></vxe-column>  
+            <vxe-column field="ProductID" title="@Resource.ProductID" width="150"></vxe-column> 
+            <vxe-column field="ProductCdesc" title="@Resource.ProductCdesc" width="260"></vxe-column>
+            <vxe-column field="ProductVdesc" title="@Resource.ProductVdesc" width="260"></vxe-column>
+            <vxe-column field="OrderQty" title="@Resource.OrderQty" width="80"></vxe-column>
+            <vxe-column field="OrderUnit" title="@Resource.OrderUnit" width="50"></vxe-column>
+            <vxe-column field="CustProductID" title="@Resource.CustProductID" width="120"></vxe-column> 
+            <vxe-column field="PlanComplateDate" title="@Resource.PlanCompleteDate" width="100"></vxe-column>
+            <vxe-column field="ArriveDate" title="@Resource.ArriveDate" width="90"></vxe-column>
+            <vxe-column field="Remarks" title="@Resource.Remark" width="200"></vxe-column>
+            <vxe-column field="ProductRemark" title="@Resource.ProductRemark" width="200"></vxe-column>            
+        </vxe-table>
+
+       </template>
+
+    </vxe-modal>
+
+
+
 </div>
 @section PageSpecificJavascriptIncludes{
     <script src="~/Areas/Prod/js/Plan.js?v=@Guid.NewGuid().ToString()"></script>

@@ -589,7 +589,7 @@
     <value>數據瀏覽</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>注銷</value>
+    <value>刪除</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>注銷</value>
@@ -791,5 +791,11 @@
   </data>
   <data name="Operate" xml:space="preserve">
     <value>操作</value>
+  </data>
+  <data name="ProductVdesc" xml:space="preserve">
+    <value>貨品名稱(越南文)</value>
+  </data>
+  <data name="OcToPlan" xml:space="preserve">
+    <value>OC轉計劃單</value>
   </data>
 </root>

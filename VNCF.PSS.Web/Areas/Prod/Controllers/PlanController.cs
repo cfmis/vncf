@@ -93,5 +93,10 @@ namespace VNCF.PSS.Web.Areas.Prod.Controllers
             var PlanList = clsPlanDAL.GetPlanHeadByParas(ProductMoFrom, ProductMoTo, PlanDateFrom, PlanDateTo);
             return Json(PlanList, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult SearchOcData(string ProductMoFrom, string ProductMoTo, string OrderDateFrom, string OrderDateTo)
+        {
+            var OcList = clsPlanDAL.GetOcDataByParas(ProductMoFrom, ProductMoTo, OrderDateFrom, OrderDateTo);
+            return Json(OcList, JsonRequestBehavior.AllowGet);
+        }
     }
 }

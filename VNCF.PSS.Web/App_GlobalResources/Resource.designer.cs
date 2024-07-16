@@ -1411,6 +1411,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OC To Transfer Plan.
+        /// </summary>
+        internal static string OcToPlan {
+            get {
+                return ResourceManager.GetString("OcToPlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Operate.
         /// </summary>
         internal static string Operate {
@@ -1731,6 +1740,15 @@ namespace Resources {
         internal static string ProductType {
             get {
                 return ResourceManager.GetString("ProductType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product Name (VIE).
+        /// </summary>
+        internal static string ProductVdesc {
+            get {
+                return ResourceManager.GetString("ProductVdesc", resourceCulture);
             }
         }
         

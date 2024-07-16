@@ -306,6 +306,7 @@
     <Compile Include="Areas\Prod\Controllers\ProcController.cs" />
     <Compile Include="Areas\Prod\DAL\PlanDAL.cs" />
     <Compile Include="Areas\Prod\DAL\ProcDAL.cs" />
+    <Compile Include="Areas\Prod\Models\OcModelBase.cs" />
     <Compile Include="Areas\Prod\Models\PlanModelBase.cs" />
     <Compile Include="Areas\Prod\Models\PlanModels.cs" />
     <Compile Include="Areas\Prod\Models\ProcModels.cs" />
@@ -375,6 +376,7 @@
     <Content Include="Areas\Prod\Js\Plan.js" />
     <Content Include="Areas\Sales\AspNetReports\Order.aspx" />
     <Content Include="Areas\Sales\AspNetReports\SalesOrder.aspx" />
+    <Content Include="Areas\Sales\Js\SalesOrder.js" />
     <Content Include="Config\AdminMenuConfig.xml" />
     <Content Include="Config\CacheConfig.xml" />
     <Content Include="Config\DaoConfig.xml" />

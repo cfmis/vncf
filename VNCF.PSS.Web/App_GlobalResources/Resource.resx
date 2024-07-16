@@ -795,4 +795,10 @@
   <data name="Operate" xml:space="preserve">
     <value>Operate</value>
   </data>
+  <data name="ProductVdesc" xml:space="preserve">
+    <value>Product Name (VIE)</value>
+  </data>
+  <data name="OcToPlan" xml:space="preserve">
+    <value>OC To Transfer Plan</value>
+  </data>
 </root>
