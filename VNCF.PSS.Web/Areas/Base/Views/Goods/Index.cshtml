@@ -65,7 +65,7 @@
                size="mini"
                :loading="loadingStatus"
                :data="goodsListPart"
-               :row-config="{height: 20}"
+               :row-config="{height: 30}"
                highlight-current-row
                :keyboard-config="{isArrow: true}"
                @@cell-click="goodsListCellClickEvent">
@@ -76,6 +76,7 @@
         <vxe-table-column field="goods_vname1" title="越文描述1" width="200"></vxe-table-column>
         <vxe-table-column field="goods_vname2" title="越文描述2" width="200"></vxe-table-column>
         <vxe-table-column field="goods_vname3" title="越文描述3" width="200"></vxe-table-column>
+        <vxe-table-column field="do_color" title="顏色做法" width="100"></vxe-table-column>
         <vxe-table-column title="修改" width="60" :resizable="false" show-overflow>
             <template #default="{ row }">            
                 <vxe-button type="text" icon="fa fa-edit" @@click="editEvent(row)"></vxe-button>
@@ -142,7 +143,11 @@
                         <vxe-input v-model="data.goods_vname3" class="input-customize"></vxe-input>
                     </template>
                 </vxe-form-item>
-
+                <vxe-form-item title="顏色做法" field="do_color" span="12" item-render="{}" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.do_color" class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
             </vxe-form>
         </template>
     </vxe-modal>

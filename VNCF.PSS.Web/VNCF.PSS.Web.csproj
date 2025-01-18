@@ -302,10 +302,13 @@
     <Compile Include="Areas\Base\Models\DepInfo.cs" />
     <Compile Include="Areas\File\Controllers\FileController.cs" />
     <Compile Include="Areas\File\FileAreaRegistration.cs" />
+    <Compile Include="Areas\Prod\Controllers\OrderDGController.cs" />
     <Compile Include="Areas\Prod\Controllers\PlanController.cs" />
     <Compile Include="Areas\Prod\Controllers\ProcController.cs" />
+    <Compile Include="Areas\Prod\Controllers\ProcDGController.cs" />
     <Compile Include="Areas\Prod\DAL\PlanDAL.cs" />
     <Compile Include="Areas\Prod\DAL\ProcDAL.cs" />
+    <Compile Include="Areas\Prod\DAL\QueryDG.cs" />
     <Compile Include="Areas\Prod\Models\OcModelBase.cs" />
     <Compile Include="Areas\Prod\Models\PlanModelBase.cs" />
     <Compile Include="Areas\Prod\Models\PlanModels.cs" />
@@ -1046,6 +1049,8 @@
     <Content Include="Areas\File\Views\File\InitFolderStruct.cshtml" />
     <Content Include="Document\Files\public\TEST1\00 目錄.doc" />
     <Content Include="Document\Files\public\TEST1\01 銷售訂單輸入 GEO_MENU.doc" />
+    <Content Include="Areas\Prod\Views\ProcDG\Index.cshtml" />
+    <Content Include="Areas\Prod\Views\OrderDG\Index.cshtml" />
     <None Include="Properties\PublishProfiles\VNCF.PSS.Web.pubxml" />
     <None Include="Properties\PublishProfiles\VNCF.pubxml" />
     <Content Include="Reports\purchase.frx" />

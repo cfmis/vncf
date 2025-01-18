@@ -1,0 +1,222 @@
+﻿@using Resources;
+@{
+    ViewBag.Title = "生產流程";// "Goods IndexPage";
+}
+@*@{@Html.Raw("@");}*@
+
+<div id="app">
+    @*<div class="div-cont" style="margin-top:0px">*@
+        <vxe-form :data="searchParas" @@submit="submitSearch" title-align="right" title-width="100px" class="div-cont" title-colon custom-layout>
+        <div class="div-left">
+            
+                <vxe-form-item title="@Resource.ProductID" field="goods_id" span="8" :item-render="{}" style="width:360px" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.goods_id" maxlength="18" class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="@Resource.ProductMo" field="mo_id" span="8" :item-render="{}" style="width:360px" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.mo_id" maxlength="9" class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="@Resource.BrandID" field="brand_id" span="8" :item-render="{}" style="width:360px" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.brand_id" maxlength="9" class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
+            <vxe-form-item title="記錄數" field="top_rec" span="8" :item-render="{}" style="width:360px" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.top_rec" maxlength="9" class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
+        </div>
+        <div class="div-right">
+            <vxe-button type="submit" status="primary" style="width:100px" v-if="Common_Find">@Resource.btn_search</vxe-button>
+        </div>
+            </vxe-form>
+    @*</div>*@
+    <div style="float:left;width:100%;margin-top:10px">
+        <vxe-table border
+                   resizable
+                   highlight-hover-row
+                   show-overflow
+                   height="350"
+                   row-id="id"
+                   size="mini"
+                   :loading="loadingStatus"
+                   :data="goodsList"
+                   :row-config="{height: 25}"
+                   highlight-current-row
+                   :keyboard-config="{isArrow: true}"
+                   @@cell-click="goodsListCellClickEvent">
+            <vxe-table-column type="seq" title="@Resource.Seq" width="60"></vxe-table-column>
+            <vxe-table-column field="mo_id" title="@Resource.ProductMo" width="120"></vxe-table-column>
+            <vxe-table-column field="goods_id" title="@Resource.ProductID" width="160"></vxe-table-column>
+            <vxe-table-column field="goods_cname" title="@Resource.ProductCdesc" width="260"></vxe-table-column>
+            <vxe-table-column field="do_color" title="@Resource.DoColor" width="160"></vxe-table-column>
+            <vxe-table-column field="brand_id" title="@Resource.BrandID" width="80"></vxe-table-column>
+            <vxe-table-column field="ID" title="@Resource.OcID" width="120"></vxe-table-column>
+            <vxe-table-column field="order_date" title="@Resource.OrderDate" width="120"></vxe-table-column>
+            <template #empty>
+                <span>
+                    @*<img src="/Images/no_data_img.gif">*@
+                    <p>沒有更多記錄了！</p>
+                </span>
+            </template>
+        </vxe-table>
+        @*<vxe-pager background
+               size="small"
+               :loading="loadingStatus"
+               :current-page="tablePage.currentPage"
+               :page-size="tablePage.pageSize"
+               :total="tablePage.totalResult"
+               :page-sizes="[50, 100, 150, {label: '大量数据', value: 1000}, {label: '全量数据', value: -1}]"
+               :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']"
+               @@page-change="handlePageChange3">
+        </vxe-pager>*@
+    </div>
+
+
+    <div style="float:left;width:100%;margin-top:10px">
+        <vxe-table border
+                   resizable
+                   highlight-hover-row
+                   show-overflow
+                   height="200"
+                   row-id="id"
+                   size="mini"
+                   :data="goodsListPart"
+                   :row-config="{height: 25}"
+                   highlight-current-row
+                   :keyboard-config="{isArrow: true}">
+            <vxe-table-column field="sequence_id" title="@Resource.Seq" width="60"></vxe-table-column>
+            <vxe-table-column field="goods_id" title="@Resource.ProductID" width="160"></vxe-table-column>
+            <vxe-table-column field="goods_cname" title="@Resource.ProductCdesc" width="260"></vxe-table-column>
+            <vxe-table-column field="do_color" title="@Resource.DoColor" width="160"></vxe-table-column>
+            <vxe-table-column field="part_flag" title="主件" width="60"></vxe-table-column>
+            <template #empty>
+                <span>
+                    @*<img src="/Images/no_data_img.gif">*@
+                    <p>沒有更多記錄了！</p>
+                </span>
+            </template>
+        </vxe-table>
+
+    </div>
+
+</div>
+
+
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                goodsList: [],
+                goodsListSec:[],
+                goodsListPart:[],
+                searchParas: { mo_id: '',goods_id:'',brand_id:'',top_rec:'500' },
+                loadingStatus: false,
+                tablePage: {
+                    currentPage: 1,
+                    pageSize: 50,
+                    totalResult: 0
+                },
+                ArtImageUrl: '/Images/photo.png',
+                selectRow: null,
+                Common_Find:true,
+            },
+            created: function () {
+                this.InIt();
+                //this.findList3();
+                //this.getPermissions();
+            },
+            methods: {
+                InIt: function () {
+                    this.searchData();
+                    //this.loadingStatus = false;
+                },
+                submitSearch(){
+                    this.searchData();
+                },
+                searchData:function(){
+                    // console.log('回车搜索',keyCode,e); && this.input
+                    if(this.searchParas.mo_id=="" && this.searchParas.goods_id=="" && this.searchParas.brand_id=="")
+                        return;
+                    this.loadingStatus = true
+                    var _self = this;
+                    _self.goodsList = [];
+                    this.goodsListSec = [];
+                    _self.goodsListPart = [];
+                    axios.get("LoadOcData", { params: { mo_id: this.searchParas.mo_id,goods_id:this.searchParas.goods_id,brand_id:this.searchParas.brand_id,top_rec:this.searchParas.top_rec } }).then(
+                        (response) => {
+                            //for (var i = 0; i < response.data.length; i++) {
+                            //    _self.goodsList.push(response.data[i]);
+                            //}
+                            _self.goodsList=response.data;
+                            _self.loadingStatus = false;
+                            //debugger;
+                            //_self.fillData();
+                        },
+                        (response) => {
+                            _self.loadingStatus = false;
+                            alert(response.status);
+                        }
+                    ).catch(function (response) {
+                        _self.loadingStatus = false;
+                        alert(response);
+                    });
+                },
+                fillData:function(){
+                    this.goodsListSec = [];
+                    this.tablePage.totalResult = this.goodsList.length;
+                    this.goodsListSec = this.goodsList.slice((this.tablePage.currentPage - 1) * this.tablePage.pageSize, this.tablePage.currentPage * this.tablePage.pageSize);
+                    this.loadingStatus = false;
+                },
+                handlePageChange3:function( {currentPage, pageSize }) {
+                    this.loadingStatus = true;
+                    this.tablePage.currentPage = currentPage;
+                    this.tablePage.pageSize = pageSize;
+                    //this.findList3()
+                    this.fillData();
+                },
+                goodsListCellClickEvent({row}){
+                    //this.ArtImageUrl=row.ArtImageUrl;
+                    this.getGoodsPart(row.ID,row.Ver,row.sequence_id);
+                },
+                getGoodsPart(ID,Ver,Seq){
+                    //_self.goodsListPart = [];
+                    //var mo_id=_self.goodsList[row].ProductMo;
+                    //var sequence_id=_self.goodsList[row].Seq;
+                    //this.loadingStatusPart = true
+                    var _self = this;
+                    _self.goodsListPart = [];
+
+                    axios.get("LoadoCDataPart", { params: { ID: ID,Ver:Ver,sequence_id:Seq } }).then(
+                        (response) => {
+                            //for (var i = 0; i < response.data.length; i++) {
+                            //    _self.goodsListPart.push(response.data[i]);
+                            //}
+                            _self.goodsListPart=response.data;
+                            //this.loadingStatusPart = false;
+                            //debugger;
+                            //_self.fillData();
+                        },
+                        (response) => {
+                            _self.loadingStatus = false;
+                            alert(response.status);
+                        }
+                    ).catch(function (response) {
+                        _self.loadingStatus = false;
+                        alert(response);
+                    });
+                },
+            }
+        });
+    </script>
+
+}
+
+
+
+
