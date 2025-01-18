@@ -44,7 +44,7 @@ namespace VNCF.PSS.Web.Areas.File.Controllers
         public string Share()
         {
             return "ok";
-        }  
+        }
 
         /// <summary>
         /// 获取当前目录文件及文件夹列表
@@ -55,9 +55,9 @@ namespace VNCF.PSS.Web.Areas.File.Controllers
         {
             string basePath = Server.MapPath("~");
             //得到文件夹路径
-            //var data = FileHelper.FileHelp.GetFiles(basePath, path, true);
+            //var data = FileHelper.FileHelp.GetFiles(basePath, path, true);            
             return Json(FileHelp.GetFiles(basePath, path, true), "text/html", JsonRequestBehavior.AllowGet);
-        }
+        }       
 
         /// <summary>
         /// 获取目录结构

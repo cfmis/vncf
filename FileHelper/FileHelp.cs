@@ -12,6 +12,7 @@ namespace FileHelper
 {
    public static class FileHelp
     {
+       
         /// <summary>
         /// 根据文件的地址,获取文件目录(json)
         /// {filename=,}
@@ -26,7 +27,8 @@ namespace FileHelper
             //网站目录根目录下Document\Files  为文件地址
             string str = FileHelp.Standard(string.Format(@"{0}\Document\Files", basePath));
             //获取完整地址
-            string str2 = FileHelp.Standard(string.Format(@"{0}\{1}", str, path));
+            string str2 = FileHelp.Standard(string.Format(@"{0}\{1}", str, path));               
+                   
             //判断是否存在目录
             if (!Directory.Exists(str2))
             {

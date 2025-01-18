@@ -233,7 +233,7 @@
             this.getDataHead();
             this.showDialogSearch = false;
         },
-        rowDetailsClick(row, event, column){
+        rowDetailsClick(row, event, column){            
             this.ArtImageUrl = row.ArtImage;//圖樣路徑
             this.curRow = row;//保存當前行
             this.curRowIndex = row.index ;//保存當前行索引

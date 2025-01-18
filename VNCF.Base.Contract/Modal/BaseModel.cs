@@ -45,4 +45,14 @@
         public string small_class { get; set; }
     }
 
+    //public class ModelBomQuery
+    //{
+    //    public string id { get; set; }
+    //    public string parent_id { get; set; }
+    //    public string goods_id { get; set; }
+    //    public string goods_name { get; set; }
+    //    public string goods_name_en { get; set; }
+    //    public string goods_name_vn { get; set; }       
+    //}
+
 }
