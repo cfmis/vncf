@@ -1,0 +1,308 @@
+﻿@using Resources;
+@{
+    ViewBag.Title = "BOM";
+}
+@section PageSpecificStyleSheetIncludes{
+    @*<link type="text/css" rel="stylesheet" href="~/Content/Hg/static/css/CFStyle.css?v=20201117102416261">*@
+    <style type="text/css">      
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        /*主容器*/
+        .content {
+            display: flex;
+            min-height: 100vh;
+            width:100%;
+            /*flex-direction: column;*/
+            /*box-shadow: 2px 2px 4px grey;*/ /* 阴影样式 */
+        }
+        .content-left {
+            /* 导航放到最左边 */ 
+            flex:3;
+			/*margin-left: 5px;*/
+			margin-bottom: 3px;
+			border:1px solid #d3d3d3; /* 边框样式 */
+            order: -1;
+            /* background: #77BBDD; */            
+        }    
+        .content-right {   
+            flex: 7;
+            flex-direction: column;
+            margin-left: 5px;
+			margin-bottom: 3px;          
+            border:1px solid #d3d3d3; /* 边框样式 */            
+        }
+        .header {
+            width: 100%;
+            height: 240px;
+			border:1px solid #d3d3d3; /* 边框样式 */					
+            /*background-color: #e7faee;*/
+            /*text-align: center;*/
+        }
+        .content-center {           
+            /*flex-direction: column;*/                       
+            width:650px;
+            margin-top: 5px;
+        }
+		/*.footer {			
+			width: 100%;
+			height: 5px;				
+			text-align: center;
+		}*/        
+       
+
+
+        /*.div-cont{
+            float:left;
+            width:90%;
+            border:0px solid #F00;
+        }
+        .divcss5-cent{margin:0 auto;width:80%;height:80%;border:1px solid #F00}
+        .img-plan{
+            border:thick;
+            width:80%;
+        }*/
+        /*.vxe-radio-group{height:18px}*/
+    </style>
+}
+
+  
+    <div id="app" class="content" >
+        <div id="divLeft" class="content-left"> 
+            @*BOM Tree*@
+            <template>
+                <div>
+                    <vxe-table show-overflow                               
+                               :header-cell-style="headerCellStyle"
+                               ref="bomTree"
+                               size="small"
+                               :height="heightTree"  
+                               :row-config="{isHover: true, useKey: true,height: 25}"                                
+                               :column-config="{resizable: true}"
+                               :tree-config="{transform: true, rowField: 'id', parentField: 'parent_id', line: true,expandAll:true}"                               
+                               :data="tableData"
+                                @@cell-click="cellClickTreeEvent" 
+                               >
+                        <vxe-column field="goods_id" title="貨品編碼"width="280" tree-node></vxe-column>
+                        <vxe-column field="goods_name" title="貨品描述"></vxe-column>                       
+                    </vxe-table>
+                </div>
+            </template>
+        </div>
+        
+        <div class="content-right">
+            <div id="divHeader" class="header">  
+                <vxe-form :data="searchData" size="mini" title-align="right" title-width="100px" custom-layout>
+                    <vxe-form-item title="貨品編碼" :item-render="{}" span="12" class="vxe-form-item-customize">
+                        <vxe-input v-model="searchData.goods_id" maxlength="18" @@change="findBomEvent()" class="input-customize my-search">
+                            <!-->template #suffix> <i class="iconfont icon-search1" click="submitEvent"></i> </template-->
+                        </vxe-input>
+                    </vxe-form-item>
+                </vxe-form>
+                <el-divider></el-divider>
+                <div>                   
+                     <vxe-form :data="bomMostlyData" size="mini" title-align="right" title-width="100px" custom-layout >
+                        <vxe-form-item title="編碼" :item-render="{}" span="12" class="vxe-form-item-customize">
+                            <vxe-input v-model="bomMostlyData.id" class="input-customize"readonly></vxe-input>
+                        </vxe-form-item>  
+                        <vxe-form-item title="修改次數":item-render="{}" span="6" class="vxe-form-item-customize">
+                            <vxe-input v-model="bomMostlyData.update_count" class="input-customize"readonly></vxe-input>
+                        </vxe-form-item>   
+                        <vxe-form-item title="狀態" :item-render="{}" span="6" class="vxe-form-item-customize">
+                            <vxe-input v-model="bomMostlyData.state" class="input-customize"readonly></vxe-input>
+                        </vxe-form-item>
+                        <vxe-form-item title="貨品編碼" :item-render="{}" span="12" class="vxe-form-item-customize">
+                            <vxe-input v-model="bomMostlyData.goods_id" class="input-customize"readonly></vxe-input>                           
+                        </vxe-form-item>
+                        <vxe-form-item title="" :item-render="{}" span="12" class="vxe-form-item-customize">
+                            <vxe-input v-model="bomMostlyData.goods_name" class="input-customize"readonly></vxe-input>
+                        </vxe-form-item>
+                        <vxe-form-item title="規格" :item-render="{}" span="6" class="vxe-form-item-customize">
+                           <vxe-input v-model="bomMostlyData.spec" class="input-customize" readonly></vxe-input>
+                        </vxe-form-item>
+                        <vxe-form-item title="單位" :item-render="{}" span="6" class="vxe-form-item-customize">
+                           <vxe-input v-model="bomMostlyData.unit_code" class="input-customize" readonly></vxe-input>
+                        </vxe-form-item>
+                        <vxe-form-item title="顏色做法" :item-render="{}" span="12" class="vxe-form-item-customize">
+                           <vxe-input v-model="bomMostlyData.do_color" class="input-customize" readonly></vxe-input>
+                        </vxe-form-item>
+                        <vxe-form-item title="部門" :item-render="{}" span="6" class="vxe-form-item-customize">
+                            <el-select v-model="bomMostlyData.dept_id" style="width:100%" disabled>
+                                <el-option v-for="item in deptList" :key="item.value" :value="item.value" :label="item.label" style="height:25px;font-size: 9px" />
+                            </el-select>
+                        </vxe-form-item>
+                        <vxe-form-item title="電鍍效果" :item-render="{}" span="10" class="vxe-form-item-customize">
+                            <vxe-input v-model="bomMostlyData.plate_effect" class="input-customize"></vxe-input>
+                        </vxe-form-item>
+                        <vxe-form-item title="做色效果" :item-render="{}" span="8" class="vxe-form-item-customize">
+                             <vxe-input v-model="bomMostlyData.color_effect" class="input-customize"></vxe-input>
+                         </vxe-form-item>
+                         <vxe-form-item title="備註" :item-render="{}" span="24" class="vxe-form-item-customize">
+                             <vxe-input v-model="bomMostlyData.remark" class="input-customize"></vxe-input>
+                         </vxe-form-item>
+                         <vxe-form-item title="建檔人" :item-render="{}" span="6" class="vxe-form-item-customize">
+                             <vxe-input v-model="bomMostlyData.create_by" maxlength="20" class="input-customize" readonly></vxe-input>
+                         </vxe-form-item>
+                         <vxe-form-item title="建檔日期" :item-render="{}" span="6" class="vxe-form-item-customize">
+                             <vxe-input v-model="bomMostlyData.create_date" class="input-customize" readonly></vxe-input>
+                         </vxe-form-item>
+                         <vxe-form-item title="修改人" :item-render="{}" span="6" class="vxe-form-item-customize">
+                            <vxe-input v-model="bomMostlyData.update_by" maxlength="20" class="input-customize" readonly></vxe-input>
+                         </vxe-form-item>
+                         <vxe-form-item title="修改日期" :item-render="{}" span="6" class="vxe-form-item-customize">
+                            <vxe-input v-model="bomMostlyData.update_date" class="input-customize" readonly></vxe-input>
+                         </vxe-form-item>
+                         <vxe-form-item title="批准人" :item-render="{}" span="6" class="vxe-form-item-customize">
+                             <vxe-input v-model="bomMostlyData.check_by" class="input-customize" readonly></vxe-input>
+                         </vxe-form-item>
+                         <vxe-form-item title="批准日期" :item-render="{}" span="6" class="vxe-form-item-customize">
+                             <vxe-input v-model="bomMostlyData.check_date" class="input-customize" readonly></vxe-input>
+                         </vxe-form-item>   
+                         <vxe-form-item title="審核人" :item-render="{}" span="6" class="vxe-form-item-customize">
+                             <vxe-input v-model="bomMostlyData.sanction_by" class="input-customize" readonly></vxe-input>
+                         </vxe-form-item>
+                         <vxe-form-item title="審核日期" :item-render="{}" span="6" class="vxe-form-item-customize">
+                             <vxe-input v-model="bomMostlyData.sanction_date" class="input-customize" readonly></vxe-input>
+                         </vxe-form-item>
+                    </vxe-form>
+                </div> 
+            </div> @*div header*@
+
+            <main id="divGrid" class="content-center">
+                <vxe-table border
+                            show-overflow
+                            stripe
+                            ref="bomDetailRef"
+                            size="mini"
+                            :height="tableHeight"                    
+                            show-header-overflow
+                            highlight-hover-row
+                            highlight-current-row
+                            :header-cell-style="headerCellStyle"
+                            :keyboard-config="{isArrow: true}"
+                            :column-config="{resizable: true}"
+                            :data="bomDetailData"
+                            :row-config="{height: 25}">
+                    <vxe-column type="seq" title="#" fixed="left" width="50"></vxe-column>
+                    <vxe-column field="process" title="工序號" width="70"></vxe-column>
+                    <vxe-column field="goods_id" title="貨品編碼" width="150"></vxe-column>
+                    <vxe-column field="goods_name" title="貨品名稱" width="250"></vxe-column>
+                    <vxe-column field="goods_name_vn" title="貨品名稱(VN)" width="250"></vxe-column>
+                    <vxe-column field="dosage" title="用量" width="70"></vxe-column>
+                    <vxe-column field="base_qty" title="基數" width="70"></vxe-column>
+                    <vxe-column field="unit_code" title="單位" width="50"></vxe-column>
+                    <vxe-column field="goods_bom" title="物料BOM" width="150"></vxe-column>
+                    <vxe-column field="bom_nwt" title="凈重" width="50"></vxe-column>
+                    <vxe-column field="do_color" title="顏色做法" width="250"></vxe-column>
+                    <vxe-column field="plate_effect" title="電鍍效果" width="120"></vxe-column>
+                    <vxe-column field="color_effect" title="做色效果" width="120"></vxe-column>
+                    <vxe-column field="remark" title="備註" width="250"></vxe-column> 
+                </vxe-table>
+            </main>
+
+            @*查找貨品編號彈窗*@
+            @*<template>
+                    <div>
+                        <!--vxe-button content="点击弹出" @@click="showPopup = true"></vxe-button -->
+                        <vxe-modal v-model="showPopup" width="600" height="400">                            
+                            <div style="height:140px" >
+                                <vxe-toolbar perfect size="small" style="height:35px;margin-bottom:0px">
+                                    <template #buttons style="height:35px;margin-bottom:10px">
+                                        <!--vxe-button icon="iconfont icon-Cancel" @@click="exitEvent()"><span class="my-font-color">退出</span></!--vxe-button-->
+                                        <vxe-button status="primary" icon="iconfont icon-search1" @@click="searchEvent()" style="margin-left: 50px">查詢</vxe-button>
+                                        <!--vxe-button status="success" icon="iconfont icon-confirm4" @@click="okEvent()" style="margin-left: 50px">確認</vxe-button-->
+                                    </template>
+                                </vxe-toolbar>
+
+                                <vxe-form :data="formData" size="mini" title-align="right" title-width="100px" custom-layout >
+                                    <vxe-form-item title="類型" :item-render="{}" span="12" class="vxe-form-item-customize">
+                                        <el-select v-model="formData.type" filterable style="width:100%">
+                                            <el-option v-for="item in typeList" :key="item.value" :value="item.value" :label="item.label" style="height:25px;font-size: 9px" />
+                                        </el-select>
+                                    </vxe-form-item>
+                                    <vxe-form-item title="七位圖樣" :item-render="{}" span="6" class="vxe-form-item-customize">
+                                        <vxe-input v-model="formData.blueprint_id" maxlength="7" class="input-customize"></vxe-input>
+                                    </vxe-form-item>
+                                    <vxe-form-item title="返回記錄數" :item-render="{}" span="6" class="vxe-form-item-customize" >
+                                        <vxe-input v-model="formData.results" type="integer" min="1" max="99999" class="input-customize"></vxe-input>
+                                    </vxe-form-item>
+                                    <vxe-form-item title="貨品編碼" :item-render="{}" span="12" class="vxe-form-item-customize">
+                                        <vxe-input v-model="formData.goods_id" maxlength="18" class="input-customize"></vxe-input>
+                                    </vxe-form-item>                
+                                    <vxe-form-item title="貨品名稱" :item-render="{}" span="12" class="vxe-form-item-customize">
+                                        <vxe-input v-model="formData.goods_name" class="input-customize" ></vxe-input>
+                                    </vxe-form-item>
+                                    <vxe-form-item title="管制類型" :item-render="{}" span="12" class="vxe-form-item-customize">                   
+                                        <vxe-radio-group v-model="formData.modality">
+                                            <vxe-radio label="0" content="自制"></vxe-radio>
+                                            <vxe-radio label="1" content="委外"></vxe-radio>
+                                            <vxe-radio label="2" content="採購"></vxe-radio>
+                                            <vxe-radio label="3" content="成品"></vxe-radio>
+                                        </vxe-radio-group>                    
+                                    </vxe-form-item>
+                                    <vxe-form-item title="材質" :item-render="{}" span="6" class="vxe-form-item-customize">
+                                        <el-select v-model="formData.datum" filterable clearable style="width:100%">
+                                            <el-option v-for="item in datumList" :key="item.value" :value="item.value" :label="item.label" style="height:25px;font-size: 9px" />
+                                        </el-select>
+                                    </vxe-form-item>
+                                    <vxe-form-item title="尺碼" :item-render="{}" span="6" class="vxe-form-item-customize">
+                                        <vxe-input v-model="formData.size_id" class="input-customize" ></vxe-input>
+                                    </vxe-form-item>
+                                    <vxe-form-item title="大類" :item-render="{}" span="8" class="vxe-form-item-customize" style="margin-top:5px">
+                                        <el-select v-model="formData.big_class" filterable clearable style="width:100%">
+                                            <el-option v-for="item in bigClassList" :key="item.value" :value="item.value" :label="item.label" style="height:25px;font-size: 9px" />
+                                        </el-select>
+                                    </vxe-form-item>    
+                                    <vxe-form-item title="中類 (產品類型)" :item-render="{}" span="8" class="vxe-form-item-customize" style="margin-top:5px">
+                                        <el-select v-model="formData.base_class" filterable clearable style="width:100%" >
+                                            <el-option v-for="item in baseClassList" :key="item.value" :value="item.value" :label="item.label" style="height:25px;font-size: 9px"/>
+                                        </el-select>
+                                    </vxe-form-item>
+                                    <vxe-form-item title="小類" :item-render="{}" span="8" class="vxe-form-item-customize" style="margin-top:5px">
+                                        <el-select v-model="formData.small_class" filterable clearable style="width:100%" >
+                                            <el-option v-for="item in smallClassList" :key="item.value" :value="item.value" :label="item.label" style="height:25px;font-size: 9px" />
+                                        </el-select>
+                                    </vxe-form-item>
+                                </vxe-form>
+                                <vxe-table border
+                                       show-overflow
+                                       stripe
+                                       ref="tableResultRef"
+                                       size="mini"
+                                       height="230"              
+                                       show-header-overflow
+                                       highlight-hover-row
+                                       highlight-current-row
+                                       :header-cell-style="headerCellStyle"
+                                       :keyboard-config="{isArrow: true}"
+                                       :column-config="{resizable: true}"
+                                       :data="tableResult"
+                                       :row-config="{height: 25}"
+                                       @@cell-click="cellClickEvent"                                      
+                                       >
+                                <vxe-column type="seq" title="#" fixed="left" width="50"></vxe-column>
+                                <vxe-column field="goods_id" title="貨品編碼" width="150"></vxe-column>
+                                <vxe-column field="goods_name" title="貨品名稱" width="250"></vxe-column>
+                                <vxe-column field="blueprint_id" title="圖樣" width="80"></vxe-column>
+                                <vxe-column field="modality" title="管制類型" width="80"></vxe-column>
+                                <vxe-column field="datum" title="材質" width="50"></vxe-column>
+                                <vxe-column field="size_id" title="尺碼" width="50"></vxe-column>
+                                <vxe-column field="big_class" title="大類" width="50"></vxe-column>
+                                <vxe-column field="base_class" title="中類" width="50"></vxe-column>
+                                <vxe-column field="small_class" title="小類" width="50"></vxe-column>
+                                <vxe-column field="type" title="類型" width="120"></vxe-column>        
+                            </vxe-table>
+                           </div>                           
+                        </vxe-modal>
+                    </div>
+                </template>*@
+        </div>
+        @*<div class="footer"></div>*@
+    </div> 
+
+
+@section PageSpecificJavascriptIncludes{
+    <script src="~/Areas/Prod/js/BomFind.js?v=@Guid.NewGuid().ToString()"></script>
+    @*<link rel="stylesheet" href="~/Content/main_inv.css">*@
+}
