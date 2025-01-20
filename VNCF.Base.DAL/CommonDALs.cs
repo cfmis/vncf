@@ -547,55 +547,7 @@ namespace VNCF.Base.DAL
                 result = "1";
             }
             return result;
-        }
-
-        //public static List<ModelBomQuery> GetBomList(string BomId,string language_id)
-        //{
-        //    SqlParameter[] paras = new SqlParameter[]
-        //    {
-        //        new SqlParameter("@within_code","0000"),
-        //        new SqlParameter("@Pid",BomId)               
-        //    };
-        //    string LanguageID = "";
-        //    if (language_id != "1") //1：越南文
-        //    {
-        //        LanguageID = SQLHelper.ConvertLanguage(language_id);
-        //    }
-        //    else
-        //    {
-        //        LanguageID = "1";
-        //    }
-        //    //LanguageID:1越南文,2:英文(GEO),3繁體中文(GEO)
-        //    DataSet dts = SQLHelper.RunProcedure("usp_bom_structure", paras, "items", 20);
-        //    DataTable dt = dts.Tables[0];
-        //    //List<ModelBomQuery> lst = DataTableToList<ModelBomQuery>(dt);
-        //    List<ModelBomQuery> lst = new List<ModelBomQuery>();
-        //    string goods_name = "";
-        //    for(int i = 0;i < dt.Rows.Count;i++ )
-        //    {
-        //        ModelBomQuery mdl = new ModelBomQuery();
-        //        mdl.id = dt.Rows[i]["id"].ToString();
-        //        mdl.parent_id = dt.Rows[i]["parent_id"].ToString();
-        //        mdl.goods_id = dt.Rows[i]["goods_id"].ToString();
-        //        switch (LanguageID)
-        //        {
-        //            case "3":
-        //                goods_name = dt.Rows[i]["goods_name"].ToString();
-        //                break;
-        //            case "2":
-        //                goods_name = dt.Rows[i]["goods_name_en"].ToString();
-        //                break;
-        //            case "1":
-        //                goods_name = dt.Rows[i]["goods_name_vn"].ToString();
-        //                goods_name = string.IsNullOrEmpty(goods_name) ? dt.Rows[i]["goods_name"].ToString() : goods_name;
-        //                break;
-        //        }                
-        //        mdl.goods_name = goods_name;
-        //        lst.Add(mdl);
-        //    }
-        //    return lst;
-        //}
-
+        }      
         
 
     }

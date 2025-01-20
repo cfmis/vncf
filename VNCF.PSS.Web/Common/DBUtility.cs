@@ -9,7 +9,7 @@ namespace VNCF.PSS.Web.Common
     {
         public static string ArtImagePath = "/art/artwork/";
         public static string dgerp2 = "dgerp2.cferp.dbo.";
-
+        public static string within_code = "0000";
         public static string GetDetaultLang()
         {
             string LanguageID = "0";

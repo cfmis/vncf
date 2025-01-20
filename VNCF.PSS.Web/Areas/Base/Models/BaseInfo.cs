@@ -140,6 +140,7 @@ namespace VNCF.PSS.Web.Areas.Base.Models
         public string goods_vname1 { get; set; }
         public string goods_vname2 { get; set; }
         public string goods_vname3 { get; set; }
+        public string do_color { get; set; }
         public string ArtImageUrl { get; set; }
     }
     public class ReturnJsonInfo

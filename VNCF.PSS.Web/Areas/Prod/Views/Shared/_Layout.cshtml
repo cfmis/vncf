@@ -17,10 +17,19 @@
     <link href="~/Content/vxe-table/jsdelivr/style.css" rel="stylesheet">
     @*<link href="~/Content/main_vue.css" rel="stylesheet">*@
     <style>
+        .vxe-form--wrapper{
+            padding-top:0px;
+        }
+        .vxe-row{
+            padding-top:0px;
+        }
+        .div-cont{
+            margin-top:0px;
+        }
         .div-left {
             float: left;
             width: 80%;
-            background-color: aqua;
+            /*background-color: aqua;*/
             /*border:dotted;*/
         }
 
@@ -33,14 +42,10 @@
         .vxe-form-item-customize {
             /*width:25%;*/
             /*margin-top: -20px;*/
-            height: 20px;
+            height: 25px;
         }
 
-        .input-customize {
-            height: 20px;
-            font-size: 10px;
-            width: 25%;
-        }
+        
 
         .vxe-select > .vxe-input {
             width: 100%;
@@ -48,7 +53,21 @@
         }
 
         .vxe-input {
-            height: 20px;
+            height: 25px;
+        }
+        .vxe-input--inner {
+            height: 25px;
+        }
+        .vxe-select{
+            height:25px;
+        }
+        .vxe-option{
+            height:25px;
+        }
+        .input-customize {
+            height: 25px;
+            font-size: 11px;
+            width: 25%;
         }
     </style>
     @RenderSection("PageSpecificStyleSheetIncludes", required: false)

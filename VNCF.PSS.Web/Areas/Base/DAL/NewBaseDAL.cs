@@ -19,7 +19,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
         public List<Goods> SearchGoods(Goods searchParams)
         {
             string strSql = "Select top 1000 a.id,a.name,a.english_name,b.vn_name1,b.vn_name2,b.vn_name3 " +
-            " ,c.picture_name" +
+            " ,c.picture_name,a.do_color" +
             " FROM it_goods a " +
             " LEFT JOIN it_goods_vn b ON a.id=b.id" +
             " Left Join cd_pattern c ON a.blueprint_id=c.id " +
@@ -44,6 +44,7 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
                 mdj.goods_vname1= dr["vn_name1"].ToString();
                 mdj.goods_vname2 = dr["vn_name2"].ToString();
                 mdj.goods_vname3 = dr["vn_name3"].ToString();
+                mdj.do_color = dr["do_color"].ToString();
                 mdj.ArtImageUrl = ArtImagePath + (dr["picture_name"] != null ? dr["picture_name"].ToString().Trim().Replace("\\", "/") : "");//"AAAA/A888020.bmp";// 
                 lsGoods.Add(mdj);
             }

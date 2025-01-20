@@ -1,0 +1,218 @@
+﻿@using Resources;
+@{
+    ViewBag.Title = "生產流程";// "Goods IndexPage";
+}
+@*@{@Html.Raw("@");}*@
+
+<div id="app">
+    <div class="div-cont">
+        <div class="div-left">
+            <vxe-form :data="searchParas" @@submit="submitSearch" title-align="right" title-width="100px" title-colon custom-layout>
+                <vxe-form-item title="@Resource.ProductID" field="mo_id" span="12" :item-render="{}" style="width:360px" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.mo_id" maxlength="9" class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item span="12">
+                    <template #default>
+                        <vxe-button type="submit" status="primary" style="width:100px" v-if="Common_Find">@Resource.btn_search</vxe-button>
+                    </template>
+                </vxe-form-item>
+            </vxe-form>
+        </div>
+        <div class="div-right">
+            <p>
+                @*<img id="ArtImage" class="plan-img" src="~/Images/photo.png" />*@
+                <img src="this.ArtImageUrl" alt="..." class="img-goods">
+            </p>
+        </div>
+    </div>
+    <div style="float:left;width:100%;margin-top:10px">
+        <vxe-table border
+                   resizable
+                   highlight-hover-row
+                   show-overflow
+                   height="350"
+                   row-id="id"
+                   size="mini"
+                   :loading="loadingStatus"
+                   :data="goodsList"
+                   :row-config="{height: 25}"
+                   highlight-current-row
+                   :keyboard-config="{isArrow: true}"
+                   @@cell-click="goodsListCellClickEvent">
+            <vxe-table-column type="seq" title=" " width="30"></vxe-table-column>
+            <vxe-table-column field="flag" title="@Resource.Seq" width="60"></vxe-table-column>
+            <vxe-table-column field="GoodsID" title="物料編號" width="160"></vxe-table-column>
+            <vxe-table-column field="GoodsCname" title="物料描述" width="260"></vxe-table-column>
+            <vxe-table-column field="do_color" title="@Resource.DoColor" width="160"></vxe-table-column>
+            <vxe-table-column field="RequestQty" title="計劃數量" width="80"></vxe-table-column>
+            <vxe-table-column field="WipID" title="負責部門" width="80"></vxe-table-column>
+            <vxe-table-column field="WipDesc" title="負責部門" width="100"></vxe-table-column>
+            <vxe-table-column field="NextWipID" title="收貨部門" width="80"></vxe-table-column>
+            <vxe-table-column field="NextWipDesc" title="收貨部門" width="100"></vxe-table-column>
+            
+            <template #empty>
+                <span>
+                    @*<img src="/Images/no_data_img.gif">*@
+                    <p>沒有更多記錄了！</p>
+                </span>
+            </template>
+        </vxe-table>
+
+    </div>
+
+
+    <div style="float:left;width:100%;margin-top:10px">
+        <vxe-table border
+                   resizable
+                   highlight-hover-row
+                   show-overflow
+                   height="200"
+                   row-id="id"
+                   size="mini"
+                   :data="goodsListPart"
+                   :row-config="{height: 25}"
+                   highlight-current-row
+                   :keyboard-config="{isArrow: true}"
+                   >
+            <vxe-table-column type="seq" title="@Resource.Seq" width="60"></vxe-table-column>
+            <vxe-table-column field="GoodsID" title="物料編號" width="160"></vxe-table-column>
+            <vxe-table-column field="GoodsCname" title="物料描述" width="260"></vxe-table-column>
+            <vxe-table-column field="do_color" title="@Resource.DoColor" width="160"></vxe-table-column>
+            <vxe-table-column field="RequestQty" title="計劃數量" width="80"></vxe-table-column>
+            <vxe-table-column field="WipID" title="倉庫" width="80"></vxe-table-column>
+            <vxe-table-column field="WipDesc" title="倉庫" width="100"></vxe-table-column>
+            <template #empty>
+                <span>
+                    @*<img src="/Images/no_data_img.gif">*@
+                    <p>沒有更多記錄了！</p>
+                </span>
+            </template>
+        </vxe-table>
+
+    </div>
+
+</div>
+
+
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                goodsList: [],
+                goodsListPart:[],
+                searchParas: { mo_id: '' },
+                loadingStatus: false,
+                loadingStatusPart: false,
+                tablePage: {
+                    currentPage: 1,
+                    pageSize: 50,
+                    totalResult: 0
+                },
+                ArtImageUrl: '/Images/photo.png',
+                selectRow: null,
+                Common_Find:true,
+                formRules: {
+                    goods_vname1: [
+                      { required: false, message: '请输入名称' },
+                      //{ min: 3, max: 5, message: '长度在 3 到 5 个字符' }
+                    ],
+                    goods_vname2: [
+                      { required: false, message: '请输入越文2' }
+                    ],
+                    goods_vname3: [
+                      { required: false, message: '请輸入越文3' }
+                    ]
+                },
+            },
+            created: function () {
+                this.InIt();
+                //this.findList3();
+                //this.getPermissions();
+            },
+            methods: {
+                InIt: function () {
+                    this.searchData();
+                    //this.loadingStatus = false;
+                },
+                submitSearch(){
+                    this.searchData();
+                },
+                searchData:function(){
+                    // console.log('回车搜索',keyCode,e); && this.input
+                    if(this.searchParas.mo_id=="")
+                        return;
+                    this.loadingStatus = true
+                    var _self = this;
+                    _self.goodsList = [];
+                    _self.goodsListPart = [];
+                    axios.get("LoadWipData", { params: { mo_id: this.searchParas.mo_id } }).then(
+                        (response) => {
+                            //for (var i = 0; i < response.data.length; i++) {
+                            //    _self.goodsList.push(response.data[i]);
+                            //}
+                            _self.goodsList=response.data;
+                            _self.loadingStatus = false;
+                            //debugger;
+                            //_self.fillData();
+                        },
+                        (response) => {
+                            alert(response.status);
+                        }
+                    ).catch(function (response) {
+                        alert(response);
+                    });
+
+                },
+                goodsListCellClickEvent({row}){
+                    this.ArtImageUrl=row.ArtImageUrl;
+                    this.getGoodsPart(row.ID,row.Seq);
+                },
+                //fillData:function(){
+                //    this.goodsListPart = [];
+                //    this.tablePage.totalResult = this.goodsList.length;
+                //    this.goodsListPart = this.goodsList.slice((this.tablePage.currentPage - 1) * this.tablePage.pageSize, this.tablePage.currentPage * this.tablePage.pageSize);
+                //    this.loadingStatus = false;
+                //    debugger;
+                //},
+                //handlePageChange3:function( {currentPage, pageSize }) {
+                //    this.loadingStatus = true;
+                //    this.tablePage.currentPage = currentPage;
+                //    this.tablePage.pageSize = pageSize;
+                //    //this.findList3()
+                //    this.fillData();
+                //},
+                getGoodsPart(ID,Seq){
+                    //_self.goodsListPart = [];
+                    //var mo_id=_self.goodsList[row].ProductMo;
+                    //var sequence_id=_self.goodsList[row].Seq;
+                    this.loadingStatusPart = true
+                    var _self = this;
+                    _self.goodsListPart = [];
+
+                    axios.get("LoadWipDataPart", { params: { ID: ID,sequence_id:Seq } }).then(
+                        (response) => {
+                            //for (var i = 0; i < response.data.length; i++) {
+                            //    _self.goodsListPart.push(response.data[i]);
+                            //}
+                            _self.goodsListPart=response.data;
+                            this.loadingStatusPart = false;
+                            //debugger;
+                            //_self.fillData();
+                        },
+                        (response) => {
+                            alert(response.status);
+                        }
+                    ).catch(function (response) {
+                        alert(response);
+                    });
+                },
+            }
+        });
+    </script>
+
+}
+
+
