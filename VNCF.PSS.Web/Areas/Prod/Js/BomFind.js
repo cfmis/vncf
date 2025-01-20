@@ -15,7 +15,8 @@
             datumList:[{ label: '', value: '' }],           
             tableData:[],
             showPopup:false,
-            bomMostlyData:{id:'',goods_id:'',goods_name:'',spec:'',unit_code:'',do_color:'',dept_id:'',plate_effect:'',color_effect:'',remark:'',
+            bomMostlyData: {
+                id: '', goods_id: '', goods_name: '', goods_name_vn: '', spec: '', unit_code: '', do_color: '', dept_id: '', plate_effect: '', color_effect: '', remark: '',
                 create_by:'',create_date:'',update_by:'',update_date:'',sanction_by:'',sanction_date:'',check_by:'',check_date:'',update_count:'',state:''},
             bomDetailData:[],
             tableHeight:350,
@@ -113,6 +114,7 @@
                       id: res.data.id,
                       goods_id: res.data.goods_id,
                       goods_name: res.data.goods_name,
+                      goods_name_vn: res.data.goods_name_vn,
                       spec: res.data.spec,
                       unit_code: res.data.unit_code,
                       do_color: res.data.do_color,

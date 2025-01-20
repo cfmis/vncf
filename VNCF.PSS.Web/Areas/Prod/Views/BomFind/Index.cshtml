@@ -103,20 +103,23 @@
                 <el-divider></el-divider>
                 <div>                   
                      <vxe-form :data="bomMostlyData" size="mini" title-align="right" title-width="100px" custom-layout >
-                        <vxe-form-item title="編碼" :item-render="{}" span="12" class="vxe-form-item-customize">
-                            <vxe-input v-model="bomMostlyData.id" class="input-customize"readonly></vxe-input>
+                        <vxe-form-item title="編碼" :item-render="{}" span="8" class="vxe-form-item-customize">
+                            <vxe-input v-model="bomMostlyData.id" class="input-customize"readonly ></vxe-input>
                         </vxe-form-item>  
-                        <vxe-form-item title="修改次數":item-render="{}" span="6" class="vxe-form-item-customize">
+                        <vxe-form-item title="貨品描述(VN)" :item-render="{}" span="12" class="vxe-form-item-customize">   
+                            <vxe-input v-model="bomMostlyData.goods_name_vn" class="input-customize" readonly></vxe-input>                        
+                        </vxe-form-item>  
+                        <vxe-form-item title="修改次數":item-render="{}" span="4" class="vxe-form-item-customize">
                             <vxe-input v-model="bomMostlyData.update_count" class="input-customize"readonly></vxe-input>
-                        </vxe-form-item>   
-                        <vxe-form-item title="狀態" :item-render="{}" span="6" class="vxe-form-item-customize">
-                            <vxe-input v-model="bomMostlyData.state" class="input-customize"readonly></vxe-input>
-                        </vxe-form-item>
-                        <vxe-form-item title="貨品編碼" :item-render="{}" span="12" class="vxe-form-item-customize">
+                        </vxe-form-item>  
+                        <vxe-form-item title="貨品編碼" :item-render="{}" span="8" class="vxe-form-item-customize">
                             <vxe-input v-model="bomMostlyData.goods_id" class="input-customize"readonly></vxe-input>                           
                         </vxe-form-item>
-                        <vxe-form-item title="" :item-render="{}" span="12" class="vxe-form-item-customize">
+                        <vxe-form-item title="貨品描述" :item-render="{}" span="12" class="vxe-form-item-customize">
                             <vxe-input v-model="bomMostlyData.goods_name" class="input-customize"readonly></vxe-input>
+                        </vxe-form-item>
+                        <vxe-form-item title="狀態" :item-render="{}" span="4" class="vxe-form-item-customize">
+                             <vxe-input v-model="bomMostlyData.state" class="input-customize" readonly></vxe-input>
                         </vxe-form-item>
                         <vxe-form-item title="規格" :item-render="{}" span="6" class="vxe-form-item-customize">
                            <vxe-input v-model="bomMostlyData.spec" class="input-customize" readonly></vxe-input>
@@ -184,13 +187,13 @@
                             :column-config="{resizable: true}"
                             :data="bomDetailData"
                             :row-config="{height: 25}">
-                    <vxe-column type="seq" title="#" fixed="left" width="50"></vxe-column>
-                    <vxe-column field="process" title="工序號" width="70"></vxe-column>
+                    <vxe-column type="seq" title="#" fixed="left" width="40"></vxe-column>
+                    <vxe-column field="process" title="工序號" width="60"></vxe-column>
                     <vxe-column field="goods_id" title="貨品編碼" width="150"></vxe-column>
                     <vxe-column field="goods_name" title="貨品名稱" width="250"></vxe-column>
-                    <vxe-column field="goods_name_vn" title="貨品名稱(VN)" width="250"></vxe-column>
-                    <vxe-column field="dosage" title="用量" width="70"></vxe-column>
-                    <vxe-column field="base_qty" title="基數" width="70"></vxe-column>
+                    <vxe-column field="goods_name_vn" title="貨品名稱(VN)" width="200"></vxe-column>
+                    <vxe-column field="dosage" title="用量" width="60"></vxe-column>
+                    <vxe-column field="base_qty" title="基數" width="60"></vxe-column>
                     <vxe-column field="unit_code" title="單位" width="50"></vxe-column>
                     <vxe-column field="goods_bom" title="物料BOM" width="150"></vxe-column>
                     <vxe-column field="bom_nwt" title="凈重" width="50"></vxe-column>

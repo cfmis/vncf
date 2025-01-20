@@ -88,6 +88,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 mdj.id = dr["id"].ToString();
                 mdj.goods_id = dr["goods_id"].ToString();
                 mdj.goods_name = dr["goods_name"].ToString();
+                mdj.goods_name_vn = dr["goods_name_vn"].ToString();
                 mdj.unit_code = dr["unit_code"].ToString();
                 mdj.dept_id = dr["dept_id"].ToString();
                 mdj.remark = dr["remark"].ToString();
