@@ -92,13 +92,9 @@
             }
         },
         cellClickEvent(row){
-            //var _self=this;
             this.curRow = row.data[row.$rowIndex];//row.$rowIndex是行索引
             let bom_id = this.curRow.goods_id + '001';            
-            this.tableData =[]; 
-            //let ary=[];
-            //ary.push({id:'1',parent_id:'',goods_id:'A',goods_name:'TESTA'});
-            //ary.push({id:'2',parent_id:'1',goods_id:'B',goods_name:'TESTB'});            
+            this.tableData =[];
             axios.get("GetBomStructure", { params: { BomId: bom_id } }).then(
               (response) => {
                   this.tableData = response.data ; //JSON.parse(JSON.stringify(response.data));
@@ -161,23 +157,23 @@
            deep: true
         },		
     },
-     // mounted() {        
-         // let that = this;
-         // let w = $('#divHeader').width();
-         // let h = $('#divHeader').height();
-         // this.tableHeight = $(parent.window).height()-h-100; 
-         // this.heightTree = $(parent.window).height()-100; 
-         // $('#divGrid').width(w);
-         // window.onresize = () => {
-             // return (() => {
-                 // w = $('#divHeader').width();
-                 // h = $('#divHeader').height();
-                 // $('#divGrid').width(w);
-                 // this.tableHeight = $(parent.window).height()-h-100;
-                 // this.heightTree = $(parent.window).height()-100; 
-             // })()
-         // };
-     // }
+    mounted() {   
+          let that = this;          
+          let whead = $('#divHeader').width();
+          $('#divHeader').width(whead)
+          $('#divGrid').width(whead);          
+          let heightUp = $('#divUp').height();
+          this.heightTree = $(parent.window).height() - heightUp - 100;
+          let heightHead = $('#divHeader').height();
+          this.tableHeight = $(parent.window).height() - heightUp - heightHead - 100;
+          window.onresize = () => {
+              return (() => {                  
+                  $('#divGrid').width(whead);                 
+                  this.tableHeight = $(parent.window).height() - heightUp - heightHead - 100;
+                  this.heightTree = $(parent.window).height() - heightUp - 100;
+              })()
+          };
+      }
 }
 
 
