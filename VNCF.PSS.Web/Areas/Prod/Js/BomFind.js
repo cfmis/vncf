@@ -161,23 +161,23 @@
            deep: true
         },		
     },
-     mounted() {        
-         let that = this;
-         let w = $('#divHeader').width();
-         let h = $('#divHeader').height();
-         this.tableHeight = $(parent.window).height()-h-100; 
-         this.heightTree = $(parent.window).height()-100; 
-         $('#divGrid').width(w);
-         window.onresize = () => {
-             return (() => {
-                 w = $('#divHeader').width();
-                 h = $('#divHeader').height();
-                 $('#divGrid').width(w);
-                 this.tableHeight = $(parent.window).height()-h-100;
-                 this.heightTree = $(parent.window).height()-100; 
-             })()
-         };
-     }
+     // mounted() {        
+         // let that = this;
+         // let w = $('#divHeader').width();
+         // let h = $('#divHeader').height();
+         // this.tableHeight = $(parent.window).height()-h-100; 
+         // this.heightTree = $(parent.window).height()-100; 
+         // $('#divGrid').width(w);
+         // window.onresize = () => {
+             // return (() => {
+                 // w = $('#divHeader').width();
+                 // h = $('#divHeader').height();
+                 // $('#divGrid').width(w);
+                 // this.tableHeight = $(parent.window).height()-h-100;
+                 // this.heightTree = $(parent.window).height()-100; 
+             // })()
+         // };
+     // }
 }
 
 

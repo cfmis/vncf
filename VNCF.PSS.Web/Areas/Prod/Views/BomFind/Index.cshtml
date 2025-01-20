@@ -14,8 +14,16 @@
             display: flex;
             min-height: 100vh;
             width:100%;
+            flex-direction:column;
             /*flex-direction: column;*/
             /*box-shadow: 2px 2px 4px grey;*/ /* 阴影样式 */
+        }
+        .div-up{
+            margin-bottom:20px;
+        }
+        .div-down{
+            display:flex;
+            flex-direction:row;
         }
         .content-left {
             /* 导航放到最左边 */ 
@@ -25,7 +33,7 @@
 			border:1px solid #d3d3d3; /* 边框样式 */
             order: -1;
             /* background: #77BBDD; */            
-        }    
+        }   
         .content-right {   
             flex: 7;
             flex-direction: column;
@@ -69,7 +77,22 @@
 
   
     <div id="app" class="content" >
-        <div id="divLeft" class="content-left"> 
+        <div class="div-up">
+            <vxe-form :data="searchData" size="mini" title-align="right" title-width="100px" span="6" custom-layout>
+                    <vxe-form-item title="貨品編碼" :item-render="{}" span="12" class="vxe-form-item-customize">
+                        <vxe-input v-model="searchData.goods_id" maxlength="18" @@change="findBomEvent()" class="input-customize my-search">
+                            <!-->template #suffix> <i class="iconfont icon-search1" click="submitEvent"></i> </template-->
+                        </vxe-input>
+                    </vxe-form-item>
+                <vxe-form-item span="6">
+                    <template #default>
+                        <vxe-button type="submit" icon="fa fa-search" style="width:100px" onclick="findBomEvent()">@Resource.btn_search</vxe-button>
+                    </template>
+                </vxe-form-item>
+            </vxe-form>
+        </div>
+        <div class="div-down">
+            <div id="divLeft" class="content-left"> 
             @*BOM Tree*@
             <template>
                 <div>
@@ -93,13 +116,7 @@
         
         <div class="content-right">
             <div id="divHeader" class="header">  
-                <vxe-form :data="searchData" size="mini" title-align="right" title-width="100px" custom-layout>
-                    <vxe-form-item title="貨品編碼" :item-render="{}" span="12" class="vxe-form-item-customize">
-                        <vxe-input v-model="searchData.goods_id" maxlength="18" @@change="findBomEvent()" class="input-customize my-search">
-                            <!-->template #suffix> <i class="iconfont icon-search1" click="submitEvent"></i> </template-->
-                        </vxe-input>
-                    </vxe-form-item>
-                </vxe-form>
+                
                 <el-divider></el-divider>
                 <div>                   
                      <vxe-form :data="bomMostlyData" size="mini" title-align="right" title-width="100px" custom-layout >
@@ -302,6 +319,8 @@
                 </template>*@
         </div>
         @*<div class="footer"></div>*@
+        </div>
+        
     </div> 
 
 

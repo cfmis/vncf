@@ -18,14 +18,17 @@ namespace VNCF.PSS.Web.Areas.Account.DAL
             var LoginName = AdminUserContext.Current.LoginInfo.LoginName;//.BusinessPermissionList.Select(p => p.ToString());
             var LanguageID = AdminUserContext.Current.LoginInfo.LanguageID;
             //LanguageID = "0"; DISTINCT
-            string strSql = "Select a.AuthorityID,b.AuthorityName,a.ModuleUrl,a.WebUrl,b.Info,a.DivID,a.UlID,a.Icon,a.Class" +
+            string strSql = "";
+            strSql += " Select DISTINCT aa.* From ( ";
+            strSql += " Select a.AuthorityID,b.AuthorityName,a.ModuleUrl,a.WebUrl,b.Info,a.DivID,a.UlID,a.Icon,a.Class,a.OrderSeq" +
                 " From Authority a" +
                 " Inner Join AuthorityLang b ON a.AuthorityID = b.AuthorityID" +
                 " Inner Join RoleAuthority c ON a.AuthorityID = c.AuthorityID" +
                 " Inner Join UserRole d ON c.RoleID = d.RoleID" +
                 " Inner Join [User] e ON d.UserID = e.ID" +
                 " Where a.TypeID = '20000' And b.LangID = '" + LanguageID + "' And e.LoginName = '" + LoginName + "'";
-            strSql += " Order By a.OrderSeq";
+            strSql += " ) aa";
+            strSql += " Order By aa.OrderSeq";
             DataTable dtMenu=SQLHelper.ExecuteSqlReturnDataTable(strSql);
             for (int i=0;i<dtMenu.Rows.Count;i++)
             {
@@ -56,7 +59,7 @@ namespace VNCF.PSS.Web.Areas.Account.DAL
                 " Inner Join UserRole d ON c.RoleID = d.RoleID" +
                 " Inner Join [User] e ON d.UserID = e.ID";
             string strSql = strSql1 + " Where a.TypeID='20000' And b.LangID='" + LanguageID + "' And e.LoginName='" + LoginName + "'";
-            strSql += " Order By a.OrderSeq";
+            strSql += " Order By a.OrderSeq Desc";
             DataTable dtMenu = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             for (int i = 0; i < dtMenu.Rows.Count; i++)
             {

@@ -8,14 +8,14 @@
     <div class="div-cont">
         <div class="div-left">
             <vxe-form :data="searchParas" @@submit="submitSearch" title-align="right" title-width="100px" title-colon custom-layout>
-                <vxe-form-item title="@Resource.ProductID" field="mo_id" span="12" :item-render="{}" style="width:360px" class="vxe-form-item-customize">
+                <vxe-form-item title="@Resource.ProductMo" field="mo_id" span="12" :item-render="{}" style="width:360px" class="vxe-form-item-customize">
                     <template #default="{ data }">
                         <vxe-input v-model="data.mo_id" maxlength="9" class="input-customize"></vxe-input>
                     </template>
                 </vxe-form-item>
                 <vxe-form-item span="12">
                     <template #default>
-                        <vxe-button type="submit" status="primary" style="width:100px" v-if="Common_Find">@Resource.btn_search</vxe-button>
+                        <vxe-button status="primary" icon="fa fa-search" style="width:100px" v-if="Common_Find">@Resource.btn_search</vxe-button>
                     </template>
                 </vxe-form-item>
             </vxe-form>
