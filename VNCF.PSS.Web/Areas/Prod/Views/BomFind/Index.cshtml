@@ -71,7 +71,7 @@
     <div id="app" class="content" >
         <div id="divUp" class="div-up">
             <vxe-form :data="searchData" size="mini" title-align="right" title-width="100px" span="6" custom-layout>
-                    <vxe-form-item title="貨品編碼" :item-render="{}" span="12" class="vxe-form-item-customize">
+                    <vxe-form-item title="貨品編碼" :item-render="{}" span="8" class="vxe-form-item-customize">
                         <vxe-input v-model="searchData.goods_id" maxlength="18" @@change="findBomEvent()" class="input-customize my-search">
                             <!-->template #suffix> <i class="iconfont icon-search1" click="submitEvent"></i> </template-->
                         </vxe-input>
@@ -188,7 +188,7 @@
                             stripe
                             ref="bomDetailRef"
                             size="mini"
-                            :height="tableHeight"                    
+                            :height="tableHeight"
                             show-header-overflow
                             highlight-hover-row
                             highlight-current-row

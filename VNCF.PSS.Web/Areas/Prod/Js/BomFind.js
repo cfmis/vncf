@@ -74,7 +74,9 @@
                 return;
             }
             let bom_id = this.searchData.goods_id + '001';            
-            this.tableData =[]; 
+            this.tableData=[]; 
+            this.bomMostlyData={};
+            this.bomDetailData=[];
             axios.get("GetBomStructure", { params: { BomId: bom_id } }).then(
               (response) => {
                   this.tableData = response.data ; //JSON.parse(JSON.stringify(response.data));
@@ -86,6 +88,7 @@
         cellClickTreeEvent(row){           
             this.curRowBom = row.data[row.$rowIndex];
             let goods_id = this.curRowBom.goods_id;
+            debugger;
             if(goods_id){
                 if(goods_id.substring(1,2) !='ML'){
                     let bomId = this.curRowBom.goods_id+'001';
