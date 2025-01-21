@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using VNCF.Base.Contract;
 using VNCF.Base.DAL;
 using VNCF.PSS.Web.Areas.Prod.DAL;
+using VNCF.PSS.Web.Areas.Base.DAL;
+using VNCF.PSS.Web.Areas.Base.Models;
 using VNCF.PSS.Web.Common;
 
 namespace VNCF.PSS.Web.Areas.Prod.Controllers
@@ -43,6 +45,13 @@ namespace VNCF.PSS.Web.Areas.Prod.Controllers
         {           
             var result = clsBomDAL.GetBomDetailList(BomId);
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult SearchGoods(Goods searchParams)
+        {
+            NewBaseDAL nbd = new NewBaseDAL();
+            //var goodsList = BaseDataDAL.GetGoods("");
+            var goodsList = nbd.SearchGoods(searchParams);
+            return Json(goodsList, JsonRequestBehavior.AllowGet);
         }
     }
 }

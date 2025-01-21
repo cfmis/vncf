@@ -58,7 +58,12 @@
 			height: 5px;				
 			text-align: center;
 		}*/        
-
+        .highlight--hover-row {
+            background-color: #ebf5f9 !important; /* 鼠标悬停行的背景色 */
+        }
+        .highlight--current-row {
+            background-color: #ebf5f9 !important; /* 当前选中行的背景色 */
+        }
     </style>
 }
 
@@ -73,7 +78,7 @@
                     </vxe-form-item>
                 <vxe-form-item span="6">
                     <template #default>
-                        <vxe-button type="submit" icon="fa fa-search" size="mini"style="width:100px" onclick="findBomEvent()">@Resource.btn_search</vxe-button>
+                        <vxe-button type="submit" icon="fa fa-search" size="mini"style="width:100px" @@click="showSearchEvent()">@Resource.btn_search</vxe-button>
                     </template>
                 </vxe-form-item>
             </vxe-form>
@@ -83,7 +88,9 @@
             @*BOM Tree*@
             <template>
                 <div>
-                    <vxe-table show-overflow                               
+                    <vxe-table show-overflow
+                               highlight-hover-row
+                               highlight-current-row
                                :header-cell-style="headerCellStyle"
                                ref="bomTree"
                                size="small"
@@ -306,6 +313,54 @@
         </div>
         @*<div class="footer"></div>*@
         </div>
+
+
+
+        <!--查找窗口-->
+    <vxe-modal ref="xModalSearch" v-model="showSearch" title="@Resource.btn_search" width="800" height="600" resize destroy-on-close>
+        
+        <template #default>            
+            <vxe-toolbar perfect size="medium" style="height:35px;">
+                <template #buttons>
+                    <vxe-button icon="fa fa-close" @@click="$refs.xModalSearch.close()" size="mini" style="width:100px">@Resource.btn_exit</vxe-button>
+                    <vxe-button icon="fa fa-search" @@click="searchGoodsEvent()" size="mini" style="width:100px">@Resource.btn_search</vxe-button>                    
+                </template>
+            </vxe-toolbar>
+            <vxe-form :data="searchData" title-align="right" title-width="100">
+                <vxe-form-item title="@Resource.ProductID" field="goods_id_search" span="12" :item-render="{}">
+                    <template #default="{ data }">
+                        <vxe-input v-model="searchData.goods_id_search"></vxe-input>
+                    </template>
+                </vxe-form-item>
+            </vxe-form>
+            
+        <!--顯示查找記錄-->
+        <vxe-table border
+                   show-overflow
+                   height="350"
+                   size="mini"
+                   highlight-current-row
+                   resizable @*欄寬度可調*@
+                   :row-config="{height: 25}"
+                   ref="xTable"
+                   :loading="loadingStatusSearch"
+                   :checkbox-config="{highlight: true, range: true}"
+                   :data="searchGoodsList"                   
+                   :keyboard-config="{isArrow: true, isEnter: true,Backspace:true}"
+                   :edit-config="{trigger: 'dbclick', mode: 'row', icon: 'fa fa-pencil1', showStatus: true}"
+                   @@cell-dblclick="searchCellDBLClickEvent">
+            <vxe-column type="seq" title="@Resource.SeqID" width="60"></vxe-column>
+            <vxe-column field="goods_id" title="@Resource.ProductID" width="160"></vxe-column>
+            <vxe-column field="goods_cname" title="@Resource.ProductCdesc" width="260"></vxe-column>
+            <vxe-column field="goods_ename" title="@Resource.ProductCdesc" width="260"></vxe-column>
+            <vxe-column field="do_color" title="@Resource.DoColor" width="200"></vxe-column>
+        </vxe-table>
+
+       </template>
+
+    </vxe-modal>
+
+
         
     </div> 
 

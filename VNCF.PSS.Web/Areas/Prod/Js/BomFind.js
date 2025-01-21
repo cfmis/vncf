@@ -4,7 +4,7 @@
             headerCellStyle:{background:'#F5F7FA',color:'#606266',height:'25px',padding:'2px'},
             curRowBom:null,
             curRow:null,         
-            searchData:{ goods_id:''},
+            searchData:{ goods_id:'',goods_id_search:'',},
             formData: { type: '0001', blueprint_id: '', goods_id: '', goods_name: '', modality: '0', big_class: '', base_class: '', small_class: '', datum: '', size_id: '', results:1000 },
             tableResult: [],
             typeList: [{ label: '產品編碼規則 (0001)', value: '0001' }, { label: 'F0成品編碼 (0002)', value: '0002' }, { label: '採購雜項分類 (0003)', value: '0003' }],
@@ -14,7 +14,10 @@
             smallClassList: [{ label: '', value: '' }],
             datumList:[{ label: '', value: '' }],           
             tableData:[],
+			searchGoodsList:[],
             showPopup:false,
+			showSearch:false,
+			loadingStatusSearch:false,
             bomMostlyData: {
                 id: '', goods_id: '', goods_name: '', goods_name_vn: '', spec: '', unit_code: '', do_color: '', dept_id: '', plate_effect: '', color_effect: '', remark: '',
                 create_by:'',create_date:'',update_by:'',update_date:'',sanction_by:'',sanction_date:'',check_by:'',check_date:'',update_count:'',state:''},
@@ -77,7 +80,7 @@
                   this.tableData = response.data ; //JSON.parse(JSON.stringify(response.data));
                   $table = this.$refs.bomTree;
                   this.$nextTick(() => $table.setAllTreeExpand(true));//展開所有節點
-                  //this.$nextTick(() => $table.clearTreeExpand());//关闭所有树展开的節點
+                  //this.$nextTick(() => $table.clearTreeExpand());//关闭所有树展开的節點setCurrentRow
               })
         },
         cellClickTreeEvent(row){           
@@ -137,8 +140,39 @@
                   this.bomDetailData = [];
                   this.bomDetailData = response.data ;
               })
-        }
+        },
+		showSearchEvent(){
+			this.showSearch=true;
+		},
+		searchGoodsEvent(){
+			this.loadingStatusSearch = true;
+			var searchGoodsParams={
+                            goods_id:this.searchData.goods_id_search,
+                            pageSize:50,
+                            status:[1,3]
+                        };
+                    var _self = this;
+                    _self.searchGoodsList = [];
 
+            axios.get("SearchGoods", { params: searchGoodsParams }).then(
+                        (response) => {
+                            _self.searchGoodsList=response.data;
+                            this.loadingStatusSearch = false;
+                            //debugger;
+                            //_self.fillData();
+                        },
+                        (response) => {
+                            alert(response.status);
+                        }
+                    ).catch(function (response) {
+                        alert(response);
+                    });
+		},
+		searchCellDBLClickEvent ({ row }) {
+			this.searchData.goods_id=row.goods_id;
+			this.findBomEvent();
+			this.$refs.xModalSearch.close();
+        },
     },
 
     watch: {
