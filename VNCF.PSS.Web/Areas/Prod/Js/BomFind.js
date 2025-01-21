@@ -87,8 +87,7 @@
         },
         cellClickTreeEvent(row){           
             this.curRowBom = row.data[row.$rowIndex];
-            let goods_id = this.curRowBom.goods_id;
-            debugger;
+            let goods_id = this.curRowBom.goods_id;           
             if(goods_id){
                 if(goods_id.substring(1,2) !='ML'){
                     let bomId = this.curRowBom.goods_id+'001';
