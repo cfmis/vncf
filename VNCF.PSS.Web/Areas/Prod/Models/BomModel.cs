@@ -42,6 +42,7 @@ namespace VNCF.PSS.Web.Areas.Prod.Models
         public string sanction_by { get; set; }
         public string sanction_date { get; set; }
         public string update_count { get; set; }
+        public string ArtImage { get; set; }
     }
     public class BomDetail: BomModel
     {

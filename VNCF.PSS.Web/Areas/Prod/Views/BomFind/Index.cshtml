@@ -43,7 +43,7 @@
         }
         .header {
             width: 100%;
-            height: 200px;
+            height: 215px;
 			border:1px solid #d3d3d3; /* 边框样式 */					
             /*background-color: #e7faee;*/
             /*text-align: center;*/
@@ -63,6 +63,22 @@
         }
         .highlight--current-row {
             background-color: #ebf5f9 !important; /* 当前选中行的背景色 */
+        }
+        /*主檔圖片*/
+        .div-right{
+            /*float:right;            
+            width:20%;*/
+            position:absolute;
+            width:140px;
+            height:140px;
+            position:absolute;            
+            left:85%;
+            top:90px;
+            /*background-color:yellow;*/
+        }
+        .img-plan{
+            border:thick;
+            width:80%;
         }
     </style>
 }
@@ -137,47 +153,67 @@
                         <vxe-form-item title="單位" :item-render="{}" span="6" class="vxe-form-item-customize">
                            <vxe-input v-model="bomMostlyData.unit_code" class="input-customize" readonly></vxe-input>
                         </vxe-form-item>
-                        <vxe-form-item title="顏色做法" :item-render="{}" span="12" class="vxe-form-item-customize">
+                        <vxe-form-item title="顏色做法" :item-render="{}" span="8" class="vxe-form-item-customize">
                            <vxe-input v-model="bomMostlyData.do_color" class="input-customize" readonly></vxe-input>
                         </vxe-form-item>
+                        <vxe-form-item title="" :item-render="{}" span="2" class="vxe-form-item-customize">
+                        </vxe-form-item> 
                         <vxe-form-item title="部門" :item-render="{}" span="6" class="vxe-form-item-customize">
                             <el-select v-model="bomMostlyData.dept_id" style="width:100%" disabled>
                                 <el-option v-for="item in deptList" :key="item.value" :value="item.value" :label="item.label" style="height:25px;font-size: 9px" />
                             </el-select>
                         </vxe-form-item>
-                        <vxe-form-item title="電鍍效果" :item-render="{}" span="10" class="vxe-form-item-customize">
+                        <vxe-form-item title="電鍍效果" :item-render="{}" span="6" class="vxe-form-item-customize">
                             <vxe-input v-model="bomMostlyData.plate_effect" class="input-customize"></vxe-input>
                         </vxe-form-item>
                         <vxe-form-item title="做色效果" :item-render="{}" span="8" class="vxe-form-item-customize">
                              <vxe-input v-model="bomMostlyData.color_effect" class="input-customize"></vxe-input>
                          </vxe-form-item>
-                         <vxe-form-item title="備註" :item-render="{}" span="24" class="vxe-form-item-customize">
+                         <vxe-form-item title="" :item-render="{}" span="2" class="vxe-form-item-customize">
+                         </vxe-form-item>         
+
+                         <vxe-form-item title="備註" :item-render="{}" span="20" class="vxe-form-item-customize">
                              <vxe-input v-model="bomMostlyData.remark" class="input-customize"></vxe-input>
                          </vxe-form-item>
+                         <vxe-form-item title="" :item-render="{}" span="4" class="vxe-form-item-customize">
+                         </vxe-form-item>  
+
                          <vxe-form-item title="建檔人" :item-render="{}" span="6" class="vxe-form-item-customize">
                              <vxe-input v-model="bomMostlyData.create_by" maxlength="20" class="input-customize" readonly></vxe-input>
+                         </vxe-form-item>                         
+                         <vxe-form-item title="修改人" :item-render="{}" span="6" class="vxe-form-item-customize">
+                            <vxe-input v-model="bomMostlyData.update_by" maxlength="20" class="input-customize" readonly></vxe-input>
+                         </vxe-form-item>  
+                         <vxe-form-item title="批准人" :item-render="{}" span="8" class="vxe-form-item-customize">
+                             <vxe-input v-model="bomMostlyData.check_by" class="input-customize" readonly></vxe-input>
                          </vxe-form-item>
+                         <vxe-form-item title="" :item-render="{}" span="4" class="vxe-form-item-customize">                             
+                         </vxe-form-item>                       
+
                          <vxe-form-item title="建檔日期" :item-render="{}" span="6" class="vxe-form-item-customize">
                              <vxe-input v-model="bomMostlyData.create_date" class="input-customize" readonly></vxe-input>
                          </vxe-form-item>
-                         <vxe-form-item title="修改人" :item-render="{}" span="6" class="vxe-form-item-customize">
-                            <vxe-input v-model="bomMostlyData.update_by" maxlength="20" class="input-customize" readonly></vxe-input>
-                         </vxe-form-item>
                          <vxe-form-item title="修改日期" :item-render="{}" span="6" class="vxe-form-item-customize">
                             <vxe-input v-model="bomMostlyData.update_date" class="input-customize" readonly></vxe-input>
-                         </vxe-form-item>
-                         <vxe-form-item title="批准人" :item-render="{}" span="6" class="vxe-form-item-customize">
-                             <vxe-input v-model="bomMostlyData.check_by" class="input-customize" readonly></vxe-input>
-                         </vxe-form-item>
-                         <vxe-form-item title="批准日期" :item-render="{}" span="6" class="vxe-form-item-customize">
+                         </vxe-form-item>                         
+                         <vxe-form-item title="批准日期" :item-render="{}" span="8" class="vxe-form-item-customize">
                              <vxe-input v-model="bomMostlyData.check_date" class="input-customize" readonly></vxe-input>
+                         </vxe-form-item>
+                         <vxe-form-item title="" :item-render="{}" span="4" class="vxe-form-item-customize">
                          </vxe-form-item>   
+
                          <vxe-form-item title="審核人" :item-render="{}" span="6" class="vxe-form-item-customize">
                              <vxe-input v-model="bomMostlyData.sanction_by" class="input-customize" readonly></vxe-input>
                          </vxe-form-item>
                          <vxe-form-item title="審核日期" :item-render="{}" span="6" class="vxe-form-item-customize">
                              <vxe-input v-model="bomMostlyData.sanction_date" class="input-customize" readonly></vxe-input>
                          </vxe-form-item>
+                         <div class="div-right">
+                             <p>
+                                 <img src="ArtImageUrl" alt="..." class="img-plan">
+                                 @*<img src="~/Images/photo.png" alt="..." class="img-plan">*@
+                             </p>
+                         </div>
                     </vxe-form>
                 </div> 
             </div> @*div header*@

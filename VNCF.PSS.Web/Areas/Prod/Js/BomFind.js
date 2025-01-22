@@ -20,11 +20,11 @@
 			loadingStatusSearch:false,
             bomMostlyData: {
                 id: '', goods_id: '', goods_name: '', goods_name_vn: '', spec: '', unit_code: '', do_color: '', dept_id: '', plate_effect: '', color_effect: '', remark: '',
-                create_by:'',create_date:'',update_by:'',update_date:'',sanction_by:'',sanction_date:'',check_by:'',check_date:'',update_count:'',state:''},
+                create_by:'',create_date:'',update_by:'',update_date:'',sanction_by:'',sanction_date:'',check_by:'',check_date:'',update_count:'',state:'',ArtImage:''},
             bomDetailData:[],
             tableHeight:350,
             heightTree:350,           
-
+            ArtImageUrl: '',
        } //return data
     },
     created: function () {
@@ -132,8 +132,10 @@
                       update_date: res.data.update_date,
                       check_date: res.data.check_date,
                       sanction_date:res.data.sanction_date,
-                      state: res.data.state
+                      state: res.data.state,
+                      ArtImage:res.data.ArtImage
                   }
+                  this.ArtImageUrl = res.data.ArtImage; //圖樣路徑
               })
         },
         getBomDetails(bom_id){

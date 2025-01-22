@@ -106,6 +106,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 mdj.sanction_date = dr["sanction_date"].ToString();
                 mdj.update_count = dr["update_count"].ToString();
                 mdj.state = dr["state"].ToString();
+                mdj.ArtImage = ArtImagePath + dr["picture_name"].ToString().Trim().Replace("\\", "/");
             }   
             return mdj;
         }
