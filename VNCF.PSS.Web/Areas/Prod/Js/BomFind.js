@@ -195,20 +195,22 @@
            deep: true
         },		
     },
-    mounted() {   
-          let that = this;          
+    mounted() {
+          let that = this; 
           let whead = $('#divHeader').width();
           $('#divHeader').width(whead)
-          $('#divGrid').width(whead);          
+          $('#divGrid').width(whead);
           let heightUp = $('#divUp').height();
-          this.heightTree = $(parent.window).height() - heightUp - 100;
           let heightHead = $('#divHeader').height();
-          this.tableHeight = $(parent.window).height() - heightUp - heightHead - 100;
+          this.heightTree = $(parent.window).height() - heightUp - 125;
+          this.tableHeight = $(parent.window).height() - heightUp - heightHead - 125;
+          $('#app').height($(parent.window).height()-heightUp-70);
           window.onresize = () => {
-              return (() => {                  
+              return (() => {
+                  $('#app').height($(parent.window).height()-heightUp-70);   
                   $('#divGrid').width(whead);                 
-                  this.tableHeight = $(parent.window).height() - heightUp - heightHead - 100;
-                  this.heightTree = $(parent.window).height() - heightUp - 100;
+                  this.tableHeight = $(parent.window).height() - heightUp - heightHead - 125;
+                  this.heightTree = $(parent.window).height() - heightUp - 125;
               })()
           };
       }
