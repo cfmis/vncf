@@ -193,6 +193,19 @@
                 //this.findList3();
                 this.getPermissions();
             },
+            watch: {
+                searchParas: {
+                    handler (val, oldVal) {              
+                        this.searchParas.goods_cname = this.searchParas.goods_cname.toUpperCase();
+                        this.searchParas.goods_id = this.searchParas.goods_id.toUpperCase();
+                        this.searchParas.goods_ename = this.searchParas.goods_ename.toUpperCase();
+                        this.searchParas.goods_vname1 = this.searchParas.goods_vname1.toUpperCase();
+                        this.searchParas.goods_vname2 = this.searchParas.goods_vname2.toUpperCase();
+                        this.searchParas.goods_vname3 = this.searchParas.goods_vname3.toUpperCase();
+                    },
+                    deep: true
+                },	
+            },
             methods: {
                 InIt: function () {
                     this.newGoods.goods_id = "111";

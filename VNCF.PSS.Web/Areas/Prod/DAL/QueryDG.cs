@@ -106,7 +106,7 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
         }
 
 
-        public List<OrderDataDg> GetOrderData(string mo_id,string goods_id,string brand_id,string top_rec)
+        public List<OrderDataDg> GetOrderData(string mo_id,string goods_id,string goods_name,string size_id,string color_id,string brand_id,string top_rec)
         {
             string strSql = "";
             //strSql += " Select DISTINCT aa.* " +
@@ -130,6 +130,12 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 strSql += " And b.mo_id='" + mo_id + "'";
             if (goods_id != "")
                 strSql += "  And b.goods_id Like " + "'%" + goods_id + "%'";
+            if (goods_name != "")
+                strSql += "  And c.name Like " + "'%" + goods_name + "%'";
+            if (size_id != "")
+                strSql += "  And c.size_id ='" + size_id + "'";
+            if (color_id != "")
+                strSql += "  And c.color ='" + color_id + "'";
             if (brand_id != "")
                 strSql += " And b.brand_id='" + brand_id + "'";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);

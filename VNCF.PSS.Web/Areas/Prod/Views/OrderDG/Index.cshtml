@@ -14,6 +14,21 @@
                         <vxe-input v-model="data.goods_id" maxlength="18" class="input-customize"></vxe-input>
                     </template>
                 </vxe-form-item>
+                <vxe-form-item title="@Resource.ProductCdesc" field="goods_name" span="8" :item-render="{}" style="width:360px" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.goods_name" class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="尺寸代號" field="size_id" span="8" :item-render="{}" style="width:360px" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.size_id" class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
+                <vxe-form-item title="顏色代號" field="color_id" span="8" :item-render="{}" style="width:360px" class="vxe-form-item-customize">
+                    <template #default="{ data }">
+                        <vxe-input v-model="data.color_id" class="input-customize"></vxe-input>
+                    </template>
+                </vxe-form-item>
                 <vxe-form-item title="@Resource.ProductMo" field="mo_id" span="8" :item-render="{}" style="width:360px" class="vxe-form-item-customize">
                     <template #default="{ data }">
                         <vxe-input v-model="data.mo_id" maxlength="9" class="input-customize"></vxe-input>
@@ -24,7 +39,8 @@
                         <vxe-input v-model="data.brand_id" maxlength="9" class="input-customize"></vxe-input>
                     </template>
                 </vxe-form-item>
-            <vxe-form-item title="記錄數" field="top_rec" span="8" :item-render="{}" style="width:360px" class="vxe-form-item-customize">
+                
+                <vxe-form-item title="記錄數" field="top_rec" span="24" :item-render="{}" style="width:360px" class="vxe-form-item-customize">
                     <template #default="{ data }">
                         <vxe-input v-model="data.top_rec" maxlength="9" class="input-customize"></vxe-input>
                     </template>
@@ -32,7 +48,6 @@
         </div>
         <div class="div-right">
             <vxe-button type="submit" icon="fa fa-search" style="width:100px" v-if="Common_Find">@Resource.btn_search</vxe-button>
-            <vxe-button icon="fa fa-search" style="width:100px" v-if="Common_Find" onclick="goNewPage()">@Resource.btn_search</vxe-button>
         </div>
             </vxe-form>
     @*</div>*@
@@ -51,7 +66,12 @@
                    :keyboard-config="{isArrow: true}"
                    @@cell-click="goodsListCellClickEvent">
             <vxe-table-column type="seq" title="@Resource.Seq" width="60"></vxe-table-column>
-            <vxe-table-column field="mo_id" title="@Resource.ProductMo" width="120"></vxe-table-column>
+            <vxe-table-column field="mo_id" title="@Resource.ProductMo" width="100"></vxe-table-column>
+            <vxe-table-column title="Wip" width="60" resizable="false" show-overflow>
+                <template #default="{ row }">
+                    <vxe-button type="text" icon="fa fa-search" @@click="wipEvent(row)"></vxe-button>
+                </template>
+            </vxe-table-column>
             <vxe-table-column field="goods_id" title="@Resource.ProductID" width="160"></vxe-table-column>
             <vxe-table-column field="goods_cname" title="@Resource.ProductCdesc" width="300"></vxe-table-column>
             <vxe-table-column field="do_color" title="@Resource.DoColor" width="200"></vxe-table-column>
@@ -95,6 +115,11 @@
             <vxe-table-column field="goods_cname" title="@Resource.ProductCdesc" width="300"></vxe-table-column>
             <vxe-table-column field="do_color" title="@Resource.DoColor" width="200"></vxe-table-column>
             <vxe-table-column field="part_flag" title="主件" width="60"></vxe-table-column>
+            <vxe-table-column title="Bom" width="60" resizable="false" show-overflow>
+                <template #default="{ row }">
+                    <vxe-button type="text" icon="fa fa-search" @@click="bomEvent(row)"></vxe-button>
+                </template>
+            </vxe-table-column>
             <template #empty>
                 <span>
                     @*<img src="/Images/no_data_img.gif">*@
@@ -116,7 +141,7 @@
                 goodsList: [],
                 goodsListSec:[],
                 goodsListPart:[],
-                searchParas: { mo_id: '',goods_id:'',brand_id:'',top_rec:'500' },
+                searchParas: { mo_id: '',goods_id:'',brand_id:'',goods_name:'',size_id:'',color_id:'',top_rec:'500' },
                 loadingStatus: false,
                 tablePage: {
                     currentPage: 1,
@@ -131,6 +156,19 @@
                 this.InIt();
                 //this.findList3();
                 //this.getPermissions();
+            },
+            watch: {
+                searchParas: {
+                    handler (val, oldVal) {              
+                        this.searchParas.mo_id = this.searchParas.mo_id.toUpperCase();
+                        this.searchParas.goods_id = this.searchParas.goods_id.toUpperCase();
+                        this.searchParas.brand_id = this.searchParas.brand_id.toUpperCase();
+                        this.searchParas.goods_name = this.searchParas.goods_name.toUpperCase();
+                        this.searchParas.size_id = this.searchParas.size_id.toUpperCase();
+                        this.searchParas.color_id = this.searchParas.color_id.toUpperCase();
+                    },
+                    deep: true
+                },	
             },
             methods: {
                 InIt: function () {
@@ -149,7 +187,9 @@
                     _self.goodsList = [];
                     this.goodsListSec = [];
                     _self.goodsListPart = [];
-                    axios.get("LoadOcData", { params: { mo_id: this.searchParas.mo_id,goods_id:this.searchParas.goods_id,brand_id:this.searchParas.brand_id,top_rec:this.searchParas.top_rec } }).then(
+                    axios.get("LoadOcData", { params: { mo_id: this.searchParas.mo_id,goods_id:this.searchParas.goods_id
+                        ,goods_name:this.searchParas.goods_name,size_id:this.searchParas.size_id,color_id:this.searchParas.color_id
+                        ,brand_id:this.searchParas.brand_id,top_rec:this.searchParas.top_rec } }).then(
                         (response) => {
                             //for (var i = 0; i < response.data.length; i++) {
                             //    _self.goodsList.push(response.data[i]);
@@ -185,6 +225,20 @@
                     //this.ArtImageUrl=row.ArtImageUrl;
                     this.getGoodsPart(row.ID,row.Ver,row.sequence_id);
                 },
+                bomEvent (row) {
+                    var url='/prod/bomfind/index?goods_id='+row.goods_id;
+                    var name='物料清單';
+                    //// 获取父iframe元素
+                    //var parentFrameElement = window.parent.frameElement;
+                    //// 获取父iframe的名字
+                    //var parentFrameName = parentFrameElement.getAttribute("name");
+                    window.parent.addTab(url,name);
+                },
+                wipEvent (row) {
+                    var url='/prod/procdg/index?mo_id='+row.mo_id;
+                    var name='生產流程';
+                    window.parent.addTab(url,name);
+                },
                 getGoodsPart(ID,Ver,Seq){
                     //_self.goodsListPart = [];
                     //var mo_id=_self.goodsList[row].ProductMo;
@@ -218,7 +272,7 @@
 
     <script>
         function goNewPage() {
-            var url='/prod/procdg/index?val=123';
+            var url='/prod/procdg/index?mo_id=123&prd=abc';
             var name='生產流程';
             //// 获取父iframe元素
             //var parentFrameElement = window.parent.frameElement;

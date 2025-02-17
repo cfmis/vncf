@@ -16,9 +16,9 @@ namespace VNCF.PSS.Web.Areas.Prod.Controllers
         {
             return View();
         }
-        public JsonResult LoadOcData(string mo_id,string goods_id,string brand_id,string top_rec)
+        public JsonResult LoadOcData(string mo_id,string goods_id,string goods_name,string size_id,string color_id,string brand_id,string top_rec)
         {
-            var PlanDetails = clsQueryDG.GetOrderData(mo_id, goods_id, brand_id, top_rec);
+            var PlanDetails = clsQueryDG.GetOrderData(mo_id, goods_id,goods_name,size_id,color_id, brand_id, top_rec);
             return Json(PlanDetails, JsonRequestBehavior.AllowGet);
         }
         public JsonResult LoadOcDataPart(string ID,string Ver, string sequence_id)

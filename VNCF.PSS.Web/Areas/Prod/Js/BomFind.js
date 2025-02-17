@@ -29,6 +29,9 @@
     },
     created: function () {
         this.getComboxList("DeptList");//部門
+		this.searchData.goods_id=this.getParams("goods_id");
+		if(this.searchData.goods_id!="")
+			this.findBomEvent();
         //this.getComboxList("BigClass");//大類
         //this.getComboxList("BaseClass");//中類
         //this.getComboxList("SmallClass");//小類
@@ -66,7 +69,7 @@
                 alert(response);
             });
         },
-        findBomEvent(){       
+        findBomEvent(){
             if(this.searchData.goods_id ===""){
                 return;
             }
@@ -177,6 +180,23 @@
 			this.findBomEvent();
 			this.$refs.xModalSearch.close();
         },
+		getParams(val) {
+                    var reg = new RegExp("(^|&)"+ val +"=([^&]*)(&|$)");
+                    var r = window.location.search.substr(1).match(reg);
+                    var rec_val="";
+                    if(r!=null){
+
+                        //console.log(unescape(r[2]));
+
+                        rec_val = unescape(r[2]);
+
+                    }else {
+                        rec_val="";
+                        //this.queryForm.cxid= null;
+
+                    }
+                    return rec_val;
+                },
     },
 
     watch: {
