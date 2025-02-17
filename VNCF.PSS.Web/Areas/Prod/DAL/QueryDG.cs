@@ -21,8 +21,9 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
             string strSql = "";
             //strSql += " Select DISTINCT aa.* " +
             //    " From (";
-            strSql += "Select a.id,a.ver,a.mo_id,b.sequence_id,b.flag,b.goods_id,b.wp_id,b.next_wp_id" +
-                ",Convert(Int,b.prod_qty) AS prod_qty,c.do_color,c.blueprint_id,f.picture_name,f.sequence_id AS art_seq ";
+            strSql += "Select a.id,a.ver,a.mo_id,b.sequence_id,b.goods_id,b.wp_id,b.next_wp_id" +
+                ",Convert(Int,b.prod_qty) AS prod_qty,c.do_color,c.blueprint_id,f.picture_name,f.sequence_id AS art_seq " +
+                ",b.flag,b.flag As flag_sort";
             if (LanguageID == "0")
                 strSql += ",c.name AS GoodsCname,d.name AS WipDesc,e.name AS NextWipDesc";
             else if (LanguageID == "1")
@@ -37,12 +38,14 @@ namespace VNCF.PSS.Web.Areas.Prod.DAL
                 " Left Join " + dgerp2 + "cd_department e ON b.within_code=e.within_code AND b.next_wp_id=e.id "+
                 " Left Join " + dgerp2 + "cd_pattern_details f ON c.within_code=f.within_code AND c.blueprint_id=f.id ";
             strSql += " Where a.within_code='" + within_code + "' And a.mo_id='" + ProductMo + "'";
+            strSql += " Update #tb_wip01 Set flag_sort='0'+flag_sort Where LEN(flag_sort)< 3 ";
             //strSql += " ) aa";
             //strSql += " Where bb.sequence_id='0001h' ";
-            strSql += " Select a.* From #tb_wip01 a " +
+            strSql += " Select a.* "+
+                " From #tb_wip01 a " +
                 " Inner Join (Select id,ver,sequence_id,Min(art_seq) AS art_seq From #tb_wip01 Group By id,ver,sequence_id ) b " +
                 " On a.id=b.id And a.ver=b.ver And a.sequence_id=b.sequence_id And a.art_seq=b.art_seq ";
-            strSql += " Order By a.flag ";
+            strSql += " Order By a.flag_sort ";
             strSql += " Drop Table #tb_wip01 ";
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<PlanDetails> lsPlanDetails = new List<PlanDetails>();

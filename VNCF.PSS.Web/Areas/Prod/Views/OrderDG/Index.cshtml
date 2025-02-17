@@ -32,6 +32,7 @@
         </div>
         <div class="div-right">
             <vxe-button type="submit" icon="fa fa-search" style="width:100px" v-if="Common_Find">@Resource.btn_search</vxe-button>
+            <vxe-button icon="fa fa-search" style="width:100px" v-if="Common_Find" onclick="goNewPage()">@Resource.btn_search</vxe-button>
         </div>
             </vxe-form>
     @*</div>*@
@@ -52,8 +53,8 @@
             <vxe-table-column type="seq" title="@Resource.Seq" width="60"></vxe-table-column>
             <vxe-table-column field="mo_id" title="@Resource.ProductMo" width="120"></vxe-table-column>
             <vxe-table-column field="goods_id" title="@Resource.ProductID" width="160"></vxe-table-column>
-            <vxe-table-column field="goods_cname" title="@Resource.ProductCdesc" width="260"></vxe-table-column>
-            <vxe-table-column field="do_color" title="@Resource.DoColor" width="160"></vxe-table-column>
+            <vxe-table-column field="goods_cname" title="@Resource.ProductCdesc" width="300"></vxe-table-column>
+            <vxe-table-column field="do_color" title="@Resource.DoColor" width="200"></vxe-table-column>
             <vxe-table-column field="brand_id" title="@Resource.BrandID" width="80"></vxe-table-column>
             <vxe-table-column field="ID" title="@Resource.OcID" width="120"></vxe-table-column>
             <vxe-table-column field="order_date" title="@Resource.OrderDate" width="120"></vxe-table-column>
@@ -91,8 +92,8 @@
                    :keyboard-config="{isArrow: true}">
             <vxe-table-column field="sequence_id" title="@Resource.Seq" width="60"></vxe-table-column>
             <vxe-table-column field="goods_id" title="@Resource.ProductID" width="160"></vxe-table-column>
-            <vxe-table-column field="goods_cname" title="@Resource.ProductCdesc" width="260"></vxe-table-column>
-            <vxe-table-column field="do_color" title="@Resource.DoColor" width="160"></vxe-table-column>
+            <vxe-table-column field="goods_cname" title="@Resource.ProductCdesc" width="300"></vxe-table-column>
+            <vxe-table-column field="do_color" title="@Resource.DoColor" width="200"></vxe-table-column>
             <vxe-table-column field="part_flag" title="主件" width="60"></vxe-table-column>
             <template #empty>
                 <span>
@@ -215,6 +216,17 @@
         });
     </script>
 
+    <script>
+        function goNewPage() {
+            var url='/prod/procdg/index?val=123';
+            var name='生產流程';
+            //// 获取父iframe元素
+            //var parentFrameElement = window.parent.frameElement;
+            //// 获取父iframe的名字
+            //var parentFrameName = parentFrameElement.getAttribute("name");
+            window.parent.addTab(url,name);
+        }
+    </script>
 }
 
 

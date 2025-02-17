@@ -15,7 +15,7 @@
                 </vxe-form-item>
                 <vxe-form-item span="12">
                     <template #default>
-                        <vxe-button status="primary" icon="fa fa-search" style="width:100px" v-if="Common_Find">@Resource.btn_search</vxe-button>
+                        <vxe-button type="submit" icon="fa fa-search" style="width:100px" v-if="Common_Find">@Resource.btn_search</vxe-button>
                     </template>
                 </vxe-form-item>
             </vxe-form>
@@ -41,7 +41,7 @@
                    highlight-current-row
                    :keyboard-config="{isArrow: true}"
                    @@cell-click="goodsListCellClickEvent">
-            <vxe-table-column type="seq" title=" " width="30"></vxe-table-column>
+            <vxe-table-column type="seq" title=" " width="40"></vxe-table-column>
             <vxe-table-column field="flag" title="@Resource.Seq" width="60"></vxe-table-column>
             <vxe-table-column field="GoodsID" title="物料編號" width="160"></vxe-table-column>
             <vxe-table-column field="GoodsCname" title="物料描述" width="260"></vxe-table-column>
@@ -128,6 +128,7 @@
                 },
             },
             created: function () {
+                this.searchParas.mo_id=this.$route.query.val;
                 this.InIt();
                 //this.findList3();
                 //this.getPermissions();
