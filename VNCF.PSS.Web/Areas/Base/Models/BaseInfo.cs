@@ -171,4 +171,30 @@ namespace VNCF.PSS.Web.Areas.Base.Models
         public string CurrencyID { get; set; }
         public decimal CurrencyRate { get; set; }
     }
+
+    public class SizeQuery
+    {
+        public string size_id { get; set; }
+        public string size_cname { get; set; }
+        public string size_ename { get; set; }
+    }
+    public class ColorQuery
+    {
+        public string color_id { get; set; }
+        public string color_cname { get; set; }
+        public string color_ename { get; set; }
+        public string do_color { get; set; }
+    }
+    public class MatQuery
+    {
+        public string mat_id { get; set; }
+        public string mat_cname { get; set; }
+        public string mat_ename { get; set; }
+    }
+    public class PrdTypeQuery
+    {
+        public string prd_type_id { get; set; }
+        public string prd_type_cname { get; set; }
+        public string prd_type_ename { get; set; }
+    }
 }

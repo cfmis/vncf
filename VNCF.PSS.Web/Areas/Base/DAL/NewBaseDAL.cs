@@ -16,21 +16,29 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
     {
         public string LanguageID = DBUtility.GetDetaultLang();
         private string ArtImagePath = DBUtility.ArtImagePath;
+        private string remote_db = DBUtility.dgerp2;
+        private string within_code = DBUtility.within_code;
         public List<Goods> SearchGoods(Goods searchParams)
         {
-            string strSql = "Select top 1000 a.id,a.name,a.english_name,b.vn_name1,b.vn_name2,b.vn_name3 " +
+            string strSql = "";
+            strSql = "Select top 1000 a.id,a.name,a.english_name,b.vn_name1,b.vn_name2,b.vn_name3 " +
             " ,c.picture_name,a.do_color" +
             " FROM it_goods a " +
             " LEFT JOIN it_goods_vn b ON a.id=b.id" +
             " Left Join cd_pattern c ON a.blueprint_id=c.id " +
             " ,cd_company p" +
-            " Where a.within_code='" + "0000" + "'";
-            if (searchParams.goods_id != ""&& searchParams.goods_id != null)
+            " Where a.within_code='" + within_code + "'";
+            if (searchParams.goods_id != "" && searchParams.goods_id != null)
                 strSql += " AND a.id Like '" + "%" + searchParams.goods_id + "%" + "'";
-            if (searchParams.goods_cname != ""&& searchParams.goods_cname != null)
-                strSql += " AND a.name Like '" + "%" + searchParams.goods_cname + "%" + "'";
-            if (searchParams.goods_ename != ""&& searchParams.goods_ename != null)
-                strSql += " AND a.english_name Like '" + "%" + searchParams.goods_ename + "%" + "'";
+            if (searchParams.goods_cname != "" && searchParams.goods_cname != null)
+                strSql += " AND ( a.name Like '" + "%" + searchParams.goods_cname + "%'" +
+                    " Or a.english_name Like '" + "%" + searchParams.goods_cname + "%'" +
+                    ")";
+            if (searchParams.goods_vname1 != "" && searchParams.goods_vname1 != null)
+                strSql += " AND ( b.vn_name1 Like '" + "%" + searchParams.goods_vname1 + "%'" +
+                    " Or b.vn_name2 Like '" + "%" + searchParams.goods_vname1 + "%'" +
+                    " Or b.vn_name3 Like '" + "%" + searchParams.goods_vname1 + "%'" +
+                    ")";
             string LangID = LanguageID;
             DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
             List<Goods> lsGoods = new List<Goods>();
@@ -199,6 +207,112 @@ namespace VNCF.PSS.Web.Areas.Base.DAL
                 result = SQLHelper.ExecuteSqlUpdate(strSql);
             }
             return result;
+        }
+
+        public List<SizeQuery> SearchSize(string size_id,string size_name,string size_vname)
+        {
+            string strSql = "";
+            strSql = "Select top 1000 a.id,a.name,a.englishname" +
+            " FROM "+remote_db+"cd_size a" +
+            " Where a.within_code='" + within_code + "'";
+            if (size_id != "" && size_id != null)
+                strSql += " AND a.id Like '" + "%" + size_id + "%" + "'";
+            if (size_name != "" && size_name != null)
+                strSql += " AND ( a.name Like '" + "%" + size_name + "%'" +
+                    " Or a.englishname Like '" + "%" + size_name + "%'" +
+                    ")";
+            string LangID = LanguageID;
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            List<SizeQuery> lsSize = new List<SizeQuery>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                SizeQuery mdj = new SizeQuery();
+                mdj.size_id = dr["id"].ToString();
+                mdj.size_cname = dr["name"].ToString();
+                mdj.size_ename = dr["englishname"].ToString();
+                lsSize.Add(mdj);
+            }
+            return lsSize;
+        }
+        public List<ColorQuery> SearchColor(string color_id, string color_name, string color_vname,string do_color)
+        {
+            string strSql = "";
+            strSql = "Select top 1000 a.id,a.name,a.english_name,a.do_color" +
+            " FROM " + remote_db + "cd_color a" +
+            " Where a.within_code='" + within_code + "'";
+            if (color_id != "" && color_id != null)
+                strSql += " AND a.id Like '" + "%" + color_id + "%" + "'";
+            if (color_name != "" && color_name != null)
+                strSql += " AND ( a.name Like '" + "%" + color_name + "%'" +
+                    " Or a.english_name Like '" + "%" + color_name + "%'" +
+                    ")";
+            string LangID = LanguageID;
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            List<ColorQuery> lsColor = new List<ColorQuery>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                ColorQuery mdj = new ColorQuery();
+                mdj.color_id = dr["id"].ToString();
+                mdj.color_cname = dr["name"].ToString();
+                mdj.color_ename = dr["english_name"].ToString();
+                mdj.do_color = dr["do_color"].ToString();
+                lsColor.Add(mdj);
+            }
+            return lsColor;
+        }
+        public List<MatQuery> SearchMat(string mat_id, string mat_name, string mat_vname)
+        {
+            string strSql = "";
+            strSql = "Select top 1000 a.id,a.name,a.english_name" +
+            " FROM " + remote_db + "cd_datum a" +
+            " Where a.within_code='" + within_code + "'";
+            if (mat_id != "" && mat_id != null)
+                strSql += " AND a.id Like '" + "%" + mat_id + "%" + "'";
+            if (mat_name != "" && mat_name != null)
+                strSql += " AND ( a.name Like '" + "%" + mat_name + "%'" +
+                    " Or a.english_name Like '" + "%" + mat_name + "%'" +
+                    ")";
+            string LangID = LanguageID;
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            List<MatQuery> lsQuery = new List<MatQuery>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                MatQuery mdj = new MatQuery();
+                mdj.mat_id = dr["id"].ToString();
+                mdj.mat_cname = dr["name"].ToString();
+                mdj.mat_ename = dr["english_name"].ToString();
+                lsQuery.Add(mdj);
+            }
+            return lsQuery;
+        }
+        public List<PrdTypeQuery> SearchPrdType(string prd_type_id, string prd_type_name, string prd_type_vname)
+        {
+            string strSql = "";
+            strSql = "Select top 1000 a.id,a.name,a.english_name" +
+            " FROM " + remote_db + "cd_goods_class a" +
+            " Where a.within_code='" + within_code + "'";
+            if (prd_type_id != "" && prd_type_id != null)
+                strSql += " AND a.id Like '" + "%" + prd_type_id + "%" + "'";
+            if (prd_type_name != "" && prd_type_name != null)
+                strSql += " AND ( a.name Like '" + "%" + prd_type_name + "%'" +
+                    " Or a.english_name Like '" + "%" + prd_type_name + "%'" +
+                    ")";
+            string LangID = LanguageID;
+            DataTable dt = SQLHelper.ExecuteSqlReturnDataTable(strSql);
+            List<PrdTypeQuery> lsQuery = new List<PrdTypeQuery>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                PrdTypeQuery mdj = new PrdTypeQuery();
+                mdj.prd_type_id = dr["id"].ToString();
+                mdj.prd_type_cname = dr["name"].ToString();
+                mdj.prd_type_ename = dr["english_name"].ToString();
+                lsQuery.Add(mdj);
+            }
+            return lsQuery;
         }
     }
 }

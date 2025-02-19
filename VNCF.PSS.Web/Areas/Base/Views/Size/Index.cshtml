@@ -1,0 +1,158 @@
+﻿
+@{
+    ViewBag.Title = "尺寸代號";// "Goods IndexPage";
+}
+@*@{@Html.Raw("@");}*@
+
+<div id="app">
+    <div class="div-cont">
+        <div class="div-left">
+    <vxe-form :data="searchParas" @@submit="submitSearch"  title-align="right" title-width="100px" title-colon custom-layout >
+        <vxe-form-item span="24">
+            <template #default>
+                <vxe-button type="submit" status="primary">查询</vxe-button>                
+                @*<vxe-button type="reset">重置</vxe-button>*@
+            </template>
+        </vxe-form-item>
+        
+        <vxe-form-item title="尺寸代號" field="size_id" span="8" :item-render="{}" class="vxe-form-item-customize">
+            <template #default="{ data }">
+                <vxe-input v-model="data.size_id" class="input-customize"></vxe-input>
+            </template>
+        </vxe-form-item>
+        <vxe-form-item title="尺寸描述" field="size_cname" span="8" :item-render="{}" class="vxe-form-item-customize">
+            <template #default="{ data }">
+                <vxe-input v-model="data.size_cname" class="input-customize"></vxe-input>
+            </template>
+        </vxe-form-item>
+        <vxe-form-item title="越文描述" field="size_vname" span="8" :item-render="{}" class="vxe-form-item-customize">
+            <template #default="{ data }">
+                <vxe-input v-model="data.size_vname" class="input-customize"></vxe-input>
+            </template>
+        </vxe-form-item>
+
+    </vxe-form>
+            </div>
+        <div class="div-right">
+            
+        </div>
+   </div>
+    <div style="float:left;width:100%;margin-top:20px">
+    <vxe-table border
+               resizable
+               highlight-hover-row
+               show-overflow
+               height="500"
+               row-id="id"
+               size="mini"
+               :loading="loadingStatus"
+               :data="sizeListPart"
+               :row-config="{height: 30}"
+               highlight-current-row
+               :keyboard-config="{isArrow: true}"
+               @@cell-click="goodsListCellClickEvent">
+        <vxe-table-column type="seq" title="序號" width="60"></vxe-table-column>
+        <vxe-table-column field="size_id" title="尺寸代號" width="100" sortable></vxe-table-column>
+        <vxe-table-column field="size_cname" title="中文描述" width="160"></vxe-table-column>
+        <vxe-table-column field="size_ename" title="英文描述" width="160"></vxe-table-column>
+        @*<vxe-table-column field="goods_vname1" title="越文描述" width="160"></vxe-table-column>*@
+
+        <template #empty>
+            <span>
+                @*<img src="/Images/no_data_img.gif">*@
+                <p>沒有更多記錄了！</p>
+            </span>
+        </template>
+    </vxe-table>
+
+    <vxe-pager background
+               size="small"
+               :loading="loadingStatus"
+               :current-page="tablePage.currentPage"
+               :page-size="tablePage.pageSize"
+               :total="tablePage.totalResult"
+               :page-sizes="[50, 100, 150, {label: '大量数据', value: 1000}, {label: '全量数据', value: -1}]"
+               :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']"
+               @@page-change="handlePageChange3">
+    </vxe-pager>
+        </div>
+
+</div>
+
+
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: "#app",
+            data: {                
+                sizeList: [],
+                sizeListPart:[],
+                searchParas: { size_id: '', size_name: '', size_vname: ''},
+                loadingStatus: false,
+                tablePage: {
+                    currentPage: 1,
+                    pageSize: 50,
+                    totalResult: 0
+                },
+            },
+            created: function () {
+                this.InIt();
+            },
+            watch: {
+                searchParas: {
+                    handler (val, oldVal) {
+                        this.searchParas.size_id = this.searchParas.size_id.toUpperCase();
+                        //this.searchParas.size_name = this.searchParas.size_name.toUpperCase();
+                        //this.searchParas.size_vname = this.searchParas.size_vname.toUpperCase();
+                    },
+                    deep: true
+                },	
+            },
+            methods: {
+                InIt: function () {
+                    this.fillData();
+                },
+                submitSearch(){
+                    this.searchGoods(this.searchParas);
+                },
+                searchGoods:function(searchParas){
+                    // console.log('回车搜索',keyCode,e); && this.input
+                    this.loadingStatus = true
+                        var _self = this;
+                        _self.sizeList = [];
+                    axios.get("SearchSize", { params: {size_id:this.searchParas.size_id,size_name:this.searchParas.size_name,size_vname:this.searchParas.size_vname} }).then(
+                        (response) => {
+                            for (var i = 0; i < response.data.length; i++) {
+                                _self.sizeList.push(response.data[i]);
+                            }
+                            //_self.goodsList.push({ goods_id:"",goods_cname:"" });
+                            _self.fillData();
+                        },
+                        (response) => {
+                            alert(response.status);
+                        }
+                    ).catch(function (response) {
+                        alert(response);
+                    });
+
+                },
+                fillData:function(){
+                    this.sizeListPart = [];
+                    this.tablePage.totalResult = this.sizeList.length;
+                    this.sizeListPart = this.sizeList.slice((this.tablePage.currentPage - 1) * this.tablePage.pageSize, this.tablePage.currentPage * this.tablePage.pageSize);
+                    this.loadingStatus = false;
+                },
+                handlePageChange3:function( {currentPage, pageSize }) {
+                    this.loadingStatus = true;
+                    this.tablePage.currentPage = currentPage;
+                    this.tablePage.pageSize = pageSize;
+                    //this.findList3()
+                    this.fillData();
+                },
+
+            }
+        });
+    </script>
+
+}
+

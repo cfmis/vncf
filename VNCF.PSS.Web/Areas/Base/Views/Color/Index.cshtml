@@ -1,0 +1,165 @@
+﻿
+
+@{
+    ViewBag.Title = "顏色代號";// "Goods IndexPage";
+}
+@*@{@Html.Raw("@");}*@
+
+<div id="app">
+    <div class="div-cont">
+        <div class="div-left">
+    <vxe-form :data="searchParas" @@submit="submitSearch"  title-align="right" title-width="100px" title-colon custom-layout >
+        <vxe-form-item span="24">
+            <template #default>
+                <vxe-button type="submit" status="primary">查询</vxe-button>                
+                @*<vxe-button type="reset">重置</vxe-button>*@
+            </template>
+        </vxe-form-item>
+        
+        <vxe-form-item title="顏色代號" field="color_id" span="8" :item-render="{}" class="vxe-form-item-customize">
+            <template #default="{ data }">
+                <vxe-input v-model="data.color_id" class="input-customize"></vxe-input>
+            </template>
+        </vxe-form-item>
+        <vxe-form-item title="顏色描述" field="color_name" span="8" :item-render="{}" class="vxe-form-item-customize">
+            <template #default="{ data }">
+                <vxe-input v-model="data.color_name" class="input-customize"></vxe-input>
+            </template>
+        </vxe-form-item>
+        <vxe-form-item title="越文描述" field="color_vname" span="8" :item-render="{}" class="vxe-form-item-customize">
+            <template #default="{ data }">
+                <vxe-input v-model="data.color_vname" class="input-customize"></vxe-input>
+            </template>
+        </vxe-form-item>
+        <vxe-form-item title="顏色做法" field="do_color" span="8" :item-render="{}" class="vxe-form-item-customize">
+            <template #default="{ data }">
+                <vxe-input v-model="data.do_color" class="input-customize"></vxe-input>
+            </template>
+        </vxe-form-item>
+    </vxe-form>
+            </div>
+        <div class="div-right">
+            
+        </div>
+   </div>
+    <div style="float:left;width:100%;margin-top:20px">
+    <vxe-table border
+               resizable
+               highlight-hover-row
+               show-overflow
+               height="500"
+               row-id="id"
+               size="mini"
+               :loading="loadingStatus"
+               :data="colorListPart"
+               :row-config="{height: 30}"
+               highlight-current-row
+               :keyboard-config="{isArrow: true}">
+        <vxe-table-column type="seq" title="序號" width="60"></vxe-table-column>
+        <vxe-table-column field="color_id" title="顏色代號" width="100" sortable></vxe-table-column>
+        <vxe-table-column field="color_cname" title="中文描述" width="160"></vxe-table-column>
+        <vxe-table-column field="color_ename" title="英文描述" width="160"></vxe-table-column>
+        <vxe-table-column field="do_color" title="顏色做法" width="260"></vxe-table-column>
+        @*<vxe-table-column field="goods_vname1" title="越文描述" width="160"></vxe-table-column>*@
+
+        <template #empty>
+            <span>
+                @*<img src="/Images/no_data_img.gif">*@
+                <p>沒有更多記錄了！</p>
+            </span>
+        </template>
+    </vxe-table>
+
+    <vxe-pager background
+               size="small"
+               :loading="loadingStatus"
+               :current-page="tablePage.currentPage"
+               :page-size="tablePage.pageSize"
+               :total="tablePage.totalResult"
+               :page-sizes="[50, 100, 150, {label: '大量数据', value: 1000}, {label: '全量数据', value: -1}]"
+               :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']"
+               @@page-change="handlePageChange3">
+    </vxe-pager>
+        </div>
+
+</div>
+
+
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: "#app",
+            data: {                
+                colorList: [],
+                colorListPart:[],
+                searchParas: { color_id: '', color_name: '', color_vname: '',do_color:''},
+                loadingStatus: false,
+                tablePage: {
+                    currentPage: 1,
+                    pageSize: 50,
+                    totalResult: 0
+                },
+            },
+            created: function () {
+                this.InIt();
+            },
+            watch: {
+                searchParas: {
+                    handler (val, oldVal) {
+                        this.searchParas.color_id = this.searchParas.color_id.toUpperCase();
+                        //this.searchParas.color_name = this.searchParas.color_name.toUpperCase();
+                        //this.searchParas.color_vname = this.searchParas.color_vname.toUpperCase();
+                        //this.searchParas.do_color = this.searchParas.do_color.toUpperCase();
+                    },
+                    deep: true
+                },	
+            },
+            methods: {
+                InIt: function () {
+                    this.fillData();
+                },
+                submitSearch(){
+                    this.searchGoods(this.searchParas);
+                },
+                searchGoods:function(searchParas){
+                    // console.log('回车搜索',keyCode,e); && this.input
+                    this.loadingStatus = true
+                        var _self = this;
+                        _self.colorList = [];
+                    axios.get("SearchColor", { params: {color_id:this.searchParas.color_id,color_name:this.searchParas.color_name
+                        ,color_vname:this.searchParas.color_vname,do_color:this.searchParas.do_color} }).then(
+                        (response) => {
+                            for (var i = 0; i < response.data.length; i++) {
+                                _self.colorList.push(response.data[i]);
+                            }
+                            //_self.goodsList.push({ goods_id:"",goods_cname:"" });
+                            _self.fillData();
+                        },
+                        (response) => {
+                            alert(response.status);
+                        }
+                    ).catch(function (response) {
+                        alert(response);
+                    });
+
+                },
+                fillData:function(){
+                    this.colorListPart = [];
+                    this.tablePage.totalResult = this.colorList.length;
+                    this.colorListPart = this.colorList.slice((this.tablePage.currentPage - 1) * this.tablePage.pageSize, this.tablePage.currentPage * this.tablePage.pageSize);
+                    this.loadingStatus = false;
+                },
+                handlePageChange3:function( {currentPage, pageSize }) {
+                    this.loadingStatus = true;
+                    this.tablePage.currentPage = currentPage;
+                    this.tablePage.pageSize = pageSize;
+                    //this.findList3()
+                    this.fillData();
+                },
+
+            }
+        });
+    </script>
+
+}
+
